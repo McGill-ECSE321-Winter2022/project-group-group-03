@@ -48,12 +48,12 @@ public class Employee {
   private WorkingStatus workingStatus;
 
   //Employee Associations
-  @OneToMany(mappedBy = "employee")
+  @OneToMany //(mappedBy = "employee")
   private List<WorkShift> workShift;
-  @OneToMany(mappedBy = "employee")
+  @OneToMany //(mappedBy = "employee")
   private List<Order> order;
   @ManyToOne
-  @JoinColumn(name = "store_id", nullable = false)
+  @JoinColumn(name = "store_id")
   private Store store;
 
   //------------------------

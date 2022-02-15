@@ -25,7 +25,7 @@ public class PurchasedItem
 
   //PurchasedItem Associations
   @ManyToOne
-  @JoinColumn(name = "item_name", nullable = false)
+  @JoinColumn(name = "item_name")
   private Item item;
 
   //------------------------

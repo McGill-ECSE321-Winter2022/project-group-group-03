@@ -45,11 +45,11 @@ public class Store
   private List<Owner> owner;
   @OneToMany(mappedBy = "store")
   private List<Order> order;
-  @OneToMany(mappedBy = "store")
+  @OneToMany //(mappedBy = "store")
   private List<Item> item;
-  @OneToMany(mappedBy = "store")
+  @OneToMany //(mappedBy = "store")
   private List<Holiday> holiday;
-  @OneToMany(mappedBy = "store")
+  @OneToMany //(mappedBy = "store")
   private List<BusinessHours> businessHour;
 
   //------------------------

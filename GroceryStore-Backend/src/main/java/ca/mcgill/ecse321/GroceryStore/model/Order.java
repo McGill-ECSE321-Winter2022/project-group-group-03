@@ -25,16 +25,16 @@ public abstract class Order
   private int totalCost;
 
   //Order Associations
-  @OneToMany(mappedBy = "order")
+  @OneToMany //(mappedBy = "order")
   private List<PurchasedItem> purchasedItem;
   @ManyToOne
-  @JoinColumn(name = "store_id", nullable = false)
+  @JoinColumn(name = "store_id")
   private Store store;
   @ManyToOne
-  @JoinColumn(name = "employee_username", nullable = false)
+  @JoinColumn(name = "employee_username")
   private Employee employee;
   @ManyToOne
-  @JoinColumn(name = "customer_username", nullable = false)
+  @JoinColumn(name = "customer_username")
   private Customer customer;
 
   //------------------------
