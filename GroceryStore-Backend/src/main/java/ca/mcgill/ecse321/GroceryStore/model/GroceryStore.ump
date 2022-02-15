@@ -1,0 +1,122 @@
+use GroceryStoreStates.ump;
+namespace ca.mcgill.ecse321.GroceryStore.model;
+
+//add a basket option, potentially a state for each order
+
+class GroceryStoreSystem{
+  autounique systemID;
+  1 <@>- * User user;
+  1 <@>- * Order orders;
+  1 <@>- * Store store;
+  1 <@>- * Item items;
+  1 <@>- * WorkShift shift;
+  1 <@>- * Holiday holiday;
+  1 <@>- * BusinessHours businessHours;
+}
+
+class Store{
+  autounique storeID;
+  address;
+  1 -- * Employee staff;
+  1 -- 0..1 Owner owner;
+  1 -- * Item items;
+  const int MAXPICKUPS = 10;
+  const int MAXSHIPPING = 10;
+  int currentActivePickup=0;
+  int currentActiveDelivery=0;
+}
+
+
+class User{
+  abstract;
+  unique username;
+  password;
+  unique email;
+}
+
+class Owner{
+  isA User;
+}
+
+class NamedUser{
+  abstract;
+  isA User;
+  name;
+    address;
+}
+
+class Employee{
+  isA NamedUser;
+}
+class Customer{
+  isA NamedUser;
+
+}
+
+
+class WorkShift{
+  enum DayOfWeek { Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday }
+  Time startTime;
+  Time endTime;
+  autounique shiftID;
+
+    //shift must be during opening hours
+  * -- 1 Employee employee;
+}
+
+class BusinessHours{
+  autounique hoursID;
+  Time startTime;
+  Time endTime;
+  enum DayOfWeek { Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday }
+  * -- 1 Store store;
+}
+
+class Holiday{
+  name;
+  autounique holidayID;
+  Date startDate;
+  Date endDate;
+  * -- 1 Store store;
+}
+
+class Item{
+  autounique itemID;
+  name;
+  Boolean purchasable; //stuff that can be bought online, if false only available in person
+  int price;
+  description;
+  int stock;
+  int totalPurchased;
+}
+
+class PurchasedItem{
+   * -- 1 Item item;
+   * -- 1 Order order;
+  autounique purchasedItemID;
+  int itemQuantity;
+}
+
+class Order{
+  abstract;
+  autounique confimationNumber;
+  * -- 1 NamedUser customer;
+  * -- 1 Store store;
+  int totalCost;
+
+}
+
+class DeliveryOrder{
+  isA Order;
+  const int SHIPPINGFEE = 30;
+  Boolean inTown;
+}
+
+class PickupOrder{
+  isA Order;
+  enum paymentMethod { CreditCard, Cash }
+  ;
+
+}
+
+
