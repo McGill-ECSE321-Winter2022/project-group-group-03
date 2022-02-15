@@ -1,75 +1,102 @@
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
+
 package ca.mcgill.ecse321.GroceryStore.model;
-
 import javax.persistence.Entity;
-import java.sql.Time;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import java.sql.Time;
 
+// line 58 "../../../../../../model.ump"
+// line 225 "../../../../../../model.ump"
 @Entity
-public class BusinessHours{
-   public enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
-   private Time startTime;
-   private Time endTime;
-   private static int nextHoursID = 1;
-   
-   private int hoursID;
-   private GroceryStoreSystem groceryStoreSystem;
+public class BusinessHours
+{
 
 
+  //------------------------
+  // ENUMERATIONS
+  //------------------------
 
-   //------------------------
-   // CONSTRUCTOR
-   //------------------------
+  public enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
 
-   public BusinessHours() {}
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
 
-   public BusinessHours(Time aStartTime, Time aEndTime, GroceryStoreSystem aGroceryStoreSystem)
-   {
-      startTime = aStartTime;
-      endTime = aEndTime;
-      hoursID = nextHoursID++;
-      groceryStoreSystem = aGroceryStoreSystem;
-   }
+  //BusinessHours Attributes
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int hoursID;
+  private Time startTime;
+  private Time endTime;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public BusinessHours() {}
+
+  public BusinessHours(int aHoursID, Time aStartTime, Time aEndTime)
+  {
+    hoursID = aHoursID;
+    startTime = aStartTime;
+    endTime = aEndTime;
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setHoursID(int aHoursID)
+  {
+    boolean wasSet = false;
+    hoursID = aHoursID;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setStartTime(Time aStartTime)
+  {
+    boolean wasSet = false;
+    startTime = aStartTime;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setEndTime(Time aEndTime)
+  {
+    boolean wasSet = false;
+    endTime = aEndTime;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getHoursID()
+  {
+    return hoursID;
+  }
+
+  public Time getStartTime()
+  {
+    return startTime;
+  }
+
+  public Time getEndTime()
+  {
+    return endTime;
+  }
+
+  public void delete()
+  {}
 
 
-   @ManyToOne(optional=false)
-   public GroceryStoreSystem getGroceryStoreSystem() {
-      return this.groceryStoreSystem;
-   }
-
-   public void setGroceryStoreSystem(GroceryStoreSystem groceryStoreSystem) {
-      this.groceryStoreSystem = groceryStoreSystem;
-   }
-
-
-
-   //------------------------
-   // INTERFACE
-   //------------------------
-
-   public void setStartTime(Time aStartTime)
-   {
-      startTime = aStartTime;
-   }
-
-   public void setEndTime(Time aEndTime)
-   {
-      endTime = aEndTime;
-   }
-
-   public Time getStartTime()
-   {
-      return startTime;
-   }
-
-   public Time getEndTime()
-   {
-      return endTime;
-   }
-   @Id
-   public int getHoursID()
-   {
-      return hoursID;
-   }
-   
+  public String toString()
+  {
+    return super.toString() + "["+
+            "hoursID" + ":" + getHoursID()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null");
+  }
 }

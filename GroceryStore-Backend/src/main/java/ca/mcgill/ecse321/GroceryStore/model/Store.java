@@ -1,404 +1,748 @@
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
+
 package ca.mcgill.ecse321.GroceryStore.model;
-
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
-import java.util.ArrayList;
+import java.util.*;
 
-@Entity
-public class Store {
-   private ArrayList<BusinessHours> businessHours;
-   private ArrayList<Employee> employee;
-   private ArrayList<Owner> owner;
-   private ArrayList<Item> item;
-   private static int nextStoreID = 1;
-   public static final int MAXPICKUPS = 10;
-   public static final int MAXSHIPPING = 10;
-   private String address;
-   private int currentActivePickup;
-   private int currentActiveDelivery;
-   @Id
-   private int storeID;
-   private GroceryStoreSystem groceryStoreSystem;
-   private ArrayList<Holiday> holiday;
-   private ArrayList<Order> order;
+/**
+ * add a basket option, potentially a state for each order
+ */
+// line 8 "../../../../../../model.ump"
+// line 244 "../../../../../../model.ump"
+// line 259 "../../../../../../model.ump"
+  @Entity
+public class Store
+{
 
-   public Store(String aAddress, GroceryStoreSystem aGroceryStoreSystem) {
-      address = aAddress;
-      currentActivePickup = 0;
-      currentActiveDelivery = 0;
-      storeID = nextStoreID++;
-      employee = new ArrayList<>();
-      item = new ArrayList<>();
-      setGroceryStoreSystem(aGroceryStoreSystem);
-      businessHours = new ArrayList<>();
-      holiday = new ArrayList<>();
-      order = new ArrayList<>();
-      groceryStoreSystem = aGroceryStoreSystem;
-   }
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
 
-   public Store() {
-   }
+  public static final int MAXPICKUPS = 10;
+  public static final int MAXSHIPPING = 10;
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Store Attributes
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int storeID;
+  private String address;
+  private int currentActivePickup;
+  private int currentActiveDelivery;
+
+  //Store Associations
+  private List<Employee> employee;
+  private List<Owner> owner;
+  private List<Order> order;
+  private List<Item> item;
+  private List<Holiday> holiday;
+  private List<BusinessHours> businessHour;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public Store(int aStoreID, String aAddress)
+  {
+    storeID = aStoreID;
+    address = aAddress;
+    currentActivePickup = 0;
+    currentActiveDelivery = 0;
+    employee = new ArrayList<Employee>();
+    owner = new ArrayList<Owner>();
+    order = new ArrayList<Order>();
+    item = new ArrayList<Item>();
+    holiday = new ArrayList<Holiday>();
+    businessHour = new ArrayList<BusinessHours>();
+  }
+
+  public Store() {
+
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setStoreID(int aStoreID)
+  {
+    boolean wasSet = false;
+    storeID = aStoreID;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setAddress(String aAddress)
+  {
+    boolean wasSet = false;
+    address = aAddress;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setCurrentActivePickup(int aCurrentActivePickup)
+  {
+    boolean wasSet = false;
+    currentActivePickup = aCurrentActivePickup;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setCurrentActiveDelivery(int aCurrentActiveDelivery)
+  {
+    boolean wasSet = false;
+    currentActiveDelivery = aCurrentActiveDelivery;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getStoreID()
+  {
+    return storeID;
+  }
+
+  public String getAddress()
+  {
+    return address;
+  }
+
+  public int getCurrentActivePickup()
+  {
+    return currentActivePickup;
+  }
+
+  public int getCurrentActiveDelivery()
+  {
+    return currentActiveDelivery;
+  }
+  /* Code from template association_GetMany */
+  public Employee getEmployee(int index)
+  {
+    Employee aEmployee = employee.get(index);
+    return aEmployee;
+  }
+
+  @OneToMany
+  public List<Employee> getEmployee()
+  {
+    List<Employee> newEmployee = Collections.unmodifiableList(employee);
+    return newEmployee;
+  }
+
+  public void setEmployee(List<Employee> aEmployee){
+    this.employee = aEmployee;
+  }
+
+  public int numberOfEmployee()
+  {
+    int number = employee.size();
+    return number;
+  }
+
+  public boolean hasEmployee()
+  {
+    boolean has = employee.size() > 0;
+    return has;
+  }
+
+  public int indexOfEmployee(Employee aEmployee)
+  {
+    int index = employee.indexOf(aEmployee);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public Owner getOwner(int index)
+  {
+    Owner aOwner = owner.get(index);
+    return aOwner;
+  }
+
+  @OneToMany
+  public List<Owner> getOwner()
+  {
+    List<Owner> newOwner = Collections.unmodifiableList(owner);
+    return newOwner;
+  }
+
+  public void setOwner(List<Owner> aOwner){
+    this.owner = aOwner;
+  }
+
+  public int numberOfOwner()
+  {
+    int number = owner.size();
+    return number;
+  }
+
+  public boolean hasOwner()
+  {
+    boolean has = owner.size() > 0;
+    return has;
+  }
+
+  public int indexOfOwner(Owner aOwner)
+  {
+    int index = owner.indexOf(aOwner);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public Order getOrder(int index)
+  {
+    Order aOrder = order.get(index);
+    return aOrder;
+  }
+
+  @OneToMany
+  public List<Order> getOrder()
+  {
+    List<Order> newOrder = Collections.unmodifiableList(order);
+    return newOrder;
+  }
+
+  public void setOrder(List<Order> aOrder){
+    this.order = aOrder;
+  }
+
+  public int numberOfOrder()
+  {
+    int number = order.size();
+    return number;
+  }
+
+  public boolean hasOrder()
+  {
+    boolean has = order.size() > 0;
+    return has;
+  }
+
+  public int indexOfOrder(Order aOrder)
+  {
+    int index = order.indexOf(aOrder);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public Item getItem(int index)
+  {
+    Item aItem = item.get(index);
+    return aItem;
+  }
+
+  @OneToMany
+  public List<Item> getItem()
+  {
+    List<Item> newItem = Collections.unmodifiableList(item);
+    return newItem;
+  }
+
+  public void setItem(List<Item> aItem){
+    this.item = aItem;
+  }
+
+  public int numberOfItem()
+  {
+    int number = item.size();
+    return number;
+  }
+
+  public boolean hasItem()
+  {
+    boolean has = item.size() > 0;
+    return has;
+  }
+
+  public int indexOfItem(Item aItem)
+  {
+    int index = item.indexOf(aItem);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public Holiday getHoliday(int index)
+  {
+    Holiday aHoliday = holiday.get(index);
+    return aHoliday;
+  }
+
+  @OneToMany
+  public List<Holiday> getHoliday()
+  {
+    List<Holiday> newHoliday = Collections.unmodifiableList(holiday);
+    return newHoliday;
+  }
+
+  public void setHoliday(List<Holiday> aHoliday){
+    this.holiday = aHoliday;
+  }
+
+  public int numberOfHoliday()
+  {
+    int number = holiday.size();
+    return number;
+  }
+
+  public boolean hasHoliday()
+  {
+    boolean has = holiday.size() > 0;
+    return has;
+  }
+
+  public int indexOfHoliday(Holiday aHoliday)
+  {
+    int index = holiday.indexOf(aHoliday);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public BusinessHours getBusinessHour(int index)
+  {
+    BusinessHours aBusinessHour = businessHour.get(index);
+    return aBusinessHour;
+  }
+
+  @OneToMany
+  public List<BusinessHours> getBusinessHour()
+  {
+    List<BusinessHours> newBusinessHour = Collections.unmodifiableList(businessHour);
+    return newBusinessHour;
+  }
+
+  public void setBusinessHour(List<BusinessHours> aBusinessHours){
+    this.businessHour = aBusinessHours;
+  }
+
+  public int numberOfBusinessHour()
+  {
+    int number = businessHour.size();
+    return number;
+  }
+
+  public boolean hasBusinessHour()
+  {
+    boolean has = businessHour.size() > 0;
+    return has;
+  }
+
+  public int indexOfBusinessHour(BusinessHours aBusinessHour)
+  {
+    int index = businessHour.indexOf(aBusinessHour);
+    return index;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfEmployee()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Employee addEmployee(String aUsername, String aPassword, String aEmail)
+  {
+    return new Employee(aUsername, aPassword, aEmail, this);
+  }
+
+  public boolean addEmployee(Employee aEmployee)
+  {
+    boolean wasAdded = false;
+    if (employee.contains(aEmployee)) { return false; }
+    Store existingStore = aEmployee.getStore();
+    boolean isNewStore = existingStore != null && !this.equals(existingStore);
+    if (isNewStore)
+    {
+      aEmployee.setStore(this);
+    }
+    else
+    {
+      employee.add(aEmployee);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeEmployee(Employee aEmployee)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aEmployee, as it must always have a store
+    if (!this.equals(aEmployee.getStore()))
+    {
+      employee.remove(aEmployee);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addEmployeeAt(Employee aEmployee, int index)
+  {  
+    boolean wasAdded = false;
+    if(addEmployee(aEmployee))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfEmployee()) { index = numberOfEmployee() - 1; }
+      employee.remove(aEmployee);
+      employee.add(index, aEmployee);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveEmployeeAt(Employee aEmployee, int index)
+  {
+    boolean wasAdded = false;
+    if(employee.contains(aEmployee))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfEmployee()) { index = numberOfEmployee() - 1; }
+      employee.remove(aEmployee);
+      employee.add(index, aEmployee);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addEmployeeAt(aEmployee, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfOwner()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Owner addOwner(String aUsername, String aPassword, String aEmail)
+  {
+    return new Owner(aUsername, aPassword, aEmail, this);
+  }
+
+  public boolean addOwner(Owner aOwner)
+  {
+    boolean wasAdded = false;
+    if (owner.contains(aOwner)) { return false; }
+    Store existingStore = aOwner.getStore();
+    boolean isNewStore = existingStore != null && !this.equals(existingStore);
+    if (isNewStore)
+    {
+      aOwner.setStore(this);
+    }
+    else
+    {
+      owner.add(aOwner);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeOwner(Owner aOwner)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aOwner, as it must always have a store
+    if (!this.equals(aOwner.getStore()))
+    {
+      owner.remove(aOwner);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addOwnerAt(Owner aOwner, int index)
+  {  
+    boolean wasAdded = false;
+    if(addOwner(aOwner))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfOwner()) { index = numberOfOwner() - 1; }
+      owner.remove(aOwner);
+      owner.add(index, aOwner);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveOwnerAt(Owner aOwner, int index)
+  {
+    boolean wasAdded = false;
+    if(owner.contains(aOwner))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfOwner()) { index = numberOfOwner() - 1; }
+      owner.remove(aOwner);
+      owner.add(index, aOwner);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addOwnerAt(aOwner, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfOrder()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
 
 
-   @ManyToMany
-   public ArrayList<Holiday> getHoliday() {
-      return this.holiday;
-   }
-
-   public void setHoliday(ArrayList<Holiday> holidays) {
-      this.holiday = holidays;
-   }
-   
-   @ManyToMany
-   public ArrayList<BusinessHours> getBusinessHours() {
-      return this.businessHours;
-   }
-   
-   public void setBusinessHours(ArrayList<BusinessHours> aBusinessHours) {
-      this.businessHours = aBusinessHours;
-   }
-
-   @OneToMany
-   public ArrayList<Employee> getEmployee() {
-      return this.employee;
-   }
-
-   public void setEmployee(ArrayList<Employee> employees) {
-      this.employee = employees;
-   }
-   
-   @ManyToMany
-   public ArrayList<Owner> getOwner() {
-      return this.owner;
-   }
-   
-   public void setOwner(ArrayList<Owner> owners) {
-      this.owner = owners;
-   }
-
-   @ManyToMany
-   public ArrayList<Item> getItem() {
-      return this.item;
-   }
-   
-   public void setItem(ArrayList<Item> items) {
-      this.item = items;
-   }
-
-   @ManyToOne(optional=false)
-   public GroceryStoreSystem getGroceryStoreSystem() {
-      return this.groceryStoreSystem;
-   }
-   
-   public void setGroceryStoreSystem(GroceryStoreSystem groceryStoreSystem) {
-      this.groceryStoreSystem = groceryStoreSystem;
-   }
-   public String getAddress()
-   {
-      return address;
-   }
-   public void setAddress(String aAddress) {
-      address = aAddress;
-   }
-   public int getCurrentActivePickup()
-   {
-      return currentActivePickup;
-   }
-   public void setCurrentActivePickup(int aCurrentActivePickup) {
-      currentActivePickup = aCurrentActivePickup;
-   }
-   public int getCurrentActiveDelivery()
-   {
-      return currentActiveDelivery;
-   }
-   public void setCurrentActiveDelivery(int aCurrentActiveDelivery) {
-      currentActiveDelivery = aCurrentActiveDelivery;
-   }
-   public int getStoreID()
-   {
-      return storeID;
-   }
-   /* Code from template association_GetMany */
-
-   public Employee getStaff(int index) {
-      return employee.get(index);
-   }
-
-
-   public int numberOfStaff() {
-      return employee.size();
-   }
-
-   public boolean hasStaff() {
-      return employee.size() > 0;
-   }
-
-   public int indexOfStaff(Employee aStaff) {
-      return employee.indexOf(aStaff);
-   }
-
-   public boolean hasOwner()
-   {
-      return owner != null;
-   }
-   /* Code from template association_GetMany */
-   public Item getItem(int index)
-   {
-      return item.get(index);
-   }
-
-
-
-   public int numberOfItems()
-   {
-      return item.size();
-   }
-
-   public boolean hasItems()
-   {
-      return item.size() > 0;
-   }
-
-   public int indexOfItem(Item aItem)
-   {
-      return item.indexOf(aItem);
-   }
-   public BusinessHours getBusinessHour(int index)
-   {
-      return businessHours.get(index);
-   }
-
-
-   public int numberOfBusinessHours()
-   {
-      return businessHours.size();
-   }
-
-   public boolean hasBusinessHours()
-   {
-      return businessHours.size() > 0;
-   }
-
-   public int indexOfBusinessHour(BusinessHours aBusinessHour)
-   {
-      return businessHours.indexOf(aBusinessHour);
-   }
-   /* Code from template association_GetMany */
-   public Holiday getHoliday(int index)
-   {
-      return holiday.get(index);
-   }
-
-
-   public int numberOfHolidays()
-   {
-      return holiday.size();
-   }
-
-   public boolean hasHolidays()
-   {
-      return holiday.size() > 0;
-   }
-
-   public int indexOfHoliday(Holiday aHoliday)
-   {
-      return holiday.indexOf(aHoliday);
-   }
-   /* Code from template association_GetMany */
-
-   public Order getOrder(int index)
-   {
-      return order.get(index);
-   }
-   @OneToMany
-   public ArrayList<Order> getOrder()
-   {
-      return this.order;
-   }
-   public void setOrder(ArrayList<Order> order){
-      this.order = order;
-   }
-
-   public int numberOfOrders()
-   {
-      return order.size();
-   }
-
-   public boolean hasOrders()
-   {
-      return order.size() > 0;
-   }
-
-   public int indexOfOrder(Order aOrder)
-   {
-      return order.indexOf(aOrder);
-   }
-   /* Code from template association_MinimumNumberOfMethod */
-   public static int minimumNumberOfStaff()
-   {
-      return 0;
-   }
-   /* Code from template association_AddManyToOne */
-   public Employee addStaff(String aUsername, String aPassword, String aEmail, GroceryStoreSystem aGroceryStoreSystem, String aName, String aAddress)
-   {
-      return new Employee(aUsername, aPassword, aEmail, aGroceryStoreSystem, aName, aAddress, this);
-   }
-
-   public void addStaff(Employee aStaff)
-   {
-      boolean wasAdded = false;
-      if (employee.contains(aStaff)) { return; }
-      Store existingStore = aStaff.getStore();
-      boolean isNewStore = existingStore != null && !this.equals(existingStore);
-      if (isNewStore)
-      {
-         aStaff.setStore(this);
-      }
-      else
-      {
-         employee.add(aStaff);
-      }
-
-   }
-
-   public void removeStaff(Employee aStaff)
-   {
-      //Unable to remove aStaff, as it must always have a store
-      if (!this.equals(aStaff.getStore()))
-      {
-         employee.remove(aStaff);
-      }
-   }
-
-   /* Code from template association_SetOptionalOneToOne */
-   public void setOwner(Owner aNewOwner)
-   {
-      if (owner != null && !owner.get(0).equals(aNewOwner) && equals(owner.get(0).getStore().get(0)))
-      {
-         //Unable to setOwner, as existing owner would become an orphan
-         return;
-      }
-
-      if (aNewOwner != null && owner != null) owner.add(aNewOwner);
-      Store anOldStore = aNewOwner != null ? aNewOwner.getStore().get(0) : null;
-
-      if (!this.equals(anOldStore))
-      {
-         if (anOldStore != null)
-         {
-            anOldStore.owner = null;
-         }
-         if (owner != null)
-         {
-            ArrayList<Store>stores = new ArrayList<>();
-            stores.add(this);
-            owner.get(0).setStore(stores);
-         }
-      }
-   }
-   /* Code from template association_MinimumNumberOfMethod */
-   public static int minimumNumberOfItems()
-   {
-      return 0;
-   }
-   /* Code from template association_AddManyToOne */
-   public Item addItem(String aName, boolean aPurchasable, int aPrice, String aDescription, int aStock, int aTotalPurchased, GroceryStoreSystem aGroceryStoreSystem)
-   {
-      return new Item(aName, aPurchasable, aPrice, aDescription, aStock, aTotalPurchased, aGroceryStoreSystem, this);
-   }
-
-   public void addItem(Item aItem)
-   {
-      if (item.contains(aItem)) { return; }
-      ArrayList<Store> existingStore = aItem.getStore();
-      boolean isNewStore = existingStore != null && !this.equals(existingStore.get(0));
-      if (isNewStore)
-      {
-         ArrayList<Store>stores = new ArrayList<>();
-         stores.add(this);
-         aItem.setStore(stores);
-      }
-      else
-      {
-         item.add(aItem);
-      }
-
-   }
-
-   public void removeItem(Item aItem)
-   {
-      //Unable to remove aItem, as it must always have a store
-      if (!this.equals(aItem.getStore().get(0)))
-      {
-         item.remove(aItem);
-      }
-
-   }
-
-   /* Code from template association_MinimumNumberOfMethod */
-   public static int minimumNumberOfBusinessHours()
-   {
-      return 0;
-   }
-   /* Code from template association_AddManyToOne */
-   public BusinessHours addBusinessHour(Time aStartTime, Time aEndTime, GroceryStoreSystem aGroceryStoreSystem)
-   {
-      return new BusinessHours(aStartTime, aEndTime, aGroceryStoreSystem);
-   }
-
-   public void addBusinessHour(BusinessHours aBusinessHour)
-   {
-      if (businessHours.contains(aBusinessHour)) { return; }
-      businessHours.add(aBusinessHour);
-   }
-
-   public void removeBusinessHour(BusinessHours aBusinessHour)
-   {
-      //Unable to remove aBusinessHour, as it must always have a store
-      businessHours.remove(aBusinessHour);
-   }
-   public static int minimumNumberOfHolidays()
-   {
-      return 0;
-   }
-   /* Code from template association_AddManyToOne */
-   public Holiday addHoliday(String aName, Date aStartDate, Date aEndDate, GroceryStoreSystem aGroceryStoreSystem)
-   {
-      return new Holiday(aName, aStartDate, aEndDate, aGroceryStoreSystem);
-   }
-
-   public void addHoliday(Holiday aHoliday)
-   {
-      if (holiday.contains(aHoliday)) { return; }
-      holiday.add(aHoliday);
-   }
-
-   public void removeHoliday(Holiday aHoliday){
-      //Unable to remove aHoliday, as it must always have a store
-      holiday.remove(aHoliday);
-   }
-   /* Code from template association_AddIndexControlFunctions */
-
-   public static int minimumNumberOfOrders()
-   {
-      return 0;
-   }
-   /* Code from template association_AddManyToManyMethod */
-   public void addOrder(Order aOrder)
-   {
-      if (order.contains(aOrder)) { return; }
+  public boolean addOrder(Order aOrder)
+  {
+    boolean wasAdded = false;
+    if (order.contains(aOrder)) { return false; }
+    Store existingStore = aOrder.getStore();
+    boolean isNewStore = existingStore != null && !this.equals(existingStore);
+    if (isNewStore)
+    {
+      aOrder.setStore(this);
+    }
+    else
+    {
       order.add(aOrder);
-   }
-   /* Code from template association_RemoveMany */
-   public void removeOrder(Order aOrder)
-   {
-      if (!order.contains(aOrder))
-      {
-         return;
-      }
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
 
+  public boolean removeOrder(Order aOrder)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aOrder, as it must always have a store
+    if (!this.equals(aOrder.getStore()))
+    {
       order.remove(aOrder);
-   }
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addOrderAt(Order aOrder, int index)
+  {  
+    boolean wasAdded = false;
+    if(addOrder(aOrder))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfOrder()) { index = numberOfOrder() - 1; }
+      order.remove(aOrder);
+      order.add(index, aOrder);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
 
+  public boolean addOrMoveOrderAt(Order aOrder, int index)
+  {
+    boolean wasAdded = false;
+    if(order.contains(aOrder))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfOrder()) { index = numberOfOrder() - 1; }
+      order.remove(aOrder);
+      order.add(index, aOrder);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addOrderAt(aOrder, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfItem()
+  {
+    return 0;
+  }
+  /* Code from template association_AddUnidirectionalMany */
+  public boolean addItem(Item aItem)
+  {
+    boolean wasAdded = false;
+    if (item.contains(aItem)) { return false; }
+    item.add(aItem);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeItem(Item aItem)
+  {
+    boolean wasRemoved = false;
+    if (item.contains(aItem))
+    {
+      item.remove(aItem);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addItemAt(Item aItem, int index)
+  {  
+    boolean wasAdded = false;
+    if(addItem(aItem))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfItem()) { index = numberOfItem() - 1; }
+      item.remove(aItem);
+      item.add(index, aItem);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveItemAt(Item aItem, int index)
+  {
+    boolean wasAdded = false;
+    if(item.contains(aItem))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfItem()) { index = numberOfItem() - 1; }
+      item.remove(aItem);
+      item.add(index, aItem);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addItemAt(aItem, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfHoliday()
+  {
+    return 0;
+  }
+  /* Code from template association_AddUnidirectionalMany */
+  public boolean addHoliday(Holiday aHoliday)
+  {
+    boolean wasAdded = false;
+    if (holiday.contains(aHoliday)) { return false; }
+    holiday.add(aHoliday);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeHoliday(Holiday aHoliday)
+  {
+    boolean wasRemoved = false;
+    if (holiday.contains(aHoliday))
+    {
+      holiday.remove(aHoliday);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addHolidayAt(Holiday aHoliday, int index)
+  {  
+    boolean wasAdded = false;
+    if(addHoliday(aHoliday))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfHoliday()) { index = numberOfHoliday() - 1; }
+      holiday.remove(aHoliday);
+      holiday.add(index, aHoliday);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveHolidayAt(Holiday aHoliday, int index)
+  {
+    boolean wasAdded = false;
+    if(holiday.contains(aHoliday))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfHoliday()) { index = numberOfHoliday() - 1; }
+      holiday.remove(aHoliday);
+      holiday.add(index, aHoliday);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addHolidayAt(aHoliday, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfBusinessHour()
+  {
+    return 0;
+  }
+  /* Code from template association_AddUnidirectionalMany */
+  public boolean addBusinessHour(BusinessHours aBusinessHour)
+  {
+    boolean wasAdded = false;
+    if (businessHour.contains(aBusinessHour)) { return false; }
+    businessHour.add(aBusinessHour);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeBusinessHour(BusinessHours aBusinessHour)
+  {
+    boolean wasRemoved = false;
+    if (businessHour.contains(aBusinessHour))
+    {
+      businessHour.remove(aBusinessHour);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addBusinessHourAt(BusinessHours aBusinessHour, int index)
+  {  
+    boolean wasAdded = false;
+    if(addBusinessHour(aBusinessHour))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfBusinessHour()) { index = numberOfBusinessHour() - 1; }
+      businessHour.remove(aBusinessHour);
+      businessHour.add(index, aBusinessHour);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveBusinessHourAt(BusinessHours aBusinessHour, int index)
+  {
+    boolean wasAdded = false;
+    if(businessHour.contains(aBusinessHour))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfBusinessHour()) { index = numberOfBusinessHour() - 1; }
+      businessHour.remove(aBusinessHour);
+      businessHour.add(index, aBusinessHour);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addBusinessHourAt(aBusinessHour, index);
+    }
+    return wasAdded;
+  }
+
+  public void delete()
+  {
+    for(int i=employee.size(); i > 0; i--)
+    {
+      Employee aEmployee = employee.get(i - 1);
+      aEmployee.delete();
+    }
+    for(int i=owner.size(); i > 0; i--)
+    {
+      Owner aOwner = owner.get(i - 1);
+      aOwner.delete();
+    }
+    for(int i=order.size(); i > 0; i--)
+    {
+      Order aOrder = order.get(i - 1);
+      aOrder.delete();
+    }
+    item.clear();
+    holiday.clear();
+    businessHour.clear();
+  }
+
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "storeID" + ":" + getStoreID()+ "," +
+            "address" + ":" + getAddress()+ "," +
+            "currentActivePickup" + ":" + getCurrentActivePickup()+ "," +
+            "currentActiveDelivery" + ":" + getCurrentActiveDelivery()+ "]";
+  }
 }
