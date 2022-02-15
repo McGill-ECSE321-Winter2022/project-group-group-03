@@ -30,8 +30,11 @@ public class Employee {
 
   //Employee Attributes
   @Id
+  @Column(name="EM_username")
   private String username;
+  @Column(name="EM_password")
   private String password;
+  @Column(name="EM_email")
   private String email;
 
   public Employee() {
@@ -41,6 +44,7 @@ public class Employee {
   //Employee State Machines
   public enum WorkingStatus { Hired, Fired }
   @Enumerated
+  @Column(name = "EM_workingStatus")
   private WorkingStatus workingStatus;
 
   //Employee Associations

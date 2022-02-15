@@ -4,6 +4,7 @@
 package ca.mcgill.ecse321.GroceryStore.model;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 
+import javax.persistence.Column;
 import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -28,11 +29,13 @@ public class DeliveryOrder extends Order
   //------------------------
 
   //DeliveryOrder Attributes
+  @Column(name="DeliveryOrder_inTown")
   private boolean inTown;
 
   //DeliveryOrder State Machines
   public enum ShippingStatus { InCart, Ordered, Prepared, Delivered }
   @Enumerated
+  @Column(name="DeliveryOrder_shippingStatus")
   private ShippingStatus shippingStatus;
 
   //------------------------

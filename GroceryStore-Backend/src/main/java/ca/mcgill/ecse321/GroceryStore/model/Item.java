@@ -2,10 +2,7 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.GroceryStore.model;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.*;
 
 // line 71 "../../../../../../model.ump"
@@ -28,11 +25,17 @@ public class Item
 
   //Item Attributes
   @Id
+  @Column(name="Item_id")
   private String name;
+  @Column(name="Item_purchasable")
   private boolean purchasable;
+  @Column(name="Item_price")
   private int price;
+  @Column(name="Item_description")
   private String description;
+  @Column(name="Item_stock")
   private int stock;
+  @Column(name="Item_totalPurchased")
   private int totalPurchased;
 
   //------------------------

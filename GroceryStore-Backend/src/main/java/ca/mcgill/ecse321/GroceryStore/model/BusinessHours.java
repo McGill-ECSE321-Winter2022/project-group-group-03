@@ -25,10 +25,14 @@ public class BusinessHours
   //BusinessHours Attributes
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name="BH_id")
   private int hoursID;
+  @Column(name="BH_startT")
   private Time startTime;
+  @Column(name="BH_endT")
   private Time endTime;
   @Enumerated
+  @Column(name="BH_day")
   private DayOfWeek day;
 
   //------------------------

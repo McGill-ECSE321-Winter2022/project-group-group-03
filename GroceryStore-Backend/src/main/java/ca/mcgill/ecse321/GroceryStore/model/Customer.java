@@ -27,12 +27,15 @@ public class Customer
 
   //Customer Attributes
   @Id
+  @Column(name="Customer_Username")
   private String username;
+  @Column(name="Customer_Password")
   private String password;
+  @Column(name="Customer_Email")
   private String email;
 
   //Customer Associations
-  @OneToMany
+  @OneToMany(mappedBy = "customer")
   private List<Order> order;
 
   //------------------------
@@ -50,7 +53,7 @@ public class Customer
     }
     if (!setEmail(aEmail))
     {
-      throw new RuntimeException("Cannot create due to duplicate email. See http://manual.umple.org?RE003ViolationofUniqueness.html");
+      throw new RuntimeException("Cannot create duie to duplicate email. See http://manual.umple.org?RE003ViolationofUniqueness.html");
     }
     order = new ArrayList<Order>();
   }

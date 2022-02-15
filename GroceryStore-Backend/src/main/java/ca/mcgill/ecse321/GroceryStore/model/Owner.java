@@ -27,11 +27,15 @@ public class Owner
 
   //Owner Attributes
   @Id
+  @Column(name="Owner_username")
   private String username;
+  @Column(name="Owner_Password")
   private String password;
+  @Column(name="Owner_email")
   private String email;
 
   //Owner Associations
+  @ManyToOne
   private Store store;
 
   //------------------------
@@ -139,7 +143,7 @@ public class Owner
     return getWithEmail(aEmail) != null;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  //@ManyToOne
   public Store getStore()
   {
     return this.store;

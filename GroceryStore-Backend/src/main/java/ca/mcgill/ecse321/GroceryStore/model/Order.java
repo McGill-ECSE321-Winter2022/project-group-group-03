@@ -19,7 +19,9 @@ public abstract class Order
   //Order Attributes
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "O_confirmationNumber")
   private int confirmationNumber;
+  @Column(name = "O_totalCost")
   private int totalCost;
 
   //Order Associations
