@@ -22,12 +22,16 @@ public class WorkShift
   //------------------------
 
   //WorkShift Attributes
+  @Column(name="WS_startT")
   private Time startTime;
+  @Column(name="WS_endT")
   private Time endTime;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name="WS_id")
   private int shiftID;
   @Enumerated
+  @Column(name="WS_day")
   private DayOfWeek day;
 
   //------------------------

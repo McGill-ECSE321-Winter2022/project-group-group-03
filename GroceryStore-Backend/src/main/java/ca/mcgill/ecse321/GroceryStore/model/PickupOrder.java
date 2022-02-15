@@ -4,6 +4,7 @@
 package ca.mcgill.ecse321.GroceryStore.model;
 import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
 
+import javax.persistence.Column;
 import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -24,6 +25,7 @@ public class PickupOrder extends Order
 
   public enum PaymentMethod { CreditCard, Cash }
 @Enumerated
+@Column(name = "PickupOrder_paymentMethod")
   private PaymentMethod paymentMethod;
 
   //------------------------
@@ -33,6 +35,7 @@ public class PickupOrder extends Order
   //PickupOrder State Machines
   public enum PickupStatus { InCart, Ordered, Prepared, PickedUp }
   @Enumerated
+  @Column(name = "PickupOrder_pickupStatus")
   private PickupStatus pickupStatus;
 
   //------------------------

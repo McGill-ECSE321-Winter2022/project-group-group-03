@@ -48,9 +48,9 @@ public class Employee {
   private WorkingStatus workingStatus;
 
   //Employee Associations
-  @OneToMany
+  @OneToMany(mappedBy = "employee")
   private List<WorkShift> workShift;
-  @OneToMany
+  @OneToMany(mappedBy = "employee")
   private List<Order> order;
   @ManyToOne
   private Store store;

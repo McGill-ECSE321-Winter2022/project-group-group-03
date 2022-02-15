@@ -19,13 +19,13 @@ public abstract class Order
   //Order Attributes
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "O_confirmationNumber")
+  @Column(name = "Order_confirmationNumber")
   private int confirmationNumber;
-  @Column(name = "O_totalCost")
+  @Column(name = "Order_totalCost")
   private int totalCost;
 
   //Order Associations
-  @OneToMany
+  @OneToMany(mappedBy = "order")
   private List<PurchasedItem> purchasedItem;
   @ManyToOne
   private Store store;

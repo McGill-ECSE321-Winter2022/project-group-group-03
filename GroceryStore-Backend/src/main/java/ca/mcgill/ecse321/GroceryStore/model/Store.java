@@ -29,23 +29,27 @@ public class Store
   //Store Attributes
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "STORE_id")
   private int storeID;
+  @Column(name = "STORE_address")
   private String address;
+  @Column(name = "STORE_currentActivePickup")
   private int currentActivePickup;
+  @Column(name = "STORE_currentActiveDelivery")
   private int currentActiveDelivery;
 
   //Store Associations
-  @OneToMany
+  @OneToMany(mappedBy = "store")
   private List<Employee> employee;
-  @OneToMany
+  @OneToMany(mappedBy = "store")
   private List<Owner> owner;
-  @OneToMany
+  @OneToMany(mappedBy = "store")
   private List<Order> order;
-  @OneToMany
+  @OneToMany(mappedBy = "store")
   private List<Item> item;
-  @OneToMany
+  @OneToMany(mappedBy = "store")
   private List<Holiday> holiday;
-  @OneToMany
+  @OneToMany(mappedBy = "store")
   private List<BusinessHours> businessHour;
 
   //------------------------

@@ -18,7 +18,9 @@ public class PurchasedItem
   //PurchasedItem Attributes
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name="PI_id")
   private int purchasedItemID;
+  @Column(name="PI_quantity")
   private int itemQuantity;
 
   //PurchasedItem Associations
