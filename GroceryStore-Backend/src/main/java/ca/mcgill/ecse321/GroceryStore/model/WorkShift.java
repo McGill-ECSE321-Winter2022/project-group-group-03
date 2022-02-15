@@ -8,8 +8,7 @@ import java.sql.Time;
 
 @Entity
 public class WorkShift{
-   @ManyToOne
-   private Employee employee;
+
 
   
 
@@ -22,24 +21,14 @@ public class WorkShift{
    private int shiftID;
    private GroceryStoreSystem groceryStoreSystem;
 
-   public WorkShift(Time aStartTime, Time aEndTime, Employee aEmployee, GroceryStoreSystem aGroceryStoreSystem) {
+   public WorkShift(Time aStartTime, Time aEndTime, GroceryStoreSystem aGroceryStoreSystem) {
       startTime = aStartTime;
       endTime = aEndTime;
       shiftID = nextShiftID++;
-      setEmployee(aEmployee);
       groceryStoreSystem = aGroceryStoreSystem;
    }
 
    public WorkShift() {
-   }
-
-   @ManyToOne
-   public Employee getEmployee() {
-      return this.employee;
-   }
-   
-   public void setEmployee(Employee aEmployee) {
-      this.employee = aEmployee;
    }
    
    @ManyToOne(optional=false)

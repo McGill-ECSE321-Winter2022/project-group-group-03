@@ -27,7 +27,6 @@ public class Holiday{
    private int holidayID;
 
    //Holiday Associations
-   private Store store;
    private GroceryStoreSystem groceryStoreSystem;
 
    //------------------------
@@ -37,23 +36,13 @@ public class Holiday{
 
    public Holiday() {}
 
-   public Holiday(String aName, Date aStartDate, Date aEndDate, Store aStore, GroceryStoreSystem aGroceryStoreSystem)
+   public Holiday(String aName, Date aStartDate, Date aEndDate, GroceryStoreSystem aGroceryStoreSystem)
    {
       name = aName;
       startDate = aStartDate;
       endDate = aEndDate;
       holidayID = nextHolidayID++;
-      store = aStore;
       groceryStoreSystem = aGroceryStoreSystem;
-   }
-
-
-   @ManyToOne
-   public Store getStore() {
-      return this.store;
-   }
-   public void setStore(Store aStore) {
-      this.store = aStore;
    }
 
    

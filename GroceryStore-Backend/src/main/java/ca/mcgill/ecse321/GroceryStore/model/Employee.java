@@ -76,30 +76,17 @@ public class Employee extends NamedUser{
       return 0;
    }
    public WorkShift addWorkShift(Time aStartTime, Time aEndTime, GroceryStoreSystem aGroceryStoreSystem) {
-      return new WorkShift(aStartTime, aEndTime, this, aGroceryStoreSystem);
+      return new WorkShift(aStartTime, aEndTime, aGroceryStoreSystem);
    }
    public void addWorkShift(WorkShift aWorkShift) {
       if (workShift.contains(aWorkShift)) { return; }
-      Employee existingEmployee = aWorkShift.getEmployee();
-      boolean isNewEmployee = existingEmployee != null && !this.equals(existingEmployee);
-      if (isNewEmployee)
-      {
-         aWorkShift.setEmployee(this);
-      }
-      else
-      {
-         workShift.add(aWorkShift);
-      }
+      workShift.add(aWorkShift);
    }
    public boolean removeWorkShift(WorkShift aWorkShift)
    {
       boolean wasRemoved = false;
       //Unable to remove aWorkShift, as it must always have a employee
-      if (!this.equals(aWorkShift.getEmployee()))
-      {
-         workShift.remove(aWorkShift);
-         wasRemoved = true;
-      }
+      workShift.remove(aWorkShift);
       return wasRemoved;
    }
    /* Code from template association_AddIndexControlFunctions */

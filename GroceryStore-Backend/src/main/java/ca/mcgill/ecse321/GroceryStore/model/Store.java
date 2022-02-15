@@ -377,31 +377,18 @@ public class Store {
    /* Code from template association_AddManyToOne */
    public Holiday addHoliday(String aName, Date aStartDate, Date aEndDate, GroceryStoreSystem aGroceryStoreSystem)
    {
-      return new Holiday(aName, aStartDate, aEndDate, this, aGroceryStoreSystem);
+      return new Holiday(aName, aStartDate, aEndDate, aGroceryStoreSystem);
    }
 
    public void addHoliday(Holiday aHoliday)
    {
       if (holiday.contains(aHoliday)) { return; }
-      Store existingStore = aHoliday.getStore();
-      boolean isNewStore = existingStore != null && !this.equals(existingStore);
-      if (isNewStore)
-      {
-         aHoliday.setStore(this);
-      }
-      else
-      {
-         holiday.add(aHoliday);
-      }
-
+      holiday.add(aHoliday);
    }
 
    public void removeHoliday(Holiday aHoliday){
       //Unable to remove aHoliday, as it must always have a store
-      if (!this.equals(aHoliday.getStore()))
-      {
-         holiday.remove(aHoliday);
-      }
+      holiday.remove(aHoliday);
    }
    /* Code from template association_AddIndexControlFunctions */
 

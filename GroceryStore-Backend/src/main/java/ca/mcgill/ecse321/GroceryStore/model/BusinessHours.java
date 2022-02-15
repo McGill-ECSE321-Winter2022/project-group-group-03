@@ -7,7 +7,6 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class BusinessHours{
-   private Store store;
    public enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
    private Time startTime;
    private Time endTime;
@@ -24,22 +23,12 @@ public class BusinessHours{
 
    public BusinessHours() {}
 
-   public BusinessHours(Time aStartTime, Time aEndTime, Store aStore, GroceryStoreSystem aGroceryStoreSystem)
+   public BusinessHours(Time aStartTime, Time aEndTime, GroceryStoreSystem aGroceryStoreSystem)
    {
       startTime = aStartTime;
       endTime = aEndTime;
       hoursID = nextHoursID++;
-      setStore(aStore);
       groceryStoreSystem = aGroceryStoreSystem;
-   }
-
-   @ManyToOne
-   public Store getStore() {
-      return this.store;
-   }
-
-   public void setStore(Store aStore) {
-      this.store = aStore;
    }
 
 
