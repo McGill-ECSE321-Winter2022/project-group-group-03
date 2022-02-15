@@ -20,7 +20,7 @@ He can also decide the business hours of the store as well as occasions of holid
 #### Roles and Time Spent
 | Name| Role |Time Spent (hrs)|
 | :--- |:---: |:---: |
-|Abhijeet Praveen | Project Management, Software Development, Documentation|14| 
+|Abhijeet Praveen | Project Management, Software Development, Documentation|16| 
 |Ari Arabian | Software Development, Testing, Documentation| NA|
 |Edward Habelrih| Software Development, Testing, Documentation| NA|
 |Neel Faucher |Software Development, Documentation| NA|
