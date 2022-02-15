@@ -44,8 +44,11 @@ public class Employee {
   private WorkingStatus workingStatus;
 
   //Employee Associations
+  @OneToMany
   private List<WorkShift> workShift;
+  @OneToMany
   private List<Order> order;
+  @ManyToOne
   private Store store;
 
   //------------------------
@@ -193,7 +196,7 @@ public class Employee {
     WorkShift aWorkShift = workShift.get(index);
     return aWorkShift;
   }
-  @OneToMany
+  //@OneToMany
   public List<WorkShift> getWorkShift()
   {
     List<WorkShift> newWorkShift = Collections.unmodifiableList(workShift);
@@ -226,7 +229,7 @@ public class Employee {
     Order aOrder = order.get(index);
     return aOrder;
   }
-  @OneToMany
+  //@OneToMany
   public List<Order> getOrder()
   {
     List<Order> newOrder = Collections.unmodifiableList(order);
@@ -254,7 +257,7 @@ public class Employee {
     return index;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  //@ManyToOne
   public Store getStore()
   {
     return store;

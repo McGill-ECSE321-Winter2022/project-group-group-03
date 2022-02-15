@@ -35,11 +35,17 @@ public class Store
   private int currentActiveDelivery;
 
   //Store Associations
+  @OneToMany
   private List<Employee> employee;
+  @OneToMany
   private List<Owner> owner;
+  @OneToMany
   private List<Order> order;
+  @OneToMany
   private List<Item> item;
+  @OneToMany
   private List<Holiday> holiday;
+  @OneToMany
   private List<BusinessHours> businessHour;
 
   //------------------------
@@ -126,7 +132,7 @@ public class Store
     return aEmployee;
   }
 
-  @OneToMany
+  //@OneToMany
   public List<Employee> getEmployee()
   {
     List<Employee> newEmployee = Collections.unmodifiableList(employee);
@@ -161,7 +167,7 @@ public class Store
     return aOwner;
   }
 
-  @OneToMany
+  //@OneToMany
   public List<Owner> getOwner()
   {
     List<Owner> newOwner = Collections.unmodifiableList(owner);
@@ -196,7 +202,7 @@ public class Store
     return aOrder;
   }
 
-  @OneToMany
+  //@OneToMany
   public List<Order> getOrder()
   {
     List<Order> newOrder = Collections.unmodifiableList(order);
@@ -231,7 +237,7 @@ public class Store
     return aItem;
   }
 
-  @OneToMany
+  //@OneToMany
   public List<Item> getItem()
   {
     List<Item> newItem = Collections.unmodifiableList(item);
@@ -266,7 +272,7 @@ public class Store
     return aHoliday;
   }
 
-  @OneToMany
+  //@OneToMany
   public List<Holiday> getHoliday()
   {
     List<Holiday> newHoliday = Collections.unmodifiableList(holiday);
@@ -301,7 +307,7 @@ public class Store
     return aBusinessHour;
   }
 
-  @OneToMany
+  //@OneToMany
   public List<BusinessHours> getBusinessHour()
   {
     List<BusinessHours> newBusinessHour = Collections.unmodifiableList(businessHour);

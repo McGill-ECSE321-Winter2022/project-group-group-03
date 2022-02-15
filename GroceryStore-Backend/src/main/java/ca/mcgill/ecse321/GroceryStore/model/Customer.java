@@ -32,6 +32,7 @@ public class Customer
   private String email;
 
   //Customer Associations
+  @OneToMany
   private List<Order> order;
 
   //------------------------
@@ -145,7 +146,7 @@ public class Customer
     return aOrder;
   }
 
-  @OneToMany
+  //@OneToMany
   public List<Order> getOrder()
   {
     List<Order> newOrder = Collections.unmodifiableList(order);

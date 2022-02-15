@@ -22,6 +22,7 @@ public class PurchasedItem
   private int itemQuantity;
 
   //PurchasedItem Associations
+  @ManyToOne
   private Item item;
 
   //------------------------
@@ -69,7 +70,7 @@ public class PurchasedItem
     return itemQuantity;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  //@ManyToOne
   public Item getItem()
   {
     return item;

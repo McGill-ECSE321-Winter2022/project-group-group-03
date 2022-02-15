@@ -4,6 +4,7 @@
 package ca.mcgill.ecse321.GroceryStore.model;
 import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
 
+import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import java.util.*;
@@ -22,6 +23,8 @@ public class PickupOrder extends Order
   //------------------------
 
   public enum PaymentMethod { CreditCard, Cash }
+@Enumerated
+  private PaymentMethod paymentMethod;
 
   //------------------------
   // MEMBER VARIABLES
@@ -29,22 +32,34 @@ public class PickupOrder extends Order
 
   //PickupOrder State Machines
   public enum PickupStatus { InCart, Ordered, Prepared, PickedUp }
+  @Enumerated
   private PickupStatus pickupStatus;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public PickupOrder(int aConfirmationNumber, int aTotalCost, Store aStore, Employee aEmployee, Customer aCustomer)
+  public PickupOrder(int aConfirmationNumber, int aTotalCost, Store aStore,PaymentMethod aPaymentMethod, Employee aEmployee, Customer aCustomer)
   {
     super(aConfirmationNumber, aTotalCost, aStore, aEmployee, aCustomer);
+    paymentMethod = aPaymentMethod;
     setPickupStatus(PickupStatus.InCart);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-
+  public boolean setPaymentMethod(PaymentMethod aPaymentMethod)
+  {
+    boolean wasSet = false;
+    paymentMethod = aPaymentMethod;
+    wasSet = true;
+    return wasSet;
+  }
+  public PaymentMethod getPaymentMethod()
+  {
+    return paymentMethod;
+  }
   public String getPickupStatusFullName()
   {
     String answer = pickupStatus.toString();

@@ -23,9 +23,13 @@ public abstract class Order
   private int totalCost;
 
   //Order Associations
+  @OneToMany
   private List<PurchasedItem> purchasedItem;
+  @ManyToOne
   private Store store;
+  @ManyToOne
   private Employee employee;
+  @ManyToOne
   private Customer customer;
 
   //------------------------
@@ -85,7 +89,7 @@ public abstract class Order
     return aPurchasedItem;
   }
 
-  @OneToMany
+  //@OneToMany
   public List<PurchasedItem> getPurchasedItem()
   {
     List<PurchasedItem> newPurchasedItem = Collections.unmodifiableList(purchasedItem);
@@ -114,19 +118,19 @@ public abstract class Order
     return index;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  //@ManyToOne
   public Store getStore()
   {
     return store;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  //@ManyToOne
   public Employee getEmployee()
   {
     return employee;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  //@ManyToOne
   public Customer getCustomer()
   {
     return customer;
