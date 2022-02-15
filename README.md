@@ -24,7 +24,7 @@ He can also decide the business hours of the store as well as occasions of holid
 |Ari Arabian | Software Development, Testing| NA|
 |Edward Habelrih| Software Development, Testing| NA|
 |Neel Faucher |Software Development, Documentation| NA|
-|Sébastien Cantin| Software Development,Testing | 17|
+|Sébastien Cantin| Software Development, Testing | 17|
 |Rooshnie Velautham| Software Development, Documentation| 12|
 
 The deliverable 1 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-1-Report)
