@@ -3,6 +3,9 @@
 
 package ca.mcgill.ecse321.GroceryStore.model;
 import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
+
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import java.util.*;
 
 // line 1 "../../../../../../GroceryStoreStates.ump"
@@ -10,6 +13,7 @@ import java.util.*;
 // line 66 "../../../../../../GroceryStoreStates.ump"
 // line 99 "../../../../../../model.ump"
 // line 185 "../../../../../../model.ump"
+@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public class PickupOrder extends Order
 {
 

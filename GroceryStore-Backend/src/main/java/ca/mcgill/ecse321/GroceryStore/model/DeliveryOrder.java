@@ -3,12 +3,16 @@
 
 package ca.mcgill.ecse321.GroceryStore.model;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
+
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import java.util.*;
 
 // line 19 "../../../../../../GroceryStoreStates.ump"
 // line 56 "../../../../../../GroceryStoreStates.ump"
 // line 93 "../../../../../../model.ump"
 // line 180 "../../../../../../model.ump"
+@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public class DeliveryOrder extends Order
 {
 
