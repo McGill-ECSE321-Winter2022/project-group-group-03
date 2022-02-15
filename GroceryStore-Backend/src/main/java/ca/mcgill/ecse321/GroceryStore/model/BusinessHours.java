@@ -2,10 +2,7 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.GroceryStore.model;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Time;
 
 // line 58 "../../../../../../model.ump"
@@ -31,6 +28,8 @@ public class BusinessHours
   private int hoursID;
   private Time startTime;
   private Time endTime;
+  @Enumerated
+  private DayOfWeek day;
 
   //------------------------
   // CONSTRUCTOR
@@ -38,11 +37,12 @@ public class BusinessHours
 
   public BusinessHours() {}
 
-  public BusinessHours(int aHoursID, Time aStartTime, Time aEndTime)
+  public BusinessHours(int aHoursID, Time aStartTime, Time aEndTime, DayOfWeek aDay)
   {
     hoursID = aHoursID;
     startTime = aStartTime;
     endTime = aEndTime;
+    day = aDay;
   }
 
   //------------------------
@@ -73,6 +73,14 @@ public class BusinessHours
     return wasSet;
   }
 
+  public boolean setDay(DayOfWeek aDay)
+  {
+    boolean wasSet = false;
+    day = aDay;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getHoursID()
   {
     return hoursID;
@@ -86,6 +94,11 @@ public class BusinessHours
   public Time getEndTime()
   {
     return endTime;
+  }
+
+  public DayOfWeek getDay()
+  {
+    return day;
   }
 
   public void delete()

@@ -40,6 +40,7 @@ public class Employee {
 
   //Employee State Machines
   public enum WorkingStatus { Hired, Fired }
+  @Enumerated
   private WorkingStatus workingStatus;
 
   //Employee Associations
