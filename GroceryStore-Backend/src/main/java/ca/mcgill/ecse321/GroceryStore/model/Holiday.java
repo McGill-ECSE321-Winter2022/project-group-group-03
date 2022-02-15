@@ -1,94 +1,128 @@
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
+
 package ca.mcgill.ecse321.GroceryStore.model;
-
 import javax.persistence.Entity;
-import java.sql.Date;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import java.util.*;
+import java.sql.Date;
 
+// line 65 "../../../../../../model.ump"
+// line 231 "../../../../../../model.ump"
 @Entity
-public class Holiday{
-   //------------------------
-   // STATIC VARIABLES
-   //------------------------
+public class Holiday
+{
 
-   private static int nextHolidayID = 1;
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
 
-   //------------------------
-   // MEMBER VARIABLES
-   //------------------------
+  private static Map<String, Holiday> holidaysByName = new HashMap<String, Holiday>();
 
-   //Holiday Attributes
-   private String name;
-   private Date startDate;
-   private Date endDate;
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
 
-   //Autounique Attributes
-   @Id
-   private int holidayID;
+  //Holiday Attributes
+  @Id
+  private String name;
+  private Date startDate;
+  private Date endDate;
 
-   //Holiday Associations
-   private GroceryStoreSystem groceryStoreSystem;
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
 
-   //------------------------
-   // CONSTRUCTOR
-   //------------------------
+  public Holiday(String aName, Date aStartDate, Date aEndDate)
+  {
+    startDate = aStartDate;
+    endDate = aEndDate;
+    if (!setName(aName))
+    {
+      throw new RuntimeException("Cannot create due to duplicate name. See http://manual.umple.org?RE003ViolationofUniqueness.html");
+    }
+  }
+
+  public Holiday() {
+
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setName(String aName)
+  {
+    boolean wasSet = false;
+    String anOldName = getName();
+    if (anOldName != null && anOldName.equals(aName)) {
+      return true;
+    }
+    if (hasWithName(aName)) {
+      return wasSet;
+    }
+    name = aName;
+    wasSet = true;
+    if (anOldName != null) {
+      holidaysByName.remove(anOldName);
+    }
+    holidaysByName.put(aName, this);
+    return wasSet;
+  }
+
+  public boolean setStartDate(Date aStartDate)
+  {
+    boolean wasSet = false;
+    startDate = aStartDate;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setEndDate(Date aEndDate)
+  {
+    boolean wasSet = false;
+    endDate = aEndDate;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public String getName()
+  {
+    return name;
+  }
+  /* Code from template attribute_GetUnique */
+  public static Holiday getWithName(String aName)
+  {
+    return holidaysByName.get(aName);
+  }
+  /* Code from template attribute_HasUnique */
+  public static boolean hasWithName(String aName)
+  {
+    return getWithName(aName) != null;
+  }
+
+  public Date getStartDate()
+  {
+    return startDate;
+  }
+
+  public Date getEndDate()
+  {
+    return endDate;
+  }
+
+  public void delete()
+  {
+    holidaysByName.remove(getName());
+  }
 
 
-   public Holiday() {}
-
-   public Holiday(String aName, Date aStartDate, Date aEndDate, GroceryStoreSystem aGroceryStoreSystem)
-   {
-      name = aName;
-      startDate = aStartDate;
-      endDate = aEndDate;
-      holidayID = nextHolidayID++;
-      groceryStoreSystem = aGroceryStoreSystem;
-   }
-
-   
-   @ManyToOne(optional=false)
-   public GroceryStoreSystem getGroceryStoreSystem() {
-      return this.groceryStoreSystem;
-   }
-   
-   public void setGroceryStoreSystem(GroceryStoreSystem groceryStoreSystem) {
-      this.groceryStoreSystem = groceryStoreSystem;
-   }
-   public void setName(String aName)
-   {
-      name = aName;
-   }
-
-   public void setStartDate(Date aStartDate)
-   {
-      startDate = aStartDate;
-   }
-
-   public void setEndDate(Date aEndDate)
-   {
-      endDate = aEndDate;
-   }
-
-   public String getName()
-   {
-      return name;
-   }
-
-   public Date getStartDate()
-   {
-      return startDate;
-   }
-
-   public Date getEndDate()
-   {
-      return endDate;
-   }
-
-   public int getHolidayID()
-   {
-      return holidayID;
-   }
-
-   
-   
+  public String toString()
+  {
+    return super.toString() + "["+
+            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "startDate" + "=" + (getStartDate() != null ? !getStartDate().equals(this)  ? getStartDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "endDate" + "=" + (getEndDate() != null ? !getEndDate().equals(this)  ? getEndDate().toString().replaceAll("  ","    ") : "this" : "null");
+  }
 }

@@ -1,82 +1,146 @@
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
+
 package ca.mcgill.ecse321.GroceryStore.model;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
+import java.util.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+// line 19 "../../../../../../GroceryStoreStates.ump"
+// line 56 "../../../../../../GroceryStoreStates.ump"
+// line 93 "../../../../../../model.ump"
+// line 180 "../../../../../../model.ump"
+public class DeliveryOrder extends Order
+{
 
-@Entity
-public class DeliveryOrder extends Order{
-    @Id
-    public static final int SHIPPINGFEE = 30;
-    private boolean inTown;
-    public enum ShippingStatus { InCart, Ordered, Prepared, Delivered }
-    private ShippingStatus shippingStatus;
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
 
-    public DeliveryOrder(int aTotalCost, GroceryStoreSystem aGroceryStoreSystem, boolean aInTown) {
-        super(aTotalCost, aGroceryStoreSystem);
-        inTown = aInTown;
-        setShippingStatus(ShippingStatus.InCart);
-    }
-    public DeliveryOrder(){}
+  public static final int SHIPPINGFEE = 30;
 
-    public boolean getInTown()
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //DeliveryOrder Attributes
+  private boolean inTown;
+
+  //DeliveryOrder State Machines
+  public enum ShippingStatus { InCart, Ordered, Prepared, Delivered }
+  private ShippingStatus shippingStatus;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public DeliveryOrder(int aConfirmationNumber, int aTotalCost, Store aStore, Employee aEmployee, Customer aCustomer, boolean aInTown)
+  {
+    super(aConfirmationNumber, aTotalCost, aStore, aEmployee, aCustomer);
+    inTown = aInTown;
+    setShippingStatus(ShippingStatus.InCart);
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setInTown(boolean aInTown)
+  {
+    boolean wasSet = false;
+    inTown = aInTown;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean getInTown()
+  {
+    return inTown;
+  }
+  /* Code from template attribute_IsBoolean */
+  public boolean isInTown()
+  {
+    return inTown;
+  }
+
+  public String getShippingStatusFullName()
+  {
+    String answer = shippingStatus.toString();
+    return answer;
+  }
+
+  public ShippingStatus getShippingStatus()
+  {
+    return shippingStatus;
+  }
+
+  public boolean order()
+  {
+    boolean wasEventProcessed = false;
+    
+    ShippingStatus aShippingStatus = shippingStatus;
+    switch (aShippingStatus)
     {
-        return inTown;
-    }
-    public void setInTown(boolean aInTown) {
-        inTown = aInTown;
-    }
-    public ShippingStatus getShippingStatus()
-    {
-        return shippingStatus;
-    }
-    private void setShippingStatus(ShippingStatus aShippingStatus)
-    {
-        shippingStatus = aShippingStatus;
-    }
-
-    public boolean order()
-    {
-        boolean wasEventProcessed = false;
-
-        ShippingStatus aShippingStatus = shippingStatus;
+      case InCart:
+        setShippingStatus(ShippingStatus.Ordered);
+        wasEventProcessed = true;
+        break;
+      default:
         // Other states do respond to this event
-        if (aShippingStatus == ShippingStatus.InCart) {
-            setShippingStatus(ShippingStatus.Ordered);
-            wasEventProcessed = true;
-        }
-
-        return wasEventProcessed;
     }
 
-    public boolean pay() {
-        boolean wasEventProcessed = false;
+    return wasEventProcessed;
+  }
 
-        ShippingStatus aShippingStatus = shippingStatus;
-        // Other states do respond to this event
-        if (aShippingStatus == ShippingStatus.Ordered) {
-            setShippingStatus(ShippingStatus.Prepared);
-            wasEventProcessed = true;
-        }
-
-        return wasEventProcessed;
-    }
-
-    public boolean deliver() {
-        boolean wasEventProcessed = false;
-
-        ShippingStatus aShippingStatus = shippingStatus;
-        // Other states do respond to this event
-        if (aShippingStatus == ShippingStatus.Prepared) {
-            setShippingStatus(ShippingStatus.Delivered);
-            wasEventProcessed = true;
-        }
-
-        return wasEventProcessed;
-    }
-
-    public String toString()
+  public boolean pay()
+  {
+    boolean wasEventProcessed = false;
+    
+    ShippingStatus aShippingStatus = shippingStatus;
+    switch (aShippingStatus)
     {
-        return super.toString() + "["+
-                "inTown" + ":" + getInTown()+ "]";
+      case Ordered:
+        setShippingStatus(ShippingStatus.Prepared);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
     }
+
+    return wasEventProcessed;
+  }
+
+  public boolean deliver()
+  {
+    boolean wasEventProcessed = false;
+    
+    ShippingStatus aShippingStatus = shippingStatus;
+    switch (aShippingStatus)
+    {
+      case Prepared:
+        setShippingStatus(ShippingStatus.Delivered);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private void setShippingStatus(ShippingStatus aShippingStatus)
+  {
+    shippingStatus = aShippingStatus;
+  }
+
+  public void delete()
+  {
+    super.delete();
+  }
+
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "inTown" + ":" + getInTown()+ "]";
+  }
 }
