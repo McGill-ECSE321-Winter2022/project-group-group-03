@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.sql.Time;
 
 
@@ -13,18 +11,17 @@ public class WorkShift{
   
 
    public enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
-   
-   private static int nextShiftID = 1;
+
    private Time startTime;
    private Time endTime;
    @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private int shiftID;
    private GroceryStoreSystem groceryStoreSystem;
 
    public WorkShift(Time aStartTime, Time aEndTime, GroceryStoreSystem aGroceryStoreSystem) {
       startTime = aStartTime;
       endTime = aEndTime;
-      shiftID = nextShiftID++;
       groceryStoreSystem = aGroceryStoreSystem;
    }
 

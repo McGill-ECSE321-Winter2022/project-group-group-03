@@ -344,31 +344,19 @@ public class Store {
    /* Code from template association_AddManyToOne */
    public BusinessHours addBusinessHour(Time aStartTime, Time aEndTime, GroceryStoreSystem aGroceryStoreSystem)
    {
-      return new BusinessHours(aStartTime, aEndTime, this, aGroceryStoreSystem);
+      return new BusinessHours(aStartTime, aEndTime, aGroceryStoreSystem);
    }
 
    public void addBusinessHour(BusinessHours aBusinessHour)
    {
       if (businessHours.contains(aBusinessHour)) { return; }
-      Store existingStore = aBusinessHour.getStore();
-      boolean isNewStore = existingStore != null && !this.equals(existingStore);
-      if (isNewStore)
-      {
-         aBusinessHour.setStore(this);
-      }
-      else
-      {
-         businessHours.add(aBusinessHour);
-      }
+      businessHours.add(aBusinessHour);
    }
 
    public void removeBusinessHour(BusinessHours aBusinessHour)
    {
       //Unable to remove aBusinessHour, as it must always have a store
-      if (!this.equals(aBusinessHour.getStore()))
-      {
-         businessHours.remove(aBusinessHour);
-      }
+      businessHours.remove(aBusinessHour);
    }
    public static int minimumNumberOfHolidays()
    {
