@@ -36,6 +36,7 @@ public class Owner
 
   //Owner Associations
   @ManyToOne
+  @JoinColumn(name = "store_id", nullable = false)
   private Store store;
 
   //------------------------

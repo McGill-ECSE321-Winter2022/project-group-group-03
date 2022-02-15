@@ -28,10 +28,13 @@ public abstract class Order
   @OneToMany(mappedBy = "order")
   private List<PurchasedItem> purchasedItem;
   @ManyToOne
+  @JoinColumn(name = "store_id", nullable = false)
   private Store store;
   @ManyToOne
+  @JoinColumn(name = "employee_username", nullable = false)
   private Employee employee;
   @ManyToOne
+  @JoinColumn(name = "customer_username", nullable = false)
   private Customer customer;
 
   //------------------------

@@ -53,6 +53,7 @@ public class Employee {
   @OneToMany(mappedBy = "employee")
   private List<Order> order;
   @ManyToOne
+  @JoinColumn(name = "store_id", nullable = false)
   private Store store;
 
   //------------------------
