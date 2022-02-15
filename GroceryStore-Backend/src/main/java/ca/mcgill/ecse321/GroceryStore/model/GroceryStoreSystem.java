@@ -2,15 +2,19 @@ package ca.mcgill.ecse321.GroceryStore.model;
 
 import javax.persistence.Entity;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+
+
 @Entity
 public class GroceryStoreSystem{
-
+   
    private static int nextSystemID = 1;
-   @Id
+  
    private int systemID;
 
    private ArrayList<User> user;
@@ -33,7 +37,7 @@ public class GroceryStoreSystem{
       holiday = new ArrayList<>();
       businessHours = new ArrayList<>();
    }
-
+   @Id
    public int getSystemID()
    {
       return systemID;
@@ -41,7 +45,7 @@ public class GroceryStoreSystem{
 
 
    @OneToMany(mappedBy="groceryStoreSystem" , cascade={CascadeType.ALL})
-   public ArrayList<User> getUser() {
+   public List<User> getUser() {
       return this.user;
    }
 
@@ -79,7 +83,7 @@ public class GroceryStoreSystem{
    
 
    @OneToMany(mappedBy="groceryStoreSystem" , cascade={CascadeType.ALL})
-   public ArrayList<Store> getStore() {
+   public List<Store> getStore() {
       return this.store;
    }
 
@@ -116,7 +120,7 @@ public class GroceryStoreSystem{
 
    
    @OneToMany(mappedBy="groceryStoreSystem" , cascade={CascadeType.ALL})
-   public ArrayList<Holiday> getHoliday() {
+   public List<Holiday> getHoliday() {
       return this.holiday;
    }
 
@@ -155,7 +159,7 @@ public class GroceryStoreSystem{
 
    
    @OneToMany(mappedBy="groceryStoreSystem" , cascade={CascadeType.ALL})
-   public ArrayList<BusinessHours> getBusinessHours() {
+   public List<BusinessHours> getBusinessHours() {
       return this.businessHours;
    }
 
@@ -195,7 +199,7 @@ public class GroceryStoreSystem{
 
    
    @OneToMany(mappedBy="groceryStoreSystem" , cascade={CascadeType.ALL})
-   public ArrayList<Item> getItem() {
+   public List<Item> getItem() {
       return this.item;
    }
 
@@ -235,7 +239,7 @@ public class GroceryStoreSystem{
 
    
    @OneToMany(mappedBy="groceryStoreSystem" , cascade={CascadeType.ALL})
-   public ArrayList<PurchasedItem> getPurchasedItem() {
+   public List<PurchasedItem> getPurchasedItem() {
       return this.purchasedItem;
    }
 
@@ -248,8 +252,7 @@ public class GroceryStoreSystem{
 
    
    @OneToMany(mappedBy="groceryStoreSystem" , cascade={CascadeType.ALL})
-   public ArrayList
-           <Order> getOrder() {
+   public List <Order> getOrder(){
       return this.order;
    }
 
@@ -288,7 +291,7 @@ public class GroceryStoreSystem{
 
    
    @OneToMany(mappedBy="groceryStoreSystem" , cascade={CascadeType.ALL})
-   public ArrayList<WorkShift> getWorkShift() {
+   public List<WorkShift> getWorkShift() {
       return this.workShift;
    }
 

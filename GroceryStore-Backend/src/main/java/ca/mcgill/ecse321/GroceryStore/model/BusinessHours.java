@@ -12,7 +12,7 @@ public class BusinessHours{
    private Time startTime;
    private Time endTime;
    private static int nextHoursID = 1;
-   @Id
+   
    private int hoursID;
    private GroceryStoreSystem groceryStoreSystem;
 
@@ -77,7 +77,7 @@ public class BusinessHours{
    {
       return endTime;
    }
-
+   @Id
    public int getHoursID()
    {
       return hoursID;
