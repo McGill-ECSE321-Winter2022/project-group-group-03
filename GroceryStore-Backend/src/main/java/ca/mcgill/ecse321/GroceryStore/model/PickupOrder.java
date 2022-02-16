@@ -13,8 +13,12 @@ import java.util.*;
 // line 102 "../../../../../../model.ump"
 // line 188 "../../../../../../model.ump"
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Entity
 public class PickupOrder extends Order
 {
+  public PickupOrder() {
+
+  }
 
   //------------------------
   // ENUMERATIONS

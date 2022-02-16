@@ -30,7 +30,7 @@ public class Employee
   //------------------------
 
   //Employee Attributes
-  @Id
+
   private String username;
   private String password;
   private String email;
@@ -41,21 +41,30 @@ public class Employee
   //Employee State Machines
   public enum WorkingStatus { Hired, Fired }
   @Enumerated
-  @Column(name = "working_status", nullable = false)
+  //@Column(name = "working_status", nullable = false)
   private WorkingStatus workingStatus;
 
   //Employee Associations
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "employee_username", unique = true)
+  //@JoinColumn(name = "employee_username", unique = true)
   private List<WorkShift> workShift = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "employee_username", unique = true)
+  //@JoinColumn(name = "employee_username", unique = true)
   private List<Order> order = new ArrayList<>();
 
+  @Id
+  @Column(name = "employee_id", nullable = false)
+  private Integer employeeID;
 
+  public Integer getEmployeeID() {
+    return employeeID;
+  }
 
+  public void setEmployeeID(Integer employeeID) {
+    this.employeeID = employeeID;
+  }
 //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -208,7 +217,7 @@ public class Employee
     return wasEventProcessed;
   }
 
-  private void setWorkingStatus(WorkingStatus aWorkingStatus)
+  public void setWorkingStatus(WorkingStatus aWorkingStatus)
   {
     workingStatus = aWorkingStatus;
   }

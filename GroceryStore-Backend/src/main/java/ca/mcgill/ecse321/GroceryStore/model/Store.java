@@ -27,8 +27,9 @@ public class Store
   //------------------------
 
   //Store Attributes
+  @Column(nullable = false)
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  //@GeneratedValue(strategy = GenerationType.IDENTITY)
   private int storeID;
   private String address;
   private int currentActivePickup;
@@ -37,20 +38,22 @@ public class Store
   //Store Associations
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "store_store_id", unique = true)
+  //@JoinTable(name = "store_employee")
   private List<Employee> employee = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "store_store_id", unique = true)
+  //@JoinTable(name = "store_item")
   private List<Item> item = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "store_store_id", unique = true)
+  //@JoinTable(name = "store_holidayhour")
   private List<Holiday> holiday = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "store_store_id", unique = true)
+  //@JoinTable(name = "store_businesshour")
   private List<BusinessHour> businessHour = new ArrayList<>();
+
+
 
 //------------------------
   // CONSTRUCTOR

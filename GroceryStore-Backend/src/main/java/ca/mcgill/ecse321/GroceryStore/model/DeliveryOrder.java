@@ -12,6 +12,7 @@ import java.util.*;
 // line 96 "../../../../../../model.ump"
 // line 183 "../../../../../../model.ump"
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Entity
 public class DeliveryOrder extends Order
 {
 
@@ -27,6 +28,10 @@ public class DeliveryOrder extends Order
 
   //DeliveryOrder Attributes
   private String shippingAddress;
+
+  public DeliveryOrder() {
+
+  }
 
   //DeliveryOrder State Machines
   public enum ShippingStatus { InCart, Ordered, Prepared, Delivered }
