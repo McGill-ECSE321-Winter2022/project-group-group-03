@@ -11,7 +11,7 @@ import java.util.*;
 // line 56 "../../../../../../GroceryStoreStates.ump"
 // line 96 "../../../../../../model.ump"
 // line 183 "../../../../../../model.ump"
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
 public class DeliveryOrder extends Order
 {
