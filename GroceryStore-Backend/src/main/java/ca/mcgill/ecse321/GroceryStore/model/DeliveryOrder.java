@@ -11,7 +11,7 @@ import java.util.*;
 // line 56 "../../../../../../GroceryStoreStates.ump"
 // line 96 "../../../../../../model.ump"
 // line 183 "../../../../../../model.ump"
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 public class DeliveryOrder extends Order
 {
@@ -30,25 +30,25 @@ public class DeliveryOrder extends Order
   private String shippingAddress;
 
   public DeliveryOrder() {
-
+    super();
   }
 
   //DeliveryOrder State Machines
   public enum ShippingStatus { InCart, Ordered, Prepared, Delivered }
   @Enumerated
-  @Column(name = "shippingStatus", nullable = false)
+  @Column(nullable = false)
   private ShippingStatus shippingStatus;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public DeliveryOrder(int aConfirmationNumber, int aTotalCost, Store aStore, String aShippingAddress)
-  {
-    super(aConfirmationNumber, aTotalCost, aStore);
-    shippingAddress = aShippingAddress;
-    setShippingStatus(ShippingStatus.InCart);
-  }
+//  public DeliveryOrder(int aConfirmationNumber, int aTotalCost, Store aStore, String aShippingAddress)
+//  {
+//    super(aConfirmationNumber, aTotalCost, aStore);
+//    shippingAddress = aShippingAddress;
+//    setShippingStatus(ShippingStatus.InCart);
+//  }
 
   //------------------------
   // INTERFACE
@@ -137,10 +137,10 @@ public class DeliveryOrder extends Order
     shippingStatus = aShippingStatus;
   }
 
-  public void delete()
-  {
-    super.delete();
-  }
+//  public void delete()
+//  {
+//    super.delete();
+//  }
 
 
   public String toString()
