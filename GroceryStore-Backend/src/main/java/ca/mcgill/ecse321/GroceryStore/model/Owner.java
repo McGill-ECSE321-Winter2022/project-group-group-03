@@ -5,11 +5,11 @@ package ca.mcgill.ecse321.GroceryStore.model;
 import javax.persistence.*;
 import java.util.*;
 
-// line 26 "../../../../../../model.ump"
-// line 113 "../../../../../../model.ump"
-// line 146 "../../../../../../model.ump"
-// line 161 "../../../../../../model.ump"
-// line 191 "../../../../../../model.ump"
+// line 24 "../../../../../../model.ump"
+// line 115 "../../../../../../model.ump"
+// line 148 "../../../../../../model.ump"
+// line 163 "../../../../../../model.ump"
+// line 193 "../../../../../../model.ump"
 @Entity
 public class Owner
 {
@@ -27,23 +27,20 @@ public class Owner
 
   //Owner Attributes
   @Id
-  @Column(name="Owner_username")
   private String username;
-  @Column(name="Owner_Password")
   private String password;
-  @Column(name="Owner_email")
   private String email;
 
   //Owner Associations
-  @ManyToOne
-  @JoinColumn(name = "store_id")
+
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "store_store_id")
   private Store store;
+
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
-  public Owner() {}
 
   public Owner(String aUsername, String aPassword, String aEmail, Store aStore)
   {
@@ -56,7 +53,14 @@ public class Owner
     {
       throw new RuntimeException("Cannot create due to duplicate email. See http://manual.umple.org?RE003ViolationofUniqueness.html");
     }
-    setStore(aStore);
+    if (!setStore(aStore))
+    {
+      throw new RuntimeException("Unable to create Owner due to aStore. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+  }
+
+  public Owner() {
+
   }
 
   //------------------------
@@ -144,28 +148,27 @@ public class Owner
     return getWithEmail(aEmail) != null;
   }
   /* Code from template association_GetOne */
-  //@ManyToOne
   public Store getStore()
   {
-    return this.store;
+    return store;
   }
-
-  public void setStore(Store aStore)
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setStore(Store aNewStore)
   {
-    this.store = aStore;
+    boolean wasSet = false;
+    if (aNewStore != null)
+    {
+      store = aNewStore;
+      wasSet = true;
     }
-
+    return wasSet;
+  }
 
   public void delete()
   {
     ownersByUsername.remove(getUsername());
     ownersByEmail.remove(getEmail());
-    Store placeholderStore = store;
-    this.store = null;
-    if(placeholderStore != null)
-    {
-      placeholderStore.removeOwner(this);
-    }
+    store = null;
   }
 
 

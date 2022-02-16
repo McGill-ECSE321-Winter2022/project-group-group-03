@@ -5,9 +5,9 @@ package ca.mcgill.ecse321.GroceryStore.model;
 import javax.persistence.*;
 import java.util.*;
 
-// line 85 "../../../../../../model.ump"
-// line 132 "../../../../../../model.ump"
-// line 214 "../../../../../../model.ump"
+// line 87 "../../../../../../model.ump"
+// line 135 "../../../../../../model.ump"
+// line 218 "../../../../../../model.ump"
 @Entity
 public abstract class Order
 {
@@ -17,41 +17,35 @@ public abstract class Order
   //------------------------
 
   //Order Attributes
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "Order_confirmationNumber")
   private int confirmationNumber;
-  @Column(name = "Order_totalCost")
   private int totalCost;
 
   //Order Associations
-  @OneToMany //(mappedBy = "order")
-  private List<PurchasedItem> purchasedItem;
-  @ManyToOne
-  @JoinColumn(name = "store_id")
-  private Store store;
-  @ManyToOne
-  @JoinColumn(name = "employee_username")
-  private Employee employee;
-  @ManyToOne
-  @JoinColumn(name = "customer_username")
-  private Customer customer;
 
-  //------------------------
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "store_store_id", unique = true)
+  private Store store;
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "order_confirmation_number")
+  private List<PurchasedItem> purchasedItem = new ArrayList<>();
+
+//------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Order(int aConfirmationNumber, int aTotalCost, Store aStore, Employee aEmployee, Customer aCustomer)
+  public Order(int aConfirmationNumber, int aTotalCost, Store aStore)
   {
     confirmationNumber = aConfirmationNumber;
     totalCost = aTotalCost;
+    if (!setStore(aStore))
+    {
+      throw new RuntimeException("Unable to create Order due to aStore. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
     purchasedItem = new ArrayList<PurchasedItem>();
-    setStore(aStore);
-
-    setEmployee(aEmployee);
-
-    setCustomer(aCustomer);
-
   }
 
   public Order() {
@@ -87,6 +81,11 @@ public abstract class Order
   {
     return totalCost;
   }
+  /* Code from template association_GetOne */
+  public Store getStore()
+  {
+    return store;
+  }
   /* Code from template association_GetMany */
   public PurchasedItem getPurchasedItem(int index)
   {
@@ -94,16 +93,10 @@ public abstract class Order
     return aPurchasedItem;
   }
 
-
-  //@OneToMany
   public List<PurchasedItem> getPurchasedItem()
   {
     List<PurchasedItem> newPurchasedItem = Collections.unmodifiableList(purchasedItem);
     return newPurchasedItem;
-  }
-
-  public void setPurchasedItem(List<PurchasedItem> aPurchasedItem){
-    this.purchasedItem = aPurchasedItem;
   }
 
   public int numberOfPurchasedItem()
@@ -123,23 +116,16 @@ public abstract class Order
     int index = purchasedItem.indexOf(aPurchasedItem);
     return index;
   }
-  /* Code from template association_GetOne */
-  //@ManyToOne
-  public Store getStore()
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setStore(Store aNewStore)
   {
-    return store;
-  }
-  /* Code from template association_GetOne */
-  //@ManyToOne
-  public Employee getEmployee()
-  {
-    return employee;
-  }
-  /* Code from template association_GetOne */
-  //@ManyToOne
-  public Customer getCustomer()
-  {
-    return customer;
+    boolean wasSet = false;
+    if (aNewStore != null)
+    {
+      store = aNewStore;
+      wasSet = true;
+    }
+    return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfPurchasedItem()
@@ -198,77 +184,11 @@ public abstract class Order
     }
     return wasAdded;
   }
-  /* Code from template association_SetOneToMany */
-  public void setStore(Store aStore)
-  {
-    if (aStore == null)
-    {
-      return ;
-    }
-
-    Store existingStore = store;
-    store = aStore;
-    if (existingStore != null && !existingStore.equals(aStore))
-    {
-      existingStore.removeOrder(this);
-    }
-    store.addOrder(this);
-  }
-  /* Code from template association_SetOneToMany */
-  public void setEmployee(Employee aEmployee)
-  {
-    if (aEmployee == null)
-    {
-      return;
-    }
-
-    Employee existingEmployee = employee;
-    employee = aEmployee;
-    if (existingEmployee != null && !existingEmployee.equals(aEmployee))
-    {
-      existingEmployee.removeOrder(this);
-    }
-    employee.addOrder(this);
-
-  }
-  /* Code from template association_SetOneToMany */
-  public void setCustomer(Customer aCustomer)
-  {
-    if (aCustomer == null)
-    {
-      return ;
-    }
-
-    Customer existingCustomer = customer;
-    customer = aCustomer;
-    if (existingCustomer != null && !existingCustomer.equals(aCustomer))
-    {
-      existingCustomer.removeOrder(this);
-    }
-    customer.addOrder(this);
-  }
 
   public void delete()
   {
+    store = null;
     purchasedItem.clear();
-    Store placeholderStore = store;
-    this.store = null;
-    if(placeholderStore != null)
-    {
-      placeholderStore.removeOrder(this);
-    }
-    Employee placeholderEmployee = employee;
-    this.employee = null;
-    if(placeholderEmployee != null)
-    {
-      placeholderEmployee.removeOrder(this);
-    }
-    Customer placeholderCustomer = customer;
-    this.customer = null;
-    if(placeholderCustomer != null)
-    {
-      placeholderCustomer.removeOrder(this);
-    }
   }
 
 
@@ -277,8 +197,6 @@ public abstract class Order
     return super.toString() + "["+
             "confirmationNumber" + ":" + getConfirmationNumber()+ "," +
             "totalCost" + ":" + getTotalCost()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "store = "+(getStore()!=null?Integer.toHexString(System.identityHashCode(getStore())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "employee = "+(getEmployee()!=null?Integer.toHexString(System.identityHashCode(getEmployee())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null");
+            "  " + "store = "+(getStore()!=null?Integer.toHexString(System.identityHashCode(getStore())):"null");
   }
 }

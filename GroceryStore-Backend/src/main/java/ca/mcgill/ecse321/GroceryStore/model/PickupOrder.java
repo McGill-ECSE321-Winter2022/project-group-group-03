@@ -4,18 +4,15 @@
 package ca.mcgill.ecse321.GroceryStore.model;
 import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
 
-import javax.persistence.Column;
-import javax.persistence.Enumerated;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 import java.util.*;
 
 // line 1 "../../../../../../GroceryStoreStates.ump"
 // line 51 "../../../../../../GroceryStoreStates.ump"
 // line 66 "../../../../../../GroceryStoreStates.ump"
-// line 99 "../../../../../../model.ump"
-// line 185 "../../../../../../model.ump"
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+// line 102 "../../../../../../model.ump"
+// line 188 "../../../../../../model.ump"
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class PickupOrder extends Order
 {
 
@@ -24,27 +21,29 @@ public class PickupOrder extends Order
   //------------------------
 
   public enum PaymentMethod { CreditCard, Cash }
-@Enumerated
-@Column(name = "PickupOrder_paymentMethod")
-  private PaymentMethod paymentMethod;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
+  //PickupOrder Attributes
+  @Enumerated
+  @Column(name = "paymentMethod", nullable = false)
+  private PaymentMethod paymentMethod;
+
   //PickupOrder State Machines
   public enum PickupStatus { InCart, Ordered, Prepared, PickedUp }
   @Enumerated
-  @Column(name = "PickupOrder_pickupStatus")
+  @Column(name = "pickupStatus", nullable = false)
   private PickupStatus pickupStatus;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public PickupOrder(int aConfirmationNumber, int aTotalCost, Store aStore,PaymentMethod aPaymentMethod, Employee aEmployee, Customer aCustomer)
+  public PickupOrder(int aConfirmationNumber, int aTotalCost, Store aStore, PaymentMethod aPaymentMethod)
   {
-    super(aConfirmationNumber, aTotalCost, aStore, aEmployee, aCustomer);
+    super(aConfirmationNumber, aTotalCost, aStore);
     paymentMethod = aPaymentMethod;
     setPickupStatus(PickupStatus.InCart);
   }
@@ -52,6 +51,7 @@ public class PickupOrder extends Order
   //------------------------
   // INTERFACE
   //------------------------
+
   public boolean setPaymentMethod(PaymentMethod aPaymentMethod)
   {
     boolean wasSet = false;
@@ -59,10 +59,12 @@ public class PickupOrder extends Order
     wasSet = true;
     return wasSet;
   }
+
   public PaymentMethod getPaymentMethod()
   {
     return paymentMethod;
   }
+
   public String getPickupStatusFullName()
   {
     String answer = pickupStatus.toString();
@@ -138,4 +140,10 @@ public class PickupOrder extends Order
     super.delete();
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "paymentMethod" + "=" + (getPaymentMethod() != null ? !getPaymentMethod().equals(this)  ? getPaymentMethod().toString().replaceAll("  ","    ") : "this" : "null");
+  }
 }

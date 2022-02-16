@@ -4,17 +4,14 @@
 package ca.mcgill.ecse321.GroceryStore.model;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 
-import javax.persistence.Column;
-import javax.persistence.Enumerated;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 import java.util.*;
 
 // line 19 "../../../../../../GroceryStoreStates.ump"
 // line 56 "../../../../../../GroceryStoreStates.ump"
-// line 93 "../../../../../../model.ump"
-// line 180 "../../../../../../model.ump"
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+// line 96 "../../../../../../model.ump"
+// line 183 "../../../../../../model.ump"
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class DeliveryOrder extends Order
 {
 
@@ -29,23 +26,22 @@ public class DeliveryOrder extends Order
   //------------------------
 
   //DeliveryOrder Attributes
-  @Column(name="DeliveryOrder_inTown")
-  private boolean inTown;
+  private String shippingAddress;
 
   //DeliveryOrder State Machines
   public enum ShippingStatus { InCart, Ordered, Prepared, Delivered }
   @Enumerated
-  @Column(name="DeliveryOrder_shippingStatus")
+  @Column(name = "shippingStatus", nullable = false)
   private ShippingStatus shippingStatus;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public DeliveryOrder(int aConfirmationNumber, int aTotalCost, Store aStore, Employee aEmployee, Customer aCustomer, boolean aInTown)
+  public DeliveryOrder(int aConfirmationNumber, int aTotalCost, Store aStore, String aShippingAddress)
   {
-    super(aConfirmationNumber, aTotalCost, aStore, aEmployee, aCustomer);
-    inTown = aInTown;
+    super(aConfirmationNumber, aTotalCost, aStore);
+    shippingAddress = aShippingAddress;
     setShippingStatus(ShippingStatus.InCart);
   }
 
@@ -53,22 +49,17 @@ public class DeliveryOrder extends Order
   // INTERFACE
   //------------------------
 
-  public boolean setInTown(boolean aInTown)
+  public boolean setShippingAddress(String aShippingAddress)
   {
     boolean wasSet = false;
-    inTown = aInTown;
+    shippingAddress = aShippingAddress;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean getInTown()
+  public String getShippingAddress()
   {
-    return inTown;
-  }
-  /* Code from template attribute_IsBoolean */
-  public boolean isInTown()
-  {
-    return inTown;
+    return shippingAddress;
   }
 
   public String getShippingStatusFullName()
@@ -150,6 +141,6 @@ public class DeliveryOrder extends Order
   public String toString()
   {
     return super.toString() + "["+
-            "inTown" + ":" + getInTown()+ "]";
+            "shippingAddress" + ":" + getShippingAddress()+ "]";
   }
 }

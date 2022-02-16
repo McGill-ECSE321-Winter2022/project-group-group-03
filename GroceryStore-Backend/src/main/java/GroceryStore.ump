@@ -3,23 +3,15 @@ namespace ca.mcgill.ecse321.GroceryStore.model;
 
 //add a basket option, potentially a state for each order
 
-class GroceryStoreSystem{
-  autounique systemID;
-  1 <@>- * User user;
-  1 <@>- * Order orders;
-  1 <@>- * Store store;
-  1 <@>- * Item items;
-  1 <@>- * WorkShift shift;
-  1 <@>- * Holiday holiday;
-  1 <@>- * BusinessHours businessHours;
-}
 
 class Store{
-  autounique storeID;
+  Integer storeID;
   address;
-  1 -- * Employee staff;
-  1 -- 0..1 Owner owner;
-  1 -- * Item items;
+  0..1 -> * Employee employee;
+  0..1 -> * Item item;
+  0..1 -> * Holiday holiday;
+
+  0..1 -> * BusinessHour businessHour;
   const int MAXPICKUPS = 10;
   const int MAXSHIPPING = 10;
   int currentActivePickup=0;
@@ -27,62 +19,57 @@ class Store{
 }
 
 
-class User{
-  abstract;
+
+class Owner{
+  0..1 -> 1 Store store;
   unique username;
   password;
   unique email;
 }
 
-class Owner{
-  isA User;
-}
-
-class NamedUser{
-  abstract;
-  isA User;
-  name;
-    address;
-}
 
 class Employee{
-  isA NamedUser;
+  unique username;
+  password;
+  unique email;
+  address;
+  0..1 -> * WorkShift workShift;
+  0..1 -> * Order order;
 }
+
 class Customer{
-  isA NamedUser;
+  unique username;
+  password;
+  unique email;
+  address;
+  0..1 -> * Order order;
 
 }
-
 
 class WorkShift{
   enum DayOfWeek { Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday }
   Time startTime;
   Time endTime;
-  autounique shiftID;
-
-    //shift must be during opening hours
-  * -- 1 Employee employee;
+  Integer shiftID;
+  DayOfWeek day;
 }
 
-class BusinessHours{
-  autounique hoursID;
+class BusinessHour{
+  Integer hoursID;
   Time startTime;
   Time endTime;
+  DayOfWeek day;
   enum DayOfWeek { Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday }
-  * -- 1 Store store;
 }
 
 class Holiday{
-  name;
-  autounique holidayID;
+  unique name;
   Date startDate;
   Date endDate;
-  * -- 1 Store store;
 }
 
 class Item{
-  autounique itemID;
-  name;
+  unique name;
   Boolean purchasable; //stuff that can be bought online, if false only available in person
   int price;
   description;
@@ -91,17 +78,16 @@ class Item{
 }
 
 class PurchasedItem{
-   * -- 1 Item item;
-   * -- 1 Order order;
-  autounique purchasedItemID;
+  * -> 1 Item item;
+  Integer purchasedItemID;
   int itemQuantity;
 }
 
 class Order{
   abstract;
-  autounique confimationNumber;
-  * -- 1 NamedUser customer;
-  * -- 1 Store store;
+  * -> 1 Store store;
+  Integer confirmationNumber;
+  0..1 -> * PurchasedItem purchasedItem;
   int totalCost;
 
 }
@@ -109,13 +95,13 @@ class Order{
 class DeliveryOrder{
   isA Order;
   const int SHIPPINGFEE = 30;
-  Boolean inTown;
+  shippingAddress;
 }
 
 class PickupOrder{
   isA Order;
-  enum paymentMethod { CreditCard, Cash }
-  ;
+  enum PaymentMethod { CreditCard, Cash };
+  PaymentMethod paymentMethod;
 
 }
 

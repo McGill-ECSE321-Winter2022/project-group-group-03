@@ -6,10 +6,10 @@ import javax.persistence.*;
 import java.util.*;
 
 // line 41 "../../../../../../model.ump"
-// line 122 "../../../../../../model.ump"
-// line 155 "../../../../../../model.ump"
-// line 170 "../../../../../../model.ump"
-// line 203 "../../../../../../model.ump"
+// line 125 "../../../../../../model.ump"
+// line 158 "../../../../../../model.ump"
+// line 173 "../../../../../../model.ump"
+// line 207 "../../../../../../model.ump"
 @Entity
 public class Customer
 {
@@ -27,35 +27,38 @@ public class Customer
 
   //Customer Attributes
   @Id
-  @Column(name="Customer_Username")
   private String username;
-  @Column(name="Customer_Password")
   private String password;
-  @Column(name="Customer_Email")
   private String email;
+  private String address;
 
   //Customer Associations
-  @OneToMany(mappedBy = "customer")
-  private List<Order> order;
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "customer_username")
+  private List<Order> order = new ArrayList<>();
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Customer() {}
-
-  public Customer(String aUsername, String aPassword, String aEmail)
+  public Customer(String aUsername, String aPassword, String aEmail, String aAddress)
   {
     password = aPassword;
+    address = aAddress;
     if (!setUsername(aUsername))
     {
       throw new RuntimeException("Cannot create due to duplicate username. See http://manual.umple.org?RE003ViolationofUniqueness.html");
     }
     if (!setEmail(aEmail))
     {
-      throw new RuntimeException("Cannot create duie to duplicate email. See http://manual.umple.org?RE003ViolationofUniqueness.html");
+      throw new RuntimeException("Cannot create due to duplicate email. See http://manual.umple.org?RE003ViolationofUniqueness.html");
     }
     order = new ArrayList<Order>();
+  }
+
+  public Customer() {
+
   }
 
   //------------------------
@@ -108,6 +111,14 @@ public class Customer
     return wasSet;
   }
 
+  public boolean setAddress(String aAddress)
+  {
+    boolean wasSet = false;
+    address = aAddress;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getUsername()
   {
     return username;
@@ -142,6 +153,11 @@ public class Customer
   {
     return getWithEmail(aEmail) != null;
   }
+
+  public String getAddress()
+  {
+    return address;
+  }
   /* Code from template association_GetMany */
   public Order getOrder(int index)
   {
@@ -149,16 +165,10 @@ public class Customer
     return aOrder;
   }
 
-
-  //@OneToMany
   public List<Order> getOrder()
   {
     List<Order> newOrder = Collections.unmodifiableList(order);
     return newOrder;
-  }
-
-  public void setOrder(List<Order> order) {
-    this.order = order;
   }
 
   public int numberOfOrder()
@@ -183,23 +193,12 @@ public class Customer
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-
-
+  /* Code from template association_AddUnidirectionalMany */
   public boolean addOrder(Order aOrder)
   {
     boolean wasAdded = false;
     if (order.contains(aOrder)) { return false; }
-    Customer existingCustomer = aOrder.getCustomer();
-    boolean isNewCustomer = existingCustomer != null && !this.equals(existingCustomer);
-    if (isNewCustomer)
-    {
-      aOrder.setCustomer(this);
-    }
-    else
-    {
-      order.add(aOrder);
-    }
+    order.add(aOrder);
     wasAdded = true;
     return wasAdded;
   }
@@ -207,8 +206,7 @@ public class Customer
   public boolean removeOrder(Order aOrder)
   {
     boolean wasRemoved = false;
-    //Unable to remove aOrder, as it must always have a customer
-    if (!this.equals(aOrder.getCustomer()))
+    if (order.contains(aOrder))
     {
       order.remove(aOrder);
       wasRemoved = true;
@@ -252,11 +250,7 @@ public class Customer
   {
     customersByUsername.remove(getUsername());
     customersByEmail.remove(getEmail());
-    for(int i=order.size(); i > 0; i--)
-    {
-      Order aOrder = order.get(i - 1);
-      aOrder.delete();
-    }
+    order.clear();
   }
 
 
@@ -265,6 +259,7 @@ public class Customer
     return super.toString() + "["+
             "username" + ":" + getUsername()+ "," +
             "password" + ":" + getPassword()+ "," +
-            "email" + ":" + getEmail()+ "]";
+            "email" + ":" + getEmail()+ "," +
+            "address" + ":" + getAddress()+ "]";
   }
 }

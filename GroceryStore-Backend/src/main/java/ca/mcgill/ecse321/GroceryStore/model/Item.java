@@ -2,13 +2,14 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.GroceryStore.model;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.*;
 
-// line 71 "../../../../../../model.ump"
-// line 128 "../../../../../../model.ump"
-// line 176 "../../../../../../model.ump"
-// line 209 "../../../../../../model.ump"
+// line 72 "../../../../../../model.ump"
+// line 130 "../../../../../../model.ump"
+// line 178 "../../../../../../model.ump"
+// line 213 "../../../../../../model.ump"
 @Entity
 public class Item
 {
@@ -17,7 +18,7 @@ public class Item
   // STATIC VARIABLES
   //------------------------
 
-  private static Map<String, Item> itemsByName = new HashMap<>();
+  private static Map<String, Item> itemsByName = new HashMap<String, Item>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -25,17 +26,11 @@ public class Item
 
   //Item Attributes
   @Id
-  @Column(name="Item_id")
   private String name;
-  @Column(name="Item_purchasable")
   private boolean purchasable;
-  @Column(name="Item_price")
   private int price;
-  @Column(name="Item_description")
   private String description;
-  @Column(name="Item_stock")
   private int stock;
-  @Column(name="Item_totalPurchased")
   private int totalPurchased;
 
   //------------------------
@@ -44,53 +39,82 @@ public class Item
 
   public Item(String aName, boolean aPurchasable, int aPrice, String aDescription, int aStock, int aTotalPurchased)
   {
-    name=aName;
     purchasable = aPurchasable;
     price = aPrice;
     description = aDescription;
     stock = aStock;
     totalPurchased = aTotalPurchased;
+    if (!setName(aName))
+    {
+      throw new RuntimeException("Cannot create due to duplicate name. See http://manual.umple.org?RE003ViolationofUniqueness.html");
+    }
   }
-  public Item(){}
+
+  public Item() {
+
+  }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public void setName(String aName)
+  public boolean setName(String aName)
   {
+    boolean wasSet = false;
     String anOldName = getName();
     if (anOldName != null && anOldName.equals(aName)) {
-      return;
+      return true;
     }
     if (hasWithName(aName)) {
-      return;
+      return wasSet;
     }
     name = aName;
+    wasSet = true;
     if (anOldName != null) {
       itemsByName.remove(anOldName);
     }
     itemsByName.put(aName, this);
+    return wasSet;
   }
 
-  public void setPurchasable(boolean aPurchasable){
+  public boolean setPurchasable(boolean aPurchasable)
+  {
+    boolean wasSet = false;
     purchasable = aPurchasable;
+    wasSet = true;
+    return wasSet;
   }
 
-  public void setPrice(int aPrice) {
+  public boolean setPrice(int aPrice)
+  {
+    boolean wasSet = false;
     price = aPrice;
+    wasSet = true;
+    return wasSet;
   }
 
-  public void setDescription(String aDescription) {
+  public boolean setDescription(String aDescription)
+  {
+    boolean wasSet = false;
     description = aDescription;
+    wasSet = true;
+    return wasSet;
   }
 
-  public void setStock(int aStock) {
+  public boolean setStock(int aStock)
+  {
+    boolean wasSet = false;
     stock = aStock;
+    wasSet = true;
+    return wasSet;
   }
 
-  public void setTotalPurchased(int aTotalPurchased) {
+  public boolean setTotalPurchased(int aTotalPurchased)
+  {
+    boolean wasSet = false;
     totalPurchased = aTotalPurchased;
+    wasSet = true;
+    return wasSet;
   }
 
   public String getName()

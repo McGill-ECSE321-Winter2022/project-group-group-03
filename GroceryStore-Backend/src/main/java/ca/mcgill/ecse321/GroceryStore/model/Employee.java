@@ -9,13 +9,14 @@ import java.util.*;
 
 // line 38 "../../../../../../GroceryStoreStates.ump"
 // line 61 "../../../../../../GroceryStoreStates.ump"
-// line 33 "../../../../../../model.ump"
-// line 117 "../../../../../../model.ump"
-// line 150 "../../../../../../model.ump"
-// line 165 "../../../../../../model.ump"
-// line 195 "../../../../../../model.ump"
+// line 32 "../../../../../../model.ump"
+// line 120 "../../../../../../model.ump"
+// line 153 "../../../../../../model.ump"
+// line 168 "../../../../../../model.ump"
+// line 199 "../../../../../../model.ump"
 @Entity
-public class Employee {
+public class Employee
+{
 
   //------------------------
   // STATIC VARIABLES
@@ -30,39 +31,43 @@ public class Employee {
 
   //Employee Attributes
   @Id
-  @Column(name="EM_username")
   private String username;
-  @Column(name="EM_password")
   private String password;
-  @Column(name="EM_email")
   private String email;
+  private String address;
+
+
+
+  //Employee State Machines
+  public enum WorkingStatus { Hired, Fired }
+  @Enumerated
+  @Column(name = "working_status", nullable = false)
+  private WorkingStatus workingStatus;
+
+  //Employee Associations
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "employee_username", unique = true)
+  private List<WorkShift> workShift = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "employee_username", unique = true)
+  private List<Order> order = new ArrayList<>();
+
+
+
+//------------------------
+  // CONSTRUCTOR
+  //------------------------
 
   public Employee() {
 
   }
 
-  //Employee State Machines
-  public enum WorkingStatus { Hired, Fired }
-  @Enumerated
-  @Column(name = "EM_workingStatus")
-  private WorkingStatus workingStatus;
-
-  //Employee Associations
-  @OneToMany //(mappedBy = "employee")
-  private List<WorkShift> workShift;
-  @OneToMany //(mappedBy = "employee")
-  private List<Order> order;
-  @ManyToOne
-  @JoinColumn(name = "store_id")
-  private Store store;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
-
-  public Employee(String aUsername, String aPassword, String aEmail, Store aStore)
+  public Employee(String aUsername, String aPassword, String aEmail, String aAddress)
   {
     password = aPassword;
+    address = aAddress;
     if (!setUsername(aUsername))
     {
       throw new RuntimeException("Cannot create due to duplicate username. See http://manual.umple.org?RE003ViolationofUniqueness.html");
@@ -73,7 +78,6 @@ public class Employee {
     }
     workShift = new ArrayList<WorkShift>();
     order = new ArrayList<Order>();
-    setStore(aStore);
     setWorkingStatus(WorkingStatus.Hired);
   }
 
@@ -127,6 +131,14 @@ public class Employee {
     return wasSet;
   }
 
+  public boolean setAddress(String aAddress)
+  {
+    boolean wasSet = false;
+    address = aAddress;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getUsername()
   {
     return username;
@@ -160,6 +172,11 @@ public class Employee {
   public static boolean hasWithEmail(String aEmail)
   {
     return getWithEmail(aEmail) != null;
+  }
+
+  public String getAddress()
+  {
+    return address;
   }
 
   public String getWorkingStatusFullName()
@@ -201,14 +218,11 @@ public class Employee {
     WorkShift aWorkShift = workShift.get(index);
     return aWorkShift;
   }
-  //@OneToMany
+
   public List<WorkShift> getWorkShift()
   {
     List<WorkShift> newWorkShift = Collections.unmodifiableList(workShift);
     return newWorkShift;
-  }
-  public void setWorkShift(List<WorkShift> aWorkShift){
-    this.workShift = aWorkShift;
   }
 
   public int numberOfWorkShift()
@@ -234,14 +248,11 @@ public class Employee {
     Order aOrder = order.get(index);
     return aOrder;
   }
-  //@OneToMany
+
   public List<Order> getOrder()
   {
     List<Order> newOrder = Collections.unmodifiableList(order);
     return newOrder;
-  }
-  public void setOrder(List<Order> aOrder){
-    this.order = aOrder;
   }
 
   public int numberOfOrder()
@@ -260,12 +271,6 @@ public class Employee {
   {
     int index = order.indexOf(aOrder);
     return index;
-  }
-  /* Code from template association_GetOne */
-  //@ManyToOne
-  public Store getStore()
-  {
-    return store;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfWorkShift()
@@ -329,23 +334,12 @@ public class Employee {
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-
-
+  /* Code from template association_AddUnidirectionalMany */
   public boolean addOrder(Order aOrder)
   {
     boolean wasAdded = false;
     if (order.contains(aOrder)) { return false; }
-    Employee existingEmployee = aOrder.getEmployee();
-    boolean isNewEmployee = existingEmployee != null && !this.equals(existingEmployee);
-    if (isNewEmployee)
-    {
-      aOrder.setEmployee(this);
-    }
-    else
-    {
-      order.add(aOrder);
-    }
+    order.add(aOrder);
     wasAdded = true;
     return wasAdded;
   }
@@ -353,8 +347,7 @@ public class Employee {
   public boolean removeOrder(Order aOrder)
   {
     boolean wasRemoved = false;
-    //Unable to remove aOrder, as it must always have a employee
-    if (!this.equals(aOrder.getEmployee()))
+    if (order.contains(aOrder))
     {
       order.remove(aOrder);
       wasRemoved = true;
@@ -393,42 +386,13 @@ public class Employee {
     }
     return wasAdded;
   }
-  /* Code from template association_SetOneToMany */
-  public void setStore(Store aStore)
-  {
-
-    if (aStore == null)
-    {
-      return;
-    }
-
-    Store existingStore = store;
-    store = aStore;
-    if (existingStore != null && !existingStore.equals(aStore))
-    {
-      existingStore.removeEmployee(this);
-    }
-    store.addEmployee(this);
-
-
-  }
 
   public void delete()
   {
     employeesByUsername.remove(getUsername());
     employeesByEmail.remove(getEmail());
     workShift.clear();
-    for(int i=order.size(); i > 0; i--)
-    {
-      Order aOrder = order.get(i - 1);
-      aOrder.delete();
-    }
-    Store placeholderStore = store;
-    this.store = null;
-    if(placeholderStore != null)
-    {
-      placeholderStore.removeEmployee(this);
-    }
+    order.clear();
   }
 
 
@@ -437,7 +401,7 @@ public class Employee {
     return super.toString() + "["+
             "username" + ":" + getUsername()+ "," +
             "password" + ":" + getPassword()+ "," +
-            "email" + ":" + getEmail()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "store = "+(getStore()!=null?Integer.toHexString(System.identityHashCode(getStore())):"null");
+            "email" + ":" + getEmail()+ "," +
+            "address" + ":" + getAddress()+ "]";
   }
 }

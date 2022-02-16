@@ -9,8 +9,8 @@ import java.util.*;
  * add a basket option, potentially a state for each order
  */
 // line 8 "../../../../../../model.ump"
-// line 244 "../../../../../../model.ump"
-// line 259 "../../../../../../model.ump"
+// line 248 "../../../../../../model.ump"
+// line 263 "../../../../../../model.ump"
   @Entity
 public class Store
 {
@@ -29,30 +29,30 @@ public class Store
   //Store Attributes
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "STORE_id")
   private int storeID;
-  @Column(name = "STORE_address")
   private String address;
-  @Column(name = "STORE_currentActivePickup")
   private int currentActivePickup;
-  @Column(name = "STORE_currentActiveDelivery")
   private int currentActiveDelivery;
 
   //Store Associations
-  @OneToMany(mappedBy = "store")
-  private List<Employee> employee;
-  @OneToMany(mappedBy = "store")
-  private List<Owner> owner;
-  @OneToMany(mappedBy = "store")
-  private List<Order> order;
-  @OneToMany //(mappedBy = "store")
-  private List<Item> item;
-  @OneToMany //(mappedBy = "store")
-  private List<Holiday> holiday;
-  @OneToMany //(mappedBy = "store")
-  private List<BusinessHours> businessHour;
 
-  //------------------------
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "store_store_id", unique = true)
+  private List<Employee> employee = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "store_store_id", unique = true)
+  private List<Item> item = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "store_store_id", unique = true)
+  private List<Holiday> holiday = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "store_store_id", unique = true)
+  private List<BusinessHour> businessHour = new ArrayList<>();
+
+//------------------------
   // CONSTRUCTOR
   //------------------------
 
@@ -63,11 +63,9 @@ public class Store
     currentActivePickup = 0;
     currentActiveDelivery = 0;
     employee = new ArrayList<Employee>();
-    owner = new ArrayList<Owner>();
-    order = new ArrayList<Order>();
     item = new ArrayList<Item>();
     holiday = new ArrayList<Holiday>();
-    businessHour = new ArrayList<BusinessHours>();
+    businessHour = new ArrayList<BusinessHour>();
   }
 
   public Store() {
@@ -136,15 +134,10 @@ public class Store
     return aEmployee;
   }
 
-  //@OneToMany
   public List<Employee> getEmployee()
   {
     List<Employee> newEmployee = Collections.unmodifiableList(employee);
     return newEmployee;
-  }
-
-  public void setEmployee(List<Employee> aEmployee){
-    this.employee = aEmployee;
   }
 
   public int numberOfEmployee()
@@ -165,91 +158,16 @@ public class Store
     return index;
   }
   /* Code from template association_GetMany */
-  public Owner getOwner(int index)
-  {
-    Owner aOwner = owner.get(index);
-    return aOwner;
-  }
-
-  //@OneToMany
-  public List<Owner> getOwner()
-  {
-    List<Owner> newOwner = Collections.unmodifiableList(owner);
-    return newOwner;
-  }
-
-  public void setOwner(List<Owner> aOwner){
-    this.owner = aOwner;
-  }
-
-  public int numberOfOwner()
-  {
-    int number = owner.size();
-    return number;
-  }
-
-  public boolean hasOwner()
-  {
-    boolean has = owner.size() > 0;
-    return has;
-  }
-
-  public int indexOfOwner(Owner aOwner)
-  {
-    int index = owner.indexOf(aOwner);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public Order getOrder(int index)
-  {
-    Order aOrder = order.get(index);
-    return aOrder;
-  }
-
-  //@OneToMany
-  public List<Order> getOrder()
-  {
-    List<Order> newOrder = Collections.unmodifiableList(order);
-    return newOrder;
-  }
-
-  public void setOrder(List<Order> aOrder){
-    this.order = aOrder;
-  }
-
-  public int numberOfOrder()
-  {
-    int number = order.size();
-    return number;
-  }
-
-  public boolean hasOrder()
-  {
-    boolean has = order.size() > 0;
-    return has;
-  }
-
-  public int indexOfOrder(Order aOrder)
-  {
-    int index = order.indexOf(aOrder);
-    return index;
-  }
-  /* Code from template association_GetMany */
   public Item getItem(int index)
   {
     Item aItem = item.get(index);
     return aItem;
   }
 
-  //@OneToMany
   public List<Item> getItem()
   {
     List<Item> newItem = Collections.unmodifiableList(item);
     return newItem;
-  }
-
-  public void setItem(List<Item> aItem){
-    this.item = aItem;
   }
 
   public int numberOfItem()
@@ -276,15 +194,10 @@ public class Store
     return aHoliday;
   }
 
-  //@OneToMany
   public List<Holiday> getHoliday()
   {
     List<Holiday> newHoliday = Collections.unmodifiableList(holiday);
     return newHoliday;
-  }
-
-  public void setHoliday(List<Holiday> aHoliday){
-    this.holiday = aHoliday;
   }
 
   public int numberOfHoliday()
@@ -305,21 +218,16 @@ public class Store
     return index;
   }
   /* Code from template association_GetMany */
-  public BusinessHours getBusinessHour(int index)
+  public BusinessHour getBusinessHour(int index)
   {
-    BusinessHours aBusinessHour = businessHour.get(index);
+    BusinessHour aBusinessHour = businessHour.get(index);
     return aBusinessHour;
   }
 
-  //@OneToMany
-  public List<BusinessHours> getBusinessHour()
+  public List<BusinessHour> getBusinessHour()
   {
-    List<BusinessHours> newBusinessHour = Collections.unmodifiableList(businessHour);
+    List<BusinessHour> newBusinessHour = Collections.unmodifiableList(businessHour);
     return newBusinessHour;
-  }
-
-  public void setBusinessHour(List<BusinessHours> aBusinessHours){
-    this.businessHour = aBusinessHours;
   }
 
   public int numberOfBusinessHour()
@@ -334,7 +242,7 @@ public class Store
     return has;
   }
 
-  public int indexOfBusinessHour(BusinessHours aBusinessHour)
+  public int indexOfBusinessHour(BusinessHour aBusinessHour)
   {
     int index = businessHour.indexOf(aBusinessHour);
     return index;
@@ -344,26 +252,12 @@ public class Store
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-  public Employee addEmployee(String aUsername, String aPassword, String aEmail)
-  {
-    return new Employee(aUsername, aPassword, aEmail, this);
-  }
-
+  /* Code from template association_AddUnidirectionalMany */
   public boolean addEmployee(Employee aEmployee)
   {
     boolean wasAdded = false;
     if (employee.contains(aEmployee)) { return false; }
-    Store existingStore = aEmployee.getStore();
-    boolean isNewStore = existingStore != null && !this.equals(existingStore);
-    if (isNewStore)
-    {
-      aEmployee.setStore(this);
-    }
-    else
-    {
-      employee.add(aEmployee);
-    }
+    employee.add(aEmployee);
     wasAdded = true;
     return wasAdded;
   }
@@ -371,8 +265,7 @@ public class Store
   public boolean removeEmployee(Employee aEmployee)
   {
     boolean wasRemoved = false;
-    //Unable to remove aEmployee, as it must always have a store
-    if (!this.equals(aEmployee.getStore()))
+    if (employee.contains(aEmployee))
     {
       employee.remove(aEmployee);
       wasRemoved = true;
@@ -408,147 +301,6 @@ public class Store
     else 
     {
       wasAdded = addEmployeeAt(aEmployee, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfOwner()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public Owner addOwner(String aUsername, String aPassword, String aEmail)
-  {
-    return new Owner(aUsername, aPassword, aEmail, this);
-  }
-
-  public boolean addOwner(Owner aOwner)
-  {
-    boolean wasAdded = false;
-    if (owner.contains(aOwner)) { return false; }
-    Store existingStore = aOwner.getStore();
-    boolean isNewStore = existingStore != null && !this.equals(existingStore);
-    if (isNewStore)
-    {
-      aOwner.setStore(this);
-    }
-    else
-    {
-      owner.add(aOwner);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeOwner(Owner aOwner)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aOwner, as it must always have a store
-    if (!this.equals(aOwner.getStore()))
-    {
-      owner.remove(aOwner);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addOwnerAt(Owner aOwner, int index)
-  {  
-    boolean wasAdded = false;
-    if(addOwner(aOwner))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOwner()) { index = numberOfOwner() - 1; }
-      owner.remove(aOwner);
-      owner.add(index, aOwner);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveOwnerAt(Owner aOwner, int index)
-  {
-    boolean wasAdded = false;
-    if(owner.contains(aOwner))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOwner()) { index = numberOfOwner() - 1; }
-      owner.remove(aOwner);
-      owner.add(index, aOwner);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addOwnerAt(aOwner, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfOrder()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-
-
-  public boolean addOrder(Order aOrder)
-  {
-    boolean wasAdded = false;
-    if (order.contains(aOrder)) { return false; }
-    Store existingStore = aOrder.getStore();
-    boolean isNewStore = existingStore != null && !this.equals(existingStore);
-    if (isNewStore)
-    {
-      aOrder.setStore(this);
-    }
-    else
-    {
-      order.add(aOrder);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeOrder(Order aOrder)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aOrder, as it must always have a store
-    if (!this.equals(aOrder.getStore()))
-    {
-      order.remove(aOrder);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addOrderAt(Order aOrder, int index)
-  {  
-    boolean wasAdded = false;
-    if(addOrder(aOrder))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOrder()) { index = numberOfOrder() - 1; }
-      order.remove(aOrder);
-      order.add(index, aOrder);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveOrderAt(Order aOrder, int index)
-  {
-    boolean wasAdded = false;
-    if(order.contains(aOrder))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOrder()) { index = numberOfOrder() - 1; }
-      order.remove(aOrder);
-      order.add(index, aOrder);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addOrderAt(aOrder, index);
     }
     return wasAdded;
   }
@@ -672,7 +424,7 @@ public class Store
     return 0;
   }
   /* Code from template association_AddUnidirectionalMany */
-  public boolean addBusinessHour(BusinessHours aBusinessHour)
+  public boolean addBusinessHour(BusinessHour aBusinessHour)
   {
     boolean wasAdded = false;
     if (businessHour.contains(aBusinessHour)) { return false; }
@@ -681,7 +433,7 @@ public class Store
     return wasAdded;
   }
 
-  public boolean removeBusinessHour(BusinessHours aBusinessHour)
+  public boolean removeBusinessHour(BusinessHour aBusinessHour)
   {
     boolean wasRemoved = false;
     if (businessHour.contains(aBusinessHour))
@@ -692,7 +444,7 @@ public class Store
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addBusinessHourAt(BusinessHours aBusinessHour, int index)
+  public boolean addBusinessHourAt(BusinessHour aBusinessHour, int index)
   {  
     boolean wasAdded = false;
     if(addBusinessHour(aBusinessHour))
@@ -706,7 +458,7 @@ public class Store
     return wasAdded;
   }
 
-  public boolean addOrMoveBusinessHourAt(BusinessHours aBusinessHour, int index)
+  public boolean addOrMoveBusinessHourAt(BusinessHour aBusinessHour, int index)
   {
     boolean wasAdded = false;
     if(businessHour.contains(aBusinessHour))
@@ -726,21 +478,7 @@ public class Store
 
   public void delete()
   {
-    for(int i=employee.size(); i > 0; i--)
-    {
-      Employee aEmployee = employee.get(i - 1);
-      aEmployee.delete();
-    }
-    for(int i=owner.size(); i > 0; i--)
-    {
-      Owner aOwner = owner.get(i - 1);
-      aOwner.delete();
-    }
-    for(int i=order.size(); i > 0; i--)
-    {
-      Order aOrder = order.get(i - 1);
-      aOrder.delete();
-    }
+    employee.clear();
     item.clear();
     holiday.clear();
     businessHour.clear();

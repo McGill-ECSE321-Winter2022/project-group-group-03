@@ -6,10 +6,11 @@ import javax.persistence.*;
 import java.sql.Time;
 
 // line 50 "../../../../../../model.ump"
-// line 219 "../../../../../../model.ump"
+// line 223 "../../../../../../model.ump"
 @Entity
 public class WorkShift
 {
+
 
   //------------------------
   // ENUMERATIONS
@@ -22,23 +23,21 @@ public class WorkShift
   //------------------------
 
   //WorkShift Attributes
-  @Column(name="WS_startT")
   private Time startTime;
-  @Column(name="WS_endT")
   private Time endTime;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name="WS_id")
   private int shiftID;
+
   @Enumerated
-  @Column(name="WS_day")
+  @Column(name = "day", nullable = false)
   private DayOfWeek day;
+
+
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
-  public WorkShift() {}
 
   public WorkShift(Time aStartTime, Time aEndTime, int aShiftID, DayOfWeek aDay)
   {
@@ -46,6 +45,9 @@ public class WorkShift
     endTime = aEndTime;
     shiftID = aShiftID;
     day = aDay;
+  }
+  public WorkShift() {
+
   }
 
   //------------------------
@@ -76,12 +78,12 @@ public class WorkShift
     return wasSet;
   }
 
-  public boolean setDay(DayOfWeek aDay)
-  {
-    boolean wasSet = false;
-    day = aDay;
-    wasSet = true;
-    return wasSet;
+  public DayOfWeek getDay() {
+    return day;
+  }
+
+  public void setDay(DayOfWeek day) {
+    this.day = day;
   }
 
   public Time getStartTime()
@@ -99,11 +101,6 @@ public class WorkShift
     return shiftID;
   }
 
-  public DayOfWeek getDay()
-  {
-    return day;
-  }
-
   public void delete()
   {}
 
@@ -113,6 +110,7 @@ public class WorkShift
     return super.toString() + "["+
             "shiftID" + ":" + getShiftID()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null");
+            "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "day" + "=" + (getDay() != null ? !getDay().equals(this)  ? getDay().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }

@@ -5,8 +5,8 @@ package ca.mcgill.ecse321.GroceryStore.model;
 
 import javax.persistence.*;
 
-// line 80 "../../../../../../model.ump"
-// line 237 "../../../../../../model.ump"
+// line 81 "../../../../../../model.ump"
+// line 241 "../../../../../../model.ump"
 @Entity
 public class PurchasedItem
 {
@@ -18,15 +18,15 @@ public class PurchasedItem
   //PurchasedItem Attributes
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name="PI_id")
   private int purchasedItemID;
-  @Column(name="PI_quantity")
   private int itemQuantity;
 
   //PurchasedItem Associations
-  @ManyToOne
+
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "item_name")
   private Item item;
+
 
   //------------------------
   // CONSTRUCTOR
@@ -36,7 +36,10 @@ public class PurchasedItem
   {
     purchasedItemID = aPurchasedItemID;
     itemQuantity = aItemQuantity;
-    setItem(aItem);
+    if (!setItem(aItem))
+    {
+      throw new RuntimeException("Unable to create PurchasedItem due to aItem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
   public PurchasedItem() {
@@ -73,18 +76,20 @@ public class PurchasedItem
     return itemQuantity;
   }
   /* Code from template association_GetOne */
-  //@ManyToOne
   public Item getItem()
   {
     return item;
   }
   /* Code from template association_SetUnidirectionalOne */
-  public void setItem(Item aNewItem)
+  public boolean setItem(Item aNewItem)
   {
+    boolean wasSet = false;
     if (aNewItem != null)
     {
       item = aNewItem;
+      wasSet = true;
     }
+    return wasSet;
   }
 
   public void delete()
