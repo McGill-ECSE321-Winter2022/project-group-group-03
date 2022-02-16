@@ -17,7 +17,7 @@ He can also decide the business hours of the store as well as occasions of holid
 
 ## Deliverable 1 
 
-#### Roles and Time Spent
+#### Tasks and Time Spent
 | Name| Tasks |Time Spent (hrs)|
 | :--- |:---: |:---: |
 |Abhijeet Praveen | Project Management, Software Development, Documentation|21| 
