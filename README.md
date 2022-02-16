@@ -18,7 +18,7 @@ He can also decide the business hours of the store as well as occasions of holid
 ## Deliverable 1 
 
 #### Roles and Time Spent
-| Name| Role |Time Spent (hrs)|
+| Name| Tasks |Time Spent (hrs)|
 | :--- |:---: |:---: |
 |Abhijeet Praveen | Project Management, Software Development, Documentation|21| 
 |Ari Arabian | Software Development, Testing| 16|
