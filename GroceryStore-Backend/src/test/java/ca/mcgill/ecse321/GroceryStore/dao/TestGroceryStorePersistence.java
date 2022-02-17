@@ -29,11 +29,11 @@ public class TestGroceryStorePersistence {
 
     @AfterEach
 	public void clearDatabase() {
-        employeeRepository.deleteAll();
-		// Fisrt, we clear registrations to avoid exceptions due to inconsistencies
-		storeRepository.deleteAll();
 
-		
+        // Fisrt, we clear registrations to avoid exceptions due to inconsistencies
+        storeRepository.deleteAll();
+        employeeRepository.deleteAll();
+
     }
 
     @Test
@@ -72,7 +72,7 @@ public class TestGroceryStorePersistence {
         // First example for attribute save/load
         employee.setUsername(username);
         //employee.setEmployeeID(id);
-        employee.setAddress("adress");
+        employee.setAddress("address");
         employee.setEmail("email");
         employee.setPassword("12345");
 
@@ -80,7 +80,7 @@ public class TestGroceryStorePersistence {
 
         employee = null;
 
-        employee = employeeRepository.findByUsername(username);
+        employee = employeeRepository.findEmployeeByUsername(username);
         //Iterable<Employee> employees = employeeRepository.findAll();
 //       for(Employee y: employees){
 //            System.out.println(y.getUsername() + " "+ y.getAddress()+ " " +y.getEmail()+ " "+ y.getPassword() + " " + y.getWorkingStatusFullName());

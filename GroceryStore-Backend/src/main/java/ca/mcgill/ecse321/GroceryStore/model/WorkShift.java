@@ -39,13 +39,13 @@ public class WorkShift
   // CONSTRUCTOR
   //------------------------
 
-  public WorkShift(Time aStartTime, Time aEndTime, int aShiftID, DayOfWeek aDay)
-  {
-    startTime = aStartTime;
-    endTime = aEndTime;
-    shiftID = aShiftID;
-    day = aDay;
-  }
+//  public WorkShift(Time aStartTime, Time aEndTime, int aShiftID, DayOfWeek aDay)
+//  {
+//    startTime = aStartTime;
+//    endTime = aEndTime;
+//    shiftID = aShiftID;
+//    day = aDay;
+//  }
   public WorkShift() {
 
   }
