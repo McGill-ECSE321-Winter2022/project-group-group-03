@@ -22,7 +22,7 @@ He can also decide the business hours of the store as well as occasions of holid
 | :--- |:---: |:---: |
 |Abhijeet Praveen | Project Management, Software Development, Documentation, Testing|30| 
 |Ari Arabian | Software Development, Testing| 26|
-|Edward Habelrih| Software Development, Testing| 19|
+|Edward Habelrih| Software Development, Testing| 22|
 |Neel Faucher |Software Development, Documentation| 17|
 |Rooshnie Velautham| Software Development, Documentation| 20|
 |Sébastien Cantin| Software Development, Testing, Documentation | 31|
