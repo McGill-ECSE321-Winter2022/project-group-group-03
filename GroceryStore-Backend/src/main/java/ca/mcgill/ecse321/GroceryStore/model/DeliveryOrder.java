@@ -132,7 +132,7 @@ public class DeliveryOrder extends Order
     return wasEventProcessed;
   }
 
-  private void setShippingStatus(ShippingStatus aShippingStatus)
+  public void setShippingStatus(ShippingStatus aShippingStatus)
   {
     shippingStatus = aShippingStatus;
   }

@@ -33,15 +33,15 @@ public class Holiday
   // CONSTRUCTOR
   //------------------------
 
-  public Holiday(String aName, Date aStartDate, Date aEndDate)
-  {
-    startDate = aStartDate;
-    endDate = aEndDate;
-    if (!setName(aName))
-    {
-      throw new RuntimeException("Cannot create due to duplicate name. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-  }
+//  public Holiday(String aName, Date aStartDate, Date aEndDate)
+//  {
+//    startDate = aStartDate;
+//    endDate = aEndDate;
+//    if (!setName(aName))
+//    {
+//      throw new RuntimeException("Cannot create due to duplicate name. See http://manual.umple.org?RE003ViolationofUniqueness.html");
+//    }
+//  }
 
   public Holiday() {
 

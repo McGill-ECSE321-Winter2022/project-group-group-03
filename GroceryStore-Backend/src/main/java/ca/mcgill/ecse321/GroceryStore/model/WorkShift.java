@@ -4,6 +4,7 @@
 package ca.mcgill.ecse321.GroceryStore.model;
 import javax.persistence.*;
 import java.sql.Time;
+import java.time.DayOfWeek;
 
 // line 50 "../../../../../../model.ump"
 // line 223 "../../../../../../model.ump"

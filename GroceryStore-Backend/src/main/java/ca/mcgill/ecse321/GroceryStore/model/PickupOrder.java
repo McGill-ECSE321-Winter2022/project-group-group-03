@@ -134,7 +134,7 @@ public class PickupOrder extends Order
     return wasEventProcessed;
   }
 
-  private void setPickupStatus(PickupStatus aPickupStatus)
+  public void setPickupStatus(PickupStatus aPickupStatus)
   {
     pickupStatus = aPickupStatus;
   }
