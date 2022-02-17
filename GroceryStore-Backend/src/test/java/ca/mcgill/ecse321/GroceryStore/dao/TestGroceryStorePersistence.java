@@ -169,7 +169,7 @@ public class TestGroceryStorePersistence {
         int hoursID = 123;
         Time startTime = java.sql.Time.valueOf(LocalTime.of(8, 35));
         Time endTime = java.sql.Time.valueOf(LocalTime.of(18, 55));
-        DayOfWeek day = DayOfWeek.MONDAY;
+        BusinessHour.DayOfWeek day = BusinessHour.DayOfWeek.Monday;
 
         BusinessHour businessHour = new BusinessHour();
         businessHour.setHoursID(hoursID);
@@ -283,13 +283,13 @@ public class TestGroceryStorePersistence {
         int shiftID = 379;
         Time startTime = java.sql.Time.valueOf(LocalTime.of(8, 35));
         Time endTime = java.sql.Time.valueOf(LocalTime.of(10, 55));
-        DayOfWeek day = DayOfWeek.MONDAY;
+        WorkShift.DayOfWeek day = WorkShift.DayOfWeek.Monday;
 
         WorkShift workShift = new WorkShift();
         workShift.setShiftID(shiftID);
         workShift.setStartTime(startTime);
         workShift.setEndTime(endTime);
-        //workShift.setDay(day);
+        workShift.setDay(day);
 
         workShiftRepository.save(workShift);
         workShift = null;

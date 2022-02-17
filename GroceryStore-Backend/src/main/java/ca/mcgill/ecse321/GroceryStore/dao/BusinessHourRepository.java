@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.GroceryStore.model.BusinessHour;
 
-public interface BusinessHourRepository extends CrudRepository<BusinessHourRepository, Integer>{
+public interface BusinessHourRepository extends CrudRepository<BusinessHour, Integer>{
 
     BusinessHour findBusinessHourByID(Integer hoursID);
 
