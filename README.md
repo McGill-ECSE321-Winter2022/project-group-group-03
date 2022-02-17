@@ -20,11 +20,11 @@ He can also decide the business hours of the store as well as occasions of holid
 #### Tasks and Time Spent
 | Name| Tasks |Time Spent (hrs)|
 | :--- |:---: |:---: |
-|Abhijeet Praveen | Project Management, Software Development, Documentation, Testing|26| 
-|Ari Arabian | Software Development, Testing| 22|
-|Edward Habelrih| Software Development, Testing| 18|
-|Neel Faucher |Software Development, Documentation| 15|
-|Rooshnie Velautham| Software Development, Documentation| 18|
-|Sébastien Cantin| Software Development, Testing, Documentation | 28|
+|Abhijeet Praveen | Project Management, Software Development, Documentation, Testing|30| 
+|Ari Arabian | Software Development, Testing| 26|
+|Edward Habelrih| Software Development, Testing| 19|
+|Neel Faucher |Software Development, Documentation| 17|
+|Rooshnie Velautham| Software Development, Documentation| 20|
+|Sébastien Cantin| Software Development, Testing, Documentation | 31|
 
 The deliverable 1 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-1-Report)
