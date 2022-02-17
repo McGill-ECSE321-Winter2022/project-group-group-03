@@ -6,6 +6,6 @@ import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 
 public interface WorkShiftRepository extends CrudRepository<WorkShift, Integer>{
 
-    WorkShift findWorkShiftByShiftID(Integer shiftID);
+    WorkShift findByShiftID(Integer shiftID);
 
 }

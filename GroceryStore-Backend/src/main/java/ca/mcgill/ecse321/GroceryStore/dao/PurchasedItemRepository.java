@@ -6,6 +6,6 @@ import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 
 public interface PurchasedItemRepository extends CrudRepository<PurchasedItem, Integer>{
 
-    PurchasedItem findPurchasedItemByPurchasedItemID(Integer purchasedItemID);
+    PurchasedItem findByPurchasedItemID(Integer purchasedItemID);
 
 }

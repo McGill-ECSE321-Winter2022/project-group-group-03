@@ -6,6 +6,6 @@ import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 
 public interface DeliveryOrderRepository extends CrudRepository<DeliveryOrder, Integer>{
 
-    DeliveryOrder findDeliveryOrderByConfirmationNumber(Integer confirmationNumber);
+    DeliveryOrder findByConfirmationNumber(Integer confirmationNumber);
 
 }

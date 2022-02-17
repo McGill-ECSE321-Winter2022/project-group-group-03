@@ -6,6 +6,6 @@ import ca.mcgill.ecse321.GroceryStore.model.BusinessHour;
 
 public interface BusinessHourRepository extends CrudRepository<BusinessHour, Integer>{
 
-    BusinessHour findBusinessHourByID(Integer hoursID);
+    BusinessHour findByHoursID(Integer hoursID);
 
 }

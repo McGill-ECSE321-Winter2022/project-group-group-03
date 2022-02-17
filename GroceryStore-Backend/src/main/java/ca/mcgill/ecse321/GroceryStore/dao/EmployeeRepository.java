@@ -6,6 +6,6 @@ import ca.mcgill.ecse321.GroceryStore.model.Employee;
 
 public interface EmployeeRepository extends CrudRepository<Employee, String>{
 
-   Employee findEmployeeByUsername(String username);
+   Employee findByUsername(String username);
 
 }

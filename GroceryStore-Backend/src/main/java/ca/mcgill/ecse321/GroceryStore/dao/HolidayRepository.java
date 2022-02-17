@@ -6,6 +6,6 @@ import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 
 public interface HolidayRepository extends CrudRepository<Holiday, String>{
 
-    Holiday findHolidayByName(String name);
+    Holiday findByName(String name);
 
 }

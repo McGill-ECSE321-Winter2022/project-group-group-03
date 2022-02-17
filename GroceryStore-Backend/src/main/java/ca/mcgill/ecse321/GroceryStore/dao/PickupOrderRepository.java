@@ -6,6 +6,6 @@ import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
 
 public interface PickupOrderRepository extends CrudRepository<PickupOrder, Integer>{
 
-    PickupOrder findPickupOrderByConfirmationNumber(Integer confirmationNumber);
+    PickupOrder findByConfirmationNumber(Integer confirmationNumber);
 
 }

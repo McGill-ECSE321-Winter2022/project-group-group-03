@@ -21,7 +21,7 @@ public abstract class Order
   //Order Attributes
 
   @Id
-  @GeneratedValue(strategy = GenerationType.TABLE)
+  //@GeneratedValue(strategy = GenerationType.TABLE)
   private int confirmationNumber;
   private int totalCost;
 

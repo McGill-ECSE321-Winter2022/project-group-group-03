@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
@@ -20,13 +19,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.GroceryStore.model.*;
 
+import javax.transaction.Transactional;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TestGroceryStorePersistence {
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private StoreRepository storeRepository;
     @Autowired
-	private StoreRepository storeRepository;
+    private EmployeeRepository employeeRepository;
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired
@@ -49,7 +50,7 @@ public class TestGroceryStorePersistence {
     @AfterEach
 	public void clearDatabase() {
 
-        // Fisrt, we clear registrations to avoid exceptions due to inconsistencies
+        // First, we clear registrations to avoid exceptions due to inconsistencies
         storeRepository.deleteAll();
         ownerRepository.deleteAll();
         employeeRepository.deleteAll();
@@ -65,6 +66,7 @@ public class TestGroceryStorePersistence {
     }
 
     @Test
+    @Transactional
 	public void testPersistAndLoadStore() {
 		int storeID = 1;
         String address = "215 avenue Kenaston";
@@ -78,19 +80,14 @@ public class TestGroceryStorePersistence {
         store.setCurrentActiveDelivery(currentActiveDelivery);
         store.setCurrentActivePickup(currentActivePickup);
 		// First example for attribute save/load
-        System.out.println(store.getStoreID());
 		storeRepository.save(store);
         store = null;
         store = storeRepository.findById(storeID);
-        //Iterable<Store> Stores = storeRepository.findAll();
         assertNotNull(store);
-//        for(Store x: Stores){
-//            System.out.println(x.getStoreID() +" " + x.getAddress());
-//        }
-
 		assertEquals(storeID, store.getStoreID());
 	}
     @Test
+    @Transactional
     public void testPersistAndLoadEmployee() {
         String username = "Seb";
         int id = 2;
@@ -108,17 +105,14 @@ public class TestGroceryStorePersistence {
 
         employee = null;
 
-        employee = employeeRepository.findEmployeeByUsername(username);
-        //Iterable<Employee> employees = employeeRepository.findAll();
-//       for(Employee y: employees){
-//            System.out.println(y.getUsername() + " "+ y.getAddress()+ " " +y.getEmail()+ " "+ y.getPassword() + " " + y.getWorkingStatusFullName());
-//       }
+        employee = employeeRepository.findByUsername(username);
         assertNotNull(employee);
         assertEquals(username, employee.getUsername());
         
     }
 
     @Test
+    @Transactional
     public void testPersistAndLoadCustomer(){
         String username = "Arsters";
         String password = "Testies";
@@ -134,12 +128,13 @@ public class TestGroceryStorePersistence {
         customerRepository.save(customer);
         customer = null;
 
-        customer = customerRepository.findCustomerByUsername(username);
+        customer = customerRepository.findByUsername(username);
         assertNotNull(customer);
         assertEquals(username, customer.getUsername());
     }
 
     @Test
+    @Transactional
     public void testPersistAndLoadItem(){
         String name = "Cheese balls";
         boolean purchasable = true;
@@ -159,12 +154,13 @@ public class TestGroceryStorePersistence {
         itemRepository.save(item);
         item = null;
 
-        item = itemRepository.findItemByName(name);
+        item = itemRepository.findByName(name);
         assertNotNull(item);
         assertEquals(name, item.getName());
 
     }
-
+    @Test
+    @Transactional
     public void testPersistAndLoadBusinessHour(){
         int hoursID = 123;
         Time startTime = java.sql.Time.valueOf(LocalTime.of(8, 35));
@@ -181,12 +177,13 @@ public class TestGroceryStorePersistence {
         businessHourRepository.save(businessHour);
 
 
-        businessHour = businessHourRepository.findBusinessHourByID(hoursID);
+        businessHour = businessHourRepository.findByHoursID(hoursID);
         assertNotNull(businessHour);
         assertEquals(hoursID, businessHour.getHoursID());
 
     }
-
+    @Test
+    @Transactional
     public void testPersistAndLoadDeliveryOrder(){
         int confirmationNumber = 123;
         int totalCost = 10;
@@ -202,10 +199,12 @@ public class TestGroceryStorePersistence {
         deliveryOrderRepository.save(deliveryOrder);
         deliveryOrder = null;
 
-        deliveryOrder = deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(confirmationNumber);
+        deliveryOrder = deliveryOrderRepository.findByConfirmationNumber(confirmationNumber);
         assertNotNull(deliveryOrder);
         assertEquals(confirmationNumber, deliveryOrder.getConfirmationNumber());
     }
+    @Test
+    @Transactional
     public void testPersistAndLoadHoliday(){
         String name = "Spring grace week";
         Date startDate = java.sql.Date.valueOf(LocalDate.of(2022, Month.MARCH, 31));
@@ -219,11 +218,13 @@ public class TestGroceryStorePersistence {
         holidayRepository.save(holiday);
         holiday = null;
 
-        holiday = holidayRepository.findHolidayByName(name);
+        holiday = holidayRepository.findByName(name);
         assertNotNull(holiday);
         assertEquals(name, holiday.getName());
 
     }
+    @Test
+    @Transactional
     public void testPersistAndLoadOwner(){
         String username = "Thad Castle";
         String password = "BlueMountainState";
@@ -239,11 +240,12 @@ public class TestGroceryStorePersistence {
         ownerRepository.save(owner);
         owner = null;
 
-        owner = ownerRepository.findOwnerByUsername(username);
+        owner = ownerRepository.findByUsername(username);
         assertNotNull(owner);
         assertEquals(username, owner.getUsername());
     }
-
+    @Test
+    @Transactional
     public void testPersistAndLoadPickupOrder(){
         int confirmationNumber = 321;
         int totalCost = 5;
@@ -259,11 +261,13 @@ public class TestGroceryStorePersistence {
         pickupOrderRepository.save(pickupOrder);
         pickupOrder = null;
 
-        pickupOrder = pickupOrderRepository.findPickupOrderByConfirmationNumber(confirmationNumber);
+        pickupOrder = pickupOrderRepository.findByConfirmationNumber(confirmationNumber);
         assertNotNull(pickupOrder);
         assertEquals(confirmationNumber, pickupOrder.getConfirmationNumber());
 
     }
+    @Test
+    @Transactional
     public void testPersistAndLoadPurchasedItem(){
         int purchasedItemID = 789;
         int quantity = 6;
@@ -275,10 +279,12 @@ public class TestGroceryStorePersistence {
         purchasedItemRepository.save(purchasedItem);
         purchasedItem = null;
 
-        purchasedItem = purchasedItemRepository.findPurchasedItemByPurchasedItemID(purchasedItemID);
+        purchasedItem = purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
         assertNotNull(purchasedItem);
         assertEquals(purchasedItemID, purchasedItem.getPurchasedItemID());
     }
+    @Test
+    @Transactional
     public void testPersistAndLoadWorkShift(){
         int shiftID = 379;
         Time startTime = java.sql.Time.valueOf(LocalTime.of(8, 35));
@@ -294,7 +300,7 @@ public class TestGroceryStorePersistence {
         workShiftRepository.save(workShift);
         workShift = null;
 
-        workShift = workShiftRepository.findWorkShiftByShiftID(shiftID);
+        workShift = workShiftRepository.findByShiftID(shiftID);
         assertNotNull(workShift);
         assertEquals(shiftID, workShift.getShiftID());
 

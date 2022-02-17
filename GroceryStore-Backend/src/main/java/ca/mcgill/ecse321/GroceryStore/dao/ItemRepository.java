@@ -6,6 +6,6 @@ import ca.mcgill.ecse321.GroceryStore.model.Item;
 
 public interface ItemRepository extends CrudRepository<Item, String>{
 
-    Item findItemByName(String name);
+    Item findByName(String name);
 
 }

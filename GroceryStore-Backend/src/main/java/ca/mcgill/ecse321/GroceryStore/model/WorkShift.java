@@ -27,7 +27,7 @@ public class WorkShift
   private Time startTime;
   private Time endTime;
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+ // @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int shiftID;
 
   @Enumerated
