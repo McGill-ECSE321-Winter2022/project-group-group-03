@@ -30,7 +30,7 @@ public class Employee
   //------------------------
 
   //Employee Attributes
-
+  @Id
   private String username;
   private String password;
   private String email;
@@ -54,17 +54,17 @@ public class Employee
   @JoinColumn(name = "employee_confirmationNumber", unique = true)
   private List<Order> order;
 
-  @Id
-  @Column(nullable = false)
-  private Integer employeeID;
+  
+  // @Column(nullable = false)
+  // private Integer employeeID;
 
-  public Integer getEmployeeID() {
-    return employeeID;
-  }
+  // public Integer getEmployeeID() {
+  //   return employeeID;
+  // }
 
-  public void setEmployeeID(Integer employeeID) {
-    this.employeeID = employeeID;
-  }
+  // public void setEmployeeID(Integer employeeID) {
+  //   this.employeeID = employeeID;
+  // }
 //------------------------
   // CONSTRUCTOR
   //------------------------

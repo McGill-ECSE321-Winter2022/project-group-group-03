@@ -71,7 +71,7 @@ public class TestGroceryStorePersistence {
         employee.setWorkingStatus(Employee.WorkingStatus.Hired);
         // First example for attribute save/load
         employee.setUsername(username);
-        employee.setEmployeeID(id);
+        //employee.setEmployeeID(id);
         employee.setAddress("adress");
         employee.setEmail("email");
         employee.setPassword("12345");
@@ -80,13 +80,13 @@ public class TestGroceryStorePersistence {
 
         employee = null;
 
-        employee = employeeRepository.findById(id);
+        employee = employeeRepository.findByUsername(username);
         //Iterable<Employee> employees = employeeRepository.findAll();
 //       for(Employee y: employees){
 //            System.out.println(y.getUsername() + " "+ y.getAddress()+ " " +y.getEmail()+ " "+ y.getPassword() + " " + y.getWorkingStatusFullName());
 //       }
         assertNotNull(employee);
         assertEquals(username, employee.getUsername());
-        assertEquals(id, employee.getEmployeeID());
+        
     }
 }
