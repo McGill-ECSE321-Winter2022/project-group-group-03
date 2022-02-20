@@ -1,18 +1,19 @@
 package ca.mcgill.ecse321.GroceryStore.dao;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.*;
 
+import org.assertj.core.api.Assertions;
+import org.hibernate.jdbc.Work;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -20,6 +21,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ca.mcgill.ecse321.GroceryStore.model.*;
 
 import javax.transaction.Transactional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -47,6 +50,77 @@ public class TestGroceryStorePersistence {
     @Autowired
     private WorkShiftRepository workShiftRepository;
 
+    //Store
+    Store defaultStore = new Store();
+
+    //Order -> A customer can have many orders therefore we use a list
+    PickupOrder defaultOrder = new PickupOrder();
+    List<PickupOrder> orderList = new ArrayList<PickupOrder>();
+
+    //Item -> A customer can have many items therefore we use a list
+    Item defaultItem = new Item();
+    List<Item> itemList = new ArrayList<Item>();
+
+    //Workshift -> An employee can have many workshifts therefore we use a list
+    WorkShift defaultWorkShift = new WorkShift();
+    List<WorkShift> workShiftList = new ArrayList<WorkShift>();
+
+    //Purchased Item -> An order can have many purchased items therefore we use a list
+    PurchasedItem defaultPurchasedItem = new PurchasedItem();
+    List<PurchasedItem> purchasedItemList = new ArrayList<PurchasedItem>();
+
+    //These methods will initialize and create the references that will test the following associations
+
+    //Store
+    public void initializeDefaultStore(){
+        this.defaultStore.setStoreID(123);
+    }
+
+    public void initializeDefaultOrder(){
+        this.defaultOrder.setConfirmationNumber(123);
+        this.defaultOrder.setPaymentMethod(PickupOrder.PaymentMethod.Cash);
+        this.defaultOrder.setPickupStatus(PickupOrder.PickupStatus.Ordered);
+    }
+
+    public void initializeDefaultItem(){
+        this.defaultItem.setName("Heinz");
+    }
+
+    public void initializeDefaultWorkShift(){
+       this.defaultWorkShift.setShiftID(123);
+       this.defaultWorkShift.setDay(WorkShift.DayOfWeek.Monday);
+    }
+
+    public void initializeDefaultPurchasedItem(){
+        this.defaultPurchasedItem.setPurchasedItemID(123);
+    }
+
+
+    //These methods will delete the references
+    public void deleteDefaultStore(){
+        storeRepository.deleteById(defaultStore.getStoreID());
+    }
+
+    public void delete1Order(PickupOrder order2Delete){
+        orderList.remove(order2Delete);
+        pickupOrderRepository.deleteById(order2Delete.getConfirmationNumber());
+    }
+
+    public void delete1Item(Item item2Delete){
+        itemList.remove(item2Delete);
+        itemRepository.deleteById(item2Delete.getName());
+    }
+
+    public void delete1Workshift(WorkShift workShift2Delete){
+        workShiftList.remove(workShift2Delete);
+        workShiftRepository.deleteById(workShift2Delete.getShiftID());
+    }
+
+    public void delete1PurchasedItem(PurchasedItem purchasedItem2Delete){
+        purchasedItemList.remove(purchasedItem2Delete);
+        purchasedItemRepository.deleteById(purchasedItem2Delete.getPurchasedItemID());
+    }
+
     @AfterEach
 	public void clearDatabase() {
 
@@ -73,19 +147,33 @@ public class TestGroceryStorePersistence {
         int currentActivePickup = 5;
         int currentActiveDelivery = 6;
 		// First example for object save/load
-		Store store = new Store();
-		//store.addEmployee(new Employee("edward", "1234", "asdasd@asdj", "randomaddress"));
-        store.setAddress(address);
-        store.setStoreID(storeID);
-        store.setCurrentActiveDelivery(currentActiveDelivery);
-        store.setCurrentActivePickup(currentActivePickup);
-		// First example for attribute save/load
-		storeRepository.save(store);
-        store = null;
-        store = storeRepository.findById(storeID);
-        assertNotNull(store);
-		assertEquals(storeID, store.getStoreID());
+		Store store2Eval = new Store();
+        store2Eval.setStoreID(storeID);
+        store2Eval.setAddress(address);
+        store2Eval.setCurrentActiveDelivery(currentActiveDelivery);
+        store2Eval.setCurrentActivePickup(currentActivePickup);
+
+        initializeDefaultItem();
+        this.itemList.add(defaultItem);
+
+        itemRepository.saveAll(itemList);
+        store2Eval.setItem(itemList);
+
+        itemRepository.saveAll(itemList);
+        storeRepository.save(store2Eval);
+        store2Eval = null;
+        store2Eval = storeRepository.findById(storeID);
+
+        assertNotNull(store2Eval);
+		assertEquals(storeID, store2Eval.getStoreID());
+
+        delete1Item(defaultItem);
+        assertNull(itemRepository.findByName(defaultItem.getName()));
+        assertFalse(storeRepository.findById(storeID).getItem().contains(defaultItem));
+
 	}
+
+
     @Test
     @Transactional
     public void testPersistAndLoadEmployee() {
@@ -96,11 +184,15 @@ public class TestGroceryStorePersistence {
         employee.setWorkingStatus(Employee.WorkingStatus.Hired);
         // First example for attribute save/load
         employee.setUsername(username);
-        //employee.setEmployeeID(id);
         employee.setAddress("address");
         employee.setEmail("email");
         employee.setPassword("12345");
 
+
+        initializeDefaultWorkShift();
+        this.workShiftList.add(defaultWorkShift);
+        employee.setWorkShift(workShiftList);
+        workShiftRepository.saveAll(workShiftList);
         employeeRepository.save(employee);
 
         employee = null;
@@ -108,7 +200,10 @@ public class TestGroceryStorePersistence {
         employee = employeeRepository.findByUsername(username);
         assertNotNull(employee);
         assertEquals(username, employee.getUsername());
-        
+
+        delete1Workshift(defaultWorkShift);
+        assertNull(workShiftRepository.findByShiftID(defaultWorkShift.getShiftID()));
+        assertFalse(employeeRepository.findByUsername(username).getWorkShift().contains(defaultWorkShift));
     }
 
     @Test
@@ -124,13 +219,21 @@ public class TestGroceryStorePersistence {
         customer.setPassword(password);
         customer.setEmail(email);
         customer.setAddress(address);
+        initializeDefaultOrder();
+        this.orderList.add(defaultOrder);
+        //customer.setOrder(orderList);
+        pickupOrderRepository.saveAll(orderList);
 
         customerRepository.save(customer);
         customer = null;
-
         customer = customerRepository.findByUsername(username);
         assertNotNull(customer);
         assertEquals(username, customer.getUsername());
+
+        delete1Order(defaultOrder);
+        assertNull(pickupOrderRepository.findByConfirmationNumber(defaultOrder.getConfirmationNumber()));
+        //There is only one order in the list so by removing that order we can verify if the list is null
+        assertNull(customerRepository.findByUsername(username).getOrder());
     }
 
     @Test
@@ -150,8 +253,8 @@ public class TestGroceryStorePersistence {
         item.setDescription(description);
         item.setStock(stock);
         item.setTotalPurchased(totalPurchased);
-
-        itemRepository.save(item);
+        itemList.add(item);
+        itemRepository.saveAll(itemList);
         item = null;
 
         item = itemRepository.findByName(name);
@@ -173,9 +276,7 @@ public class TestGroceryStorePersistence {
         businessHour.setEndTime(endTime);
         businessHour.setDay(day);
 
-
         businessHourRepository.save(businessHour);
-
 
         businessHour = businessHourRepository.findByHoursID(hoursID);
         assertNotNull(businessHour);
@@ -223,27 +324,34 @@ public class TestGroceryStorePersistence {
         assertEquals(name, holiday.getName());
 
     }
+    //TODO
     @Test
     @Transactional
     public void testPersistAndLoadOwner(){
         String username = "Thad Castle";
         String password = "BlueMountainState";
         String email = "ThadCastle@gmail.com";
-        //Store store = new Store();
 
         Owner owner = new Owner();
         owner.setUsername(username);
         owner.setEmail(email);
         owner.setPassword(password);
-       //owner.setStore(store);
-
+        initializeDefaultStore();
+        owner.setStore(defaultStore);
+        storeRepository.save(defaultStore);
         ownerRepository.save(owner);
         owner = null;
 
         owner = ownerRepository.findByUsername(username);
         assertNotNull(owner);
         assertEquals(username, owner.getUsername());
+
+        //Check association between owner and store
+        assertEquals(storeRepository.findById(defaultStore.getStoreID()), ownerRepository.findByUsername(username).getStore());
+
     }
+
+
     @Test
     @Transactional
     public void testPersistAndLoadPickupOrder(){
@@ -258,12 +366,22 @@ public class TestGroceryStorePersistence {
         pickupOrder.setPaymentMethod(paymentMethod);
         pickupOrder.setPickupStatus(status);
 
+        orderList.add(pickupOrder);
+        initializeDefaultPurchasedItem();
+        this.purchasedItemList.add(defaultPurchasedItem);
+        pickupOrder.setPurchasedItem(purchasedItemList);
+
+        purchasedItemRepository.saveAll(purchasedItemList);
         pickupOrderRepository.save(pickupOrder);
         pickupOrder = null;
 
         pickupOrder = pickupOrderRepository.findByConfirmationNumber(confirmationNumber);
         assertNotNull(pickupOrder);
         assertEquals(confirmationNumber, pickupOrder.getConfirmationNumber());
+
+        delete1PurchasedItem(defaultPurchasedItem);
+        assertNull(purchasedItemRepository.findByPurchasedItemID(defaultPurchasedItem.getPurchasedItemID()));
+        assertFalse(pickupOrderRepository.findByConfirmationNumber(confirmationNumber).getPurchasedItem().contains(defaultPurchasedItem));
 
     }
     @Test
@@ -275,14 +393,23 @@ public class TestGroceryStorePersistence {
         PurchasedItem purchasedItem = new PurchasedItem();
         purchasedItem.setPurchasedItemID(purchasedItemID);
         purchasedItem.setItemQuantity(quantity);
+        initializeDefaultItem();
 
+        purchasedItem.setItem(defaultItem);
+        itemRepository.save(defaultItem);
         purchasedItemRepository.save(purchasedItem);
+
         purchasedItem = null;
 
         purchasedItem = purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
         assertNotNull(purchasedItem);
         assertEquals(purchasedItemID, purchasedItem.getPurchasedItemID());
+
+        String name = purchasedItemRepository.findByPurchasedItemID(purchasedItemID).getItem().getName();
+        String name2Compare = itemRepository.findByName(defaultItem.getName()).getName();
+        assertEquals( name, name2Compare);
     }
+
     @Test
     @Transactional
     public void testPersistAndLoadWorkShift(){

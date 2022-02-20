@@ -39,20 +39,7 @@ public class Item
   // CONSTRUCTOR
   //------------------------
 
-  public Item(String aName, boolean aPurchasable, int aPrice, String aDescription, int aStock, int aTotalPurchased)
-  {
-    purchasable = aPurchasable;
-    price = aPrice;
-    description = aDescription;
-    stock = aStock;
-    totalPurchased = aTotalPurchased;
-    if (!setName(aName))
-    {
-      throw new RuntimeException("Cannot create due to duplicate name. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-  }
-
-  public Item() {
+   public Item() {
 
   }
 

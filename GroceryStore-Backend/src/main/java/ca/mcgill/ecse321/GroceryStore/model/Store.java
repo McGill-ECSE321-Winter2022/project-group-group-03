@@ -68,7 +68,7 @@ public class Store
   // INTERFACE
   //------------------------
 
-  public boolean setStoreID(int aStoreID)
+  public boolean setStoreID(Integer aStoreID)
   {
     boolean wasSet = false;
     storeID = aStoreID;
@@ -92,7 +92,7 @@ public class Store
     return wasSet;
   }
 
-  public boolean setCurrentActiveDelivery(int aCurrentActiveDelivery)
+  public boolean setCurrentActiveDelivery(Integer aCurrentActiveDelivery)
   {
     boolean wasSet = false;
     currentActiveDelivery = aCurrentActiveDelivery;
