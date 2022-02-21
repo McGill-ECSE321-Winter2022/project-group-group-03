@@ -10,7 +10,7 @@ an in-store location is also available if they wish to do so. The system will be
 He can also decide the business hours of the store as well as occasions of holidays. 
 
 ## Team Members 
-| Name| Major|Team Role| Year |Github|
+| Name| Major|Team Role| Year |GitHub|
 | :--- |:---: |:---: | :---:| :---:|
 |Abhijeet Praveen | Computer Engineering| Project Manager|U2| [abhijeetpraveen](https://github.com/abhijeetpraveen)|
 |Ari Arabian | Computer Engineering| Testing Engineer|U2|[AriA700](https://github.com/AriA700)|
