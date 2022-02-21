@@ -21,7 +21,7 @@ He can also decide the business hours of the store as well as occasions of holid
 #### Tasks and Time Spent
 | Name| Tasks |Time Spent (hrs)|
 | :--- |:---: |:---: |
-|Abhijeet Praveen | Project Management, Software Development, Documentation, Testing|31| 
+|Abhijeet Praveen | Project Management, Software Development, Documentation, Testing|32| 
 |Ari Arabian | Software Development, Testing| 32|
 |Edward Habelrih| Software Development, Testing| 31|
 |Neel Faucher |Software Development, Documentation| 20|
