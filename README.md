@@ -1,4 +1,4 @@
-# Welcome to Group Group 03's Online Grocery Store System
+# Welcome to Group Group 03's Online Grocery Store
 ## Project Scope
 This is an online Grocery Store system made for Dr. Kanaan's Grocery Store, using the Agile methodology. 
 This system allows customers to create an account which they can use to buy products from their favourite grocery store. 
