@@ -3,8 +3,8 @@
 [![Java CI with Gradle](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/actions/workflows/main.yml)
 
 ## Project Scope
-This is an online Grocery Store system made for Dr. Kanaan's Grocery Store, using the Agile methodology. 
-This system allows customers to create an account which they can use to buy products from their favourite grocery store. 
+This is an online Grocery Store Software System made for Dr. Kanaan's Grocery Store, using the Agile methodology. 
+This Software System allows customers to create an account which they can use to buy products from their favourite grocery store. 
 Customers can buy products from the ease of their home by having it delivered to their address. However, an option for them to pick up their groceries from 
 an in-store location is also available if they wish to do so. The system will be mainly managed by the owner Dr. Kanaan. He can hire and fire employees from this system, while also allowing him to manage his employee's schedules. 
 He can also decide the business hours of the store as well as occasions of holidays. 
