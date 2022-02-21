@@ -24,7 +24,7 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 | :--- |:---: |:---: | :---:| :---:|
 |Abhijeet Praveen | Computer Engineering| Project Manager|U2| [abhijeetpraveen](https://github.com/abhijeetpraveen)|
 |Ari Arabian | Computer Engineering| Testing Engineer|U2|[AriA700](https://github.com/AriA700)|
-|Edward Halberih     | Computer Engineering| Testing Engineer|U2|[edwardhab](https://github.com/edwardhab)|
+|Edward Habelrih     | Computer Engineering| Testing Engineer|U2|[edwardhab](https://github.com/edwardhab)|
 |Neel Faucher | Computer Engineering| Documentation Manager| U2|[NeelFaucher](https://github.com/NeelFaucher)|
 |Rooshnie Velautham    | Computer Engineering| Software Engineer| U2|[rooshnie23](https://github.com/rooshnie23)|
 |Sébastien Cantin    | Computer Engineering | Software Engineer|U2 |[seb8stien1](https://github.com/seb8stien1)|
