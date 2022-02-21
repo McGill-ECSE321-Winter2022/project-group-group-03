@@ -5,7 +5,6 @@ package ca.mcgill.ecse321.GroceryStore.model;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 
 import javax.persistence.*;
-import java.util.*;
 
 // line 19 "../../../../../../GroceryStoreStates.ump"
 // line 56 "../../../../../../GroceryStoreStates.ump"

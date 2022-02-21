@@ -2,10 +2,11 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.GroceryStore.model;
-import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
-
-import javax.persistence.*;
-import java.util.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 // line 1 "../../../../../../GroceryStoreStates.ump"
 // line 51 "../../../../../../GroceryStoreStates.ump"

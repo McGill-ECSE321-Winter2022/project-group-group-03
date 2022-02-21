@@ -1,26 +1,22 @@
 package ca.mcgill.ecse321.GroceryStore.dao;
 
 
+import ca.mcgill.ecse321.GroceryStore.model.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.*;
-
-import org.assertj.core.api.Assertions;
-import org.hibernate.jdbc.Work;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import ca.mcgill.ecse321.GroceryStore.model.*;
-
-import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -80,13 +76,13 @@ public class TestGroceryStorePersistence {
     public void initializeDefaultStore(){
         this.defaultStore.setStoreID(123);
     }
-
+    //Assign attributes to the temporary PickupOrder object
     public void initializeDefaultOrder(){
         this.defaultOrder.setConfirmationNumber(123);
         this.defaultOrder.setPaymentMethod(PickupOrder.PaymentMethod.Cash);
         this.defaultOrder.setPickupStatus(PickupOrder.PickupStatus.Ordered);
     }
-
+    //Assign attributes to the temporary Item object
     public void initializeDefaultItem(){
         this.defaultItem.setName("Heinz");
     }
@@ -95,30 +91,20 @@ public class TestGroceryStorePersistence {
        this.defaultWorkShift.setShiftID(123);
        this.defaultWorkShift.setDay(WorkShift.DayOfWeek.Monday);
     }
-
+    //Assign attributes to the temporary PurchasedItem object
     public void initializeDefaultPurchasedItem(){
         this.defaultPurchasedItem.setPurchasedItemID(123);
     }
-
+    //Assign attributes to the temporary Holiday object
     public void initializeDefaultHoliday(){
         this.defaultHoliday.setName("Day of the Ari");
         this.defaultHoliday.setStartDate(java.sql.Date.valueOf(LocalDate.of(2022, Month.MAY, 31)));
         this.defaultHoliday.setEndDate(java.sql.Date.valueOf(LocalDate.of(2022, Month.JULY, 10)));
     }
-
-    //These methods will delete the references
-    public void deleteDefaultStore(){
-        storeRepository.deleteById(defaultStore.getStoreID());
-    }
-
+    
     public void delete1Order(PickupOrder order2Delete){
         orderList.remove(order2Delete);
         pickupOrderRepository.deleteById(order2Delete.getConfirmationNumber());
-    }
-
-    public void delete1Item(Item item2Delete){
-        itemList.remove(item2Delete);
-        itemRepository.deleteById(item2Delete.getName());
     }
 
     public void delete1Workshift(WorkShift workShift2Delete){
@@ -153,7 +139,11 @@ public class TestGroceryStorePersistence {
         purchasedItemRepository.deleteAll();
 
     }
-
+    /**
+     * Tests read and write capabilities with Store objects and attributes.
+     * Association is tested between Store and Holiday by creating a temporary Holiday object initialized with some attributes, 
+     * then deleting it, and checking to see from the Store class that the holiday instance is deleted.
+     */
     @Test
     @Transactional
 	public void testPersistAndLoadStore() {
@@ -163,12 +153,12 @@ public class TestGroceryStorePersistence {
         int currentActiveDelivery = 6;
 		// First example for object save/load
 		Store store2Eval = new Store();
-        store2Eval.setStoreID(storeID);
+        store2Eval.setStoreID(storeID);                             //set attributes
         store2Eval.setAddress(address);
         store2Eval.setCurrentActiveDelivery(currentActiveDelivery);
         store2Eval.setCurrentActivePickup(currentActivePickup);
 
-        initializeDefaultHoliday();
+        initializeDefaultHoliday();                                 
         holidayList.add(defaultHoliday);
         store2Eval.setHoliday(holidayList);
 
@@ -186,16 +176,17 @@ public class TestGroceryStorePersistence {
 
 	}
 
-
+    /**
+     * Tests read and write capabilities with Employee objects and attributes.
+     * Association is tested between Employee and Workshift by creating a temporary object initialized with some attributes, 
+     * then deleting it, and checking to see from the Employee class that the Workshift instance is deleted.
+     */
     @Test
     @Transactional
     public void testPersistAndLoadEmployee() {
         String username = "Seb";
-        int id = 2;
-        // First example for object save/load
         Employee employee = new Employee();
         employee.setWorkingStatus(Employee.WorkingStatus.Hired);
-        // First example for attribute save/load
         employee.setUsername(username);
         employee.setAddress("address");
         employee.setEmail("email");
@@ -218,14 +209,18 @@ public class TestGroceryStorePersistence {
         assertNull(workShiftRepository.findByShiftID(defaultWorkShift.getShiftID()));
         assertFalse(employeeRepository.findByUsername(username).getWorkShift().contains(defaultWorkShift));
     }
-
+    /**
+     * Tests read and write capabilities with Customer objects and attributes.
+     * Association is tested between Customer and PickupOrder by creating a temporary PickupOrder object initialized with some attributes, 
+     * then deleting it, and checking to see from the Customer class that the PickupOrder instance is deleted.
+     */
     @Test
     @Transactional
     public void testPersistAndLoadCustomer(){
         String username = "Arsters";
         String password = "Testies";
         String email = "arsters.testies@gmail.com";
-        String address = "3064 rue edmond rostand";
+        String address = "215 asdjkahd";
 
         Customer customer = new Customer();
         customer.setUsername(username);
@@ -234,7 +229,6 @@ public class TestGroceryStorePersistence {
         customer.setAddress(address);
         initializeDefaultOrder();
         this.orderList.add(defaultOrder);
-        //customer.setOrder(orderList);
         pickupOrderRepository.saveAll(orderList);
 
         customerRepository.save(customer);
@@ -248,7 +242,10 @@ public class TestGroceryStorePersistence {
         //There is only one order in the list so by removing that order we can verify if the list is null
         assertNull(customerRepository.findByUsername(username).getOrder());
     }
-
+    /**
+     * Tests read and write capabilities with Item objects and attributes.
+     * There is no association to test here since we only have one unidirectional association coming from store.
+     */
     @Test
     @Transactional
     public void testPersistAndLoadItem(){
@@ -275,6 +272,10 @@ public class TestGroceryStorePersistence {
         assertEquals(name, item.getName());
 
     }
+    /**
+     * Tests read and write capabilities with BusinessHour objects and attributes.
+     * There is no association to test since we only have one unidirectional association coming from store.
+     */
     @Test
     @Transactional
     public void testPersistAndLoadBusinessHour(){
@@ -296,6 +297,9 @@ public class TestGroceryStorePersistence {
         assertEquals(hoursID, businessHour.getHoursID());
 
     }
+    /**
+     * Tests read and write capabilities with DeliveryOrder objects and attributes.
+     */
     @Test
     @Transactional
     public void testPersistAndLoadDeliveryOrder(){
@@ -317,6 +321,10 @@ public class TestGroceryStorePersistence {
         assertNotNull(deliveryOrder);
         assertEquals(confirmationNumber, deliveryOrder.getConfirmationNumber());
     }
+    /**
+     * Tests read and write capabilities with Holiday objects and attributes.
+     * There is no association to test since we only have one unidirectional association coming from store.
+     */
     @Test
     @Transactional
     public void testPersistAndLoadHoliday(){
@@ -337,7 +345,11 @@ public class TestGroceryStorePersistence {
         assertEquals(name, holiday.getName());
 
     }
-    //TODO
+    /**
+     * Tests read and write capabilities with Owner objects and attributes.
+     * Association is tested between Owner and Store by creating a temporary Store object initialized with some attributes, 
+     * then deleting it, and checking to see from the Owner class that the Owner instance is deleted.
+     */
     @Test
     @Transactional
     public void testPersistAndLoadOwner(){
@@ -364,7 +376,11 @@ public class TestGroceryStorePersistence {
 
     }
 
-
+    /**
+     * Tests read and write capabilities with PickupOrder objects and attributes.
+     * Association is tested between PickupOrder and PurchasedItem by creating a temporary PurchasedItem object initialized with some attributes, 
+     * then deleting it, and checking to see from the PickupOrder class that the PurchasedItem instance is deleted.
+     */
     @Test
     @Transactional
     public void testPersistAndLoadPickupOrder(){
@@ -397,6 +413,11 @@ public class TestGroceryStorePersistence {
         assertFalse(pickupOrderRepository.findByConfirmationNumber(confirmationNumber).getPurchasedItem().contains(defaultPurchasedItem));
 
     }
+    /**
+     * Tests read and write capabilities with PurchasedItem objects and attributes.
+     * Association is tested between PurchasedItem and Item by creating a temporary Item object initialized with some attributes, 
+     * then deleting it, and checking to see from the PurchasedItem class that the Item instance is deleted.
+     */
     @Test
     @Transactional
     public void testPersistAndLoadPurchasedItem(){
@@ -422,7 +443,10 @@ public class TestGroceryStorePersistence {
         String name2Compare = itemRepository.findByName(defaultItem.getName()).getName();
         assertEquals( name, name2Compare);
     }
-
+    /**
+     * Tests read and write capabilities with WorkShift objects and attributes.
+     * There is no association to test since we only have one unidirectional association coming from Employee.
+     */
     @Test
     @Transactional
     public void testPersistAndLoadWorkShift(){
