@@ -33,31 +33,14 @@ public class Owner
 
   //Owner Associations
 
-  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "store_store_id")
+  @OneToOne
+  @JoinColumn(name = "owner_storeID")
   private Store store;
 
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
-  public Owner(String aUsername, String aPassword, String aEmail, Store aStore)
-  {
-    password = aPassword;
-    if (!setUsername(aUsername))
-    {
-      throw new RuntimeException("Cannot create due to duplicate username. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    if (!setEmail(aEmail))
-    {
-      throw new RuntimeException("Cannot create due to duplicate email. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    if (!setStore(aStore))
-    {
-      throw new RuntimeException("Unable to create Owner due to aStore. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-  }
 
   public Owner() {
 
@@ -86,12 +69,19 @@ public class Owner
     return wasSet;
   }
 
+  public Store getStore(){
+    return store;
+}
   public boolean setPassword(String aPassword)
   {
     boolean wasSet = false;
     password = aPassword;
     wasSet = true;
     return wasSet;
+  }
+
+  public void setStore(Store store){
+    this.store = store;
   }
 
   public boolean setEmail(String aEmail)
@@ -147,37 +137,5 @@ public class Owner
   {
     return getWithEmail(aEmail) != null;
   }
-  /* Code from template association_GetOne */
-  public Store getStore()
-  {
-    return store;
-  }
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setStore(Store aNewStore)
-  {
-    boolean wasSet = false;
-    if (aNewStore != null)
-    {
-      store = aNewStore;
-      wasSet = true;
-    }
-    return wasSet;
-  }
 
-  public void delete()
-  {
-    ownersByUsername.remove(getUsername());
-    ownersByEmail.remove(getEmail());
-    store = null;
-  }
-
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "username" + ":" + getUsername()+ "," +
-            "password" + ":" + getPassword()+ "," +
-            "email" + ":" + getEmail()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "store = "+(getStore()!=null?Integer.toHexString(System.identityHashCode(getStore())):"null");
-  }
 }

@@ -4,6 +4,7 @@
 package ca.mcgill.ecse321.GroceryStore.model;
 import javax.persistence.*;
 import java.sql.Time;
+import java.time.DayOfWeek;
 
 // line 50 "../../../../../../model.ump"
 // line 223 "../../../../../../model.ump"
@@ -26,11 +27,11 @@ public class WorkShift
   private Time startTime;
   private Time endTime;
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+ // @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int shiftID;
 
   @Enumerated
-  @Column(name = "day", nullable = false)
+  @Column(nullable = false)
   private DayOfWeek day;
 
 
@@ -39,13 +40,13 @@ public class WorkShift
   // CONSTRUCTOR
   //------------------------
 
-  public WorkShift(Time aStartTime, Time aEndTime, int aShiftID, DayOfWeek aDay)
-  {
-    startTime = aStartTime;
-    endTime = aEndTime;
-    shiftID = aShiftID;
-    day = aDay;
-  }
+//  public WorkShift(Time aStartTime, Time aEndTime, int aShiftID, DayOfWeek aDay)
+//  {
+//    startTime = aStartTime;
+//    endTime = aEndTime;
+//    shiftID = aShiftID;
+//    day = aDay;
+//  }
   public WorkShift() {
 
   }

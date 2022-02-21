@@ -17,14 +17,14 @@ public class PurchasedItem
 
   //PurchasedItem Attributes
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+ // @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int purchasedItemID;
   private int itemQuantity;
 
   //PurchasedItem Associations
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "item_name")
+  @ManyToOne
+  @JoinColumn(name = "purchasedItem_name")
   private Item item;
 
 
@@ -32,15 +32,6 @@ public class PurchasedItem
   // CONSTRUCTOR
   //------------------------
 
-  public PurchasedItem(int aPurchasedItemID, int aItemQuantity, Item aItem)
-  {
-    purchasedItemID = aPurchasedItemID;
-    itemQuantity = aItemQuantity;
-    if (!setItem(aItem))
-    {
-      throw new RuntimeException("Unable to create PurchasedItem due to aItem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-  }
 
   public PurchasedItem() {
 
@@ -58,12 +49,20 @@ public class PurchasedItem
     return wasSet;
   }
 
+  public void setItem(Item item) {
+    this.item = item;
+  }
+
   public boolean setItemQuantity(int aItemQuantity)
   {
     boolean wasSet = false;
     itemQuantity = aItemQuantity;
     wasSet = true;
     return wasSet;
+  }
+
+  public Item getItem() {
+    return item;
   }
 
   public int getPurchasedItemID()
@@ -74,27 +73,6 @@ public class PurchasedItem
   public int getItemQuantity()
   {
     return itemQuantity;
-  }
-  /* Code from template association_GetOne */
-  public Item getItem()
-  {
-    return item;
-  }
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setItem(Item aNewItem)
-  {
-    boolean wasSet = false;
-    if (aNewItem != null)
-    {
-      item = aNewItem;
-      wasSet = true;
-    }
-    return wasSet;
-  }
-
-  public void delete()
-  {
-    item = null;
   }
 
 

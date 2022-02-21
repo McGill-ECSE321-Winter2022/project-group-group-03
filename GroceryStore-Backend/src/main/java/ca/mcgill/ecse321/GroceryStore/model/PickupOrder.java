@@ -13,8 +13,12 @@ import java.util.*;
 // line 102 "../../../../../../model.ump"
 // line 188 "../../../../../../model.ump"
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Entity
 public class PickupOrder extends Order
 {
+  public PickupOrder() {
+
+  }
 
   //------------------------
   // ENUMERATIONS
@@ -28,25 +32,25 @@ public class PickupOrder extends Order
 
   //PickupOrder Attributes
   @Enumerated
-  @Column(name = "paymentMethod", nullable = false)
+  @Column(nullable = false)
   private PaymentMethod paymentMethod;
 
   //PickupOrder State Machines
   public enum PickupStatus { InCart, Ordered, Prepared, PickedUp }
   @Enumerated
-  @Column(name = "pickupStatus", nullable = false)
+  @Column(nullable = false)
   private PickupStatus pickupStatus;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public PickupOrder(int aConfirmationNumber, int aTotalCost, Store aStore, PaymentMethod aPaymentMethod)
-  {
-    super(aConfirmationNumber, aTotalCost, aStore);
-    paymentMethod = aPaymentMethod;
-    setPickupStatus(PickupStatus.InCart);
-  }
+//  public PickupOrder(int aConfirmationNumber, int aTotalCost, Store aStore, PaymentMethod aPaymentMethod)
+//  {
+//    super(aConfirmationNumber, aTotalCost, aStore);
+//    paymentMethod = aPaymentMethod;
+//    setPickupStatus(PickupStatus.InCart);
+//  }
 
   //------------------------
   // INTERFACE
@@ -79,7 +83,7 @@ public class PickupOrder extends Order
   public boolean order()
   {
     boolean wasEventProcessed = false;
-    
+
     PickupStatus aPickupStatus = pickupStatus;
     switch (aPickupStatus)
     {
@@ -97,7 +101,7 @@ public class PickupOrder extends Order
   public boolean prepare()
   {
     boolean wasEventProcessed = false;
-    
+
     PickupStatus aPickupStatus = pickupStatus;
     switch (aPickupStatus)
     {
@@ -115,7 +119,7 @@ public class PickupOrder extends Order
   public boolean pay()
   {
     boolean wasEventProcessed = false;
-    
+
     PickupStatus aPickupStatus = pickupStatus;
     switch (aPickupStatus)
     {
@@ -130,15 +134,15 @@ public class PickupOrder extends Order
     return wasEventProcessed;
   }
 
-  private void setPickupStatus(PickupStatus aPickupStatus)
+  public void setPickupStatus(PickupStatus aPickupStatus)
   {
     pickupStatus = aPickupStatus;
   }
 
-  public void delete()
-  {
-    super.delete();
-  }
+//  public void delete()
+//  {
+//    super.delete();
+//  }
 
 
   public String toString()

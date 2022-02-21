@@ -34,28 +34,13 @@ public class Customer
 
   //Customer Associations
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "customer_username")
-  private List<Order> order = new ArrayList<>();
+  @OneToMany
+  @JoinColumn(name = "customer_confirmationNumber")
+  private List<Order> order;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
-  public Customer(String aUsername, String aPassword, String aEmail, String aAddress)
-  {
-    password = aPassword;
-    address = aAddress;
-    if (!setUsername(aUsername))
-    {
-      throw new RuntimeException("Cannot create due to duplicate username. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    if (!setEmail(aEmail))
-    {
-      throw new RuntimeException("Cannot create due to duplicate email. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    order = new ArrayList<Order>();
-  }
 
   public Customer() {
 
@@ -90,6 +75,10 @@ public class Customer
     password = aPassword;
     wasSet = true;
     return wasSet;
+  }
+
+  public void setOrder(List<Order> order) {
+    this.order = order;
   }
 
   public boolean setEmail(String aEmail)
@@ -158,101 +147,10 @@ public class Customer
   {
     return address;
   }
-  /* Code from template association_GetMany */
-  public Order getOrder(int index)
-  {
-    Order aOrder = order.get(index);
-    return aOrder;
-  }
 
-  public List<Order> getOrder()
-  {
-    List<Order> newOrder = Collections.unmodifiableList(order);
-    return newOrder;
+  public List<Order> getOrder() {
+    return order;
   }
-
-  public int numberOfOrder()
-  {
-    int number = order.size();
-    return number;
-  }
-
-  public boolean hasOrder()
-  {
-    boolean has = order.size() > 0;
-    return has;
-  }
-
-  public int indexOfOrder(Order aOrder)
-  {
-    int index = order.indexOf(aOrder);
-    return index;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfOrder()
-  {
-    return 0;
-  }
-  /* Code from template association_AddUnidirectionalMany */
-  public boolean addOrder(Order aOrder)
-  {
-    boolean wasAdded = false;
-    if (order.contains(aOrder)) { return false; }
-    order.add(aOrder);
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeOrder(Order aOrder)
-  {
-    boolean wasRemoved = false;
-    if (order.contains(aOrder))
-    {
-      order.remove(aOrder);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addOrderAt(Order aOrder, int index)
-  {  
-    boolean wasAdded = false;
-    if(addOrder(aOrder))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOrder()) { index = numberOfOrder() - 1; }
-      order.remove(aOrder);
-      order.add(index, aOrder);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveOrderAt(Order aOrder, int index)
-  {
-    boolean wasAdded = false;
-    if(order.contains(aOrder))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOrder()) { index = numberOfOrder() - 1; }
-      order.remove(aOrder);
-      order.add(index, aOrder);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addOrderAt(aOrder, index);
-    }
-    return wasAdded;
-  }
-
-  public void delete()
-  {
-    customersByUsername.remove(getUsername());
-    customersByEmail.remove(getEmail());
-    order.clear();
-  }
-
 
   public String toString()
   {

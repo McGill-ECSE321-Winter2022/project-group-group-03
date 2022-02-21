@@ -41,21 +41,30 @@ public class Employee
   //Employee State Machines
   public enum WorkingStatus { Hired, Fired }
   @Enumerated
-  @Column(name = "working_status", nullable = false)
+  //@Column(name = "working_status", nullable = false)
   private WorkingStatus workingStatus;
 
   //Employee Associations
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "employee_username", unique = true)
-  private List<WorkShift> workShift = new ArrayList<>();
+  @OneToMany
+  @JoinColumn(name ="employee_shiftID", unique = true)
+  private List<WorkShift> workShift;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "employee_username", unique = true)
-  private List<Order> order = new ArrayList<>();
+  @OneToMany
+  @JoinColumn(name = "employee_confirmationNumber", unique = true)
+  private List<Order> order;
 
+  
+  // @Column(nullable = false)
+  // private Integer employeeID;
 
+  // public Integer getEmployeeID() {
+  //   return employeeID;
+  // }
 
+  // public void setEmployeeID(Integer employeeID) {
+  //   this.employeeID = employeeID;
+  // }
 //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -64,22 +73,6 @@ public class Employee
 
   }
 
-  public Employee(String aUsername, String aPassword, String aEmail, String aAddress)
-  {
-    password = aPassword;
-    address = aAddress;
-    if (!setUsername(aUsername))
-    {
-      throw new RuntimeException("Cannot create due to duplicate username. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    if (!setEmail(aEmail))
-    {
-      throw new RuntimeException("Cannot create due to duplicate email. See http://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    workShift = new ArrayList<WorkShift>();
-    order = new ArrayList<Order>();
-    setWorkingStatus(WorkingStatus.Hired);
-  }
 
   //------------------------
   // INTERFACE
@@ -139,6 +132,10 @@ public class Employee
     return wasSet;
   }
 
+  public void setOrder(List<Order> order) {
+    this.order = order;
+  }
+
   public String getUsername()
   {
     return username;
@@ -185,6 +182,10 @@ public class Employee
     return answer;
   }
 
+  public List<WorkShift> getWorkShift() {
+    return workShift;
+  }
+
   public WorkingStatus getWorkingStatus()
   {
     return workingStatus;
@@ -193,7 +194,7 @@ public class Employee
   public boolean fireEmployee()
   {
     boolean wasEventProcessed = false;
-    
+
     WorkingStatus aWorkingStatus = workingStatus;
     switch (aWorkingStatus)
     {
@@ -208,193 +209,18 @@ public class Employee
     return wasEventProcessed;
   }
 
-  private void setWorkingStatus(WorkingStatus aWorkingStatus)
+  public void setWorkingStatus(WorkingStatus aWorkingStatus)
   {
     workingStatus = aWorkingStatus;
   }
-  /* Code from template association_GetMany */
-  public WorkShift getWorkShift(int index)
-  {
-    WorkShift aWorkShift = workShift.get(index);
-    return aWorkShift;
+
+  public void setWorkShift(List<WorkShift> workShift) {
+    this.workShift = workShift;
   }
 
-  public List<WorkShift> getWorkShift()
-  {
-    List<WorkShift> newWorkShift = Collections.unmodifiableList(workShift);
-    return newWorkShift;
+  public List<Order> getOrder() {
+    return order;
   }
-
-  public int numberOfWorkShift()
-  {
-    int number = workShift.size();
-    return number;
-  }
-
-  public boolean hasWorkShift()
-  {
-    boolean has = workShift.size() > 0;
-    return has;
-  }
-
-  public int indexOfWorkShift(WorkShift aWorkShift)
-  {
-    int index = workShift.indexOf(aWorkShift);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public Order getOrder(int index)
-  {
-    Order aOrder = order.get(index);
-    return aOrder;
-  }
-
-  public List<Order> getOrder()
-  {
-    List<Order> newOrder = Collections.unmodifiableList(order);
-    return newOrder;
-  }
-
-  public int numberOfOrder()
-  {
-    int number = order.size();
-    return number;
-  }
-
-  public boolean hasOrder()
-  {
-    boolean has = order.size() > 0;
-    return has;
-  }
-
-  public int indexOfOrder(Order aOrder)
-  {
-    int index = order.indexOf(aOrder);
-    return index;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfWorkShift()
-  {
-    return 0;
-  }
-  /* Code from template association_AddUnidirectionalMany */
-  public boolean addWorkShift(WorkShift aWorkShift)
-  {
-    boolean wasAdded = false;
-    if (workShift.contains(aWorkShift)) { return false; }
-    workShift.add(aWorkShift);
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeWorkShift(WorkShift aWorkShift)
-  {
-    boolean wasRemoved = false;
-    if (workShift.contains(aWorkShift))
-    {
-      workShift.remove(aWorkShift);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addWorkShiftAt(WorkShift aWorkShift, int index)
-  {  
-    boolean wasAdded = false;
-    if(addWorkShift(aWorkShift))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfWorkShift()) { index = numberOfWorkShift() - 1; }
-      workShift.remove(aWorkShift);
-      workShift.add(index, aWorkShift);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveWorkShiftAt(WorkShift aWorkShift, int index)
-  {
-    boolean wasAdded = false;
-    if(workShift.contains(aWorkShift))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfWorkShift()) { index = numberOfWorkShift() - 1; }
-      workShift.remove(aWorkShift);
-      workShift.add(index, aWorkShift);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addWorkShiftAt(aWorkShift, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfOrder()
-  {
-    return 0;
-  }
-  /* Code from template association_AddUnidirectionalMany */
-  public boolean addOrder(Order aOrder)
-  {
-    boolean wasAdded = false;
-    if (order.contains(aOrder)) { return false; }
-    order.add(aOrder);
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeOrder(Order aOrder)
-  {
-    boolean wasRemoved = false;
-    if (order.contains(aOrder))
-    {
-      order.remove(aOrder);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addOrderAt(Order aOrder, int index)
-  {  
-    boolean wasAdded = false;
-    if(addOrder(aOrder))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOrder()) { index = numberOfOrder() - 1; }
-      order.remove(aOrder);
-      order.add(index, aOrder);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveOrderAt(Order aOrder, int index)
-  {
-    boolean wasAdded = false;
-    if(order.contains(aOrder))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOrder()) { index = numberOfOrder() - 1; }
-      order.remove(aOrder);
-      order.add(index, aOrder);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addOrderAt(aOrder, index);
-    }
-    return wasAdded;
-  }
-
-  public void delete()
-  {
-    employeesByUsername.remove(getUsername());
-    employeesByEmail.remove(getEmail());
-    workShift.clear();
-    order.clear();
-  }
-
 
   public String toString()
   {

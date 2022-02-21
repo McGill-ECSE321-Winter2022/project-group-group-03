@@ -23,13 +23,13 @@ public class BusinessHour {
 
   //BusinessHours Attributes
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+ // @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int hoursID;
   private Time startTime;
   private Time endTime;
 
   @Enumerated
-  @Column(name = "day", nullable = false, unique = true)
+  @Column(nullable = false, unique = true)
   private DayOfWeek day;
 
 
