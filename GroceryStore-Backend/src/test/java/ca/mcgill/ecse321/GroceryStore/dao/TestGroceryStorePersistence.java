@@ -69,6 +69,11 @@ public class TestGroceryStorePersistence {
     PurchasedItem defaultPurchasedItem = new PurchasedItem();
     List<PurchasedItem> purchasedItemList = new ArrayList<PurchasedItem>();
 
+    //Holiday -> Many holidays therefore we use a list
+    Holiday defaultHoliday = new Holiday();
+    List<Holiday> holidayList = new ArrayList<Holiday>();
+
+
     //These methods will initialize and create the references that will test the following associations
 
     //Store
@@ -95,6 +100,11 @@ public class TestGroceryStorePersistence {
         this.defaultPurchasedItem.setPurchasedItemID(123);
     }
 
+    public void initializeDefaultHoliday(){
+        this.defaultHoliday.setName("Day of the Ari");
+        this.defaultHoliday.setStartDate(java.sql.Date.valueOf(LocalDate.of(2022, Month.MAY, 31)));
+        this.defaultHoliday.setEndDate(java.sql.Date.valueOf(LocalDate.of(2022, Month.JULY, 10)));
+    }
 
     //These methods will delete the references
     public void deleteDefaultStore(){
@@ -119,6 +129,11 @@ public class TestGroceryStorePersistence {
     public void delete1PurchasedItem(PurchasedItem purchasedItem2Delete){
         purchasedItemList.remove(purchasedItem2Delete);
         purchasedItemRepository.deleteById(purchasedItem2Delete.getPurchasedItemID());
+    }
+
+    public void delete1Holiday(Holiday holiday2Delete){
+        holidayList.remove(holiday2Delete);
+        holidayRepository.deleteById(holiday2Delete.getName());
     }
 
     @AfterEach
@@ -153,13 +168,11 @@ public class TestGroceryStorePersistence {
         store2Eval.setCurrentActiveDelivery(currentActiveDelivery);
         store2Eval.setCurrentActivePickup(currentActivePickup);
 
-        initializeDefaultItem();
-        this.itemList.add(defaultItem);
+        initializeDefaultHoliday();
+        holidayList.add(defaultHoliday);
+        store2Eval.setHoliday(holidayList);
 
-        itemRepository.saveAll(itemList);
-        store2Eval.setItem(itemList);
-
-        itemRepository.saveAll(itemList);
+        holidayRepository.saveAll(holidayList);
         storeRepository.save(store2Eval);
         store2Eval = null;
         store2Eval = storeRepository.findById(storeID);
@@ -167,9 +180,9 @@ public class TestGroceryStorePersistence {
         assertNotNull(store2Eval);
 		assertEquals(storeID, store2Eval.getStoreID());
 
-        delete1Item(defaultItem);
-        assertNull(itemRepository.findByName(defaultItem.getName()));
-        assertFalse(storeRepository.findById(storeID).getItem().contains(defaultItem));
+        delete1Holiday(defaultHoliday);
+        assertNull(holidayRepository.findByName(defaultHoliday.getName()));
+        assertFalse(storeRepository.findById(storeID).getHoliday().contains(defaultHoliday));
 
 	}
 
