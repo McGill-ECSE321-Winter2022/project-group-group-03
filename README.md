@@ -1,4 +1,7 @@
 # Welcome to Group Group 03's Online Grocery Store
+
+[![Main CI push](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/actions/workflows/main.yml)
+
 ## Project Scope
 This is an online Grocery Store system made for Dr. Kanaan's Grocery Store, using the Agile methodology. 
 This system allows customers to create an account which they can use to buy products from their favourite grocery store. 
