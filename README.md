@@ -36,12 +36,12 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 
 #### Tasks and Time Spent
 | Name| Tasks |Time Spent (hrs)|
-| :--- |:---: |:---: |
-|Abhijeet Praveen | Project Management, Software Development, Documentation, Testing|32| 
-|Ari Arabian | Software Development, Testing| 32|
-|Edward Habelrih| Software Development, Testing| 31|
-|Neel Faucher |Software Development, Documentation| 20|
-|Rooshnie Velautham| Software Development, Documentation| 22|
-|Sébastien Cantin| Software Development, Testing, Documentation | 32|
+| :--- |:--- |:---: |
+|Abhijeet Praveen |<li> Participated in finishing the class diagram        <li> Participated in finishing state diagram<li> Setup initial JPA tags<li>Helped debug JPA tags errors<li>Completed use-case diagram separation into two<li>Started and continuously updated project readme.md<li>Started project wiki and deliverable 1 report in correct format<li>Helped write unit tests for the persistence layer<li>Helped debug errors during testing of persistence layer<li>Participated in formulating 15 most important functional and nonfunctional requirements<li>Completed use case specification for searching and purchasing items online<li>Helped clean up umple generated code<li>Assured backlog is being maintained<li>Assured checklist from deliverable instructions have been met|32| 
+|Ari Arabian |<li>Contributed ideas to the class diagram<li>Helped debug JPA tags<li>Set up the Spring-based backend<li>Set up the database, set up application.properties<li>Helped setup CRUD repositories<li>Helped write unit tests for the persistence layer<li>Completed use case specification for adding items to inventory<li>Helped clean up umple generated code| 35|
+|Edward Habelrih|<li>Contributed and participated to conceiving and building the class diagram<li>Set up all CRUD repositories<li>Set up persistence layer<li>Coded and mapped all unit tests for the persistence layer<li>Set up Spring-based backend<li>Setup application properties<li>Helped debug JPA tags<li>Completed the use case specification for viewing weekly schedules| 35|
+|Neel Faucher |<li>Completed use case specification for hiring and firing employees<li>Helped team members fix their use case specifications<li>Took meeting minutes for all 4 meetings<li>Helped set-up repository<li>Wrote wiki for deliverable 1<li>Completed the UML class diagram<li>Helped with testing of persistence layer<li>Helped clean up umple generated code| 22|
+|Rooshnie Velautham|<li>Helped to design the UML class diagram and UML state diagram.<li>Setup the initial JPA tags<li>Helped debug JPA tags errors<li>Completed use-case diagram<li>Project wiki and deliverable 1 report in correct format<li>Added all the functional and non-functional requirements as issues<li>Distributed all the issues to members of the group<li>Assure that that the backlog is up-to-date<li>Helped debug errors during testing of persistence layer<li>Participated in formulating 15 most important functional and nonfunctional requirements<li>Completed use case scenario specification for a user creating an account<li>Helped clean up umple generated code<li>Wrote testing documentation on wiki and readme.md<li>Made sure that everything from the correcting scheme is done neatly| 27|
+|Sébastien Cantin|<li>Designed most of the UML class diagram and UML state diagram.<li>Wrote the rationale for the UML class diagram.<li>Set up the Heroku database.<li>Setup JPA tags.<li>Helped debugging during testing of persistence layer.<li>Setup initial issue on GitHub project view.<li>Participated in formulating 15 most important functional and nonfunctional requirements<li>Started the initial use case diagram.<li>Cleaned up umple generated code| 36|
 
 The deliverable 1 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-1-Report)
