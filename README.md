@@ -1,4 +1,4 @@
-# Welcome to Group Group 03's Online Grocery Store
+# Welcome to Group 03's Online Grocery Store
 
 [![Java CI with Gradle](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/actions/workflows/main.yml)
 
