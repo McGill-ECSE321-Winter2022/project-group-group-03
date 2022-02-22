@@ -35,8 +35,8 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 ## Deliverable 1 
 
 #### Tasks and Time Spent
-| Name| Tasks |Time Spent (hrs)|
-| :--- |:--- |:---: |
+| Name| Tasks|Time Spent (hrs)|
+| :--- |--- |:---: |
 |Abhijeet Praveen |<li> Participated in finishing the class diagram        <li> Participated in finishing state diagram<li> Setup initial JPA tags<li>Helped debug JPA tags errors<li>Completed use-case diagram separation into two<li>Started and continuously updated project readme.md<li>Started project wiki and deliverable 1 report in correct format<li>Helped write unit tests for the persistence layer<li>Helped debug errors during testing of persistence layer<li>Participated in formulating 15 most important functional and nonfunctional requirements<li>Completed use case specification for searching and purchasing items online<li>Helped clean up umple generated code<li>Assured backlog is being maintained<li>Assured checklist from deliverable instructions have been met|35| 
 |Ari Arabian |<li>Contributed ideas to the class diagram<li>Helped debug JPA tags<li>Set up the Spring-based backend<li>Set up the database, set up application.properties<li>Helped setup CRUD repositories<li>Helped write unit tests for the persistence layer<li>Completed use case specification for adding items to inventory<li>Helped clean up umple generated code| 35|
 |Edward Habelrih|<li>Contributed and participated to conceiving and building the class diagram<li>Set up all CRUD repositories<li>Set up persistence layer<li>Coded and mapped all unit tests for the persistence layer<li>Set up Spring-based backend<li>Setup application properties<li>Helped debug JPA tags<li>Completed the use case specification for viewing weekly schedules| 35|
