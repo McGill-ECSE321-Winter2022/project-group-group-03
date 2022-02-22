@@ -18,8 +18,11 @@ grocerystore-backend-ise2022w
 jdbc:postgresql://ec2-3-91-127-228.compute-1.amazonaws.com:5432/daaah13ecc2e9c?password=1766bd0bda93b6655add493bb145aa4dd24414a48a00e8466b9c95b9774f155c&sslmode=require&user=vdgjvdmjzreell
 
 ##### How to run this project
-To run the project, clone this repository and run the java file `GroceryStoreBackendApplication.java` locally as a  `Spring Boot Application`. \
-This will deploy the backend [here](http://localhost:8080/). \
+To run the project, clone this repository and run the java file `GroceryStoreBackendApplication.java`  \
+locally as a  `Spring Boot Application`. 
+
+This will deploy the backend [here](http://localhost:8080/). 
+
 Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.com/) once deployed.
 
 ## Team Members 
