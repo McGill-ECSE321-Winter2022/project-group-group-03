@@ -106,11 +106,14 @@ public class TestGroceryStorePersistence {
         this.defaultHoliday.setEndDate(java.sql.Date.valueOf(LocalDate.of(2022, Month.JULY, 10)));
     }
 
+<<<<<<< Updated upstream
     //These methods will delete the references
     public void deleteDefaultStore(){
         storeRepository.deleteById(defaultStore.getStoreID());
     }
 
+=======
+>>>>>>> Stashed changes
     public void delete1Order(PickupOrder order2Delete){
         orderList.remove(order2Delete);
         pickupOrderRepository.deleteById(order2Delete.getConfirmationNumber());
