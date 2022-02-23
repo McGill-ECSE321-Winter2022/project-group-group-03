@@ -15,11 +15,28 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class PurchasedItemTest {
-
+    @Autowired
+    private StoreRepository storeRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
     @Autowired
     private ItemRepository itemRepository;
     @Autowired
+    private BusinessHourRepository businessHourRepository;
+    @Autowired
+    private DeliveryOrderRepository deliveryOrderRepository;
+    @Autowired
+    private HolidayRepository holidayRepository;
+    @Autowired
+    private OwnerRepository ownerRepository;
+    @Autowired
+    private PickupOrderRepository pickupOrderRepository;
+    @Autowired
     private PurchasedItemRepository purchasedItemRepository;
+    @Autowired
+    private WorkShiftRepository workShiftRepository;
 
     //Item -> A customer can have many items therefore we use a list
     Item defaultItem = new Item();
@@ -33,9 +50,16 @@ public class PurchasedItemTest {
     public void clearDatabase() {
 
         // First, we clear registrations to avoid exceptions due to inconsistencies
-
+        storeRepository.deleteAll();
+        ownerRepository.deleteAll();
+        employeeRepository.deleteAll();
+        customerRepository.deleteAll();
+        businessHourRepository.deleteAll();
+        workShiftRepository.deleteAll();
+        holidayRepository.deleteAll();
         itemRepository.deleteAll();
-
+        pickupOrderRepository.deleteAll();
+        deliveryOrderRepository.deleteAll();
         purchasedItemRepository.deleteAll();
 
     }
