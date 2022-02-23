@@ -56,9 +56,8 @@ public class PurchasedItemTest {
         purchasedItem.setItemQuantity(quantity);
         initializeDefaultItem();
 
-        itemRepository.save(defaultItem);
         purchasedItem.setItem(defaultItem);
-
+        itemRepository.save(defaultItem);
         purchasedItemRepository.save(purchasedItem);
 
         purchasedItem = purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
@@ -67,6 +66,6 @@ public class PurchasedItemTest {
 
         String name = purchasedItemRepository.findByPurchasedItemID(purchasedItemID).getItem().getName();
         String name2Compare = itemRepository.findByName(defaultItem.getName()).getName();
-        assertEquals(name, name2Compare);
+        assertEquals( name, name2Compare);
     }
 }

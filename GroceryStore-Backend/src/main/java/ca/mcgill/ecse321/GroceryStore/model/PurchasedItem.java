@@ -17,7 +17,7 @@ public class PurchasedItem
 
   //PurchasedItem Attributes
   @Id
-  //@GeneratedValue(strategy = GenerationType.IDENTITY)
+ // @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int purchasedItemID;
   private int itemQuantity;
 
