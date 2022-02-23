@@ -12,16 +12,19 @@ He can also decide the business hours of the store as well as occasions of holid
 ## Deploying the project as a Heroku application
 ### Backend 
 
- ##### Backend App Name  
+
+ ##### Backend App Name:
 grocerystore-backend-ise2022w 
- ##### Database URL 
-jdbc:postgresql://ec2-3-91-127-228.compute-1.amazonaws.com:5432/daaah13ecc2e9c?password=1766bd0bda93b6655add493bb145aa4dd24414a48a00e8466b9c95b9774f155c&sslmode=require&user=vdgjvdmjzreell
+ ##### Database: 
+- `spring.datasource.url`:jdbc:postgresql://ec2-3-91-127-228.compute-1.amazonaws.com:5432/daaah13ecc2e9c   
+- `spring.datasource.username`:vdgjvdmjzreell   
+- `spring.datasource.password`: 1766bd0bda93b6655add493bb145aa4dd24414a48a00e8466b9c95b9774f155c
 
 ##### How to run this project
 To run the project, clone this repository and run the java file `GroceryStoreBackendApplication.java`  \
 locally as a  `Spring Boot Application`. 
 
-This will deploy the backend [here](http://localhost:8080/). 
+This will deploy the backend [here](http://localhost:8080/) locally.
 
 Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.com/) once deployed.
 
@@ -43,7 +46,7 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 |Abhijeet Praveen |<ul><li> Participated in finishing the class diagram<li> Participated in finishing state diagram<li> Setup initial JPA tags<li>Helped debug JPA tags errors<li>Completed use-case diagram separation into two<li>Started and continuously updated project README.md<li>Started project wiki and deliverable 1 report in the correct format<li>Helped write unit tests for the persistence layer<li>Helped debug errors during testing of persistence layer<li>Participated in formulating 15 most important functional and non-functional requirements<li>Completed use case specification for searching and purchasing items online<li>Helped clean up umple generated code<li>Assured backlog is being maintained<li>Assured checklist from deliverable instructions have been met</ul>|35| 
 |Ari Arabian |<ul><li>Contributed ideas to the class diagram<li>Helped debug JPA tags<li>Setup the Spring-based backend<li>Setup the database, setup application.properties<li>Helped setup CRUD repositories<li>Helped write unit tests for the persistence layer<li>Completed use case specification for adding items to inventory<li>Helped clean up umple generated code</ul>| 35|
 |Edward Habelrih|<ul><li>Contributed and participated in conceiving and building the class diagram<li>Setup all CRUD repositories<li>Setup persistence layer<li>Coded and mapped all unit tests for the persistence layer<li>Setup Spring-based backend<li>Setup application properties<li>Helped debug JPA tags<li>Completed the use case specification for viewing weekly schedules</ul>| 35|
-|Neel Faucher |<ul><li>Completed use case specification for hiring and firing employees<li>Helped team members fix their use case specifications<li>Took meeting minutes for all 4 meetings<li>Helped setup repository<li>Wrote wiki for deliverable 1<li>Completed the UML class diagram<li>Helped with testing of persistence layer<li>Helped clean up umple generated code</ul>| 24|
+|Neel Faucher |<ul><li>Completed use case specification for hiring and firing employees<li>Helped team members fix their use case specifications<li>Took meeting minutes for all 4 meetings<li>Helped setup repository<li>Wrote wiki for deliverable 1<li>Completed the UML class diagram<li>Helped with testing of persistence layer<li>Helped clean up umple generated code</ul>| 22|
 |Rooshnie Velautham|<ul><li>Helped to design the UML class diagram and UML state diagram<li>Setup the initial JPA tags<li>Helped debug JPA tags errors<li>Completed use-case diagram<li>Project wiki and deliverable 1 report in the correct format<li>Added all the functional and non-functional requirements as issues<li>Distributed all the issues to members of the group<li>Assure that that the backlog is up-to-date<li>Helped debug errors during testing of persistence layer<li>Participated in formulating 15 most important functional and non-functional requirements<li>Completed use case scenario specification for a user creating an account<li>Helped clean up umple generated code<li>Wrote testing documentation on wiki and README.md<li>Made sure that everything from the correcting scheme is done neatly</ul>| 27|
 |Sébastien Cantin|<ul><li>Designed most of the UML class diagram and UML state diagram<li>Wrote the rationale for the UML class diagram<li>Setup the Heroku database<li>Setup JPA tags<li>Helped debugging during testing of persistence layer<li>Setup initial issue on GitHub project view<li>Participated in formulating 15 most important functional and non-functional requirements<li>Started the initial use case diagram<li>Cleaned up umple generated code</ul>| 36|
 
