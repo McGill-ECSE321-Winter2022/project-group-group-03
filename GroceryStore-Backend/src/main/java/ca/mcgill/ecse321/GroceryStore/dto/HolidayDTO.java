@@ -12,6 +12,7 @@ public class HolidayDTO {
 
 
     public HolidayDTO(String aName, Date aStartDate, Date aEndDate) {
+        this.name = aName;
         this.startDate = aStartDate;
         this.endDate = aEndDate;
     }
