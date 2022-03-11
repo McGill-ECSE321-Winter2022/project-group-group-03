@@ -1,9 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.dto;
 
 
-import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
-import ca.mcgill.ecse321.GroceryStore.model.Employee;
-
 public class EmployeeDTO {
     private String username;
     private String password;

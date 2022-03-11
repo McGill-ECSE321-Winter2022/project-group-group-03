@@ -26,6 +26,7 @@ public class BusinessHourService {
         newBusinessHour.setEndTime(endTime);
         newBusinessHour.setDay(aDayOfWeek);
         newBusinessHour.setHoursID(curID++);
+        businessHourRepository.save(newBusinessHour);
         return newBusinessHour;
     }
 
