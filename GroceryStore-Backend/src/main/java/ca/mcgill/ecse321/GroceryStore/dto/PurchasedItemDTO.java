@@ -7,7 +7,7 @@ public class PurchasedItemDTO {
     private Item item;
     private int aItemQuantity;
     private int aPurchasedItem;
-
+    private int purchasedItemID;
 
     public PurchasedItemDTO() {
     }
@@ -22,6 +22,10 @@ public class PurchasedItemDTO {
         this.item = item;
         this.aItemQuantity = aItemQuantity;
         this.aPurchasedItem = aPurchasedItem;
+    }
+
+    public int getPurchasedItemID() {
+        return purchasedItemID;
     }
 
     public Item getItem() {
