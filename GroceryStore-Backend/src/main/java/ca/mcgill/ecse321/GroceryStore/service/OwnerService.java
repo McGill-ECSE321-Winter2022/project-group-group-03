@@ -32,6 +32,7 @@ public class OwnerService {
         return owner;
     }
 
+    @Transactional
     public Store getOwnerStore(String aUsername){
         return ownerRepository.findByUsername(aUsername).getStore();
     }
