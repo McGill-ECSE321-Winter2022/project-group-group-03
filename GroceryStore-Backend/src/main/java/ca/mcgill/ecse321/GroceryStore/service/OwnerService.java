@@ -28,13 +28,16 @@ public class OwnerService {
 
     @Transactional
     public Owner getOwner(String aUsername) {
-        Owner owner = ownerRepository.findByUsername(aUsername);
-        return owner;
+        if (aUsername != null && ownerRepository.findByUsername(aUsername) != null)
+        return ownerRepository.findByUsername(aUsername);
+        else throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }
 
     @Transactional
-    public Store getOwnerStore(String aUsername){
+    public Store getOwnerStore(String aUsername) {
+        if (aUsername != null && ownerRepository.findByUsername(aUsername) != null)
         return ownerRepository.findByUsername(aUsername).getStore();
+        else throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }
 
 }

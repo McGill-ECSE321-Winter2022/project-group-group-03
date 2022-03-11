@@ -30,8 +30,10 @@ public class EmployeeService {
 
     @Transactional
     public Employee getEmployee(String aUsername) {
-        Employee employee = employeeRepository.findByUsername(aUsername);
-        return employee;
+        if (aUsername != null && employeeRepository.findByUsername(aUsername) != null)
+            return employeeRepository.findByUsername(aUsername);
+        else throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
+
     }
 
     @Transactional
@@ -41,12 +43,17 @@ public class EmployeeService {
 
     @Transactional
     public List<WorkShift> getEmployeeWorkShifts(String aUsername){
-        return employeeRepository.findByUsername(aUsername).getWorkShift();
+        if (aUsername != null && employeeRepository.findByUsername(aUsername) != null)
+            return employeeRepository.findByUsername(aUsername).getWorkShift();
+        else throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
     }
 
     @Transactional
     public List<Order> getEmployeeOrders(String aUsername){
-        return employeeRepository.findByUsername(aUsername).getOrder();
+        if (aUsername != null && employeeRepository.findByUsername(aUsername) != null)
+            return employeeRepository.findByUsername(aUsername).getOrder();
+        else throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
+
     }
 
     private <T> List<T> toList(Iterable<T> iterable){
