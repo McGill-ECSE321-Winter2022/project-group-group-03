@@ -43,7 +43,7 @@ public class BusinessHourService {
     public void deleteBusinessHour(int hoursID) {
         BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
         if (businessHour == null) {
-            throw new IllegalArgumentException("The business hour with ID: " + hoursID + "does not exist.");
+            throw new IllegalArgumentException("The business hour with ID: " + hoursID + " does not exist.");
         } else {
             businessHourRepository.deleteById(hoursID);
         }
