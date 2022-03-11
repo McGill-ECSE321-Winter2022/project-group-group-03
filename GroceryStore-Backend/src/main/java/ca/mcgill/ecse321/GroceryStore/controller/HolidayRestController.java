@@ -24,13 +24,13 @@ public class HolidayRestController {
         return convertToDto(holiday);
     }
 
-    @GetMapping(value = {"/holiday/", "/holiday/"})
+    @GetMapping(value = {"/holiday", "/holiday/"})
     public List<HolidayDTO> getHolidays() throws IllegalArgumentException {
         List<HolidayDTO> holidayDTOS = new ArrayList<>();
         for (Holiday holiday : holidayService.getAllHolidays()) holidayDTOS.add(convertToDto(holiday));
         return holidayDTOS;
     }
-    @GetMapping(value = {"/holiday/{name}/", "/holiday/{name}/"})
+    @GetMapping(value = {"/holiday/{name}", "/holiday/{name}/"})
     public HolidayDTO getHoliday(@RequestParam String name) throws IllegalArgumentException {
 
         Holiday holiday = holidayService.getHoliday(name);
