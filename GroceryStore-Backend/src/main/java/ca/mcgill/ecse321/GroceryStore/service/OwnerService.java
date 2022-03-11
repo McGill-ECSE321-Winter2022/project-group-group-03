@@ -5,11 +5,13 @@ import ca.mcgill.ecse321.GroceryStore.dao.StoreRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Owner;
 import ca.mcgill.ecse321.GroceryStore.model.Store;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class OwnerService {
     @Autowired
     OwnerRepository ownerRepository;
