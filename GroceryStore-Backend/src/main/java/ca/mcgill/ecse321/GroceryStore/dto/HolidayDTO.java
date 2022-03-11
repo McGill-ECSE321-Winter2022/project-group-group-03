@@ -33,4 +33,12 @@ public class HolidayDTO {
         return endDate;
     }
 
+    public static HolidayDTO fromHoliday(Holiday holiday) throws IllegalArgumentException {
+        if(holiday == null) {
+            throw new IllegalArgumentException("There is no such library opening hours.");
+        }
+        return new HolidayDTO(holiday.getName(), holiday.getStartDate(), holiday.getEndDate());
+    }
+
+
 }

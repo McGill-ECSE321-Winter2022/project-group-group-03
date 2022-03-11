@@ -40,7 +40,11 @@ public class HolidayService {
     }
     @Transactional
     public void deleteHoliday(String name){
-        holidayRepository.deleteById(name);
+        if (name == null || name.equals("")) {
+            throw new IllegalArgumentException("The business hour with ID: " + name + " does not exist.");
+        } else {
+            holidayRepository.deleteById(name);
+        }
     }
 
 
