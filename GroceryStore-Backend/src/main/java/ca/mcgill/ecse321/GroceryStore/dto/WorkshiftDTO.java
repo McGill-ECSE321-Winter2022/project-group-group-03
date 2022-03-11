@@ -27,7 +27,7 @@ public class WorkshiftDTO {
         return endTime;
     }
     public int getShiftID() {
-//        return shiftID;
+        return shiftID;
     }
 
 
