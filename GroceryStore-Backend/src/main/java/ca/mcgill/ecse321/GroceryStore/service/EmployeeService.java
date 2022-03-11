@@ -3,8 +3,10 @@ package ca.mcgill.ecse321.GroceryStore.service;
 import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Employee;
 
+import ca.mcgill.ecse321.GroceryStore.model.Order;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,10 +39,15 @@ public class EmployeeService {
         return toList(employeeRepository.findAll());
     }
 
+    @Transactional
     public List<WorkShift> getEmployeeWorkShifts(String aUsername){
         return employeeRepository.findByUsername(aUsername).getWorkShift();
     }
 
+    @Transactional
+    public List<Order> getEmployeeOrders(String aUsername){
+        return employeeRepository.findByUsername(aUsername).getOrder();
+    }
 
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<T>();

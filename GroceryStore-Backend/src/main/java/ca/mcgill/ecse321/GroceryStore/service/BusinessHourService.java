@@ -15,6 +15,7 @@ public class BusinessHourService {
     @Autowired
     BusinessHourRepository businessHourRepository;
 
+
     public BusinessHour createBusinessHour(Time startTime, Time endTime, BusinessHour.DayOfWeek aDayOfWeek){
         BusinessHour newBusinessHour = new BusinessHour();
         newBusinessHour.setStartTime(startTime);
