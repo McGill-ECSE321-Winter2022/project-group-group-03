@@ -24,6 +24,7 @@ public class HolidayService {
 
         return holiday;
     }
+    @Transactional
     public List<Holiday> getAllHolidays(){
         List<Holiday> holidays = new ArrayList<>();
         for (Holiday holiday:holidayRepository.findAll() ) {

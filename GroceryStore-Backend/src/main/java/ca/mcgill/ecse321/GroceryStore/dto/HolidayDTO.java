@@ -9,9 +9,7 @@ public class HolidayDTO {
     private Date startDate;
     private Date endDate;
 
-    public HolidayDTO(){
 
-    }
 
     public HolidayDTO(String aName, Date aStartDate, Date aEndDate) {
         this.startDate = aStartDate;
@@ -35,7 +33,7 @@ public class HolidayDTO {
 
     public static HolidayDTO fromHoliday(Holiday holiday) throws IllegalArgumentException {
         if(holiday == null) {
-            throw new IllegalArgumentException("There is no such library opening hours.");
+            throw new IllegalArgumentException("There is no such holiday.");
         }
         return new HolidayDTO(holiday.getName(), holiday.getStartDate(), holiday.getEndDate());
     }
