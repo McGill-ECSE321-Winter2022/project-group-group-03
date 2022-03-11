@@ -14,9 +14,19 @@ public class PurchasedItemService {
     @Autowired
     PurchasedItemRepository purchasedItemRepository;
 
+    private static int curID = 90000;
+
     @Transactional
     public void deletePurchasedItem(int purchasedItemID) {
-        purchasedItemRepository.deleteById(purchasedItemID);
+        PurchasedItem pItem= purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
+        if (pItem == null ) {
+            throw new IllegalArgumentException("The purchased item with ID: " + purchasedItemID + " does not exist.");
+        } else {
+            purchasedItemRepository.deleteById(purchasedItemID);
+        }
+
+
+                purchasedItemRepository.deleteById(purchasedItemID);
     }
 
     @Transactional
@@ -36,6 +46,7 @@ public class PurchasedItemService {
         purchasedItem.setPurchasedItemID(aPurchasedItem);
         purchasedItem.setItem(item);
         purchasedItem.setItemQuantity(aItemQuantity);
+        purchasedItem.setPurchasedItemID(curID++);
 
         purchasedItemRepository.save(purchasedItem);
         return purchasedItem;

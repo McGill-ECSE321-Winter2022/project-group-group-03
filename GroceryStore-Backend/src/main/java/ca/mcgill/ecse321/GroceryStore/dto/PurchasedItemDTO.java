@@ -9,19 +9,12 @@ public class PurchasedItemDTO {
     private int aPurchasedItem;
     private int purchasedItemID;
 
-    public PurchasedItemDTO() {
-    }
 
-    //TODO: SuppressWarning
-    /*@SuppressWarnings("unchecked")
-    public PersonDto(String name) {
-        this(name, Collections.EMPTY_LIST);
-    }*/
-
-    public PurchasedItemDTO(Item item, int aItemQuantity, int aPurchasedItem) {
-        this.item = item;
+    public PurchasedItemDTO(Item aItem, int aItemQuantity, int aPurchasedItem, int aPurchasedItemID) {
+        this.item = aItem;
         this.aItemQuantity = aItemQuantity;
         this.aPurchasedItem = aPurchasedItem;
+        this.purchasedItemID = aPurchasedItemID;
     }
 
     public int getPurchasedItemID() {

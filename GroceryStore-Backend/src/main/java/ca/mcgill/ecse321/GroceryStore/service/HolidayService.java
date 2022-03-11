@@ -41,8 +41,9 @@ public class HolidayService {
     }
     @Transactional
     public void deleteHoliday(String name){
-        if (name == null || name.equals("")) {
-            throw new IllegalArgumentException("The business hour with ID: " + name + " does not exist.");
+        Holiday holiday = holidayRepository.findByName(name);
+        if (holiday == null) {
+            throw new IllegalArgumentException("The holiday with name: " + name + " does not exist.");
         } else {
             holidayRepository.deleteById(name);
         }

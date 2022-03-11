@@ -15,9 +15,17 @@ public class WorkShiftService {
     @Autowired
     WorkShiftRepository workShiftRepository;
 
+    private static int curID = 50000;
+
     @Transactional
     public void deleteWorkShift(int shiftID) {
-        workShiftRepository.deleteById(shiftID);
+        WorkShift workShift= workShiftRepository.findByShiftID(shiftID);
+        if (workShift == null ) {
+            throw new IllegalArgumentException("The work shift with ID: " + shiftID + " does not exist.");
+        } else {
+            workShiftRepository.deleteById(shiftID);
+        }
+
     }
 
     @Transactional
@@ -31,13 +39,13 @@ public class WorkShiftService {
     }
 
     @Transactional
-    public WorkShift createWorkShift(Time aStartTime, Time aEndTime, WorkShift.DayOfWeek aDay, int aShiftID) {
+    public WorkShift createWorkShift(Time aStartTime, Time aEndTime, WorkShift.DayOfWeek aDay) {
         WorkShift workShift = new WorkShift();
 
         workShift.setStartTime(aStartTime);
         workShift.setEndTime(aEndTime);
         workShift.setDay(aDay);
-        workShift.setShiftID(aShiftID);
+        workShift.setShiftID(curID++);
 
         workShiftRepository.save(workShift);
         return workShift;

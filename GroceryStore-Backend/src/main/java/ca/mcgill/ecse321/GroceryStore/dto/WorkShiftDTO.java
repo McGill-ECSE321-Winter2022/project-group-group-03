@@ -12,10 +12,7 @@ public class WorkShiftDTO {
     public enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday };
     private DayOfWeek day;
 
-    public WorkShiftDTO() {
-    }
-
-    public WorkShiftDTO(Time startTime, Time endTime, int shiftID,DayOfWeek aDay) {
+    public WorkShiftDTO(Time startTime, Time endTime, int shiftID, DayOfWeek aDay) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.shiftID = shiftID;
@@ -32,6 +29,8 @@ public class WorkShiftDTO {
     public int getShiftID() {
        return shiftID;
     }
-
+    public DayOfWeek getDay() {
+        return day;
+    }
 
 }
