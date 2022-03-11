@@ -21,26 +21,31 @@ public class HolidayRestController {
                                     @RequestParam Date startDate,
                                     @RequestParam Date endDate) throws IllegalArgumentException {
         Holiday holiday = holidayService.createHoliday(name, startDate, endDate);
-        return HolidayDTO.fromHoliday(holiday);
+        return convertToDto(holiday);
     }
 
     @GetMapping(value = {"/holiday/", "/holiday/"})
     public List<HolidayDTO> getHolidays() throws IllegalArgumentException {
         List<HolidayDTO> holidayDTOS = new ArrayList<>();
-        for (Holiday holiday : holidayService.getAllHolidays()) holidayDTOS.add(HolidayDTO.fromHoliday(holiday));
+        for (Holiday holiday : holidayService.getAllHolidays()) holidayDTOS.add(convertToDto(holiday));
         return holidayDTOS;
     }
     @GetMapping(value = {"/holiday/{name}/", "/holiday/{name}/"})
     public HolidayDTO getHoliday(@RequestParam String name) throws IllegalArgumentException {
 
         Holiday holiday = holidayService.getHoliday(name);
-        return HolidayDTO.fromHoliday(holiday);
+
+        return convertToDto(holiday);
     }
 
     @DeleteMapping(value = {"/holiday/{name}", "/holiday/{name}/"})
     public void deleteHoliday(@PathVariable("name") String name) throws IllegalArgumentException {
         holidayService.deleteHoliday(name);
     }
-
-
+    private HolidayDTO convertToDto(Holiday h) {
+        if (h == null) {
+            throw new IllegalArgumentException("There is no such Holiday!");
+        }
+        return new HolidayDTO(h.getName(), h.getStartDate(),h.getEndDate());
+    }
 }

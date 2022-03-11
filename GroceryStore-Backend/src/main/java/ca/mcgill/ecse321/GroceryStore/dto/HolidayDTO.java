@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.dto;
 
-import ca.mcgill.ecse321.GroceryStore.model.Holiday;
+
 
 import java.sql.Date;
 
@@ -32,12 +32,7 @@ public class HolidayDTO {
         return endDate;
     }
 
-    public static HolidayDTO fromHoliday(Holiday holiday) throws IllegalArgumentException {
-        if(holiday == null) {
-            throw new IllegalArgumentException("There is no such holiday.");
-        }
-        return new HolidayDTO(holiday.getName(), holiday.getStartDate(), holiday.getEndDate());
-    }
+
 
 
 }
