@@ -42,7 +42,7 @@ public class ItemService {
     public void deleteItem(String name) {
         Item item = itemRepository.findByName(name);
         if (item == null) {
-            throw new IllegalArgumentException("The item with name " + name + "does not exist.");
+            throw new IllegalArgumentException("The item with name " + name + " does not exist.");
         } else {
             itemRepository.deleteById(name);
         }
