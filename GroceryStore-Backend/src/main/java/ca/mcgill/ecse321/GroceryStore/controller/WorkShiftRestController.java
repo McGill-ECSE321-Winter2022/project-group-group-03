@@ -16,12 +16,12 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
 public class WorkShiftRestController {
-    
+
     @Autowired
     private WorkShiftService workShiftService;
 
     @PostMapping(value = {"/workShift", "/workShift/"})
-    public WorkShiftDTO createHoliday(@RequestParam Time aStartTime,
+    public WorkShiftDTO createWorkShift(@RequestParam Time aStartTime,
                                       @RequestParam Time aEndTime,
                                       @RequestParam String aDay) throws IllegalArgumentException {
         WorkShift workShift = workShiftService.createWorkShift(aStartTime, aEndTime, aDay);
@@ -43,7 +43,7 @@ public class WorkShiftRestController {
     }
 
     @DeleteMapping(value = {"/workShift/{id}", "/workShift/{id}/"})
-    public void deleteHoliday(@PathVariable("id") int id) throws IllegalArgumentException {
+    public void deleteWorkShift(@PathVariable("id") int id) throws IllegalArgumentException {
         workShiftService.deleteWorkShift(id);
     }
 
