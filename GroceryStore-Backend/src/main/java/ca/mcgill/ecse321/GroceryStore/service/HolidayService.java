@@ -18,8 +18,9 @@ public class HolidayService {
     @Transactional
     public Holiday createHoliday (String name,Date startDate, Date endDate){
         Holiday holiday = new Holiday();
+        List <Holiday>  holidays = this.getAllHolidays();
         String error = null;
-        if (name == null) {
+        if (name == null|| name.trim().length() == 0) {
             error="Name can't be empty.";
         } else if (startDate == null) {
             error = "Start Date can't be empty.";
@@ -27,7 +28,15 @@ public class HolidayService {
             error = "End Date can't be empty.";
         } else if(startDate.compareTo(endDate) > 0) {
             error = "Start Date can't be after End Date.";
+        } else if(holidays != null && holidays.size() != 0) {
+            for(Holiday h : holidays) {
+                if(h.getName().equals(name)) {
+                    error = "An identical holiday already exists.";
+                    break;
+                }
+            }
         }
+
         if(error != null){
             throw new IllegalArgumentException(error);
         }

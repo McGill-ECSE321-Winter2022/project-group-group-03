@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TestHolidayService {
@@ -117,6 +117,44 @@ public class TestHolidayService {
         assertEquals("End Date can't be empty.",error);
     }
 
+    @Test
+    public void testCreateHolidayStartBeforeEnd() {
+        assertEquals(0, holidayService.getAllHolidays().size());
+
+        String name = "Easter";
+        Holiday holiday = null;
+        String error = null;
+
+        try{
+            holiday= holidayService.createHoliday(name,END_DATE,START_DATE);
+        }catch(IllegalArgumentException e){
+            error = e.getMessage();
+        }
+
+        assertNull(holiday);
+        assertEquals("Start Date can't be after End Date.",error);
+    }
+
+//    @Test
+//    public void testCreateHolidayDuplicate() {
+//        assertEquals(0, holidayService.getAllHolidays().size());
+//
+//        String name = "Easter";
+//        Holiday holiday1 = null;
+//        Holiday holiday2 = null;
+//        String error = null;
+//
+//        try{
+//            holiday1= holidayService.createHoliday(name,START_DATE,END_DATE);
+////            holiday2= holidayService.createHoliday(name,START_DATE,END_DATE);
+//        }catch(IllegalArgumentException e){
+//            error = e.getMessage();
+//        }
+//        verify(holidayRepository, never()).save(any(Holiday.class));
+//        assertNotNull(holiday1);
+////        assertNull(holiday2);
+//        assertEquals("An identical holiday already exists.",error);
+//    }
 
 
 }
