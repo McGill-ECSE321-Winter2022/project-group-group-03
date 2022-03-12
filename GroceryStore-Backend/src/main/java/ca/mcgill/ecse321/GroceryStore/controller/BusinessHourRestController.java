@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -20,7 +21,7 @@ public class BusinessHourRestController {
     @Autowired
     private BusinessHourService service;
 
-    @PostMapping(value = { "/businessHour", "/businessHour/" })
+    @PostMapping(value = { "/businessHour{hoursID}", "/businessHour{hoursID}/" })
     public BusinessHourDTO createBusinessHour(@RequestParam Time startTime,@RequestParam Time endTime,
                                               @RequestParam String day) throws IllegalArgumentException {
         return convertToDto(service.createBusinessHour(startTime,endTime,day));
@@ -28,9 +29,7 @@ public class BusinessHourRestController {
 
     @GetMapping(value = {"/businessHour","/businessHour/"})
     public List<BusinessHourDTO> getBusinessHours() throws IllegalArgumentException {
-        List<BusinessHourDTO> businessHourDTOList = new ArrayList<>();
-        for (BusinessHour businessHour : service.getAllBusinessHours()) businessHourDTOList.add(convertToDto(businessHour));
-        return businessHourDTOList;
+        return service.getAllBusinessHours().stream().map(this::convertToDto).collect(Collectors.toList());
 
     }
 
