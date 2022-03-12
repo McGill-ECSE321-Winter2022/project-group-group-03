@@ -28,7 +28,7 @@ public class OrderRestController {
 
     private OrderDTO convertToDto(Order o) {
         if (o == null) {
-            throw new IllegalArgumentException("There is no such Holiday!");
+            throw new IllegalArgumentException("There is no such Order!");
         }
         return new OrderDTO(o.getConfirmationNumber(), o.getTotalCost(), o.getStore(),o.getPurchasedItem());
     }
