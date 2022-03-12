@@ -5,12 +5,13 @@ import ca.mcgill.ecse321.GroceryStore.model.BusinessHour;
 import ca.mcgill.ecse321.GroceryStore.service.BusinessHourService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -19,11 +20,33 @@ public class BusinessHourRestController {
     @Autowired
     private BusinessHourService service;
 
-    @GetMapping(value = { "/business_hour/{hoursID}", "/business_hour/{hoursID}/" })
-    public BusinessHourDTO createBusinessHour(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") Time startTime,
-                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") Time endTime, @RequestParam String day) throws IllegalArgumentException{
+    @PostMapping(value = { "/businessHour", "/businessHour/" })
+    public BusinessHourDTO createBusinessHour(@RequestParam Time startTime,@RequestParam Time endTime,
+                                              @RequestParam String day) throws IllegalArgumentException {
+        return convertToDto(service.createBusinessHour(startTime,endTime,day));
+    }
 
-        BusinessHour businessHour = service.createBusinessHour(startTime,endTime,day);
+    @GetMapping(value = {"/businessHour","/businessHour/"})
+    public List<BusinessHourDTO> getBusinessHours() throws IllegalArgumentException {
+        List<BusinessHourDTO> businessHourDTOList = new ArrayList<>();
+        for (BusinessHour businessHour : service.getAllBusinessHours()) businessHourDTOList.add(convertToDto(businessHour));
+        return businessHourDTOList;
+
+    }
+
+    @GetMapping(value = {"/businessHours/{hoursID}", "/businessHours/{hoursID}/"})
+    public BusinessHourDTO getBusinessHour(@PathVariable("hoursID") int hoursID) throws IllegalArgumentException {
+        return convertToDto(service.getBusinessHour(hoursID));
+    }
+
+    @DeleteMapping(value = {"/businessHours/{hoursID}", "/businessHours/{hoursID}/"})
+    public void deleteBusinessHour(@PathVariable("hoursID") int hoursID) throws IllegalArgumentException {
+        service.deleteBusinessHour(hoursID);
+    }
+
+    private BusinessHourDTO convertToDto(BusinessHour aBusinessHour) {
+        if (aBusinessHour == null) throw new IllegalArgumentException("There is no such BusinessHour!");
+        return new BusinessHourDTO(aBusinessHour.getHoursID(),aBusinessHour.getStartTime(),aBusinessHour.getEndTime(),aBusinessHour.getDay().name());
     }
 
 }

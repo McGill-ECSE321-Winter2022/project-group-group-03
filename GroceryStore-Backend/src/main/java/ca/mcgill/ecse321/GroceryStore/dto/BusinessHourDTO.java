@@ -7,13 +7,13 @@ public class BusinessHourDTO {
     private int hoursID;
     private Time startTime;
     private Time endTime;
-    private enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
-    private DayOfWeek day;
+    private String day;
+
 
     public BusinessHourDTO() {}
 
     @SuppressWarnings("unchecked")
-    public BusinessHourDTO(int hoursID, Time startTime, Time endTime, DayOfWeek day) {
+    public BusinessHourDTO(int hoursID, Time startTime, Time endTime, String day) {
         this.hoursID = hoursID;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -26,5 +26,5 @@ public class BusinessHourDTO {
 
     public Time getEndTime() {return endTime;}
 
-    public DayOfWeek getDay() {return day;}
+    public String getDay() {return day;}
 }
