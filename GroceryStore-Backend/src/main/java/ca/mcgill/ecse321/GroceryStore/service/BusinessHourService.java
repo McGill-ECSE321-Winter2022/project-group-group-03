@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
+
+
 import ca.mcgill.ecse321.GroceryStore.dao.BusinessHourRepository;
 import ca.mcgill.ecse321.GroceryStore.model.BusinessHour;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class BusinessHourService {
@@ -20,12 +23,20 @@ public class BusinessHourService {
     private static int curID = 10000;
 
     @Transactional
-    public BusinessHour createBusinessHour(Time startTime, Time endTime, BusinessHour.DayOfWeek aDayOfWeek){
+    public BusinessHour createBusinessHour(Time startTime, Time endTime,  String aDayOfWeek){
         BusinessHour newBusinessHour = new BusinessHour();
         newBusinessHour.setStartTime(startTime);
         newBusinessHour.setEndTime(endTime);
-        newBusinessHour.setDay(aDayOfWeek);
         newBusinessHour.setHoursID(curID++);
+        switch (aDayOfWeek) {
+            case "Monday" -> newBusinessHour.setDay(BusinessHour.DayOfWeek.Monday);
+            case "Tuesday" -> newBusinessHour.setDay(BusinessHour.DayOfWeek.Tuesday);
+            case "Wednesday" -> newBusinessHour.setDay(BusinessHour.DayOfWeek.Wednesday);
+            case "Thursday" -> newBusinessHour.setDay(BusinessHour.DayOfWeek.Thursday);
+            case "Friday" -> newBusinessHour.setDay(BusinessHour.DayOfWeek.Friday);
+            case "Saturday" -> newBusinessHour.setDay(BusinessHour.DayOfWeek.Saturday);
+            case "Sunday" -> newBusinessHour.setDay(BusinessHour.DayOfWeek.Sunday);
+        }
         businessHourRepository.save(newBusinessHour);
         return newBusinessHour;
     }
