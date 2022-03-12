@@ -40,6 +40,7 @@ public class HolidayService {
         Holiday holiday = holidayRepository.findByName(name);
         return holiday;
     }
+
     @Transactional
     public void deleteHoliday(String name){
         Holiday holiday = holidayRepository.findByName(name);

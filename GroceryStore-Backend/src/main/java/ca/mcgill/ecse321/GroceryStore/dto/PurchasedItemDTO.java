@@ -10,7 +10,7 @@ public class PurchasedItemDTO {
     private int purchasedItemID;
 
 
-    public PurchasedItemDTO(Item aItem, int aItemQuantity, int aPurchasedItem, int aPurchasedItemID) {
+    public PurchasedItemDTO(Item aItem, int aItemQuantity, int aPurchasedItemID) {
         this.item = aItem;
         this.aItemQuantity = aItemQuantity;
         this.aPurchasedItem = aPurchasedItem;
