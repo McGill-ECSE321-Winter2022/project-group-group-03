@@ -135,26 +135,26 @@ public class TestHolidayService {
         assertEquals("Start Date can't be after End Date.",error);
     }
 
-//    @Test
-//    public void testCreateHolidayDuplicate() {
-//        assertEquals(0, holidayService.getAllHolidays().size());
-//
-//        String name = "Easter";
-//        Holiday holiday1 = null;
-//        Holiday holiday2 = null;
-//        String error = null;
-//
-//        try{
-//            holiday1= holidayService.createHoliday(name,START_DATE,END_DATE);
-////            holiday2= holidayService.createHoliday(name,START_DATE,END_DATE);
-//        }catch(IllegalArgumentException e){
-//            error = e.getMessage();
-//        }
+    @Test
+    public void testCreateHolidayDuplicate() {
+        assertEquals(0, holidayService.getAllHolidays().size());
+
+        String name = "Easter";
+        Holiday holiday1 = null;
+        Holiday holiday2 = null;
+        String error = null;
+
+        try{
+            holiday1= holidayService.createHoliday(name,START_DATE,END_DATE);
+          holiday2= holidayService.createHoliday(name,START_DATE,END_DATE);
+        }catch(IllegalArgumentException e){
+            error = e.getMessage();
+        }
 //        verify(holidayRepository, never()).save(any(Holiday.class));
-//        assertNotNull(holiday1);
-////        assertNull(holiday2);
-//        assertEquals("An identical holiday already exists.",error);
-//    }
+        assertNotNull(holiday1);
+        assertNull(holiday2);
+        assertEquals("An identical holiday already exists.",error);
+    }
 
 
 }
