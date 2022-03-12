@@ -39,12 +39,11 @@ public class PurchasedItemService {
     }
 
     @Transactional
-    public PurchasedItem createPurchasedItem(Item aItem, int aItemQuantity, int aPurchasedItemID) {
+    public PurchasedItem createPurchasedItem(Item aItem, int aItemQuantity) {
         PurchasedItem purchasedItem = new PurchasedItem();
 
         purchasedItem.setItem(aItem);
         purchasedItem.setItemQuantity(aItemQuantity);
-        purchasedItem.setPurchasedItemID(aPurchasedItemID);
 
         purchasedItem.setPurchasedItemID(curID++);
 

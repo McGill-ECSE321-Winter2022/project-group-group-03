@@ -25,11 +25,10 @@ public class PurchasedItemRestController {
     private PurchasedItemService purchasedItemService;
 
 
-    @PostMapping(value = {"/purchased_item", "/purchased_item"})
+    @PostMapping(value = {"/purchased_item/{purchased_itemid}", "/purchased_item/{purchased_itemid}"}) //we added the extra path variable to test something out
     public PurchasedItemDTO createPurchasedItem(@RequestParam Item item,
-                                                @RequestParam int aItemQuantity,
-                                                @RequestParam int aPurchasedItemID) throws IllegalArgumentException {
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, aItemQuantity, aPurchasedItemID);
+                                                @PathVariable("aItemQuantity") int aItemQuantity) throws IllegalArgumentException {
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, aItemQuantity);
         return convertToDto(purchasedItem);
     }
 
@@ -44,7 +43,7 @@ public class PurchasedItemRestController {
 
 
     @GetMapping(value = {"/purchased_item/{purchased_itemid}", "/purchased_item/{purchased_itemid}"})
-    public PurchasedItemDTO getPurchasedItem(@RequestParam int aPurchasedItemID) throws IllegalArgumentException {
+    public PurchasedItemDTO getPurchasedItem(@PathVariable("purchased_itemid")  int aPurchasedItemID) throws IllegalArgumentException {
         PurchasedItem purchasedItem = purchasedItemService.getPurchasedItem(aPurchasedItemID);
         return convertToDto(purchasedItem);
     }
