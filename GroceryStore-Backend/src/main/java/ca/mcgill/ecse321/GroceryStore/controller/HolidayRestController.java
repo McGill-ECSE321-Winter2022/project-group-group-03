@@ -30,6 +30,7 @@ public class HolidayRestController {
         for (Holiday holiday : holidayService.getAllHolidays()) holidayDTOS.add(convertToDto(holiday));
         return holidayDTOS;
     }
+
     @GetMapping(value = {"/holiday/{name}", "/holiday/{name}/"})
     public HolidayDTO getHoliday(@RequestParam String name) throws IllegalArgumentException {
 

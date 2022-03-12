@@ -24,8 +24,6 @@ public class PurchasedItemService {
         } else {
             purchasedItemRepository.deleteById(purchasedItemID);
         }
-
-
                 purchasedItemRepository.deleteById(purchasedItemID);
     }
 
@@ -35,17 +33,18 @@ public class PurchasedItemService {
     }
 
     @Transactional
-    public PurchasedItem getAllPurchasedItem() {
-        return (PurchasedItem) toList(purchasedItemRepository.findAll());
+    public List<PurchasedItem>  getAllPurchasedItem() {
+        return toList(purchasedItemRepository.findAll());
     }
 
     @Transactional
-    public PurchasedItem createPurchasedItem(Item item, int aItemQuantity, int aPurchasedItem) {
+    public PurchasedItem createPurchasedItem(Item aItem, int aItemQuantity, int aPurchasedItemID) {
         PurchasedItem purchasedItem = new PurchasedItem();
 
-        purchasedItem.setPurchasedItemID(aPurchasedItem);
-        purchasedItem.setItem(item);
+        purchasedItem.setItem(aItem);
         purchasedItem.setItemQuantity(aItemQuantity);
+        purchasedItem.setPurchasedItemID(aPurchasedItemID);
+
         purchasedItem.setPurchasedItemID(curID++);
 
         purchasedItemRepository.save(purchasedItem);
