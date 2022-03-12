@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.GroceryStore.dto;
 
 
+import java.util.List;
+
 public class EmployeeDTO {
     private String username;
     private String password;
@@ -9,6 +11,7 @@ public class EmployeeDTO {
 
     private List<WorkShiftDTO> workShifts;
     private List<DeliveryOrderDTO> deliveryOrders;
+    private List<PickupOrderDTO> pickupOrders;
 
     public EmployeeDTO(){
     }
@@ -45,11 +48,19 @@ public class EmployeeDTO {
         return deliveryOrders;
     }
 
+    public List<PickupOrderDTO> getPickupOrders() {
+        return pickupOrders;
+    }
+
     public void setWorkShifts(List<WorkShiftDTO> workShifts) {
         this.workShifts = workShifts;
     }
 
     public void setDeliveryOrders(List<DeliveryOrderDTO> deliveryOrders) {
         this.deliveryOrders = deliveryOrders;
+    }
+
+    public void setPickupOrders(List<PickupOrderDTO> pickupOrders) {
+        this.pickupOrders = pickupOrders;
     }
 }
