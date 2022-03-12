@@ -18,6 +18,20 @@ public class HolidayService {
     @Transactional
     public Holiday createHoliday (String name,Date startDate, Date endDate){
         Holiday holiday = new Holiday();
+        String error = null;
+        if (name == null) {
+            error="Name can't be empty.";
+        } else if (startDate == null) {
+            error = "Start Date can't be empty.";
+        } else if (endDate == null) {
+            error = "End Date can't be empty.";
+        } else if(startDate.compareTo(endDate) > 0) {
+            error = "Start Date can't be after End Date.";
+        }
+        if(error != null){
+            throw new IllegalArgumentException(error);
+        }
+
         holiday.setName(name);
         holiday.setStartDate(startDate);
         holiday.setEndDate(endDate);
