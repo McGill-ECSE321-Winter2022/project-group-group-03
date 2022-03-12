@@ -6,9 +6,10 @@ import ca.mcgill.ecse321.GroceryStore.dao.PurchasedItemRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Item;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+@Service
 public class PurchasedItemService {
 
     @Autowired
