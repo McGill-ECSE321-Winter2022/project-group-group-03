@@ -17,6 +17,8 @@ public class WorkShiftService {
     WorkShiftRepository workShiftRepository;
 
     private static int curID = 50000;
+    public enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
+    private WorkShift.DayOfWeek day;
 
     @Transactional
     public void deleteWorkShift(int shiftID) {
@@ -40,12 +42,20 @@ public class WorkShiftService {
     }
 
     @Transactional
-    public WorkShift createWorkShift(Time aStartTime, Time aEndTime, WorkShift.DayOfWeek aDay) {
+    public WorkShift createWorkShift(Time aStartTime, Time aEndTime, String aDayOfWeek) {
         WorkShift workShift = new WorkShift();
 
         workShift.setStartTime(aStartTime);
         workShift.setEndTime(aEndTime);
-        workShift.setDay(aDay);
+        switch (aDayOfWeek){
+            case "Monday":  workShift.setDay(WorkShift.DayOfWeek.Monday);
+            case "Tuesday":  workShift.setDay(WorkShift.DayOfWeek.Tuesday);
+            case "Wednesday":  workShift.setDay(WorkShift.DayOfWeek.Wednesday);
+            case "Thursday":  workShift.setDay(WorkShift.DayOfWeek.Thursday);
+            case "Friday":  workShift.setDay(WorkShift.DayOfWeek.Friday);
+            case "Saturday":  workShift.setDay(WorkShift.DayOfWeek.Saturday);
+            case "Sunday":  workShift.setDay(WorkShift.DayOfWeek.Sunday);
+        }
         workShift.setShiftID(curID++);
 
         workShiftRepository.save(workShift);
