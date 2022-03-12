@@ -34,7 +34,7 @@ public class HolidayRestController {
     }
 
     @GetMapping(value = {"/holiday/{name}", "/holiday/{name}/"})
-    public HolidayDTO getHoliday(@RequestParam String name) throws IllegalArgumentException {
+    public HolidayDTO getHoliday(@PathVariable("name") String name) throws IllegalArgumentException {
 
         Holiday holiday = holidayService.getHoliday(name);
 
