@@ -10,8 +10,7 @@ public class EmployeeDTO {
     private String address;
 
     private List<WorkShiftDTO> workShifts;
-    private List<DeliveryOrderDTO> deliveryOrders;
-    private List<PickupOrderDTO> pickupOrders;
+    private List<OrderDTO> orders;
 
     public EmployeeDTO(){
     }
@@ -44,23 +43,16 @@ public class EmployeeDTO {
         return workShifts;
     }
 
-    public List<DeliveryOrderDTO> getDeliveryOrders() {
-        return deliveryOrders;
-    }
-
-    public List<PickupOrderDTO> getPickupOrders() {
-        return pickupOrders;
+    public List<OrderDTO> getOrders() {
+        return orders;
     }
 
     public void setWorkShifts(List<WorkShiftDTO> workShifts) {
         this.workShifts = workShifts;
     }
 
-    public void setDeliveryOrders(List<DeliveryOrderDTO> deliveryOrders) {
-        this.deliveryOrders = deliveryOrders;
+    public void setOrders(List<OrderDTO> orders) {
+        this.orders = orders;
     }
 
-    public void setPickupOrders(List<PickupOrderDTO> pickupOrders) {
-        this.pickupOrders = pickupOrders;
-    }
 }

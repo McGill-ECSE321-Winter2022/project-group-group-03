@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.GroceryStore.controller;
 
 import ca.mcgill.ecse321.GroceryStore.dto.EmployeeDTO;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 import ca.mcgill.ecse321.GroceryStore.model.Employee;
+import ca.mcgill.ecse321.GroceryStore.model.Order;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
 
@@ -30,10 +32,21 @@ public class EmployeeRestController {
         return convertToDto(employee);
     }
 
+    @GetMapping(value = { "/employee/{username}", "/employee/{username}/" })
+    public EmployeeDTO getEmployeeByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
+        return convertToDto(service.getEmployee(username));
+    }
+
     @GetMapping(value = { "/workshift/employee/{username}", "/workshift/employee/{nuserame}/" })
-    public List<WorkShiftDTO> getEventsOfPerson(@PathVariable("username") EmployeeDTO eDto) {
+    public List<WorkShiftDTO> getWorkShiftsOfEmployee(@PathVariable("username") EmployeeDTO eDto) {
         Employee e = convertToDomainObject(eDto);
         return createWorkShiftDtosForEmployee(e);
+    }
+
+    @GetMapping(value = { "/delivery_order/employee/{username}", "/delivery_order/employee/{nuserame}/" })
+    public List<OrderDTO> getDeliveryOOrdersOfEmployee(@PathVariable("username") EmployeeDTO eDto) {
+        Employee e = convertToDomainObject(eDto);
+        return createOrderDtosForEmployee(e);
     }
 
     private EmployeeDTO convertToDto(Employee e) {
@@ -41,6 +54,15 @@ public class EmployeeRestController {
             throw new IllegalArgumentException("There is no such Employee!");
         }
         EmployeeDTO employeeDTO = new EmployeeDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress());
+        return employeeDTO;
+    }
+
+    //TODO: plug in the correct attributes for orderDTO constructor
+    private OrderDTO convertToDto(Order o) {
+        if (o == null) {
+            throw new IllegalArgumentException("There is no such Order!");
+        }
+        OrderDTO orderDTO = new OrderDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress());
         return employeeDTO;
     }
 
@@ -61,5 +83,14 @@ public class EmployeeRestController {
             workShifts.add(convertToDto(workShift));
         }
         return workShifts;
+    }
+
+    private List<OrderDTO> createOrderDtosForEmployee(Employee e) {
+        List<Order> ordersForEmployee = service.getEmployeeOrders(e.getUsername());
+        List<OrderDTO> orders = new ArrayList<>();
+        for (Order order : ordersForEmployee) {
+            orders.add(convertToDto(order));
+        }
+        return orders;
     }
 }

@@ -18,7 +18,7 @@ public class OwnerService {
     StoreRepository storeRepository;
 
     @Transactional
-    public Owner createOwner(String aEmail, String aUsername, String aPassword, String aAddress){
+    public Owner createOwner(String aUsername, String aEmail, String aPassword){
         Owner newOwner = new Owner();
         newOwner.setEmail(aEmail);
         newOwner.setUsername(aUsername);
