@@ -29,7 +29,7 @@ public class PurchasedItemRestController {
     public PurchasedItemDTO createPurchasedItem(@RequestParam String item,
                                                 @RequestParam("aItemQuantity") int aItemQuantity) throws IllegalArgumentException {
 
-       Item item2 = purchasedItemService.getItem(item);
+        Item item2 = purchasedItemService.getItem(item);
         PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item2, aItemQuantity);
         return convertToDto(purchasedItem);
     }
