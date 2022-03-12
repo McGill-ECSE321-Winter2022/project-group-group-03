@@ -3,13 +3,14 @@ package ca.mcgill.ecse321.GroceryStore.service;
 import ca.mcgill.ecse321.GroceryStore.dao.HolidayRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Service
 public class HolidayService {
     @Autowired
     HolidayRepository holidayRepository;
