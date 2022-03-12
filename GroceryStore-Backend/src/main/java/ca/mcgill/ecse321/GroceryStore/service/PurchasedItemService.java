@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.GroceryStore.dao.PurchasedItemRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.ItemRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Item;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class PurchasedItemService {
 
     @Autowired
     PurchasedItemRepository purchasedItemRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
 
     private static int curID = 90000;
 
@@ -31,6 +35,12 @@ public class PurchasedItemService {
     @Transactional
     public PurchasedItem getPurchasedItem(int purchasedItemID) {
         return purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
+    }
+
+    @Transactional
+    public Item getItem(String name) {
+        Item item = itemRepository.findByName(name);
+        return item;
     }
 
     @Transactional

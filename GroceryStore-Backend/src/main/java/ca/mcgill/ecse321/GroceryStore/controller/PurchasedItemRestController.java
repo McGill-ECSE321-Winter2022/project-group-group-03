@@ -24,21 +24,23 @@ public class PurchasedItemRestController {
     @Autowired
     private PurchasedItemService purchasedItemService;
 
-/*
-    @PostMapping(value = {"/purchased_item/{purchased_itemid}", "/purchased_item/{purchased_itemid}"}) //we added the extra path variable to test something out
-    public PurchasedItemDTO createPurchasedItem(@RequestParam Item item,
-                                                @PathVariable("aItemQuantity") int aItemQuantity) throws IllegalArgumentException {
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, aItemQuantity);
+
+    @PostMapping(value = {"/purchased_item", "/purchased_item"}) //we added the extra path variable to test something out
+    public PurchasedItemDTO createPurchasedItem(@RequestParam String item,
+                                                @RequestParam("aItemQuantity") int aItemQuantity) throws IllegalArgumentException {
+
+       Item item2 = purchasedItemService.getItem(item);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item2, aItemQuantity);
         return convertToDto(purchasedItem);
     }
-    */
-    @PostMapping(value = {"/purchased_item", "/purchased_item"})
+
+  /*  @PostMapping(value = {"/purchased_item", "/purchased_item"})
     public PurchasedItemDTO createPurchasedItem(@RequestParam Item item,
                                                 @RequestParam int aItemQuantity,
                                                 @RequestParam int aPurchasedItemID) throws IllegalArgumentException {
         PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, aItemQuantity);
         return convertToDto(purchasedItem);
-    }
+    }*/
 
     @GetMapping(value = {"/purchased_item", "/purchased_item"})
     public List<PurchasedItemDTO> getPurchasedItems() throws IllegalArgumentException {
