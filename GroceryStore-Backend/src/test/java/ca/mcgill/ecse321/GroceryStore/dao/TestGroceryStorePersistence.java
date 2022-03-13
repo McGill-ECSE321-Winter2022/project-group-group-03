@@ -317,7 +317,7 @@ public class TestGroceryStorePersistence {
         deliveryOrderRepository.save(deliveryOrder);
         deliveryOrder = null;
 
-        deliveryOrder = deliveryOrderRepository.findByConfirmationNumber(confirmationNumber);
+        deliveryOrder = deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(confirmationNumber);
         assertNotNull(deliveryOrder);
         assertEquals(confirmationNumber, deliveryOrder.getConfirmationNumber());
     }
