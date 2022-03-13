@@ -43,7 +43,7 @@ public class DeliveryOrderService {
     @Transactional
     public void deleteDeliveryOrder(int confirmationNumber) {
         DeliveryOrder deliveryOrder = deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(confirmationNumber);
-        if (deliveryOrder == null) throw new IllegalArgumentException("The business hour with ID: " + confirmationNumber + " does not exist.");
+        if (deliveryOrder == null) throw new IllegalArgumentException("The deliveryOrder with confirmationNumber: " + confirmationNumber + " does not exist.");
         else deliveryOrderRepository.deleteById(confirmationNumber);
     }
 
