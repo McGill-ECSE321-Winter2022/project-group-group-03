@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.controller;
 
-import ca.mcgill.ecse321.GroceryStore.dto.StoreDTO;
+import ca.mcgill.ecse321.GroceryStore.dto.*;
 import ca.mcgill.ecse321.GroceryStore.model.*;
 import ca.mcgill.ecse321.GroceryStore.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;

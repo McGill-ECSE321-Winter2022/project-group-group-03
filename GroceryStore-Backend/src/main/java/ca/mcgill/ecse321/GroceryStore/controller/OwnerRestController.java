@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.GroceryStore.controller;
 
 import ca.mcgill.ecse321.GroceryStore.dto.OwnerDTO;
+import ca.mcgill.ecse321.GroceryStore.dto.StoreDTO;
 import ca.mcgill.ecse321.GroceryStore.model.Owner;
 import ca.mcgill.ecse321.GroceryStore.model.Store;
 import ca.mcgill.ecse321.GroceryStore.service.OwnerService;

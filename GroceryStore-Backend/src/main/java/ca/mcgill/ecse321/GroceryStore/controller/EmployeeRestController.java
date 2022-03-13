@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.GroceryStore.controller;
 
 import ca.mcgill.ecse321.GroceryStore.dto.EmployeeDTO;
+import ca.mcgill.ecse321.GroceryStore.dto.OrderDTO;
+import ca.mcgill.ecse321.GroceryStore.dto.WorkShiftDTO;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 import ca.mcgill.ecse321.GroceryStore.model.Employee;
 import ca.mcgill.ecse321.GroceryStore.model.Order;
