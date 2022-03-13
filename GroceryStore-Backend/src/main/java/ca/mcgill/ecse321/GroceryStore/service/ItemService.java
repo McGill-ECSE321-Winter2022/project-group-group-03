@@ -17,6 +17,19 @@ public class ItemService {
 
     @Transactional
     public Item createItem(String name, boolean purchasable, int price, String description, int stock) {
+        ArrayList<String> errorMessages = new ArrayList<>();
+
+        if (name == null || name.trim().length() == 0) errorMessages.add("Name can't be empty");
+
+        if (description == null || description.trim().length() == 0) errorMessages.add("Description can't be empty.");
+
+        if (errorMessages.isEmpty()) {
+            Item item = itemRepository.findByName(name);
+            if (item != null) errorMessages.add("An identical Business Hour already exists.");
+        }
+
+        if (errorMessages.size() > 0) throw new IllegalArgumentException(String.join(" ", errorMessages));
+
         Item item = new Item();
         item.setName(name);
         item.setPurchasable(purchasable);
@@ -30,7 +43,9 @@ public class ItemService {
 
     @Transactional
     public Item getItem(String name) {
-        return itemRepository.findByName(name);
+        Item item = itemRepository.findByName(name);
+        if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
+        return item;
     }
 
     @Transactional
@@ -41,11 +56,8 @@ public class ItemService {
     @Transactional
     public void deleteItem(String name) {
         Item item = itemRepository.findByName(name);
-        if (item == null) {
-            throw new IllegalArgumentException("The item with name " + name + " does not exist.");
-        } else {
-            itemRepository.deleteById(name);
-        }
+        if (item == null) throw new IllegalArgumentException("The item with name " + name + " does not exist.");
+        else itemRepository.deleteById(name);
     }
 
     private <T> List<T> toList(Iterable<T> iterable){
