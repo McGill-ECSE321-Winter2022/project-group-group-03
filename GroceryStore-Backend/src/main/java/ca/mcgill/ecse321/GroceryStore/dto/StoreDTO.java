@@ -19,7 +19,7 @@ public class StoreDTO {
 
     public StoreDTO(){}
 
-    public StoreDTO(int storeID, String address, int currentActiveDelivery, int currentActivePickupr){
+    public StoreDTO(int storeID, String address, int currentActiveDelivery, int currentActivePickup){
         this.storeID = storeID;
         this.address = address;
         this.currentActiveDelivery = currentActiveDelivery;
