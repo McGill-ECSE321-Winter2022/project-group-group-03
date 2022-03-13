@@ -31,8 +31,8 @@ public class CustomerService {
     }
     @Transactional
     public Customer getCustomer(String aUsername){
-        Customer customer = customerRepository.findCustomerByUsername(aUsername);
-        return customer;
+       return customerRepository.findCustomerByUsername(aUsername);
+
     }
     @Transactional
     public List<Customer> getAllCustomers(){
@@ -43,7 +43,7 @@ public class CustomerService {
         return customerRepository.findCustomerByUsername(aUsername).getOrder();
     }
     private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
             resultList.add(t);
         }

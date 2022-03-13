@@ -12,7 +12,6 @@ public class CustomerDTO {
     private List<DeliveryOrderDTO> deliveryOrders;
     private List<PickupOrderDTO> pickupOrders;
 
-    public CustomerDTO(){}
 
     public CustomerDTO(String username, String password, String email, String address){
         this.username = username;
@@ -30,7 +29,7 @@ public class CustomerDTO {
         return email;
     }
     public String getAddress(){
-        return email;
+        return address;
     }
     public List<DeliveryOrderDTO> getDeliveryOrders() {
         return deliveryOrders;

@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.dto;
 
-import ca.mcgill.ecse321.GroceryStore.model.Order;
+
 
 public class DeliveryOrderDTO {
 
@@ -9,8 +9,6 @@ public class DeliveryOrderDTO {
     private int confirmationNumber;
     private int totalCost;
 
-
-    public DeliveryOrderDTO(){}
 
     public DeliveryOrderDTO(String shippingAddress, String shippingStatus, int confirmationNumber, int totalCost){
         this.shippingAddress = shippingAddress;
@@ -25,5 +23,6 @@ public class DeliveryOrderDTO {
         return shippingStatus;
     }
 
-
+    public int getConfirmationNumber() {return confirmationNumber;}
+    public int getTotalCost() {return totalCost;}
 }

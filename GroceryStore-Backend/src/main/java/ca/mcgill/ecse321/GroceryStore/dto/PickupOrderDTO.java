@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.dto;
 
-import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
+
 
 public class PickupOrderDTO {
 
@@ -9,7 +9,7 @@ public class PickupOrderDTO {
     private int confirmationNumber;
     private int totalCost;
 
-    public PickupOrderDTO(){}
+
 
     public PickupOrderDTO(int confirmationNumber, int totalCost, String paymentMethod, String pickupStatus){
         this.paymentMethod = paymentMethod;

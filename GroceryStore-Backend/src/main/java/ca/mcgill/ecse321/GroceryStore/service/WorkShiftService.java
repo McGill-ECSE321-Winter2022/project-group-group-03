@@ -62,7 +62,7 @@ public class WorkShiftService {
     }
 
         private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
             resultList.add(t);
         }

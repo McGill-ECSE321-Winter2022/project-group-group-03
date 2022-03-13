@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.GroceryStore.dto;
 
-import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 
 import java.sql.Time;
 

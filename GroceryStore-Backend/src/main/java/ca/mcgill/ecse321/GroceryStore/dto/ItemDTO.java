@@ -9,9 +9,8 @@ public class ItemDTO {
     private int stock;
     private int totalPurchased;
 
-    public ItemDTO() {}
 
-    @SuppressWarnings("unchecked")
+
     public ItemDTO(String name, boolean purchasable, int price, String description, int stock, int totalPurchased) {
         this.name = name;
         this.purchasable = purchasable;

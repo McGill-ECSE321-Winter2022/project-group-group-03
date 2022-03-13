@@ -12,10 +12,8 @@ public class EmployeeDTO {
     private List<WorkShiftDTO> workShifts;
     private List<OrderDTO> orders;
 
-    public EmployeeDTO(){
-    }
 
-    @SuppressWarnings("unchecked")
+
     public EmployeeDTO(String username, String password, String email, String address){
         this.username = username;
         this.password = password;

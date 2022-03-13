@@ -29,7 +29,7 @@ public class OwnerRestController {
         return convertToDto(service.getOwner(username));
     }
 
-    @GetMapping(value = { "/registrations/person/{name}", "/registrations/person/{name}/" })
+    @GetMapping(value = { "/registrations/person/{username}", "/registrations/person/{username}/" })
     public StoreDTO getStoreOfOwner(@PathVariable("username") OwnerDTO oDto) {
         Owner o = convertToDomainObject(oDto);
         return createStoreDtoOfOwner(o);
@@ -39,8 +39,7 @@ public class OwnerRestController {
         if (o == null) {
             throw new IllegalArgumentException("There is no such Owner!");
         }
-        OwnerDTO ownerDTO = new OwnerDTO(o.getUsername(), o.getEmail(), o.getPassword());
-        return ownerDTO;
+        return new OwnerDTO(o.getUsername(), o.getEmail(), o.getPassword());
     }
 
     private StoreDTO convertToDto(Store store) {
@@ -48,8 +47,7 @@ public class OwnerRestController {
     }
 
     private Owner convertToDomainObject(OwnerDTO oDto) {
-        Owner owner = service.getOwner(oDto.getUsername());
-        return owner;
+        return service.getOwner(oDto.getUsername());
     }
 
     private StoreDTO createStoreDtoOfOwner(Owner owner){

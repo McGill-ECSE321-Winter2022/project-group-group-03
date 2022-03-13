@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.dto;
 
-import ca.mcgill.ecse321.GroceryStore.model.BusinessHour;
-import ca.mcgill.ecse321.GroceryStore.model.Employee;
-import ca.mcgill.ecse321.GroceryStore.model.Store;
+
 
 import java.util.List;
 
@@ -17,7 +15,7 @@ public class StoreDTO {
     private List<HolidayDTO> holidays;
     private List<BusinessHourDTO> businesshours;
 
-    public StoreDTO(){}
+
 
     public StoreDTO(int storeID, String address, int currentActiveDelivery, int currentActivePickup){
         this.storeID = storeID;
@@ -25,6 +23,7 @@ public class StoreDTO {
         this.currentActiveDelivery = currentActiveDelivery;
         this.currentActivePickup = currentActivePickup;
     }
+
     public int getStoreID(){
         return storeID;
     }

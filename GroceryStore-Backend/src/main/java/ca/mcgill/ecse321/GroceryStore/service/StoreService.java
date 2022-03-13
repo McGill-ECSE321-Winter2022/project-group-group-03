@@ -25,8 +25,8 @@ public class StoreService {
     }
     @Transactional
     public Store getStore(int storeId){
-        Store store = storeRepository.findById(storeId);
-        return store;
+        return storeRepository.findById(storeId);
+
     }
     @Transactional
     public List<Store> getAllStores(){
@@ -52,7 +52,7 @@ public class StoreService {
     }
 
     private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
             resultList.add(t);
         }

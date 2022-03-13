@@ -1,18 +1,15 @@
 package ca.mcgill.ecse321.GroceryStore.controller;
 
-import ca.mcgill.ecse321.GroceryStore.dao.PurchasedItemRepository;
-import ca.mcgill.ecse321.GroceryStore.dto.HolidayDTO;
+
 import ca.mcgill.ecse321.GroceryStore.dto.PurchasedItemDTO;
-import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 import ca.mcgill.ecse321.GroceryStore.model.Item;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
-import ca.mcgill.ecse321.GroceryStore.service.HolidayService;
 import ca.mcgill.ecse321.GroceryStore.service.PurchasedItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,14 +30,6 @@ public class PurchasedItemRestController {
         PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item2, aItemQuantity);
         return convertToDto(purchasedItem);
     }
-
-  /*  @PostMapping(value = {"/purchased_item", "/purchased_item"})
-    public PurchasedItemDTO createPurchasedItem(@RequestParam Item item,
-                                                @RequestParam int aItemQuantity,
-                                                @RequestParam int aPurchasedItemID) throws IllegalArgumentException {
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, aItemQuantity);
-        return convertToDto(purchasedItem);
-    }*/
 
     @GetMapping(value = {"/purchased_item", "/purchased_item"})
     public List<PurchasedItemDTO> getPurchasedItems() throws IllegalArgumentException {

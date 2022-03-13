@@ -6,10 +6,7 @@ public class OwnerDTO {
     private String email;
     private StoreDTO store;
 
-    public OwnerDTO(){
-    }
 
-    @SuppressWarnings("unchecked")
     public OwnerDTO(String username, String password, String email){
         this.username = username;
         this.password = password;

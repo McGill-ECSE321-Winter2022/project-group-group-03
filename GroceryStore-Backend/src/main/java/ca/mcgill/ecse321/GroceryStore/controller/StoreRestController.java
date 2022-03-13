@@ -18,7 +18,7 @@ public class StoreRestController {
 
     @GetMapping(value = {"/store", "/store/"})
     public List<StoreDTO> getAllStores(){
-        return service.getAllStores().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+        return service.getAllStores().stream().map(this::convertToDto).collect(Collectors.toList());
     }
     @PostMapping(value = { "/store/{storeID}", "/store/{storeID}/" })
     public StoreDTO createStore(@PathVariable("storeID") int storeID, @RequestParam String aAddress, @RequestParam int aCurrentActiveDelivery, @RequestParam int aCurrentActivePickup) throws IllegalArgumentException {
@@ -56,37 +56,32 @@ public class StoreRestController {
         if (c == null) {
             throw new IllegalArgumentException("There is no such Store!");
         }
-        StoreDTO storeDTO = new StoreDTO(c.getStoreID(),c.getAddress(),c.getCurrentActiveDelivery(),c.getCurrentActivePickup());
-        return storeDTO;
+        return new StoreDTO(c.getStoreID(),c.getAddress(),c.getCurrentActiveDelivery(),c.getCurrentActivePickup());
     }
     private EmployeeDTO convertToDto(Employee e) {
         if (e == null) {
             throw new IllegalArgumentException("There is no such Employee!");
         }
-        EmployeeDTO employeeDTO = new EmployeeDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress());
-        return employeeDTO;
+        return new EmployeeDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress());
     }
 
     private ItemDTO convertToDto(Item i) {
         if (i == null) {
             throw new IllegalArgumentException("There is no such Item!");
         }
-        ItemDTO itemDTO = new ItemDTO(i.getName(), i.getPurchasable(), i.getDescription(),i.getStock(), i.getTotalPurchased());
-        return itemDTO;
+        return new ItemDTO(i.getName(),i.getPurchasable(),i.getPrice(),i.getDescription(),i.getStock(),i.getTotalPurchased());
     }
     private HolidayDTO convertToDto(Holiday h) {
         if (h == null) {
             throw new IllegalArgumentException("There is no such Holiday!");
         }
-        HolidayDTO holidayDTO = new HolidayDTO(h.getName(), h.getStartDate(), h.getEndDate());
-        return holidayDTO;
+        return new HolidayDTO(h.getName(), h.getStartDate(), h.getEndDate());
     }
     private BusinessHourDTO convertToDto(BusinessHour b) {
         if (b == null) {
             throw new IllegalArgumentException("There is no such BusinessHour!");
         }
-        BusinessHourDTO businessHourDTO = new BusinessHourDTO(b.getHoursID(), b.getStartTime(), b.getEndTime(), b.getDay().name());
-        return businessHourDTO;
+        return new BusinessHourDTO(b.getHoursID(), b.getStartTime(), b.getEndTime(), b.getDay().name());
     }
 
 
@@ -102,7 +97,7 @@ public class StoreRestController {
 
     private List<EmployeeDTO> createEmployeeDtosForStore(Store s) {
         List<Employee> employeesForStore = service.getEmployees(s.getStoreID());
-        List<EmployeeDTO> employees = new ArrayList();
+        List<EmployeeDTO> employees = new ArrayList<>();
         for (Employee employee : employeesForStore) {
             employees.add(convertToDto(employee));
         }
@@ -111,7 +106,7 @@ public class StoreRestController {
 
     private List<ItemDTO> createItemDtosForStore(Store s) {
         List<Item> itemsForStore = service.getItems(s.getStoreID());
-        List<ItemDTO> items = new ArrayList();
+        List<ItemDTO> items = new ArrayList<>();
         for (Item item : itemsForStore) {
             items.add(convertToDto(item));
         }
@@ -120,7 +115,7 @@ public class StoreRestController {
 
     private List<HolidayDTO> createHolidayDtosForStore(Store s) {
         List<Holiday> holidaysForStore = service.getStoreHolidays(s.getStoreID());
-        List<HolidayDTO> holidays = new ArrayList();
+        List<HolidayDTO> holidays = new ArrayList<>();
         for (Holiday holiday : holidaysForStore) {
             holidays.add(convertToDto(holiday));
         }
@@ -128,7 +123,7 @@ public class StoreRestController {
     }
     private List<BusinessHourDTO> createBusinessHourDtosForStore(Store s) {
         List<BusinessHour> businessHoursForStore = service.getBusinessHours(s.getStoreID());
-        List<BusinessHourDTO> businessHours = new ArrayList();
+        List<BusinessHourDTO> businessHours = new ArrayList<>();
         for (BusinessHour businessHour : businessHoursForStore) {
             businessHours.add(convertToDto(businessHour));
         }

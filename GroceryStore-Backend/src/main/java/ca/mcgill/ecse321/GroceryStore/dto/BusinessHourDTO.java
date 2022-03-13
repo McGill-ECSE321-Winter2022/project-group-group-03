@@ -10,9 +10,7 @@ public class BusinessHourDTO {
     private String day;
 
 
-    public BusinessHourDTO() {}
 
-    @SuppressWarnings("unchecked")
     public BusinessHourDTO(int hoursID, Time startTime, Time endTime, String day) {
         this.hoursID = hoursID;
         this.startTime = startTime;

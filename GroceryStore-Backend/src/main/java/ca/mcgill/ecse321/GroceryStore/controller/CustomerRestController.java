@@ -21,7 +21,7 @@ public class CustomerRestController {
 
     @GetMapping(value = {"/customer", "/customer/"})
     public List<CustomerDTO> getAllCustomers(){
-        return service.getAllCustomers().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+        return service.getAllCustomers().stream().map(this::convertToDto).collect(Collectors.toList());
     }
     @PostMapping(value = { "/customer/{username}", "/customer/{username}/" })
     public CustomerDTO createCustomer(@PathVariable("username") String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
@@ -42,15 +42,13 @@ public class CustomerRestController {
         if (c == null) {
             throw new IllegalArgumentException("There is no such Customer!");
         }
-        CustomerDTO customerDTO = new CustomerDTO(c.getUsername(),c.getPassword(),c.getEmail(),c.getAddress());
-        return customerDTO;
+        return new CustomerDTO(c.getUsername(),c.getPassword(),c.getEmail(),c.getAddress());
     }
     private OrderDTO convertToDto(Order o) {
         if (o == null) {
             throw new IllegalArgumentException("There is no such Order!");
         }
-        OrderDTO orderDTO = new OrderDTO(c.getUsername(),c.getPassword(),c.getEmail(),c.getAddress());
-        return CustomerDTO;
+        return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem());
     }
     private Customer convertToDomainObject(CustomerDTO eDto) {
         List<Customer> allCustomers = service.getAllCustomers();

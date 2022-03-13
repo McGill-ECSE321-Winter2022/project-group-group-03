@@ -15,7 +15,7 @@ public class DeliveryOrderRestController {
     @Autowired
     private DeliveryOrderService service;
 
-    @PostMapping(value = { "/deliveryOrder{confirmationNumber}", "/deliveryOrder{confirmationNumber}/" })
+    @PostMapping(value = { "/deliveryOrder", "/deliveryOrder/" })
     public DeliveryOrderDTO createDeliveryOrder(@RequestParam String shippingAddress, @RequestParam String shippingStatus,
                                                @RequestParam int confirmationNumber, @RequestParam int totalCost) throws IllegalArgumentException {
         return convertToDto(service.createDeliveryOrder(shippingAddress,shippingStatus,confirmationNumber,totalCost));

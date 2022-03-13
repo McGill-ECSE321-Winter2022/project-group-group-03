@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +20,7 @@ public class BusinessHourRestController {
     @Autowired
     private BusinessHourService service;
 
-    @PostMapping(value = { "/businessHour{hoursID}", "/businessHour{hoursID}/" })
+    @PostMapping(value = { "/businessHour", "/businessHour/" })
     public BusinessHourDTO createBusinessHour(@RequestParam Time startTime,@RequestParam Time endTime,
                                               @RequestParam String day) throws IllegalArgumentException {
         return convertToDto(service.createBusinessHour(startTime,endTime,day));

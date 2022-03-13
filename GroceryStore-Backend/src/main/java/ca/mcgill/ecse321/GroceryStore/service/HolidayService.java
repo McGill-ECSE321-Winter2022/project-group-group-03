@@ -60,8 +60,8 @@ public class HolidayService {
 
     @Transactional
     public Holiday getHoliday(String name){
-        Holiday holiday = holidayRepository.findByName(name);
-        return holiday;
+        return holidayRepository.findByName(name);
+
     }
 
     @Transactional

@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
-
-
 import ca.mcgill.ecse321.GroceryStore.dao.BusinessHourRepository;
 import ca.mcgill.ecse321.GroceryStore.model.BusinessHour;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +57,7 @@ public class BusinessHourService {
     }
 
     private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
             resultList.add(t);
         }
