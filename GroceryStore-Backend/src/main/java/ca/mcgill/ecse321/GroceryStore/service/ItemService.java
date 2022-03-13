@@ -25,7 +25,7 @@ public class ItemService {
 
         if (errorMessages.isEmpty()) {
             Item item = itemRepository.findByName(name);
-            if (item != null) errorMessages.add("An identical Business Hour already exists.");
+            if (item != null) errorMessages.add("An identical Item already exists.");
         }
 
         if (errorMessages.size() > 0) throw new IllegalArgumentException(String.join(" ", errorMessages));
