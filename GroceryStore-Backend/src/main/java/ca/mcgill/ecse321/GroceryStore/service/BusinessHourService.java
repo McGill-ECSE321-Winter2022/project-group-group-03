@@ -32,7 +32,7 @@ public class BusinessHourService {
             errorMessages.add("End Time cannot be before Start Time.");
         }
 
-        if (aDayOfWeek == null) errorMessages.add("Day cannot be empty.");
+        if (aDayOfWeek == null || aDayOfWeek.trim().length() == 0) errorMessages.add("Day cannot be empty.");
 
         BusinessHour newBusinessHour = new BusinessHour();
 
