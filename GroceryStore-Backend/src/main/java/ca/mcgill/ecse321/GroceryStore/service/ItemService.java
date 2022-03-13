@@ -24,9 +24,11 @@ public class ItemService {
         if (description == null || description.trim().length() == 0) errorMessages.add("Description can't be empty.");
 
         if (errorMessages.isEmpty()) {
-            Item item = itemRepository.findByName(name);
-            if (item != null) errorMessages.add("An identical Item already exists.");
+            if (itemRepository.existsById(name)) {
+                errorMessages.add("An identical Item already exists.");
+            }
         }
+
 
         if (errorMessages.size() > 0) throw new IllegalArgumentException(String.join(" ", errorMessages));
 

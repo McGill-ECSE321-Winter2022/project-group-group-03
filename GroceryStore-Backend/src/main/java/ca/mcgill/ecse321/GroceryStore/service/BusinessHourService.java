@@ -50,8 +50,9 @@ public class BusinessHourService {
         }
 
         if (errorMessages.isEmpty()) {
-            BusinessHour businessHour = businessHourRepository.findByHoursID(curID);
-            if (businessHour != null) errorMessages.add("An identical Business Hour already exists.");
+            if (businessHourRepository.existsById(curID)) {
+                errorMessages.add("An identical Item already exists.");
+            }
         }
 
         if (errorMessages.size() > 0) throw new IllegalArgumentException(String.join(" ", errorMessages));
