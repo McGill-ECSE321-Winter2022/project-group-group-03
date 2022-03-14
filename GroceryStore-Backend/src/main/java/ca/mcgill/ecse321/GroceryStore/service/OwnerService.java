@@ -22,29 +22,45 @@ public class OwnerService {
         if (aEmail==null) throw new IllegalArgumentException("Email can't be empty.");
         if (aPassword==null) throw new IllegalArgumentException("Password can't be empty.");
 
-        if(ownerRepository.existsById(aUsername)) throw new IllegalArgumentException("An identical owner already exists.");
+        for (Owner owner : ownerRepository.findAll()){
+            //System.out.println(owner.getUsername());
+            //System.out.println(owner.getEmail());
+            if (owner.getUsername().equals(aUsername)) throw new IllegalArgumentException("An identical owner already exists.");
+            if (owner.getEmail().equals(aEmail)) throw new IllegalArgumentException("An identical owner already exists.");
+        }
 
         Owner newOwner = new Owner();
-        newOwner.setEmail(aEmail);
         newOwner.setUsername(aUsername);
+        newOwner.setEmail(aEmail);
         newOwner.setPassword(aPassword);
-        newOwner.setStore(storeRepository.findAll().iterator().next());
+
+        try{
+            newOwner.setStore(storeRepository.findAll().iterator().next());
+        }catch(Exception e){
+            throw new IllegalArgumentException("A store is needed to initialize an owner");
+        }
         ownerRepository.save(newOwner);
         return newOwner;
     }
 
     @Transactional
     public Owner getOwner(String aUsername) {
-        if (aUsername != null && ownerRepository.findByUsername(aUsername) != null)
-        return ownerRepository.findByUsername(aUsername);
-        else throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
+        if (aUsername != null) {
+            for(Owner owner : ownerRepository.findAll()){
+                if (owner.getUsername().equals(aUsername)) return owner;
+            }
+        }
+        throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }
 
     @Transactional
     public Store getOwnerStore(String aUsername) {
-        if (aUsername != null && ownerRepository.findByUsername(aUsername) != null)
-        return ownerRepository.findByUsername(aUsername).getStore();
-        else throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
+        if (aUsername != null) {
+            for(Owner owner : ownerRepository.findAll()){
+                if (owner.getUsername().equals(aUsername)) return owner.getStore();
+            }
+        }
+        throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }
 
 }

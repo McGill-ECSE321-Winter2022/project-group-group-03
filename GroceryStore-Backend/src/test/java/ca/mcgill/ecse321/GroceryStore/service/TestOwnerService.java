@@ -17,10 +17,7 @@ import org.mockito.stubbing.Answer;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -92,6 +89,26 @@ public class TestOwnerService {
     }
 
     @Test
+    public void testCreateOwnerNoStore() {
+
+        //test stub
+        ArrayList<Store> ls = new ArrayList<>();
+        when(storeRepository.findAll()).thenReturn(ls);
+
+        Owner owner = null;
+        String error = null;
+
+        try{
+            owner = ownerService.createOwner(OWNER_USERNAME, OWNER_EMAIL, OWNER_PASSWORD);
+        }catch(IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("A store is needed to initialize an owner", error);
+    }
+
+
+    @Test
     public void testCreateOwnerNullName() {
 
         Store store = storeService.createStore(15, "MTL", 9, 8);
@@ -155,37 +172,95 @@ public class TestOwnerService {
     }
 
     @Test
-    public void testCreateOwnerDuplicate() {
+    public void testGetOwnerStore() {
+
+        Store store = storeService.createStore(15, "MTL", 9, 8);
+        storeRepository.save(store);
+
+        //test stub
+        ArrayList<Store> ls = new ArrayList<>();
+        ls.add(store);
+        when(storeRepository.findAll()).thenReturn(ls);
+
+        Owner owner = null;
+        Store store2 = null;
+
+        try{
+            owner = ownerService.createOwner(OWNER_USERNAME, OWNER_EMAIL, OWNER_PASSWORD);
+
+            when(ownerRepository.findAll()).thenReturn(Arrays.asList(owner));
+
+            store2 = ownerService.getOwnerStore(owner.getUsername());
+        }catch(IllegalArgumentException e){
+            fail();
+        }
+        assertEquals(store, store2);
+    }
+
+    @Test
+    public void testCreateOwnerDuplicateUsername() {
 
         Store store = storeService.createStore(15, "MTL", 9, 8);
         storeRepository.save(store);
 
         //test stub to create owner because we need a store
-        ArrayList<Store> ls = new ArrayList<>();
-        ls.add(store);
-        when(storeRepository.findAll()).thenReturn(ls);
-
-
+        when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
 
         Owner owner1 = null;
         Owner owner2 = null;
         String error = null;
 
 
-        when(ownerRepository.existsById(anyString())).thenReturn(Objects.nonNull(owner1));
+        when(ownerRepository.findAll()).thenReturn(Arrays.asList());
 
         try{
-            owner1 = ownerService.createOwner(OWNER_USERNAME, OWNER_EMAIL, OWNER_PASSWORD);
-            when(ownerRepository.existsById(anyString())).thenReturn(Objects.nonNull(owner1));
-            owner2 = ownerService.createOwner(OWNER_USERNAME, OWNER_EMAIL, OWNER_PASSWORD);
+            owner1 = ownerService.createOwner(OWNER_USERNAME, "email1@mail.com", OWNER_PASSWORD);
+            when(ownerRepository.findAll()).thenReturn(Arrays.asList(owner1));
+
+            owner2 = ownerService.createOwner(OWNER_USERNAME, "email2@mail.com", OWNER_PASSWORD);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
-        //verify(ownerRepository, never()).save(any(Owner.class));
-        assertNotNull(owner1);
 
+        assertNotNull(owner1);
         assertNull(owner2);
         assertEquals("An identical owner already exists.",error);
     }
 
+    @Test
+    public void testCreateOwnerDuplicateEmail() {
+
+        Store store = storeService.createStore(15, "MTL", 9, 8);
+        storeRepository.save(store);
+
+        //test stub to create owner because we need a store
+        when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
+
+        Owner owner1 = null;
+        Owner owner2 = null;
+        String error = null;
+
+
+        when(ownerRepository.findAll()).thenReturn(Arrays.asList());
+
+        try{
+            owner1 = ownerService.createOwner("boss1", OWNER_EMAIL, OWNER_PASSWORD);
+
+            when(ownerRepository.findAll()).thenReturn(Arrays.asList(owner1));
+
+            for (Owner owner : ownerRepository.findAll()) {
+                System.out.println(owner.getUsername());
+                System.out.println(owner.getEmail());
+            }
+
+            owner2 = ownerService.createOwner("boss2", OWNER_EMAIL, OWNER_PASSWORD);
+
+        }catch(IllegalArgumentException e){
+            error = e.getMessage();
+        }
+
+        assertNotNull(owner1);
+        assertNull(owner2);
+        assertEquals("An identical owner already exists.",error);
+    }
 }
