@@ -16,7 +16,7 @@ public class HolidayService {
     HolidayRepository holidayRepository;
 
     @Transactional
-    public Holiday createHoliday (String name,Date startDate, Date endDate) {
+    public Holiday createHoliday(String name, Date startDate, Date endDate) {
         Holiday holiday = new Holiday();
         List<Holiday> holidays = this.getAllHolidays();
         String error = null;
@@ -53,25 +53,22 @@ public class HolidayService {
     }
 
     @Transactional
-    public List<Holiday> getAllHolidays(){
+    public List<Holiday> getAllHolidays() {
         List<Holiday> holidays = new ArrayList<>();
-        for (Holiday holiday:holidayRepository.findAll() ) {
-            holidays.add(holiday);
-        }
-
+        for (Holiday holiday : holidayRepository.findAll()) holidays.add(holiday);
         return holidays;
     }
 
     @Transactional
-    public Holiday getHoliday(String name){
+    public Holiday getHoliday(String name) {
         String error = null;
-        if(name == null|| name.trim().length() == 0){
-            error="Name can't be empty.";
-        } else if(!holidayRepository.existsById(name)){
-            error="Holiday doesn't exist.";
+        if (name == null || name.trim().length() == 0) {
+            error = "Name can't be empty.";
+        } else if (!holidayRepository.existsById(name)) {
+            error = "Holiday doesn't exist.";
         }
 
-        if(error != null){
+        if (error != null) {
             throw new IllegalArgumentException(error);
         }
         return holidayRepository.findByName(name);
@@ -79,16 +76,19 @@ public class HolidayService {
     }
 
     @Transactional
-    public void deleteHoliday(String name){
-        Holiday holiday = holidayRepository.findByName(name);
-        if (holiday == null) {
-            throw new IllegalArgumentException("The holiday with name: " + name + " does not exist.");
-        } else {
-            holidayRepository.deleteById(name);
+    public void deleteHoliday(String name) {
+        String error = null;
+        if (name == null || name.trim().length() == 0) {
+            error = "Name can't be empty.";
+        } else if (holidayRepository.existsById(name)) {
+            Holiday holiday = holidayRepository.findByName(name);
+            error ="The holiday does not exist.";
         }
+        if (error != null) {
+            throw new IllegalArgumentException(error);
+        }
+        holidayRepository.deleteById(name);
     }
-
-
 
 
 }
