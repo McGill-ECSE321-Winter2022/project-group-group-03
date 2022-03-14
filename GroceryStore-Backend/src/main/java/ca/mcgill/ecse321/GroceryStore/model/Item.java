@@ -48,63 +48,36 @@ public class Item
   // INTERFACE
   //------------------------
 
-  public boolean setName(String aName)
+  public void setName(String aName)
   {
-    boolean wasSet = false;
-    String anOldName = getName();
-    if (anOldName != null && anOldName.equals(aName)) {
-      return true;
-    }
-    if (hasWithName(aName)) {
-      return wasSet;
-    }
-    name = aName;
-    wasSet = true;
-    if (anOldName != null) {
-      itemsByName.remove(anOldName);
-    }
-    itemsByName.put(aName, this);
-    return wasSet;
+    this.name = aName;
   }
 
-  public boolean setPurchasable(boolean aPurchasable)
+  public void setPurchasable(boolean aPurchasable)
   {
-    boolean wasSet = false;
-    purchasable = aPurchasable;
-    wasSet = true;
-    return wasSet;
+
+    this.purchasable = aPurchasable;
   }
 
-  public boolean setPrice(int aPrice)
+  public void setPrice(int aPrice)
   {
-    boolean wasSet = false;
-    price = aPrice;
-    wasSet = true;
-    return wasSet;
+    this.price = aPrice;
+
   }
 
-  public boolean setDescription(String aDescription)
+  public void setDescription(String aDescription)
   {
-    boolean wasSet = false;
-    description = aDescription;
-    wasSet = true;
-    return wasSet;
+    this.description = aDescription;
   }
 
-  public boolean setStock(int aStock)
+  public void setStock(int aStock)
   {
-    boolean wasSet = false;
-    stock = aStock;
-    wasSet = true;
-    return wasSet;
+    this.stock = aStock;
   }
 
-  public boolean setTotalPurchased(int aTotalPurchased)
+  public void setTotalPurchased(int aTotalPurchased)
   {
-    boolean wasSet = false;
-    totalPurchased = aTotalPurchased;
-    wasSet = true;
-    return wasSet;
+    this.totalPurchased = aTotalPurchased;
   }
 
   public String getName()
@@ -150,15 +123,7 @@ public class Item
     return totalPurchased;
   }
   /* Code from template attribute_IsBoolean */
-  public boolean isPurchasable()
-  {
-    return purchasable;
-  }
 
-  public void delete()
-  {
-    itemsByName.remove(getName());
-  }
 
 
   public String toString()

@@ -76,6 +76,7 @@ public class TestBusinessHourService {
         } catch(IllegalArgumentException error) {
             fail();
         }
+        System.out.println(businessHour.toString());
         assertNotNull(businessHour);
         assertEquals(businessHour.getStartTime(),START_TIME);
         assertEquals(businessHour.getEndTime(),END_TIME);
