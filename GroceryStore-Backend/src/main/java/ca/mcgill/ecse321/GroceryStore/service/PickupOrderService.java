@@ -15,7 +15,7 @@ public class PickupOrderService {
     PickupOrderRepository pickupOrderRepository;
 
     @Transactional
-    public PickupOrder createPickupOrder(int confirmationNumber, int totalCost, String paymentMethod, String pickupStatus){
+    public PickupOrder createPickupOrder(String paymentMethod, String pickupStatus, int confirmationNumber, int totalCost){
         PickupOrder newPickupOrder = new PickupOrder();
         newPickupOrder.setConfirmationNumber(confirmationNumber);
         newPickupOrder.setTotalCost(totalCost);

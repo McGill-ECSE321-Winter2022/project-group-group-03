@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
-import ca.mcgill.ecse321.GroceryStore.model.Holiday;
+import ca.mcgill.ecse321.GroceryStore.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,14 +18,12 @@ import static org.mockito.Mockito.*;
 import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
-import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
-import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
-import ca.mcgill.ecse321.GroceryStore.model.Customer;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @ExtendWith(MockitoExtension.class)
@@ -75,27 +73,20 @@ public class TestCustomerService {
 
     @Test
     public void testCreateCustomer() {
-        createSaveOrders();
 
-        String name = "Edward";
-        String password = "lol";
-        String email = "edward@hotmail.com";
-        String address = "edward street";
         Customer customer = null;
         try {
-            customer = customerService.createCustomer(name, PASSWORD, EMAIL, ADDRESS);
+            customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
         } catch (IllegalArgumentException e) {
             // Check that no error occurred
             fail();
         }
         assertNotNull(customer);
-        assertEquals(name, customer.getUsername());
     }
 
     //CREATE NULL NAME CUSTOMER
     @Test
     public void testCreateCustomerNameNull() {
-        createSaveOrders();
 
         String name = null;
         Customer customer = null;
@@ -114,7 +105,6 @@ public class TestCustomerService {
     //CREATE NULL PASSWORD CUSTOMER
     @Test
     public void testCreateCustomerPasswordNull() {
-        createSaveOrders();
 
         String password = null;
         Customer customer = null;
@@ -132,7 +122,6 @@ public class TestCustomerService {
 
     @Test
     public void testCreateCustomerEmailNull() {
-        createSaveOrders();
 
         String email = null;
         Customer customer = null;
@@ -150,7 +139,6 @@ public class TestCustomerService {
 
     @Test
     public void testCreateCustomerAddressNull() {
-        createSaveOrders();
 
         String address = null;
         Customer customer = null;
@@ -167,7 +155,6 @@ public class TestCustomerService {
     }
     @Test
     public void testCreateCustomerNameEmpty() {
-        createSaveOrders();
 
         String name = "";
         String error = null;
@@ -183,7 +170,6 @@ public class TestCustomerService {
     }
     @Test
     public void testCreateCustomerPasswordEmpty() {
-        createSaveOrders();
 
         String password = "";
         String error = null;
@@ -199,7 +185,6 @@ public class TestCustomerService {
     }
     @Test
     public void testCreateCustomerEmailEmpty() {
-        createSaveOrders();
 
         String email = "";
         String error = null;
@@ -215,7 +200,6 @@ public class TestCustomerService {
     }
     @Test
     public void testCreateCustomerAddressEmpty() {
-        createSaveOrders();
 
         String address = "";
         String error = null;
@@ -230,8 +214,7 @@ public class TestCustomerService {
         assertEquals("Customer address cannot be empty!", error);
     }
     @Test
-    public void testCreateCustomerDuplicate(){
-        createSaveOrders();
+    public void testCreateCustomerDuplicateUsername(){
 
         Customer customer1 = null;
         Customer customer2 = null;
@@ -240,9 +223,30 @@ public class TestCustomerService {
         when(customerRepository.existsById(anyString())).thenReturn(Objects.nonNull(customer1));
 
         try{
-            customer1 = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+            customer1 = customerService.createCustomer(USERNAME_KEY, PASSWORD, "mail1@hotmail.com", ADDRESS);
             when(customerRepository.existsById(anyString())).thenReturn(Objects.nonNull(customer1));
-            customer2 = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+            customer2 = customerService.createCustomer(USERNAME_KEY, PASSWORD, "mail2@hotmail.com", ADDRESS);
+        }catch(IllegalArgumentException e){
+            error = e.getMessage();
+        }
+
+        assertNotNull(customer1);
+        assertNull(customer2);
+        assertEquals("An identical customer already exists.",error);
+    }
+    @Test
+    public void testCreateCustomerDuplicateEmail(){
+
+        Customer customer1 = null;
+        Customer customer2 = null;
+        String error = null;
+
+        when(customerRepository.existsById(anyString())).thenReturn(Objects.nonNull(customer1));
+
+        try{
+            customer1 = customerService.createCustomer("username1", PASSWORD, EMAIL, ADDRESS);
+            when(customerRepository.existsById(anyString())).thenReturn(Objects.nonNull(customer1));
+            customer2 = customerService.createCustomer("username2", PASSWORD, EMAIL, ADDRESS);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
@@ -254,6 +258,7 @@ public class TestCustomerService {
     }
     @Test
     public void testGetCustomerByUsername() {
+        createSaveOrders();
         Customer customer = null;
         String error = null;
 
@@ -268,6 +273,7 @@ public class TestCustomerService {
     }
     @Test
     public void testGetCustomerByInvalidUsername() {
+        createSaveOrders();
         Customer customer = null;
         String error = null;
 
@@ -280,6 +286,54 @@ public class TestCustomerService {
         assertNull("Customer doesn't exist.", error);
 
     }
+    @Test
+    public void testGetEmployeeByEmptyID() {
+        createSaveOrders();
+        Customer customer = null;
+        String error = null;
+
+        try {
+            customer = customerService.getCustomer("");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(customer);
+        assertEquals("Customer name can't be empty.", error);
+
+    }
+    @Test
+    public void testGetCustomerNullID() {
+        createSaveOrders();
+        Customer customer = null;
+        String error = null;
+
+        try {
+            customer = customerService.createCustomer(null, PASSWORD, EMAIL, ADDRESS);
+        }catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(customer);
+        assertEquals("Customer name can't be empty.", error);
+    }
+    @Test
+    public void testGetAllHolidays() {
+        createSaveOrders();
+        String error = null;
+        List<Customer> customers = new ArrayList<>();
+        Customer customer = null;
+        String name = "Edward";
+        when(customerRepository.findAll()).thenReturn(customers);
+
+        try {
+            customer = customerService.createCustomer(name, PASSWORD, EMAIL, ADDRESS);
+            customers.add(customer);
+            customers = customerService.getAllCustomers();
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customers);
+    }
+
 
 
 
@@ -289,7 +343,7 @@ public class TestCustomerService {
         DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("ship here", "Delivered", 1717, 180);
         deliveryOrderRepository.save(deliveryOrder);
 
-        PickupOrder pickupOrder = pickupOrderService.createPickupOrder(1818, 190, "visa", "PickedUp");
+        PickupOrder pickupOrder = pickupOrderService.createPickupOrder("visa", "PickedUp", 1818, 190);
         pickupOrderRepository.save(pickupOrder);
     }
 }

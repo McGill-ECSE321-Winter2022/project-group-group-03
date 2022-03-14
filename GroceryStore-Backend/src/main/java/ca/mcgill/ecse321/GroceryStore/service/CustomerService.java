@@ -57,10 +57,17 @@ public class CustomerService {
     }
     @Transactional
     public List<Customer> getAllCustomers(){
-        return toList(customerRepository.findAll());
+
+        List<Customer> customers = new ArrayList<>();
+        for (Customer customer:customerRepository.findAll() ) {
+            customers.add(customer);
+        }
+
+        return customers;
     }
     @Transactional
     public List<Order> getCustomerOrders(String aUsername){
+
         return customerRepository.findCustomerByUsername(aUsername).getOrder();
     }
     private <T> List<T> toList(Iterable<T> iterable){
