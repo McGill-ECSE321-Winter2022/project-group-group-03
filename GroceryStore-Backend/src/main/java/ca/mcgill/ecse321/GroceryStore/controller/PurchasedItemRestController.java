@@ -31,6 +31,16 @@ public class PurchasedItemRestController {
         return convertToDto(purchasedItem);
     }
 
+//    @PutMapping(value = { "/edit_checkOutItems/{id}"})
+//    public CheckOutItemDto updateCheckOutItem(@PathVariable("id") int , @RequestParam Item newMediaType, @RequestParam String newName,
+//                                              @RequestParam boolean newIsCheckedOut, @RequestParam boolean newIsReserved, @RequestParam int newBorrowingPeriod,@RequestParam String date)
+//            throws IllegalArgumentException {
+//        Date newStartDate = Date.valueOf(date);
+//        CheckOutItem checkOutItem = checkOutItemService.updateCheckOutItem(mediaID, newMediaType, newName, newIsCheckedOut, newIsReserved, newBorrowingPeriod, newStartDate);
+//        return Conversion.convertToDto(checkOutItem);
+//    }
+
+
     @GetMapping(value = {"/purchased_item", "/purchased_item"})
     public List<PurchasedItemDTO> getPurchasedItems() throws IllegalArgumentException {
         List<PurchasedItemDTO> purchasedItemDTOS = new ArrayList<>();

@@ -261,7 +261,7 @@ public class TestPurchasedItemService {
         String error = null;
 
         try{
-            purchasedItem = purchasedItemService.updatePurchasedItemQuantity(-1);
+            purchasedItem = purchasedItemService.updatePurchasedItemQuantity(-1, PURCHASED_ITEM_ID);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }

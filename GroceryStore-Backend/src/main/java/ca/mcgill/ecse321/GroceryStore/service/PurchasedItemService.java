@@ -106,9 +106,15 @@ public class PurchasedItemService {
     }
 
     @Transactional
-    public PurchasedItem updatePurchasedItemQuantity(int itemQuantity) {
+    public PurchasedItem updatePurchasedItemQuantity(int itemQuantity, int purchasedItemID) {
         String error = null;
-        PurchasedItem purchasedItem = new PurchasedItem();
+
+        if (!purchasedItemRepository.existsById(purchasedItemID)) {
+            error = "PurchasedItem doesn't exist.";
+        }
+
+        PurchasedItem purchasedItem = this.getPurchasedItem(purchasedItemID);
+
 
         if (itemQuantity == 0) {
             error="item quantity cannot be zero.";
@@ -121,6 +127,7 @@ public class PurchasedItemService {
             throw new IllegalArgumentException(error);
         }
 
+        purchasedItem.setItemQuantity(itemQuantity);
         purchasedItemRepository.save(purchasedItem);
         return purchasedItem;
     }
