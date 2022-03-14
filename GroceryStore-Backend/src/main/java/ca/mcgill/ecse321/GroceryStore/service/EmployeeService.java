@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Employee;
 
 import ca.mcgill.ecse321.GroceryStore.model.Order;
+import ca.mcgill.ecse321.GroceryStore.model.Owner;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class EmployeeService {
         newEmployee.setUsername(aUsername);
         newEmployee.setPassword(aPassword);
         newEmployee.setAddress(aAddress);
+        newEmployee.setWorkingStatus(Employee.WorkingStatus.Hired);
         employeeRepository.save(newEmployee);
         return newEmployee;
     }
@@ -64,6 +66,20 @@ public class EmployeeService {
     @Transactional
     public List<Order> getEmployeeOrders(String aUsername){
         return getEmployee(aUsername).getOrder();
+    }
+
+    @Transactional
+    public void deleteOwner(String aUsername){
+        if (aUsername != null) {
+            for(Employee employee : employeeRepository.findAll()){
+                if (employee.getUsername().equals(aUsername)) {
+                    employee = null;
+                    employeeRepository.deleteById(aUsername);
+                    return;
+                }
+            }
+        }
+        throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }
 
     private <T> List<T> toList(Iterable<T> iterable){

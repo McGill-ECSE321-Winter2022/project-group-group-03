@@ -27,27 +27,33 @@ public class EmployeeRestController {
         return service.getAllEmployees().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    @PostMapping(value = { "/employee/{username}", "/employee/{username}/" })
-    public EmployeeDTO createEmployee(@PathVariable("username") String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
+    @PostMapping(value = { "/employee", "/employee/" })
+    public EmployeeDTO createEmployee(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
         Employee employee = service.createEmployee(username, password, email, address);
         return convertToDto(employee);
     }
 
-    @GetMapping(value = { "/employee/{username}", "/employee/{username}/" })
-    public EmployeeDTO getEmployeeByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
-        return convertToDto(service.getEmployee(username));
+    @GetMapping(value = { "/employee", "/employee" })
+    public EmployeeDTO getEmployeeByUsername(@RequestParam String username) throws IllegalArgumentException {
+        EmployeeDTO e = convertToDto(service.getEmployee(username));
+        e.setWorkShifts(getWorkShiftsOfEmployee(username));
+        e.setOrders(getOrdersOfEmployee(username));
+        return e;
     }
 
-    @GetMapping(value = { "/workshift/employee/{username}", "/workshift/employee/{username}/" })
-    public List<WorkShiftDTO> getWorkShiftsOfEmployee(@PathVariable("username") EmployeeDTO eDto) {
-        Employee e = convertToDomainObject(eDto);
-        return createWorkShiftDtosForEmployee(e);
+    @GetMapping(value = { "/workshift/employee", "/workshift/employee" })
+    public List<WorkShiftDTO> getWorkShiftsOfEmployee(@RequestParam String username) {
+        return createWorkShiftDtosForEmployee(convertToDomainObject(getEmployeeByUsername(username)));
     }
 
-    @GetMapping(value = { "/delivery_order/employee/{username}", "/delivery_order/employee/{username}/" })
-    public List<OrderDTO> getDeliveryOOrdersOfEmployee(@PathVariable("username") EmployeeDTO eDto) {
-        Employee e = convertToDomainObject(eDto);
-        return createOrderDtosForEmployee(e);
+    @GetMapping(value = { "/delivery_order/employee", "/delivery_order/employee/" })
+    public List<OrderDTO> getOrdersOfEmployee(@RequestParam String username) {
+        return createOrderDtosForEmployee(convertToDomainObject(getEmployeeByUsername(username)));
+    }
+
+    @DeleteMapping(value = {"/employee", "/employee/"})
+    public void deleteEmployee(@RequestParam String username){
+        service.deleteOwner(username);
     }
 
     private EmployeeDTO convertToDto(Employee e) {
@@ -57,7 +63,6 @@ public class EmployeeRestController {
         return new EmployeeDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress());
     }
 
-    //TODO: plug in the correct attributes for orderDTO constructor
     private OrderDTO convertToDto(Order o) {
         if (o == null) {
             throw new IllegalArgumentException("There is no such Order!");

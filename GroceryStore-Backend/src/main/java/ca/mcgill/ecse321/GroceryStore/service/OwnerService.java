@@ -37,6 +37,7 @@ public class OwnerService {
             throw new IllegalArgumentException("A store is needed to initialize an owner");
         }
         ownerRepository.save(newOwner);
+        System.out.println(newOwner.getStore());
         return newOwner;
     }
 
@@ -49,6 +50,21 @@ public class OwnerService {
         }
         throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }
+
+    @Transactional
+    public void deleteOwner(String aUsername){
+        if (aUsername != null) {
+            for(Owner owner : ownerRepository.findAll()){
+                if (owner.getUsername().equals(aUsername)) {
+                    owner = null;
+                    ownerRepository.deleteById(aUsername);
+                    return;
+                }
+            }
+        }
+        throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
+    }
+
 
     @Transactional
     public Store getOwnerStore(String aUsername) {
