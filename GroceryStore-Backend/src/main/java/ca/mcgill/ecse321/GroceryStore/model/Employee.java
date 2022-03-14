@@ -19,13 +19,6 @@ public class Employee
 {
 
   //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static Map<String, Employee> employeesByUsername = new HashMap<String, Employee>();
-  private static Map<String, Employee> employeesByEmail = new HashMap<String, Employee>();
-
-  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
@@ -54,17 +47,7 @@ public class Employee
   @JoinColumn(name = "employee_confirmationNumber", unique = true)
   private List<Order> order;
 
-  
-  // @Column(nullable = false)
-  // private Integer employeeID;
 
-  // public Integer getEmployeeID() {
-  //   return employeeID;
-  // }
-
-  // public void setEmployeeID(Integer employeeID) {
-  //   this.employeeID = employeeID;
-  // }
 //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -78,58 +61,24 @@ public class Employee
   // INTERFACE
   //------------------------
 
-  public boolean setUsername(String aUsername)
+  public void setUsername(String aUsername)
   {
-    boolean wasSet = false;
-    String anOldUsername = getUsername();
-    if (anOldUsername != null && anOldUsername.equals(aUsername)) {
-      return true;
-    }
-    if (hasWithUsername(aUsername)) {
-      return wasSet;
-    }
     username = aUsername;
-    wasSet = true;
-    if (anOldUsername != null) {
-      employeesByUsername.remove(anOldUsername);
-    }
-    employeesByUsername.put(aUsername, this);
-    return wasSet;
   }
 
-  public boolean setPassword(String aPassword)
+  public void setPassword(String aPassword)
   {
-    boolean wasSet = false;
     password = aPassword;
-    wasSet = true;
-    return wasSet;
   }
 
-  public boolean setEmail(String aEmail)
+  public void setEmail(String aEmail)
   {
-    boolean wasSet = false;
-    String anOldEmail = getEmail();
-    if (anOldEmail != null && anOldEmail.equals(aEmail)) {
-      return true;
-    }
-    if (hasWithEmail(aEmail)) {
-      return wasSet;
-    }
     email = aEmail;
-    wasSet = true;
-    if (anOldEmail != null) {
-      employeesByEmail.remove(anOldEmail);
-    }
-    employeesByEmail.put(aEmail, this);
-    return wasSet;
   }
 
-  public boolean setAddress(String aAddress)
+  public void setAddress(String aAddress)
   {
-    boolean wasSet = false;
     address = aAddress;
-    wasSet = true;
-    return wasSet;
   }
 
   public void setOrder(List<Order> order) {
@@ -141,15 +90,6 @@ public class Employee
     return username;
   }
   /* Code from template attribute_GetUnique */
-  public static Employee getWithUsername(String aUsername)
-  {
-    return employeesByUsername.get(aUsername);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithUsername(String aUsername)
-  {
-    return getWithUsername(aUsername) != null;
-  }
 
   public String getPassword()
   {
@@ -159,16 +99,6 @@ public class Employee
   public String getEmail()
   {
     return email;
-  }
-  /* Code from template attribute_GetUnique */
-  public static Employee getWithEmail(String aEmail)
-  {
-    return employeesByEmail.get(aEmail);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithEmail(String aEmail)
-  {
-    return getWithEmail(aEmail) != null;
   }
 
   public String getAddress()

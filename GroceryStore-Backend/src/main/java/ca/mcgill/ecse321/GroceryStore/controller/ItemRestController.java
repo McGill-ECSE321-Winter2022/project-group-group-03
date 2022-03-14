@@ -18,8 +18,8 @@ public class ItemRestController {
     @Autowired
     private ItemService service;
 
-    @PostMapping(value = { "/item{itemName}", "/item{itemName}/" })
-    public ItemDTO createBusinessHour(@PathVariable("itemName") String itemName ,@RequestParam boolean purchasable,
+    @PostMapping(value = { "/item", "/item/" })
+    public ItemDTO createBusinessHour(@RequestParam String itemName ,@RequestParam boolean purchasable,
                                       @RequestParam int price, @RequestParam String description,
                                       @RequestParam int stock) throws IllegalArgumentException {
         return convertToDto(service.createItem(itemName,purchasable,price,description,stock));
