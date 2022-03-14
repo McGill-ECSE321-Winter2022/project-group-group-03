@@ -1,25 +1,15 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
 
-import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
-import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
-import ca.mcgill.ecse321.GroceryStore.dao.PurchasedItemRepository;
-import ca.mcgill.ecse321.GroceryStore.dao.StoreRepository;
-import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
-import ca.mcgill.ecse321.GroceryStore.model.Store;
-import ca.mcgill.ecse321.GroceryStore.model.Holiday;
+import ca.mcgill.ecse321.GroceryStore.dao.*;
+import ca.mcgill.ecse321.GroceryStore.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +22,7 @@ import org.mockito.stubbing.Answer;
 @ExtendWith(MockitoExtension.class)
 public class TestDeliveryOrderService {
     private int CONFIRMATION_NUMBER_KEY = 123;
+    private String ITEM_NAME_KEY = "Cheesy Balls";
     private String SHIPPING_ADDRESS = "3064 rue edmond rostand";
     private DeliveryOrder.ShippingStatus SHIPPING_STATUS = DeliveryOrder.ShippingStatus.InCart;
     private int TOTAL_COST = 68;
@@ -42,6 +33,8 @@ public class TestDeliveryOrderService {
     private StoreRepository storeRepository;
     @Mock
     private PurchasedItemRepository purchasedItemRepository;
+    @Mock
+    private ItemRepository itemRepository;
 
     @InjectMocks
     private DeliveryOrderService deliveryOrderService;
@@ -49,6 +42,8 @@ public class TestDeliveryOrderService {
     private StoreService storeService;
     @InjectMocks
     private PurchasedItemService purchasedItemService;
+    @InjectMocks
+    private ItemService itemService;
 
     @BeforeEach
     public void setMockOutput() {
@@ -62,21 +57,29 @@ public class TestDeliveryOrderService {
                 deliveryOrder.setShippingAddress(SHIPPING_ADDRESS);
                 deliveryOrder.setTotalCost(TOTAL_COST);
                 Store store = storeService.createStore(15, "MTL", 9, 8);
+               // when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
                 deliveryOrder.setStore(store);
 
-                deliveryOrders.add(deliveryOrder);
-                return deliveryOrders;
+                return deliveryOrder;
             } else {
-                return new ArrayList<DeliveryOrder>();
+                return null;
             }
         });
+        lenient().when(deliveryOrderRepository.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(CONFIRMATION_NUMBER_KEY)) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+        });
+
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
         lenient().when(deliveryOrderRepository.save(any(DeliveryOrder.class))).thenAnswer(returnParameterAsAnswer);
     }
 
-    //CREATE AND DELETE
+    //CREATE
     @Test
     public void testCreateDeliveryOrder() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
@@ -91,11 +94,6 @@ public class TestDeliveryOrderService {
         }
     }
 
-    @Test
-    public void testDeleteDeliveryOrder() {
-        assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
-
-    }
 
     //CONFIRMATION NUMBER
     @Test
@@ -129,6 +127,7 @@ public class TestDeliveryOrderService {
         assertNull(deliveryOrder);
         // check error
         assertEquals("Confirmation number must be greater than 0.", error);
+
     }
 
     @Test
@@ -304,6 +303,7 @@ public class TestDeliveryOrderService {
     }
 
     //Duplicate delivery order created
+    @Test
     public void testCreateDuplicateDeliveryOrderID() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         int confirmationNumber = 42;
@@ -324,9 +324,191 @@ public class TestDeliveryOrderService {
     }
         assertNotNull(deliveryOrder1);
         assertNull(deliveryOrder2);
-        assertEquals("An identical deliveryOrder with the same confirmation number already exists.", error);
+        assertEquals("An identical delivery order with the same confirmation number already exists.", error);
     }
- }
+    @Test
+    public void testGetAllDeliveryOrder(){
+        String error = null;
+        List<DeliveryOrder> deliveryOrders = new ArrayList<>();
+        DeliveryOrder deliveryOrder = null;
+        int confirmationNumber = 100;
+        when(deliveryOrderRepository.findAll()).thenReturn(deliveryOrders);
+
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, TOTAL_COST);
+            deliveryOrders.add(deliveryOrder);
+            deliveryOrders = deliveryOrderService.getAllDeliveryOrders();
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(deliveryOrder);
+    }
+
+    //DELETE
+
+    @Test
+    public void testDeleteDeliveryOrder() {
+        deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
+        String error = null;
+
+        try {
+            deliveryOrderService.deleteDeliveryOrder(CONFIRMATION_NUMBER_KEY);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        System.out.println(error);
+        assertNull(error);
+    }
+
+    @Test
+    public void testDeleteDeliveryOrderInvalidID() {
+        DeliveryOrder deliveryOrder = null;
+        String error = null;
+        try {
+            deliveryOrderService.deleteDeliveryOrder(4933);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Delivery order doesn't exist.",error);
+    }
+
+    @Test
+    public void testDeleteDeliveryOrderIDZero() {
+        DeliveryOrder deliveryOrder = null;
+        String error = null;
+        try {
+            deliveryOrderService.deleteDeliveryOrder(0);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Confirmation number must be greater than 0.",error);
+    }
+
+    @Test
+    public void testDeleteDeliveryOrderIDNegative() {
+        DeliveryOrder deliveryOrder = null;
+        String error = null;
+        try {
+            deliveryOrderService.deleteDeliveryOrder(-10);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Confirmation number must be greater than 0.",error);
+    }
+    @Test
+    public void testGetDeliveryOrderByConfirmationNumber() {
+        DeliveryOrder deliveryOrder = null;
+        String error = null;
+
+        try {
+            deliveryOrder = deliveryOrderService.deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(CONFIRMATION_NUMBER_KEY);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(deliveryOrder);
+        assertNull(error);
+
+    }
+
+    //GET
+    @Test
+    public void testGetDeliveryOrderDoesNotExist() {
+        DeliveryOrder deliveryOrder2 = null;
+        String error = null;
+
+        try{
+            deliveryOrder2 = deliveryOrderService.getDeliveryOrder(789);
+        }catch(IllegalArgumentException e){
+            error= e.getMessage();
+        }
+        assertNull(deliveryOrder2);
+        assertEquals(error, "Delivery order doesn't exist.");
+    }
+    @Test
+    public void testGetDeliveryOrderNullInteger() {
+        DeliveryOrder deliveryOrder2 = null;
+        String error = null;
+
+        try{
+            deliveryOrder2 = deliveryOrderService.getDeliveryOrder(null);
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(deliveryOrder2);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number can't be empty.");
+    }
+
+    @Test
+    public void testGetDeliveryOrderZEROInteger() {
+        DeliveryOrder deliveryOrder2 = null;
+        String error = null;
+
+        try{
+            deliveryOrder2 = deliveryOrderService.getDeliveryOrder(0);
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(deliveryOrder2);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number must be greater than 0.");
+    }
+
+    @Test
+    public void testGetDeliveryOrderNegativeInteger() {
+        DeliveryOrder deliveryOrder2 = null;
+        String error = null;
+
+        try{
+            deliveryOrder2 = deliveryOrderService.getDeliveryOrder(-10);
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(deliveryOrder2);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number must be greater than 0.");
+    }
+    @Test
+    public void testDeliveryOrderStockCheck(){
+        DeliveryOrder deliveryOrder = deliveryOrderService.getDeliveryOrder(CONFIRMATION_NUMBER_KEY);
+        String error = null;
+        Item item = new Item();
+        when(itemRepository.findByName(anyString())).thenReturn(item);
+        Item temp = itemService.createItem(ITEM_NAME_KEY, true, 10, "Cheeziest balls in the game", 10);
+        PurchasedItem temp2 = purchasedItemService.createPurchasedItem(item, 0);
+        PurchasedItem purchasedItem = new PurchasedItem();
+        when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
+
+        PurchasedItem purchasedItem2Check = purchasedItemService.purchasedItemRepository.findByPurchasedItemID(temp2.getPurchasedItemID());
+        Item item2Check = itemService.itemRepository.findByName(ITEM_NAME_KEY);
+        //Check that item and purchased item are successfully added to "repository"
+        assertNotNull(item2Check);
+        assertNotNull(purchasedItem2Check);
+        assertNotNull(deliveryOrder);
+
+        List<PurchasedItem> purchasedItemList = new ArrayList<>();
+        purchasedItemList.add(purchasedItem2Check);
+        deliveryOrder.setPurchasedItem(purchasedItemList);
+
+        assertNotNull(deliveryOrder.getPurchasedItem());
+
+        item2Check.setStock(2);
+
+        try{
+           purchasedItemService.purchasedItemRepository.findByPurchasedItemID(deliveryOrder.getPurchasedItem().get(0).getPurchasedItemID()).setItemQuantity(10);
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals(error, "itemQuantity cannot be greater than the stock.");
+
+    }
+
+
+}
 
 
 

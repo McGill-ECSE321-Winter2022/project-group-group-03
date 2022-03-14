@@ -302,7 +302,7 @@ public class TestCustomerService {
     }
 
     @Test
-    public void testGetEmployeeByEmptyID() {
+    public void testGetCustomerByEmptyID() {
         Customer customer = null;
         String error = null;
 
