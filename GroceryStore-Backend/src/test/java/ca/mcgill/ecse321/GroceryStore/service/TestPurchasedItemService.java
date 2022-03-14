@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.ItemRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.PurchasedItemRepository;
+import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 import ca.mcgill.ecse321.GroceryStore.model.Item;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +15,9 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -22,8 +26,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 
 @ExtendWith(MockitoExtension.class)
 public class TestPurchasedItemService {
-    private static final int sample_purchaseditemID = 3;
-    private static final int ITEM_QUANTITY = 9000;
+    private static final int PURCHASED_ITEM_ID = 3;
+    private static final int ITEM_QUANTITY = 2;
 
 
     @Mock
@@ -42,12 +46,12 @@ public class TestPurchasedItemService {
         Mockito.when(ITEM.getName()).thenReturn(VALID_NAME);
 
         lenient().when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(sample_purchaseditemID)) {
+            if (invocation.getArgument(0).equals(PURCHASED_ITEM_ID)) {
 
                 Item item = new Item();
                 PurchasedItem purchasedItem = new PurchasedItem();
 
-                purchasedItem.setPurchasedItemID(sample_purchaseditemID);
+                purchasedItem.setPurchasedItemID(PURCHASED_ITEM_ID);
                 purchasedItem.setItemQuantity(ITEM_QUANTITY);
                 purchasedItem.setItem(item);
 
@@ -108,7 +112,7 @@ public class TestPurchasedItemService {
 
     @Test
     public void testCreatePurchasedItemQuantityGreaterThanStock() {
-
+        assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
         Item item = new Item();
         item.setStock(9000);
         String error = null;
@@ -123,7 +127,7 @@ public class TestPurchasedItemService {
 
     @Test
     public void testCreatePurchasedItemNullItem() {
-
+        assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
         Item item = new Item();
         String error = null;
 
@@ -134,4 +138,102 @@ public class TestPurchasedItemService {
         }
         assertEquals("item cannot be null.", error);
     }
+
+    //TODO
+    @Test
+    public void testCreatePurchasedItem() {
+        assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
+
+        Item aItem = new Item();
+        PurchasedItem purchasedItem = new PurchasedItem();
+
+        try {
+            purchasedItem = purchasedItemService.createPurchasedItem(aItem, ITEM_QUANTITY);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+        assertNotNull(purchasedItem);
+
+        assertEquals(purchasedItem.getItem(), aItem);
+        assertEquals(purchasedItem.getItemQuantity(), ITEM_QUANTITY);
+    }
+
+    @Test
+    public void testDeletePurchasedItem() {
+        PurchasedItem purchasedItem = new PurchasedItem();
+        String error = null;
+        try {
+            purchasedItemService.deletePurchasedItem(PURCHASED_ITEM_ID);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(error);
+    }
+
+    @Test
+    public void testGetAllPurchasedItems() {
+        String error = null;
+        List<PurchasedItem> purchasedItems = new ArrayList<>();
+        PurchasedItem purchasedItem = null;
+
+        Item aItem = new Item();
+
+        when(purchasedItemRepository.findAll()).thenReturn(purchasedItems);
+
+        try {
+            aItem.setStock(1000);
+            purchasedItem = purchasedItemService.createPurchasedItem(aItem, ITEM_QUANTITY);
+            purchasedItems.add(purchasedItem);
+            System.out.println(purchasedItems.toString());
+            purchasedItems = purchasedItemService.getAllPurchasedItem();
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(purchasedItems);
+        assertNull(error);
+    }
+
+    @Test
+    public void testGetPurchasedItemByID() {
+        PurchasedItem purchasedItem = null;
+        String error = null;
+        try {
+            purchasedItem = purchasedItemService.getPurchasedItem(PURCHASED_ITEM_ID);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(error);
+    }
+
+    @Test
+    public void testGetPurchasedItemDoesntExist() {
+        PurchasedItem purchasedItem = null;
+        String error = null;
+
+        try {
+            purchasedItem = purchasedItemService.getPurchasedItem(420);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(purchasedItem);
+        assertEquals("PurchasedItem doesn't exist.", error);
+    }
+
+    @Test
+    public void testGetPurchasedItemWithInvalidID() {
+        PurchasedItem purchasedItem = null;
+        String error = null;
+
+        try {
+            purchasedItem = purchasedItemService.getPurchasedItem(-1);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(purchasedItem);
+        assertEquals("ID is invalid.", error);
+    }
+
+
+
+
 }
