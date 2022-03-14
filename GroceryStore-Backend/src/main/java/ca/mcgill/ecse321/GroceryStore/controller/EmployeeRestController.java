@@ -33,7 +33,7 @@ public class EmployeeRestController {
         return convertToDto(employee);
     }
 
-    @GetMapping(value = { "/employee", "/employee" })
+    @GetMapping(value = { "/employee", "/employee/" })
     public EmployeeDTO getEmployeeByUsername(@RequestParam String username) throws IllegalArgumentException {
         EmployeeDTO e = convertToDto(service.getEmployee(username));
         e.setWorkShifts(getWorkShiftsOfEmployee(username));
@@ -41,7 +41,7 @@ public class EmployeeRestController {
         return e;
     }
 
-    @GetMapping(value = { "/workshift/employee", "/workshift/employee" })
+    @GetMapping(value = { "/workshift/employee", "/workshift/employee/" })
     public List<WorkShiftDTO> getWorkShiftsOfEmployee(@RequestParam String username) {
         return createWorkShiftDtosForEmployee(convertToDomainObject(getEmployeeByUsername(username)));
     }
