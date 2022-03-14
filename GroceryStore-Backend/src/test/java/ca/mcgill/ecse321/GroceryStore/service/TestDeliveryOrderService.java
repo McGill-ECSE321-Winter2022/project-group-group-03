@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
@@ -20,6 +18,7 @@ import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.PurchasedItemRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.StoreRepository;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
+import ca.mcgill.ecse321.GroceryStore.model.Store;
 import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,6 +61,8 @@ public class TestDeliveryOrderService {
                 deliveryOrder.setShippingStatus(SHIPPING_STATUS);
                 deliveryOrder.setShippingAddress(SHIPPING_ADDRESS);
                 deliveryOrder.setTotalCost(TOTAL_COST);
+                Store store = storeService.createStore(15, "MTL", 9, 8);
+                deliveryOrder.setStore(store);
 
                 deliveryOrders.add(deliveryOrder);
                 return deliveryOrders;
@@ -74,6 +75,8 @@ public class TestDeliveryOrderService {
         };
         lenient().when(deliveryOrderRepository.save(any(DeliveryOrder.class))).thenAnswer(returnParameterAsAnswer);
     }
+
+    //CREATE AND DELETE
     @Test
     public void testCreateDeliveryOrder() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
@@ -81,11 +84,17 @@ public class TestDeliveryOrderService {
         int confirmationNumber = 70;
         DeliveryOrder deliveryOrder = null;
 
-        try{
-            deliveryOrder= deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber,TOTAL_COST);
-        }catch(IllegalArgumentException e){
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, TOTAL_COST);
+        } catch (IllegalArgumentException e) {
             fail();
         }
+    }
+
+    @Test
+    public void testDeleteDeliveryOrder() {
+        assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
+
     }
 
     //CONFIRMATION NUMBER
@@ -97,13 +106,13 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
         String error = null;
 
-        try{
-            deliveryOrder= deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,SHIPPING_STATUS.name(), confirmationNumber, TOTAL_COST);
-        }catch(IllegalArgumentException e){
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, TOTAL_COST);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(deliveryOrder);
-        assertEquals("Confirmation number can't be empty.",error);
+        assertEquals("Confirmation number can't be empty.", error);
     }
 
     @Test
@@ -147,13 +156,13 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
         String error = null;
 
-        try{
-            deliveryOrder= deliveryOrderService.createDeliveryOrder(shippingAddress,SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        }catch(IllegalArgumentException e){
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(deliveryOrder);
-        assertEquals("Shipping address can't be empty.",error);
+        assertEquals("Shipping address can't be empty.", error);
     }
 
     @Test
@@ -164,13 +173,13 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
         String error = null;
 
-        try{
-            deliveryOrder= deliveryOrderService.createDeliveryOrder(shippingAddress,SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        }catch(IllegalArgumentException e){
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(deliveryOrder);
-        assertEquals("Shipping address can't be empty.",error);
+        assertEquals("Shipping address can't be empty.", error);
     }
 
     @Test
@@ -181,13 +190,13 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
         String error = null;
 
-        try{
-            deliveryOrder= deliveryOrderService.createDeliveryOrder(shippingAddress,SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        }catch(IllegalArgumentException e){
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(deliveryOrder);
-        assertEquals("Shipping address can't be empty.",error);
+        assertEquals("Shipping address can't be empty.", error);
     }
 
     //SHIPPING STATUS
@@ -199,13 +208,13 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
         String error = null;
 
-        try{
-            deliveryOrder= deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,shippingStatus, CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        }catch(IllegalArgumentException e){
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, shippingStatus, CONFIRMATION_NUMBER_KEY, TOTAL_COST);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(deliveryOrder);
-        assertEquals("Shipping status can't be empty.",error);
+        assertEquals("Shipping status can't be empty.", error);
     }
 
     @Test
@@ -216,13 +225,13 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
         String error = null;
 
-        try{
-            deliveryOrder= deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,shippingStatus, CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        }catch(IllegalArgumentException e){
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, shippingStatus, CONFIRMATION_NUMBER_KEY, TOTAL_COST);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(deliveryOrder);
-        assertEquals("Shipping status can't be empty.",error);
+        assertEquals("Shipping status can't be empty.", error);
     }
 
     @Test
@@ -233,13 +242,13 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
         String error = null;
 
-        try{
-            deliveryOrder= deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,shippingStatus, CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        }catch(IllegalArgumentException e){
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, shippingStatus, CONFIRMATION_NUMBER_KEY, TOTAL_COST);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(deliveryOrder);
-        assertEquals("Shipping status can't be empty.",error);
+        assertEquals("Shipping status can't be empty.", error);
     }
 
     //TOTAL COST
@@ -251,13 +260,13 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
         String error = null;
 
-        try{
-            deliveryOrder= deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, totalCost);
-        }catch(IllegalArgumentException e){
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, totalCost);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(deliveryOrder);
-        assertEquals("Total cost can't be empty.",error);
+        assertEquals("Total cost can't be empty.", error);
     }
 
     @Test
@@ -268,13 +277,13 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
         String error = null;
 
-        try{
-            deliveryOrder= deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, totalCost);
-        }catch(IllegalArgumentException e){
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, totalCost);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(deliveryOrder);
-        assertEquals("Total cost must be greater than 0.",error);
+        assertEquals("Total cost must be greater than 0.", error);
     }
 
     @Test
@@ -285,21 +294,40 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
         String error = null;
 
-        try{
-            deliveryOrder= deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, totalCost);
-        }catch(IllegalArgumentException e){
+        try {
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, totalCost);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(deliveryOrder);
-        assertEquals("Total cost must be greater than 0.",error);
+        assertEquals("Total cost must be greater than 0.", error);
     }
 
+    //Duplicate delivery order created
+    public void testCreateDuplicateDeliveryOrderID() {
+        assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
+        int confirmationNumber = 42;
+        DeliveryOrder deliveryOrder1 = null;
+        DeliveryOrder deliveryOrder2 = null;
+        String error = null;
+        ArrayList<DeliveryOrder> DOs = new ArrayList<>();
+        when(deliveryOrderRepository.findAll()).thenReturn(DOs);
+
+        try {
+            deliveryOrder1 = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, TOTAL_COST);
+            DOs.add(deliveryOrder1);
+            deliveryOrder2 = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, TOTAL_COST);
+
+    } catch(
+    IllegalArgumentException e){
+        error = e.getMessage();
+    }
+        assertNotNull(deliveryOrder1);
+        assertNull(deliveryOrder2);
+        assertEquals("An identical deliveryOrder with the same confirmation number already exists.", error);
+    }
+ }
 
 
 
 
-
-
-
-
-}
