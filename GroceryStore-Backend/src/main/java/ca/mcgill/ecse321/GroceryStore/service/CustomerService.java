@@ -67,7 +67,6 @@ public class CustomerService {
     }
     @Transactional
     public List<Order> getCustomerOrders(String aUsername){
-
         return customerRepository.findCustomerByUsername(aUsername).getOrder();
     }
     private <T> List<T> toList(Iterable<T> iterable){

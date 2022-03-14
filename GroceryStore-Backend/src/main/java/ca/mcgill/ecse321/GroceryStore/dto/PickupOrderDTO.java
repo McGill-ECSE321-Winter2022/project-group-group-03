@@ -11,7 +11,7 @@ public class PickupOrderDTO {
 
 
 
-    public PickupOrderDTO(int confirmationNumber, int totalCost, String paymentMethod, String pickupStatus){
+    public PickupOrderDTO(String paymentMethod, String pickupStatus, int confirmationNumber, int totalCost){
         this.paymentMethod = paymentMethod;
         this.pickupStatus = pickupStatus;
         this.confirmationNumber = confirmationNumber;

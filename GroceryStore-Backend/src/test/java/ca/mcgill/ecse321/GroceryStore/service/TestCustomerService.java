@@ -23,13 +23,13 @@ import org.mockito.Mock;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+
 
 @ExtendWith(MockitoExtension.class)
 public class TestCustomerService {
     private static final String USERNAME_KEY = "edward";
-    //private static final String NONEXISTING_KEY = "notedward";
     private static final String PASSWORD = "123456";
     private static final String EMAIL = "edward@gmail.com";
     private static final String ADDRESS = "3064 rue Edmond Rostand";
@@ -61,6 +61,13 @@ public class TestCustomerService {
                 return customer;
             } else {
                 return null;
+            }
+        });
+        lenient().when(customerRepository.existsById(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(USERNAME_KEY)) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
             }
         });
 
@@ -99,7 +106,7 @@ public class TestCustomerService {
         }
         assertNull(customer);
         // check error
-        assertEquals("Customer name cannot be empty!", error);
+        assertEquals("Username can't be empty", error);
     }
 
     //CREATE NULL PASSWORD CUSTOMER
@@ -117,7 +124,7 @@ public class TestCustomerService {
         }
         assertNull(customer);
         // check error
-        assertEquals("Customer password cannot be empty!", error);
+        assertEquals("Password can't be empty", error);
     }
 
     @Test
@@ -134,7 +141,7 @@ public class TestCustomerService {
         }
         assertNull(customer);
         // check error
-        assertEquals("Customer email cannot be empty!", error);
+        assertEquals("Email can't be empty", error);
     }
 
     @Test
@@ -151,8 +158,9 @@ public class TestCustomerService {
         }
         assertNull(customer);
         // check error
-        assertEquals("Customer address cannot be empty!", error);
+        assertEquals("Address can't be empty", error);
     }
+
     @Test
     public void testCreateCustomerNameEmpty() {
 
@@ -166,8 +174,9 @@ public class TestCustomerService {
         }
         assertNull(customer);
         // check error
-        assertEquals("Customer name cannot be empty!", error);
+        assertEquals("Username can't be empty", error);
     }
+
     @Test
     public void testCreateCustomerPasswordEmpty() {
 
@@ -181,8 +190,9 @@ public class TestCustomerService {
         }
         assertNull(customer);
         // check error
-        assertEquals("Customer password cannot be empty!", error);
+        assertEquals("Password can't be empty", error);
     }
+
     @Test
     public void testCreateCustomerEmailEmpty() {
 
@@ -196,8 +206,9 @@ public class TestCustomerService {
         }
         assertNull(customer);
         // check error
-        assertEquals("Customer email cannot be empty!", error);
+        assertEquals("Email can't be empty", error);
     }
+
     @Test
     public void testCreateCustomerAddressEmpty() {
 
@@ -211,54 +222,56 @@ public class TestCustomerService {
         }
         assertNull(customer);
         // check error
-        assertEquals("Customer address cannot be empty!", error);
+        assertEquals("Address can't be empty", error);
     }
-    @Test
-    public void testCreateCustomerDuplicateUsername(){
 
+    @Test
+    public void testCreateCustomerDuplicateUsername() {
+
+        String name = "Bob";
         Customer customer1 = null;
         Customer customer2 = null;
         String error = null;
 
-        when(customerRepository.existsById(anyString())).thenReturn(Objects.nonNull(customer1));
+        ArrayList<Customer> ls = new ArrayList<>();
+        when(customerRepository.findAll()).thenReturn(ls);
 
-        try{
-            customer1 = customerService.createCustomer(USERNAME_KEY, PASSWORD, "mail1@hotmail.com", ADDRESS);
-            when(customerRepository.existsById(anyString())).thenReturn(Objects.nonNull(customer1));
-            customer2 = customerService.createCustomer(USERNAME_KEY, PASSWORD, "mail2@hotmail.com", ADDRESS);
-        }catch(IllegalArgumentException e){
+        try {
+            customer1 = customerService.createCustomer(name, PASSWORD, EMAIL, ADDRESS);
+            ls.add(customer1);
+            customer2 = customerService.createCustomer(name, PASSWORD, EMAIL, ADDRESS);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-
         assertNotNull(customer1);
         assertNull(customer2);
-        assertEquals("An identical customer already exists.",error);
+        assertEquals("An identical customer already exists.", error);
     }
+
     @Test
-    public void testCreateCustomerDuplicateEmail(){
+    public void testCreateCustomerDuplicateEmail() {
 
         Customer customer1 = null;
         Customer customer2 = null;
         String error = null;
+        //test stub
+        when(customerRepository.findAll()).thenReturn(Arrays.asList());
 
-        when(customerRepository.existsById(anyString())).thenReturn(Objects.nonNull(customer1));
-
-        try{
-            customer1 = customerService.createCustomer("username1", PASSWORD, EMAIL, ADDRESS);
-            when(customerRepository.existsById(anyString())).thenReturn(Objects.nonNull(customer1));
-            customer2 = customerService.createCustomer("username2", PASSWORD, EMAIL, ADDRESS);
-        }catch(IllegalArgumentException e){
+        try {
+            customer1 = customerService.createCustomer("customer1", PASSWORD, EMAIL, ADDRESS);
+            //test stub
+            when(customerRepository.findAll()).thenReturn(Arrays.asList(customer1));
+            customer2 = customerService.createCustomer("customer2", PASSWORD, EMAIL, ADDRESS);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-
         assertNotNull(customer1);
-
         assertNull(customer2);
-        assertEquals("An identical customer already exists.",error);
+        assertEquals("An identical customer already exists.", error);
     }
+
     @Test
     public void testGetCustomerByUsername() {
-        createSaveOrders();
         Customer customer = null;
         String error = null;
 
@@ -271,24 +284,25 @@ public class TestCustomerService {
         assertNull(error);
 
     }
+
     @Test
     public void testGetCustomerByInvalidUsername() {
-        createSaveOrders();
         Customer customer = null;
         String error = null;
+        Customer customer2 = null;
 
         try {
             customer = customerService.getCustomer("wrong");
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        assertNotNull(customer);
-        assertNull("Customer doesn't exist.", error);
+        assertNull(customer);
+        assertEquals("Customer doesn't exist", error);
 
     }
+
     @Test
     public void testGetEmployeeByEmptyID() {
-        createSaveOrders();
         Customer customer = null;
         String error = null;
 
@@ -298,26 +312,26 @@ public class TestCustomerService {
             error = e.getMessage();
         }
         assertNull(customer);
-        assertEquals("Customer name can't be empty.", error);
+        assertEquals("The customer name can't be empty", error);
 
     }
+
     @Test
     public void testGetCustomerNullID() {
-        createSaveOrders();
         Customer customer = null;
         String error = null;
 
         try {
             customer = customerService.createCustomer(null, PASSWORD, EMAIL, ADDRESS);
-        }catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(customer);
-        assertEquals("Customer name can't be empty.", error);
+        assertEquals("Username can't be empty", error);
     }
+
     @Test
-    public void testGetAllHolidays() {
-        createSaveOrders();
+    public void testGetAllCustomers() {
         String error = null;
         List<Customer> customers = new ArrayList<>();
         Customer customer = null;
@@ -334,16 +348,44 @@ public class TestCustomerService {
         assertNotNull(customers);
     }
 
+    @Test
+    public void getCustomerOrders() {
 
+        Customer customer = null;
+        DeliveryOrder deliveryOrder = null;
+        PickupOrder pickupOrder = null;
+        List<Order> orderList = null;
+        String error = null;
 
-
-
-
-    public void createSaveOrders(){
-        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("ship here", "Delivered", 1717, 180);
-        deliveryOrderRepository.save(deliveryOrder);
-
-        PickupOrder pickupOrder = pickupOrderService.createPickupOrder("visa", "PickedUp", 1818, 190);
-        pickupOrderRepository.save(pickupOrder);
+        try {
+            customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house", "Delivered", 69, 70);
+            pickupOrder = pickupOrderService.createPickupOrder("Cash", "PickedUp", 70, 100);
+            customer.setOrder(Arrays.asList(deliveryOrder, pickupOrder));
+            DeliveryOrder finalDeliveryOrder = deliveryOrder;
+            PickupOrder finalPickupOrder = pickupOrder;
+            lenient().when(customerRepository.findCustomerByUsername(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
+                if (invocation.getArgument(0).equals(USERNAME_KEY)) {
+                    ArrayList<Customer> customers = new ArrayList<Customer>();
+                    Customer customer1 = new Customer();
+                    customer1.setUsername(USERNAME_KEY);
+                    customer1.setPassword(PASSWORD);
+                    customer1.setEmail(EMAIL);
+                    customer1.setAddress(ADDRESS);
+                    customer1.setOrder(Arrays.asList(finalDeliveryOrder, finalPickupOrder));
+                    return customer1;
+                } else {
+                    return null;
+                }
+            });
+            orderList = customerService.getCustomerOrders(USERNAME_KEY);
+        } catch (Exception e) {
+            System.out.println("crash");
+            fail();
+        }
+        System.out.println(orderList == null);
+        assertNotNull(orderList);
+        assertEquals(orderList, Arrays.asList(deliveryOrder, pickupOrder));
     }
+
 }

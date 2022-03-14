@@ -18,7 +18,7 @@ public class PickupOrderRestController {
     @PostMapping(value = { "/pickupOrder", "/pickupOrder/" })
     public PickupOrderDTO createPickupOrder(@RequestParam String paymentMethod, @RequestParam String pickupStatus,
                                                 @RequestParam int confirmationNumber, @RequestParam int totalCost) throws IllegalArgumentException {
-        return convertToDto(service.createPickupOrder(confirmationNumber,totalCost,paymentMethod,pickupStatus));
+        return convertToDto(service.createPickupOrder(paymentMethod, pickupStatus, confirmationNumber,totalCost));
     }
 
     @GetMapping(value = {"/pickupOrder","/pickupOrder/"})
@@ -35,6 +35,6 @@ public class PickupOrderRestController {
     }
     private PickupOrderDTO convertToDto(PickupOrder aPickupOrder) {
         if (aPickupOrder == null) throw new IllegalArgumentException("There is no such Pickup Order!");
-        return new PickupOrderDTO(aPickupOrder.getConfirmationNumber(),aPickupOrder.getTotalCost(), aPickupOrder.getPaymentMethod().name(),aPickupOrder.getPickupStatus().name());
+        return new PickupOrderDTO(aPickupOrder.getPaymentMethod().name(), aPickupOrder.getPickupStatus().name(), aPickupOrder.getConfirmationNumber(),aPickupOrder.getTotalCost());
     }
 }

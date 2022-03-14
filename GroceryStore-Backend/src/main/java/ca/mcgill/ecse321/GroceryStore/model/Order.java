@@ -48,20 +48,14 @@ public abstract class Order
   // INTERFACE
   //------------------------
 
-  public boolean setConfirmationNumber(int aConfirmationNumber)
+  public void setConfirmationNumber(int aConfirmationNumber)
   {
-    boolean wasSet = false;
-    confirmationNumber = aConfirmationNumber;
-    wasSet = true;
-    return wasSet;
+    this.confirmationNumber = aConfirmationNumber;
   }
 
-  public boolean setTotalCost(int aTotalCost)
+  public void setTotalCost(int aTotalCost)
   {
-    boolean wasSet = false;
-    totalCost = aTotalCost;
-    wasSet = true;
-    return wasSet;
+    this.totalCost = aTotalCost;
   }
 
   public Store getStore(){
