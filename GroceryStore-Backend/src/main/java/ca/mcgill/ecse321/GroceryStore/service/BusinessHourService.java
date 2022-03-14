@@ -62,7 +62,7 @@ public class BusinessHourService {
         while(businessHourRepository.existsById(curID)){
             curID++;
         }
-        newBusinessHour.setHoursID(curID);
+
 
         newBusinessHour.setStartTime(startTime);
         newBusinessHour.setEndTime(endTime);
@@ -75,18 +75,8 @@ public class BusinessHourService {
     @Transactional
     public BusinessHour getBusinessHour(int hoursID) {
         BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
-        if (businessHour == null) throw new IllegalArgumentException("The Business Hours with id: " + hoursID + " was not found in the database.");
+        if (businessHour == null) throw new IllegalArgumentException("The Business Hour with ID: " + hoursID + " was not found in the database.");
         return businessHour;
-    }
-
-    @Transactional
-    public List<BusinessHour> getBusinessHoursByDay(String day) {
-        if (day == null) throw new IllegalArgumentException("A day parameter is required.");
-        List<BusinessHour> businessHoursByDay = new ArrayList<>();
-        for (BusinessHour businessHour : businessHourRepository.findAll()) {
-            if (businessHour.getDay().name().equals(day)) businessHoursByDay.add(businessHour);
-        }
-        return businessHoursByDay;
     }
 
     @Transactional

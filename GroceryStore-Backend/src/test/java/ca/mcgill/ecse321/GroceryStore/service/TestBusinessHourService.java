@@ -52,6 +52,13 @@ public class TestBusinessHourService {
             return null;
             }
         });
+        lenient().when(businessHourRepository.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(HOURS_ID)) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+        });
         Answer<?> returnParameterAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
@@ -69,7 +76,10 @@ public class TestBusinessHourService {
         } catch(IllegalArgumentException error) {
             fail();
         }
-
+        assertNotNull(businessHour);
+        assertEquals(businessHour.getStartTime(),START_TIME);
+        assertEquals(businessHour.getEndTime(),END_TIME);
+        assertEquals(businessHour.getDay().name(),STRING_DAY);
     }
 
     @Test
@@ -192,7 +202,66 @@ public class TestBusinessHourService {
     }
 
     @Test
-    public void testGetBusinessHourByDay() {
-        // TODO
+    public void testGetBusinessHour() {
+        BusinessHour businessHour = null;
+        try {
+            businessHour = businessHourService.getBusinessHour(HOURS_ID);
+        } catch(IllegalArgumentException error) {
+            fail();
+        }
+        assertNotNull(businessHour);
+        assertEquals(businessHour.getHoursID(),HOURS_ID);
+
+    }
+
+    @Test
+    public void testGetBusinessHourInvalidID() {
+        BusinessHour businessHour = null;
+        int INVALID_ID = 9000;
+        String errorMessage = null;
+        try {
+            businessHour = businessHourService.getBusinessHour(INVALID_ID);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(businessHour);
+        assertEquals("The Business Hour with ID: " + INVALID_ID + " was not found in the database.",errorMessage);
+    }
+
+    @Test
+    public void testGetAllBusinessHours() {
+        List<BusinessHour> businessHours = new ArrayList<>();
+        BusinessHour businessHour = null;
+        when(businessHourRepository.findAll()).thenReturn(businessHours);
+
+        try {
+            businessHour = businessHourService.createBusinessHour(START_TIME,END_TIME,STRING_DAY);
+            businessHours.add(businessHour);
+            businessHours = businessHourService.getAllBusinessHours();
+        } catch(IllegalArgumentException error) {
+            fail();
+        }
+        assertNotNull(businessHours);
+    }
+
+    @Test
+    public void testDeleteBusinessHour() {
+        try {
+            businessHourService.deleteBusinessHour(HOURS_ID);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testDeleteBusinessHourInvalidID() {
+        int INVALID_ID = 8000;
+        String errorMessage = null;
+        try {
+            businessHourService.deleteBusinessHour(INVALID_ID);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertEquals("The business hour with ID: " + INVALID_ID + " does not exist.",errorMessage);
     }
 }

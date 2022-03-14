@@ -39,11 +39,6 @@ public class BusinessHourRestController {
         return convertToDto(service.getBusinessHour(hoursID));
     }
 
-    @GetMapping(value = {"/businessHour","/businessHour/"})
-    public List<BusinessHourDTO> getBusinessHoursByDay(@RequestParam String day) throws IllegalArgumentException {
-        return service.getBusinessHoursByDay(day).stream().map(this::convertToDto).collect(Collectors.toList());
-    }
-
     @DeleteMapping(value = {"/businessHours/{hoursID}", "/businessHours/{hoursID}/"})
     public void deleteBusinessHour(@PathVariable("hoursID") int hoursID) throws IllegalArgumentException {
         service.deleteBusinessHour(hoursID);
