@@ -32,7 +32,14 @@ public class BusinessHourService {
             errorMessages.add("End Time cannot be before Start Time.");
         }
 
-        if (aDayOfWeek == null || aDayOfWeek.trim().length() == 0) errorMessages.add("Day cannot be empty.");
+        if (aDayOfWeek == null) errorMessages.add("Day can't be empty.");
+
+        for (BusinessHour businessHour : this.getAllBusinessHours()) {
+            if (businessHour.getStartTime() == startTime && businessHour.getEndTime() == endTime && businessHour.getDay().name().equals(aDayOfWeek)) {
+                errorMessages.add("An identical Business Hour already exists.");
+                break;
+            }
+        }
 
         BusinessHour newBusinessHour = new BusinessHour();
 
@@ -49,13 +56,13 @@ public class BusinessHourService {
             }
         }
 
-        if (errorMessages.isEmpty()) {
-            if (businessHourRepository.existsById(curID)) {
-                errorMessages.add("An identical Item already exists.");
-            }
-        }
 
         if (errorMessages.size() > 0) throw new IllegalArgumentException(String.join(" ", errorMessages));
+
+        while(businessHourRepository.existsById(curID)){
+            curID++;
+        }
+        newBusinessHour.setHoursID(curID);
 
         newBusinessHour.setStartTime(startTime);
         newBusinessHour.setEndTime(endTime);
@@ -70,6 +77,16 @@ public class BusinessHourService {
         BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
         if (businessHour == null) throw new IllegalArgumentException("The Business Hours with id: " + hoursID + " was not found in the database.");
         return businessHour;
+    }
+
+    @Transactional
+    public List<BusinessHour> getBusinessHoursByDay(String day) {
+        if (day == null) throw new IllegalArgumentException("A day parameter is required.");
+        List<BusinessHour> businessHoursByDay = new ArrayList<>();
+        for (BusinessHour businessHour : businessHourRepository.findAll()) {
+            if (businessHour.getDay().name().equals(day)) businessHoursByDay.add(businessHour);
+        }
+        return businessHoursByDay;
     }
 
     @Transactional

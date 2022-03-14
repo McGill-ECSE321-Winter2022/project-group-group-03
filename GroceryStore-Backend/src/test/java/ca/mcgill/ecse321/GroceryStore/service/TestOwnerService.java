@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.OwnerRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.StoreRepository;
-import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 import ca.mcgill.ecse321.GroceryStore.model.Owner;
 import ca.mcgill.ecse321.GroceryStore.model.Store;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,9 +13,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Month;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
