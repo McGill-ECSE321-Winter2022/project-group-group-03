@@ -16,8 +16,8 @@ public class OwnerRestController {
     @Autowired
     private OwnerService service;
 
-    @PostMapping(value = { "/owner/{username}", "/owner/{username}/" })
-    public OwnerDTO createOwner(@PathVariable("username") String username, @RequestParam String email,
+    @PostMapping(value = { "/owner", "/owner/" })
+    public OwnerDTO createOwner(@RequestParam String username, @RequestParam String email,
                                 @RequestParam String password)
             throws IllegalArgumentException {
         Owner owner = service.createOwner(username, email, password);
@@ -29,17 +29,21 @@ public class OwnerRestController {
         return convertToDto(service.getOwner(username));
     }
 
-    @GetMapping(value = { "/registrations/person/{username}", "/registrations/person/{username}/" })
-    public StoreDTO getStoreOfOwner(@PathVariable("username") OwnerDTO oDto) {
-        Owner o = convertToDomainObject(oDto);
-        return createStoreDtoOfOwner(o);
+    @GetMapping(value = { "/store/owner", "/store/owner/" })
+    public StoreDTO getStoreOfOwner(@RequestParam String username) {
+        return createStoreDtoOfOwner(convertToDomainObject(getOwner(username)));
     }
+
+    @DeleteMapping(value = {"/owner", "/owner/"})
+    public void deleteOwner(String username) {service.deleteOwner(username);}
 
     private OwnerDTO convertToDto(Owner o) {
         if (o == null) {
             throw new IllegalArgumentException("There is no such Owner!");
         }
-        return new OwnerDTO(o.getUsername(), o.getEmail(), o.getPassword());
+        OwnerDTO oDTO = new OwnerDTO(o.getUsername(), o.getEmail(), o.getPassword());
+        oDTO.setStore(convertToDto(o.getStore()));
+        return oDTO;
     }
 
     private StoreDTO convertToDto(Store store) {

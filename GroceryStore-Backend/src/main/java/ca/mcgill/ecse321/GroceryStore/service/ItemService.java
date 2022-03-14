@@ -19,6 +19,8 @@ public class ItemService {
     public Item createItem(String name, boolean purchasable, int price, String description, int stock) {
         ArrayList<String> errorMessages = new ArrayList<>();
 
+        System.out.println(name==null);
+        System.out.println(name.trim().length() == 0);
         if (name == null || name.trim().length() == 0) errorMessages.add("Name can't be empty");
 
         if (description == null || description.trim().length() == 0) errorMessages.add("Description can't be empty.");
