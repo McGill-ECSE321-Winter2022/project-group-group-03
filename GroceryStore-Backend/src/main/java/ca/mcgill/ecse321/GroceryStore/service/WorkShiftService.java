@@ -35,6 +35,13 @@ public class WorkShiftService {
         }
         return workShiftRepository.findByShiftID(shiftID);
     }
+//    @Transactional
+//    public List<WorkShift> getWorkShiftByDay(String day) {
+////        if(!workShiftRepository.existsById(day)){
+////            throw new IllegalArgumentException("Work shift doesn't exist.");
+////        }
+////        return workShiftRepository.findByShiftID(shiftID);
+//    }
 
     @Transactional
     public List<WorkShift> getAllWorkShift() {
