@@ -13,14 +13,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class OwnerService {
     @Autowired
     OwnerRepository ownerRepository;
+    @Autowired
     StoreRepository storeRepository;
 
     @Transactional
     public Owner createOwner(String aUsername, String aEmail, String aPassword){
+        if (aUsername==null) throw new IllegalArgumentException("Username can't be empty.");
+        if (aEmail==null) throw new IllegalArgumentException("Email can't be empty.");
+        if (aPassword==null) throw new IllegalArgumentException("Password can't be empty.");
+
+        if(ownerRepository.existsById(aUsername)) throw new IllegalArgumentException("An identical owner already exists.");
+
         Owner newOwner = new Owner();
         newOwner.setEmail(aEmail);
         newOwner.setUsername(aUsername);
         newOwner.setPassword(aPassword);
+        System.out.println(storeRepository.findAll().toString());
         newOwner.setStore(storeRepository.findAll().iterator().next());
         ownerRepository.save(newOwner);
         return newOwner;
