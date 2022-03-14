@@ -1,12 +1,11 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
-import ca.mcgill.ecse321.GroceryStore.dao.HolidayRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.ItemRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.PurchasedItemRepository;
-import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 import ca.mcgill.ecse321.GroceryStore.model.Item;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
@@ -14,6 +13,8 @@ import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
@@ -28,7 +29,7 @@ public class TestPurchasedItemService {
     @Mock
     private ItemRepository itemRepository;
     @InjectMocks
-    private PurchasedItem purchasedItem;
+    private PurchasedItemService purchasedItemService;
 
     @BeforeEach
     public void setMockOutput() {
@@ -55,5 +56,17 @@ public class TestPurchasedItemService {
         lenient().when(itemRepository.save(any(Item.class))).thenAnswer(returnParameterAsAnswer);
     }
 
+    @Test
+    public void testCreatePurchasedItem() {
+        assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
+
+        Item item = new Item();
+
+        try{
+            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, sample_purchaseditemQuantity);
+        }catch(IllegalArgumentException e){
+            fail();
+        }
+    }
 
 }
