@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -57,20 +58,12 @@ public class EmployeeService {
 
     @Transactional
     public List<WorkShift> getEmployeeWorkShifts(String aUsername){
-        if (aUsername != null) {
-            for(Employee employee : employeeRepository.findAll()){
-                if (employee.getUsername().equals(aUsername)) return employee.getWorkShift();
-            }
-        }
-        throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
+        return getEmployee(aUsername).getWorkShift();
     }
 
     @Transactional
     public List<Order> getEmployeeOrders(String aUsername){
-        if (aUsername != null && employeeRepository.findByUsername(aUsername) != null)
-            return employeeRepository.findByUsername(aUsername).getOrder();
-        else throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
-
+        return getEmployee(aUsername).getOrder();
     }
 
     private <T> List<T> toList(Iterable<T> iterable){

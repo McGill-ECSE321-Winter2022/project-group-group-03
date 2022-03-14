@@ -1,9 +1,10 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
+import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.WorkShiftRepository;
-import ca.mcgill.ecse321.GroceryStore.model.Employee;
-import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
+import ca.mcgill.ecse321.GroceryStore.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,11 +38,23 @@ public class TestEmployeeService {
     @Mock
     private WorkShiftRepository workShiftRepository;
 
+    @Mock
+    private DeliveryOrderRepository deliveryOrderRepository;
+
+    @Mock
+    private PickupOrderRepository pickupOrderRepository;
+
     @InjectMocks
     private EmployeeService employeeService;
 
     @InjectMocks
     private WorkShiftService workShiftService;
+
+    @InjectMocks
+    private DeliveryOrderService deliveryOrderService;
+
+    @InjectMocks
+    private PickupOrderService pickupOrderService;
 
     @Test
     public void testCreateEmployee() {
@@ -149,13 +162,13 @@ public class TestEmployeeService {
         Employee employee1 = null;
         Employee employee2 = null;
         String error = null;
-
+        //test stub
         when(employeeRepository.findAll()).thenReturn(Arrays.asList());
 
         try{
             employee1 = employeeService.createEmployee("boss1", EMPLOYEE_EMAIL, EMPLOYEE_PASSWORD, EMPLOYEE_ADDRESS);
+            //test stub
             when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee1));
-
             employee2 = employeeService.createEmployee("boss2", EMPLOYEE_EMAIL, EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
@@ -173,6 +186,7 @@ public class TestEmployeeService {
 
         try{
             employee1 = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
+            //test stub
             when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee1));
             employee2 = employeeService.getEmployee(EMPLOYEE_USERNAME);
         }catch (Exception e){
@@ -191,6 +205,7 @@ public class TestEmployeeService {
 
         try{
             employee1 = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
+            //test stub
             when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee1));
             employee2 = employeeService.getEmployee("EMPLOYEE_USERNAME");
         }catch (Exception e){
@@ -230,6 +245,7 @@ public class TestEmployeeService {
             employee1 = employeeService.createEmployee("1", "a@ma.ca", EMPLOYEE_PASSWORD, EMPLOYEE_ADDRESS);
             employee2 = employeeService.createEmployee("2", "b@ma.ca", EMPLOYEE_PASSWORD, EMPLOYEE_ADDRESS);
             employee3 = employeeService.createEmployee("3", "c@ma.ca", EMPLOYEE_PASSWORD, EMPLOYEE_ADDRESS);
+            //test stub
             when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee1,employee2,employee3));
             employeeArrayList = employeeService.getAllEmployees();
         }catch (Exception e){
@@ -244,14 +260,42 @@ public class TestEmployeeService {
         Employee employee = null;
         WorkShift workShift1 = null;
         WorkShift workShift2 = null;
+        List<WorkShift> workShiftList = null;
 
         try{
             employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
-            workShift1 = workShiftService.createWorkShift(LocalTime.of(10,10), LocalTime.of(11,10), );
-
+            workShift1 = workShiftService.createWorkShift(Time.valueOf(LocalTime.of(10,10)), Time.valueOf(LocalTime.of(11,10)), "Monday");
+            workShift2 = workShiftService.createWorkShift(Time.valueOf(LocalTime.of(11,10)), Time.valueOf(LocalTime.of(12,10)), "Tuesday");
+            employee.setWorkShift(Arrays.asList(workShift1,workShift2));
+            //test stub
+            when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
+            workShiftList = employeeService.getEmployeeWorkShifts(EMPLOYEE_USERNAME);
         } catch (Exception e){
             fail();
         }
+        assertNotNull(workShiftList);
+        assertEquals(workShiftList, Arrays.asList(workShift1, workShift2));
     }
 
+    @Test
+    public void getEmployeeOrders(){
+        Employee employee = null;
+        DeliveryOrder deliveryOrder = null;
+        PickupOrder pickupOrder = null;
+        List<Order> orderList = null;
+        String error = null;
+
+        try{
+            employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house", "Delivered", 69, 70);
+            pickupOrder = pickupOrderService.createPickupOrder(420, 85, "Cash", "PickedUp");
+            employee.setOrder(Arrays.asList(deliveryOrder, pickupOrder));
+            when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
+            orderList = employeeService.getEmployeeOrders(EMPLOYEE_USERNAME);
+        }catch (Exception e){
+            fail();
+        }
+        assertNotNull(orderList);
+        assertEquals(orderList, Arrays.asList(deliveryOrder, pickupOrder));
+    }
 }
