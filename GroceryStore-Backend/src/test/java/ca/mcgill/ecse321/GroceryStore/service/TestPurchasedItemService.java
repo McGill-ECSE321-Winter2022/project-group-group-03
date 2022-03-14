@@ -59,6 +59,16 @@ public class TestPurchasedItemService {
                 return null;
             }
         });
+
+        lenient().when(purchasedItemRepository.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(PURCHASED_ITEM_ID)) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+        });
+
+
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
@@ -197,13 +207,21 @@ public class TestPurchasedItemService {
 
     @Test
     public void testGetPurchasedItemByID() {
-        PurchasedItem purchasedItem = null;
+        PurchasedItem purchasedItem = new PurchasedItem();
         String error = null;
+
+        Item item = new Item();
+        purchasedItem.setItem(item);
+        purchasedItem.setPurchasedItemID(3);
+        purchasedItem.setItemQuantity(4);
+        PurchasedItem purchasedItem2 = new PurchasedItem();
+
         try {
-            purchasedItem = purchasedItemService.getPurchasedItem(PURCHASED_ITEM_ID);
+            purchasedItem2 = purchasedItemService.getPurchasedItem(3);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
+        assertNotNull(purchasedItem2);
         assertNull(error);
     }
 
@@ -236,17 +254,19 @@ public class TestPurchasedItemService {
     }
 
     @Test
-    public void testGetPurchasedItemItemDoesntExist() {
-        Item aItem = null;
+    public void testUpdatePurchasedItem() {
+        assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
+
+        PurchasedItem purchasedItem = null;
         String error = null;
 
-        try {
-            aItem = purchasedItemRepository.findByPurchasedItemID(420).getItem();
-        } catch (IllegalArgumentException e) {
+        try{
+            purchasedItem = purchasedItemService.updatePurchasedItemQuantity(-1);
+        }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
-        assertNull(aItem);
-        assertEquals("Item doesn't exist.", error);
+        assertNull(purchasedItem);
+        assertEquals("item quantity cannot be negative.", error);
     }
 
     @Test
