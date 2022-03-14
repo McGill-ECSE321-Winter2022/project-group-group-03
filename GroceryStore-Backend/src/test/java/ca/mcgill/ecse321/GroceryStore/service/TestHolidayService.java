@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.List;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,10 +25,14 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class TestHolidayService {
     private static final String HOLIDAY_KEY = "TestHoliday";
-    private static final LocalDate LSDATE = LocalDate.of(2000, Month.JANUARY, 1);
-    private static final LocalDate LEDATE = LocalDate.of(2015, Month.JULY, 31);
+    private static final LocalDate LSDATE = LocalDate.of(2012, Month.JANUARY, 1);
+    private static final LocalDate LEDATE = LocalDate.of(2015, Month.AUGUST, 31);
     private static final Date START_DATE = Date.valueOf(LSDATE);
     private static final Date END_DATE = Date.valueOf(LEDATE);
+    private static final LocalDate LSADATE = LocalDate.of(2015, Month.FEBRUARY, 1);
+    private static final LocalDate LEADATE = LocalDate.of(2015, Month.JULY, 31);
+    private static final Date START_ADATE = Date.valueOf(LSADATE);
+    private static final Date END_ADATE = Date.valueOf(LEADATE);
     @Mock
     private HolidayRepository holidayRepository;
     @InjectMocks
@@ -51,6 +56,7 @@ public class TestHolidayService {
             return invocation.getArgument(0);
         };
         lenient().when(holidayRepository.save(any(Holiday.class))).thenAnswer(returnParameterAsAnswer);
+
     }
 
     @Test
@@ -60,12 +66,13 @@ public class TestHolidayService {
         String name = "Easter";
         Holiday holiday = null;
 
-        try{
-           holiday= holidayService.createHoliday(name,START_DATE,END_DATE);
-        }catch(IllegalArgumentException e){
+        try {
+            holiday = holidayService.createHoliday(name, START_DATE, END_DATE);
+        } catch (IllegalArgumentException e) {
             fail();
         }
     }
+
     @Test
     public void testCreateHolidayNullName() {
         assertEquals(0, holidayService.getAllHolidays().size());
@@ -74,14 +81,15 @@ public class TestHolidayService {
         Holiday holiday = null;
         String error = null;
 
-        try{
-            holiday= holidayService.createHoliday(name,START_DATE,END_DATE);
-        }catch(IllegalArgumentException e){
+        try {
+            holiday = holidayService.createHoliday(name, START_DATE, END_DATE);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(holiday);
-        assertEquals("Name can't be empty.",error);
+        assertEquals("Name can't be empty.", error);
     }
+
     @Test
     public void testCreateHolidayNullStartDate() {
         assertEquals(0, holidayService.getAllHolidays().size());
@@ -90,14 +98,15 @@ public class TestHolidayService {
         Holiday holiday = null;
         String error = null;
 
-        try{
-            holiday= holidayService.createHoliday(name,null,END_DATE);
-        }catch(IllegalArgumentException e){
+        try {
+            holiday = holidayService.createHoliday(name, null, END_DATE);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(holiday);
-        assertEquals("Start Date can't be empty.",error);
+        assertEquals("Start Date can't be empty.", error);
     }
+
     @Test
     public void testCreateHolidayNullEndDate() {
         assertEquals(0, holidayService.getAllHolidays().size());
@@ -106,13 +115,13 @@ public class TestHolidayService {
         Holiday holiday = null;
         String error = null;
 
-        try{
-            holiday= holidayService.createHoliday(name,START_DATE,null);
-        }catch(IllegalArgumentException e){
+        try {
+            holiday = holidayService.createHoliday(name, START_DATE, null);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(holiday);
-        assertEquals("End Date can't be empty.",error);
+        assertEquals("End Date can't be empty.", error);
     }
 
     @Test
@@ -123,38 +132,134 @@ public class TestHolidayService {
         Holiday holiday = null;
         String error = null;
 
-        try{
-            holiday= holidayService.createHoliday(name,END_DATE,START_DATE);
-        }catch(IllegalArgumentException e){
+        try {
+            holiday = holidayService.createHoliday(name, END_DATE, START_DATE);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
 
         assertNull(holiday);
-        assertEquals("Start Date can't be after End Date.",error);
+        assertEquals("Start Date can't be after End Date.", error);
     }
 
     @Test
-    public void testCreateHolidayDuplicate() {
+    public void testCreateHolidayDuplicateId() {
         assertEquals(0, holidayService.getAllHolidays().size());
 
         String name = "Easter";
         Holiday holiday1 = null;
         Holiday holiday2 = null;
         String error = null;
+        ArrayList<Holiday> ls = new ArrayList<>();
+        when(holidayRepository.findAll()).thenReturn(ls);
 
-        try{
-            holiday1= holidayService.createHoliday(name,START_DATE,END_DATE);
-            holiday2= holidayService.createHoliday(name,START_DATE,END_DATE);
-        }catch(IllegalArgumentException e){
+        try {
+            holiday1 = holidayService.createHoliday(name, START_DATE, END_DATE);
+            ls.add(holiday1);
+            holiday2 = holidayService.createHoliday(name, START_ADATE, END_ADATE);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        verify(holidayRepository,atLeastOnce()).save(any(Holiday.class));
-        System.out.println(holidayService.getAllHolidays());
-//        assertNotNull(holiday1);
-//        assertNull(holiday2);
-//        assertEquals("An identical holiday already exists.",error);
+        assertNotNull(holiday1);
+        assertNull(holiday2);
+        assertEquals("An identical holiday with the same name already exists.", error);
     }
 
+    @Test
+    public void testCreateHolidayDuplicateDates() {
+        assertEquals(0, holidayService.getAllHolidays().size());
 
+        String name = "Christmas";
+        String name2 = "Easter";
+        Holiday holiday1 = null;
+        Holiday holiday2 = null;
+        String error = null;
+        ArrayList<Holiday> ls = new ArrayList<>();
+        when(holidayRepository.findAll()).thenReturn(ls);
+
+        try {
+            holiday1 = holidayService.createHoliday(name, START_DATE, END_DATE);
+            ls.add(holiday1);
+            holiday2 = holidayService.createHoliday(name2, START_DATE, END_DATE);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(holiday1);
+        assertNull(holiday2);
+        assertEquals("An identical holiday with the same start and end date already exists.", error);
+    }
+
+    @Test
+    public void testGetHolidayByID() {
+        Holiday holiday = null;
+        String error = null;
+
+        try {
+            holiday = holidayService.getHoliday(HOLIDAY_KEY);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(holiday);
+        assertNull(error);
+
+    }
+    @Test
+    public void testGetHolidayInvalidID() {
+        Holiday holiday = null;
+        String error = null;
+
+        try {
+            holiday = holidayService.getHoliday("Hello");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(holiday);
+        assertEquals("Holiday doesn't exist.", error);
+
+    }
+    @Test
+    public void testGetHolidayEmptyID() {
+        Holiday holiday = null;
+        String error = null;
+
+        try {
+            holiday = holidayService.getHoliday("");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(holiday);
+        assertEquals("Name can't be empty.", error);
+
+    }
+    @Test
+    public void testGetHolidayNullID() {
+        Holiday holiday = null;
+        String error = null;
+
+        try {
+            holiday = holidayService.createHoliday(null, START_DATE, END_DATE);
+        }catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(holiday);
+        assertEquals("Name can't be empty.", error);
+
+    }
+
+    @Test
+    public void testGetHolidays() {
+        List<Holiday> holidays = null;
+        String error = null;
+
+        try {
+            holidays = holidayService.getAllHolidays();
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(holidays);
+        assertEquals("Name can't be empty.", error);
+
+    }
 }
+
 

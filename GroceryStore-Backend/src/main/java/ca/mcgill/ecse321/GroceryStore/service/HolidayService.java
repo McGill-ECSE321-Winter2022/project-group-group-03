@@ -31,8 +31,10 @@ public class HolidayService {
         } else if(holidays != null && holidays.size() != 0) {
             for(Holiday h : holidays) {
                 if(h.getName().equals(name)) {
-                    error = "An identical holiday already exists.";
+                    error = "An identical holiday with the same name already exists.";
                     break;
+                }else if(h.getStartDate().compareTo(startDate)==0 && h.getEndDate().compareTo(endDate)==0){
+                    error = "An identical holiday with the same start and end date already exists.";
                 }
             }
         }
@@ -60,6 +62,16 @@ public class HolidayService {
 
     @Transactional
     public Holiday getHoliday(String name){
+        String error = null;
+        if(name == null|| name.trim().length() == 0){
+            error="Name can't be empty.";
+        } else if(!holidayRepository.existsById(name)){
+            error="Holiday doesn't exist.";
+        }
+
+        if(error != null){
+            throw new IllegalArgumentException(error);
+        }
         return holidayRepository.findByName(name);
 
     }
