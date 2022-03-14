@@ -161,9 +161,9 @@ public class TestOwnerService {
         storeRepository.save(store);
 
         //test stub to create owner because we need a store
-        //ArrayList<Store> ls = new ArrayList<>();
-        //ls.add(store);
-        //when(storeRepository.findAll()).thenReturn(ls);
+        ArrayList<Store> ls = new ArrayList<>();
+        ls.add(store);
+        when(storeRepository.findAll()).thenReturn(ls);
 
 
 
@@ -171,18 +171,19 @@ public class TestOwnerService {
         Owner owner2 = null;
         String error = null;
 
-        when(ownerRepository.existsById(anyString())).thenReturn(Objects.isNull(owner1));
+
+        when(ownerRepository.existsById(anyString())).thenReturn(Objects.nonNull(owner1));
 
         try{
             owner1 = ownerService.createOwner(OWNER_USERNAME, OWNER_EMAIL, OWNER_PASSWORD);
-            //test stub 2
-            //when(ownerRepository.findByUsername(anyString())).thenReturn(owner1);
+            when(ownerRepository.existsById(anyString())).thenReturn(Objects.nonNull(owner1));
             owner2 = ownerService.createOwner(OWNER_USERNAME, OWNER_EMAIL, OWNER_PASSWORD);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
         //verify(ownerRepository, never()).save(any(Owner.class));
         assertNotNull(owner1);
+
         assertNull(owner2);
         assertEquals("An identical owner already exists.",error);
     }

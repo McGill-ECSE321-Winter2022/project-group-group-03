@@ -28,7 +28,6 @@ public class OwnerService {
         newOwner.setEmail(aEmail);
         newOwner.setUsername(aUsername);
         newOwner.setPassword(aPassword);
-        System.out.println(storeRepository.findAll().toString());
         newOwner.setStore(storeRepository.findAll().iterator().next());
         ownerRepository.save(newOwner);
         return newOwner;
