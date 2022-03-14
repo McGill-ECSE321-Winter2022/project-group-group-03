@@ -23,8 +23,6 @@ public class OwnerService {
         if (aPassword==null) throw new IllegalArgumentException("Password can't be empty.");
 
         for (Owner owner : ownerRepository.findAll()){
-            //System.out.println(owner.getUsername());
-            //System.out.println(owner.getEmail());
             if (owner.getUsername().equals(aUsername)) throw new IllegalArgumentException("An identical owner already exists.");
             if (owner.getEmail().equals(aEmail)) throw new IllegalArgumentException("An identical owner already exists.");
         }
@@ -33,7 +31,6 @@ public class OwnerService {
         newOwner.setUsername(aUsername);
         newOwner.setEmail(aEmail);
         newOwner.setPassword(aPassword);
-
         try{
             newOwner.setStore(storeRepository.findAll().iterator().next());
         }catch(Exception e){

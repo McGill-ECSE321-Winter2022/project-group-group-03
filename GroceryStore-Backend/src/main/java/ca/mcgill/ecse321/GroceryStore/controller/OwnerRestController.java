@@ -17,7 +17,7 @@ public class OwnerRestController {
     private OwnerService service;
 
     @PostMapping(value = { "/owner/{username}", "/owner/{username}/" })
-    public OwnerDTO createEvent(@PathVariable("username") String username, @RequestParam String email,
+    public OwnerDTO createOwner(@PathVariable("username") String username, @RequestParam String email,
                                 @RequestParam String password)
             throws IllegalArgumentException {
         Owner owner = service.createOwner(username, email, password);
