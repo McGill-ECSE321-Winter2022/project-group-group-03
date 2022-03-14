@@ -8,5 +8,4 @@ public interface OwnerRepository extends CrudRepository<Owner, String>{
 
     Owner findByUsername(String username);
 
-
 }
