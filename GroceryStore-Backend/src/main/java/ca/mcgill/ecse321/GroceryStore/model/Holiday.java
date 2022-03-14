@@ -17,7 +17,6 @@ public class Holiday
   // STATIC VARIABLES
   //------------------------
 
-  private static Map<String, Holiday> holidaysByName = new HashMap<String, Holiday>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -51,54 +50,21 @@ public class Holiday
   // INTERFACE
   //------------------------
 
-  public boolean setName(String aName)
-  {
-    boolean wasSet = false;
-    String anOldName = getName();
-    if (anOldName != null && anOldName.equals(aName)) {
-      return true;
-    }
-    if (hasWithName(aName)) {
-      return wasSet;
-    }
-    name = aName;
-    wasSet = true;
-    if (anOldName != null) {
-      holidaysByName.remove(anOldName);
-    }
-    holidaysByName.put(aName, this);
-    return wasSet;
+  public void setName(String aName) {
+   this.name =aName;
   }
 
-  public boolean setStartDate(Date aStartDate)
-  {
-    boolean wasSet = false;
+  public void setStartDate(Date aStartDate) {
     startDate = aStartDate;
-    wasSet = true;
-    return wasSet;
   }
 
-  public boolean setEndDate(Date aEndDate)
-  {
-    boolean wasSet = false;
+  public void setEndDate(Date aEndDate) {
     endDate = aEndDate;
-    wasSet = true;
-    return wasSet;
   }
 
   public String getName()
   {
     return name;
-  }
-  /* Code from template attribute_GetUnique */
-  public static Holiday getWithName(String aName)
-  {
-    return holidaysByName.get(aName);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithName(String aName)
-  {
-    return getWithName(aName) != null;
   }
 
   public Date getStartDate()
@@ -111,10 +77,6 @@ public class Holiday
     return endDate;
   }
 
-  public void delete()
-  {
-    holidaysByName.remove(getName());
-  }
 
 
   public String toString()

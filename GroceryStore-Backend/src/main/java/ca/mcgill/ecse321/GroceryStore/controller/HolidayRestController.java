@@ -4,9 +4,11 @@ import ca.mcgill.ecse321.GroceryStore.dto.HolidayDTO;
 import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 import ca.mcgill.ecse321.GroceryStore.service.HolidayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +22,9 @@ public class HolidayRestController {
 
     @PostMapping(value = {"/holiday", "/holiday/"})
     public HolidayDTO createHoliday(@RequestParam String name,
-                                    @RequestParam Date startDate,
-                                    @RequestParam Date endDate) throws IllegalArgumentException {
-        Holiday holiday = holidayService.createHoliday(name, startDate, endDate);
+                                    @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate startDate,
+                                    @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate endDate) throws IllegalArgumentException {
+        Holiday holiday = holidayService.createHoliday(name, Date.valueOf(startDate), Date.valueOf(endDate));
         return convertToDto(holiday);
     }
 
