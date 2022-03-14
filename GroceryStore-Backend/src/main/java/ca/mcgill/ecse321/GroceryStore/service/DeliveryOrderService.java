@@ -16,7 +16,26 @@ public class DeliveryOrderService {
     DeliveryOrderRepository deliveryOrderRepository;
 
     @Transactional
-    public DeliveryOrder createDeliveryOrder(String shippingAddress, String shippingStatus, int confirmationNumber, int totalCost){
+    public DeliveryOrder createDeliveryOrder(String shippingAddress, String shippingStatus, Integer confirmationNumber, Integer totalCost){
+        if(shippingAddress == null || shippingAddress == "" || shippingAddress == " ") {
+            throw new IllegalArgumentException("Shipping address can't be empty.");
+        }
+        if(shippingStatus == null || shippingStatus == "" || shippingStatus == " "){
+            throw new IllegalArgumentException("Shipping status can't be empty.");
+        }
+        if(confirmationNumber == null){
+            throw new IllegalArgumentException("Confirmation number can't be empty.");
+        }
+        if(confirmationNumber <= 0){
+            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
+        }
+        if(totalCost == null){
+            throw new IllegalArgumentException("Total cost can't be empty.");
+        }
+        if(totalCost <= 0){
+            throw new IllegalArgumentException("Total cost must be greater than 0.");
+        }
+
         DeliveryOrder newDeliveryOrder = new DeliveryOrder();
         newDeliveryOrder.setShippingAddress(shippingAddress);
         newDeliveryOrder.setConfirmationNumber(confirmationNumber);
