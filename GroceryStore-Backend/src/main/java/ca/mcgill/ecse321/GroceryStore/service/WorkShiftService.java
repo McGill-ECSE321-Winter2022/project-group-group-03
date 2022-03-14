@@ -20,17 +20,19 @@ public class WorkShiftService {
 
     @Transactional
     public void deleteWorkShift(int shiftID) {
-        WorkShift workShift= workShiftRepository.findByShiftID(shiftID);
-        if (workShift == null ) {
-            throw new IllegalArgumentException("The work shift with ID: " + shiftID + " does not exist.");
-        } else {
-            workShiftRepository.deleteById(shiftID);
+        String error = null;
+        if (!workShiftRepository.existsById(shiftID)) {
+            throw new IllegalArgumentException("The work shift does not exist.");
         }
+        workShiftRepository.findByShiftID(shiftID);
 
     }
 
     @Transactional
     public WorkShift getWorkShift(int shiftID) {
+        if(!workShiftRepository.existsById(shiftID)){
+            throw new IllegalArgumentException("Work shift doesn't exist.");
+        }
         return workShiftRepository.findByShiftID(shiftID);
     }
 
@@ -42,10 +44,20 @@ public class WorkShiftService {
     @Transactional
     public WorkShift createWorkShift(Time aStartTime, Time aEndTime, String aDayOfWeek) {
         WorkShift workShift = new WorkShift();
+        if (aStartTime == null) throw new IllegalArgumentException("Start Time can't be empty.");
 
+        if (aEndTime == null) throw new IllegalArgumentException("End Time can't be empty.");
 
-        workShift.setStartTime(aStartTime);
-        workShift.setEndTime(aEndTime);
+        if (aEndTime.before(aStartTime)) {
+            throw new IllegalArgumentException("End Time cannot be before Start Time.");
+        }
+        if (aDayOfWeek ==null || aDayOfWeek.trim().length() == 0) throw new IllegalArgumentException("Day can't be empty.");
+
+        for (WorkShift w : this.getAllWorkShift()) {
+            if (w.getStartTime() == aStartTime && w.getEndTime() == aEndTime && w.getDay().name().equals(aDayOfWeek)) {
+                throw new IllegalArgumentException("An identical Work shift already exists.");
+            }
+        }
 
         switch (aDayOfWeek) {
             case "Monday" -> workShift.setDay(WorkShift.DayOfWeek.Monday);
@@ -57,6 +69,11 @@ public class WorkShiftService {
             case "Sunday" -> workShift.setDay(WorkShift.DayOfWeek.Sunday);
             default -> throw new IllegalArgumentException("Please enter a valid day of the week.");
         }
+        while(workShiftRepository.existsById(curID)){
+            curID++;
+        }
+        workShift.setStartTime(aStartTime);
+        workShift.setEndTime(aEndTime);
         workShift.setShiftID(curID++);
 
         workShiftRepository.save(workShift);

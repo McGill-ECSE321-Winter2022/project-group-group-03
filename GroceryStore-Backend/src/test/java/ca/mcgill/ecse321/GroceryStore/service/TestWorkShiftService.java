@@ -16,7 +16,9 @@ import org.mockito.stubbing.Answer;
 
 import java.sql.Time;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,7 +26,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TestWorkShiftService {
-    private static final int WORKSHIFT_KEY = 5000;
+    private static final int WORKSHIFT_KEY = 11000;
     private static final Time START_TIME = Time.valueOf(LocalTime.of(01,00));
     private static final Time END_TIME = Time.valueOf(LocalTime.of(02,00));
     private static final Time LSATIME = Time.valueOf(LocalTime.of(05,00));
@@ -45,6 +47,7 @@ public class TestWorkShiftService {
                 WorkShift workShift = new WorkShift();
                 workShift.setStartTime(START_TIME);
                 workShift.setEndTime(END_TIME);
+                workShift.setShiftID(WORKSHIFT_KEY);
                 workShift.setDay(WorkShift.DayOfWeek.Monday);
                 return workShift;
             } else {
@@ -66,7 +69,7 @@ public class TestWorkShiftService {
     }
 
     @Test
-    public void testCreateBusinessHour() {
+    public void testCreateWorkShift() {
 
         WorkShift workShift = null;
         try {
@@ -77,21 +80,21 @@ public class TestWorkShiftService {
     }
 
     @Test
-    public void testCreateBusinessHourNullStartTime() {
+    public void testCreateWorkShiftNullStartTime() {
         WorkShift workShift = null;
         String error = null;
 
         try {
             workShift = workShiftService.createWorkShift(null,END_TIME,STRING_DAY);
-        } catch(IllegalArgumentException error)  {
-            errorMessage = error.getMessage();
+        } catch(IllegalArgumentException e)  {
+            error = e.getMessage();
         }
         assertNull(workShift);
         assertEquals("Start Time can't be empty.",error);
     }
 
     @Test
-    public void testCreateBusinessHourNullEndTime() {
+    public void testCreateWorkShiftNullEndTime() {
 
         WorkShift workShift = null;
         String errorMessage = null;
@@ -106,7 +109,7 @@ public class TestWorkShiftService {
     }
 
     @Test
-    public void testCreateBusinessHourNullDay() {
+    public void testCreateWorkShiftNullDay() {
 
         WorkShift workShift = null;
         String errorMessage = null;
@@ -121,7 +124,7 @@ public class TestWorkShiftService {
     }
 
     @Test
-    public void testCreateBusinessHourEmptyDay() {
+    public void testCreateWorkShiftEmptyDay() {
         WorkShift workShift= null;
         String errorMessage = null;
 
@@ -131,11 +134,11 @@ public class TestWorkShiftService {
             errorMessage = error.getMessage();
         }
         assertNull(workShift);
-        assertEquals("Please enter a valid day of the week.", errorMessage);
+        assertEquals("Day can't be empty.", errorMessage);
     }
 
     @Test
-    public void testCreateBusinessHourInvalidDay() {
+    public void testCreateWorkShiftInvalidDay() {
         WorkShift workShift = null;
         String errorMessage = null;
 
@@ -149,7 +152,7 @@ public class TestWorkShiftService {
     }
 
     @Test
-    public void testCreateBusinessHourEndTimeBeforeStartTime() {
+    public void testCreateWorkShiftEndTimeBeforeStartTime() {
 
         WorkShift workShift = null;
         String errorMessage = null;
@@ -163,28 +166,86 @@ public class TestWorkShiftService {
         assertEquals("End Time cannot be before Start Time.", errorMessage);
     }
 
-//    @Test
-//    public void testCreateBusinessHourDuplicate() {
-//        WorkShift workShift1 = null;
-//        WorkShift workShift2 = null;
-//        String errorMessage = null;
-//
-//
-//        try {
-//            workShift1 = businessHourService.createBusinessHour(START_TIME,END_TIME,STRING_DAY);
-//            when(businessHourRepository.findAll()).thenReturn(Arrays.asList(workShift1));
-//            secondBusinessHour = businessHourService.createBusinessHour(START_TIME,END_TIME,STRING_DAY);
-//        } catch(IllegalArgumentException error) {
-//            errorMessage = error.getMessage();
-//        }
-//        assertNotNull(firstBusinessHour);
-//        assertNull(secondBusinessHour);
-//        assertEquals("An identical Business Hour already exists.", errorMessage);
-//    }
+    @Test
+    public void testCreateWorkShiftDuplicate() {
+        WorkShift workShift1 = null;
+        WorkShift workShift2 = null;
+        String errorMessage = null;
+
+
+        try {
+            workShift1 = workShiftService.createWorkShift(START_TIME,END_TIME,STRING_DAY);
+            when(workShiftRepository.findAll()).thenReturn(Arrays.asList(workShift1));
+            workShift2 = workShiftService.createWorkShift(START_TIME,END_TIME,STRING_DAY);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNotNull(workShift1);
+        assertNull(workShift2);
+        assertEquals("An identical Work shift already exists.", errorMessage);
+    }
 
     @Test
-    public void testGetBusinessHourByDay() {
-        // TODO
+    public void testGetWorkShift() {
+        WorkShift workShift = null;
+        try {
+            workShift = workShiftService.getWorkShift(WORKSHIFT_KEY);
+        } catch(IllegalArgumentException error) {
+            fail();
+        }
+        assertNotNull(workShift);
+        assertEquals(workShift.getShiftID(),WORKSHIFT_KEY);
+
+    }
+
+    @Test
+    public void testGetWorkShiftInvalidID() {
+        WorkShift workShift = null;
+        String errorMessage = null;
+        try {
+            workShift = workShiftService.getWorkShift(7);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(workShift);
+        assertEquals("Work shift doesn't exist.",errorMessage);
+    }
+
+    @Test
+    public void testGetAllWorkShifts() {
+        List<WorkShift> workShifts = new ArrayList<>();
+        WorkShift workShift = null;
+        when(workShiftRepository.findAll()).thenReturn(workShifts);
+
+        try {
+            workShift = workShiftService.createWorkShift(START_TIME,END_TIME,STRING_DAY);
+            workShifts.add(workShift);
+            workShifts = workShiftService.getAllWorkShift();
+        } catch(IllegalArgumentException error) {
+            fail();
+        }
+        assertNotNull(workShifts);
+    }
+
+    @Test
+    public void testDeleteWorkShift() {
+        try {
+            workShiftService.deleteWorkShift(WORKSHIFT_KEY);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testDeleteWorkShiftInvalidID() {
+
+        String errorMessage = null;
+        try {
+            workShiftService.deleteWorkShift(4);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertEquals("The work shift does not exist.",errorMessage);
     }
 
 }
