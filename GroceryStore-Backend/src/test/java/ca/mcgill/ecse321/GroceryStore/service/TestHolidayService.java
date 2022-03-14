@@ -15,7 +15,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -286,45 +285,40 @@ public class TestHolidayService {
     public void testDeleteHoliday() {
         Holiday holiday = null;
         String error = null;
-        ArrayList<Holiday> ls = new ArrayList<>();
-        when(holidayRepository.findAll()).thenReturn(ls);
+
         try {
-            holiday = holidayService.createHoliday(HOLIDAY_KEY, START_DATE,END_DATE);
             holidayService.deleteHoliday(HOLIDAY_KEY);
-            holidayService.getHoliday(HOLIDAY_KEY);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(error);
-        assertNull(holiday);
     }
 
-    //not really working
-//    @Test
-//    public void testDeleteHolidayInvalidID() {
-//        Holiday holiday = null;
-//        String error = null;
-//        try {
-//            holidayService.deleteHoliday("Fake");
-//        } catch (IllegalArgumentException e) {
-//            error = e.getMessage();
-//        }
-//        assertNotNull(error);
-//        assertEquals("The holiday does not exist.",error);
-//    }
-//
-//    @Test
-//    public void testDeleteHolidayEmptyID() {
-//        Holiday holiday = null;
-//        String error = null;
-//        try {
-//            holidayService.deleteHoliday(null);
-//        } catch (IllegalArgumentException e) {
-//            error = e.getMessage();
-//        }
-//        assertNotNull(error);
-//        assertEquals("Name can't be empty.",error);
-//    }
+    @Test
+    public void testDeleteHolidayInvalidID() {
+        Holiday holiday = null;
+        String error = null;
+        try {
+            holidayService.deleteHoliday("Fake");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("The holiday does not exist.",error);
+    }
+
+    @Test
+    public void testDeleteHolidayEmptyID() {
+        Holiday holiday = null;
+        String error = null;
+        try {
+            holidayService.deleteHoliday(null);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Name can't be empty.",error);
+    }
 
 
 }
