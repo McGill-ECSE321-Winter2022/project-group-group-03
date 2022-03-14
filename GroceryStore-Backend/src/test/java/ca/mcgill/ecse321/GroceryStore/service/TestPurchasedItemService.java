@@ -146,12 +146,16 @@ public class TestPurchasedItemService {
 
         Item aItem = new Item();
         PurchasedItem purchasedItem = new PurchasedItem();
+        String error = null;
 
         try {
+            aItem.setStock(10000);
             purchasedItem = purchasedItemService.createPurchasedItem(aItem, ITEM_QUANTITY);
         } catch (IllegalArgumentException e) {
-            fail();
+            error = e.getMessage();
         }
+
+        assertNull(error);
         assertNotNull(purchasedItem);
 
         assertEquals(purchasedItem.getItem(), aItem);
@@ -233,7 +237,48 @@ public class TestPurchasedItemService {
         assertEquals("ID is invalid.", error);
     }
 
+    @Test
+    public void testGetPurchasedItemItemDoesntExist() {
+        Item aItem = null;
+        String error = null;
 
+        try {
+            aItem = purchasedItemRepository.findByPurchasedItemID(420).getItem();
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(aItem);
+        assertEquals("Item doesn't exist.", error);
+    }
 
+    @Test
+    public void testGetPurchasedItemItem2() {
+        PurchasedItem purchasedItem = null;
+        Item aItem = null;
+        String error = null;
+
+        try {
+            aItem = purchasedItemRepository.findByPurchasedItemID(PURCHASED_ITEM_ID).getItem();
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(aItem);
+        assertEquals("Invalid id: Either no PurchasedItem has this id or the id given was null", error);
+    }
+
+    @Test
+    public void testGetPurchasedItemItem() {
+        assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
+
+        Item item = new Item();
+
+        try {
+            item = purchasedItemRepository.findByPurchasedItemID(PURCHASED_ITEM_ID).getItem();
+
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+        assertNotNull(item);
+    }
 
 }

@@ -80,23 +80,19 @@ public class PurchasedItemService {
         String error = null;
         PurchasedItem purchasedItem1 = purchasedItemRepository.findByPurchasedItemID(curID);
 
-
         if (aItem == null) {
             error="item cannot be null.";
         }
-
        else if (itemQuantity > aItem.getStock()) {
            System.out.println("print");
            error="itemQuantity cannot be greater than the stock.";
        }
-
        if (itemQuantity == 0) {
             error="item quantity cannot be zero.";
         }
         else if (itemQuantity < 0) {
             error="item quantity cannot be negative.";
         }
-
         if (error != null) {
             throw new IllegalArgumentException(error);
         }
@@ -119,6 +115,18 @@ public class PurchasedItemService {
         else throw new IllegalArgumentException("Invalid id: Either no PurchasedItem has this id or the id given was null");
     }
 
+    @Transactional
+    public PurchasedItem getPurchasedItemItem2 (Integer purchasedItemID) {
+        String error = null;
+        if (purchasedItemID <= 0) {
+            error = "ID is invalid.";
+        }
+
+        if (error != null) {
+            throw new IllegalArgumentException(error);
+        }
+        return purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
+    }
 
     private <T> List<T> toList(Iterable<T> iterable) {
         List<T> resultList = new ArrayList<>();
