@@ -31,15 +31,23 @@ import java.util.Objects;
 @ExtendWith(MockitoExtension.class)
 public class TestCustomerService {
     private static final String USERNAME_KEY = "edward";
-    private static final String NONEXISTING_KEY = "notedward";
+    //private static final String NONEXISTING_KEY = "notedward";
     private static final String PASSWORD = "123456";
     private static final String EMAIL = "edward@gmail.com";
     private static final String ADDRESS = "3064 rue Edmond Rostand";
     @Mock
     private CustomerRepository customerRepository;
+    @Mock
+    private DeliveryOrderRepository deliveryOrderRepository;
+    @Mock
+    private PickupOrderRepository pickupOrderRepository;
 
     @InjectMocks
     private CustomerService customerService;
+    @InjectMocks
+    private DeliveryOrderService deliveryOrderService;
+    @InjectMocks
+    private PickupOrderService pickupOrderService;
 
     @BeforeEach
     public void setMockOutput() {
@@ -67,9 +75,12 @@ public class TestCustomerService {
 
     @Test
     public void testCreateCustomer() {
-        assertEquals(0, customerService.getAllCustomers().size());
+        createSaveOrders();
 
         String name = "Edward";
+        String password = "lol";
+        String email = "edward@hotmail.com";
+        String address = "edward street";
         Customer customer = null;
         try {
             customer = customerService.createCustomer(name, PASSWORD, EMAIL, ADDRESS);
@@ -84,6 +95,8 @@ public class TestCustomerService {
     //CREATE NULL NAME CUSTOMER
     @Test
     public void testCreateCustomerNameNull() {
+        createSaveOrders();
+
         String name = null;
         Customer customer = null;
         String error = null;
@@ -101,6 +114,8 @@ public class TestCustomerService {
     //CREATE NULL PASSWORD CUSTOMER
     @Test
     public void testCreateCustomerPasswordNull() {
+        createSaveOrders();
+
         String password = null;
         Customer customer = null;
         String error = null;
@@ -117,6 +132,8 @@ public class TestCustomerService {
 
     @Test
     public void testCreateCustomerEmailNull() {
+        createSaveOrders();
+
         String email = null;
         Customer customer = null;
         String error = null;
@@ -133,6 +150,8 @@ public class TestCustomerService {
 
     @Test
     public void testCreateCustomerAddressNull() {
+        createSaveOrders();
+
         String address = null;
         Customer customer = null;
         String error = null;
@@ -148,6 +167,8 @@ public class TestCustomerService {
     }
     @Test
     public void testCreateCustomerNameEmpty() {
+        createSaveOrders();
+
         String name = "";
         String error = null;
         Customer customer = null;
@@ -162,6 +183,8 @@ public class TestCustomerService {
     }
     @Test
     public void testCreateCustomerPasswordEmpty() {
+        createSaveOrders();
+
         String password = "";
         String error = null;
         Customer customer = null;
@@ -176,6 +199,8 @@ public class TestCustomerService {
     }
     @Test
     public void testCreateCustomerEmailEmpty() {
+        createSaveOrders();
+
         String email = "";
         String error = null;
         Customer customer = null;
@@ -190,6 +215,8 @@ public class TestCustomerService {
     }
     @Test
     public void testCreateCustomerAddressEmpty() {
+        createSaveOrders();
+
         String address = "";
         String error = null;
         Customer customer = null;
@@ -204,6 +231,8 @@ public class TestCustomerService {
     }
     @Test
     public void testCreateCustomerDuplicate(){
+        createSaveOrders();
+
         Customer customer1 = null;
         Customer customer2 = null;
         String error = null;
@@ -223,8 +252,44 @@ public class TestCustomerService {
         assertNull(customer2);
         assertEquals("An identical customer already exists.",error);
     }
-    
+    @Test
+    public void testGetCustomerByUsername() {
+        Customer customer = null;
+        String error = null;
+
+        try {
+            customer = customerService.getCustomer(USERNAME_KEY);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer);
+        assertNull(error);
+
+    }
+    @Test
+    public void testGetCustomerByInvalidUsername() {
+        Customer customer = null;
+        String error = null;
+
+        try {
+            customer = customerService.getCustomer("wrong");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer);
+        assertNull("Customer doesn't exist.", error);
+
+    }
 
 
 
+
+
+    public void createSaveOrders(){
+        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("ship here", "Delivered", 1717, 180);
+        deliveryOrderRepository.save(deliveryOrder);
+
+        PickupOrder pickupOrder = pickupOrderService.createPickupOrder(1818, 190, "visa", "PickedUp");
+        pickupOrderRepository.save(pickupOrder);
+    }
 }
