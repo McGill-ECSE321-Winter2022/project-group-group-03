@@ -71,6 +71,10 @@ public class TestHolidayService {
         } catch (IllegalArgumentException e) {
             fail();
         }
+        assertNotNull(holiday);
+        assertEquals(holiday.getEndDate(),END_DATE);
+        assertEquals(holiday.getStartDate(),START_DATE);
+        assertEquals(holiday.getName(),name);
     }
 
     @Test
@@ -247,17 +251,22 @@ public class TestHolidayService {
     }
 
     @Test
-    public void testGetHolidays() {
-        List<Holiday> holidays = null;
+    public void testGetAllHolidays() {
         String error = null;
+        List<Holiday> holidays = new ArrayList<>();
+        Holiday holiday = null;
+        String name = "Easter";
+        when(holidayRepository.findAll()).thenReturn(holidays);
 
         try {
+            holiday = holidayService.createHoliday(name, START_DATE, END_DATE);
+            holidays.add(holiday);
             holidays = holidayService.getAllHolidays();
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        assertNull(holidays);
-        assertEquals("Name can't be empty.", error);
+        assertNotNull(holidays);
+
 
     }
 }

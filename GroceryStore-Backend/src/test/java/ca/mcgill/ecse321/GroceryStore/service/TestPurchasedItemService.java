@@ -17,16 +17,9 @@ import org.mockito.stubbing.Answer;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-
-import java.util.ArrayList;
-
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.lenient;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> d1069a06726d8ac92e9607c0be42457112ef3313
 @ExtendWith(MockitoExtension.class)
 public class TestPurchasedItemService {
     private static final int sample_purchaseditemID = 3;
