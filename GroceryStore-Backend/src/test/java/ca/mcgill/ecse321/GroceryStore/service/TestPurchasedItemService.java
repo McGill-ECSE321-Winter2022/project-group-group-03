@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.ItemRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.PurchasedItemRepository;
-import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 import ca.mcgill.ecse321.GroceryStore.model.Item;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.junit.jupiter.api.BeforeEach;
@@ -188,7 +187,6 @@ public class TestPurchasedItemService {
             aItem.setStock(1000);
             purchasedItem = purchasedItemService.createPurchasedItem(aItem, ITEM_QUANTITY);
             purchasedItems.add(purchasedItem);
-            System.out.println(purchasedItems.toString());
             purchasedItems = purchasedItemService.getAllPurchasedItem();
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
@@ -249,21 +247,6 @@ public class TestPurchasedItemService {
         }
         assertNull(aItem);
         assertEquals("Item doesn't exist.", error);
-    }
-
-    @Test
-    public void testGetPurchasedItemItem2() {
-        PurchasedItem purchasedItem = null;
-        Item aItem = null;
-        String error = null;
-
-        try {
-            aItem = purchasedItemRepository.findByPurchasedItemID(PURCHASED_ITEM_ID).getItem();
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNull(aItem);
-        assertEquals("Invalid id: Either no PurchasedItem has this id or the id given was null", error);
     }
 
     @Test
