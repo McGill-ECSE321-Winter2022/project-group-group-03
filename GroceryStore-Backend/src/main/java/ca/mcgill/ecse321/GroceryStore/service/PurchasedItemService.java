@@ -76,15 +76,12 @@ public class PurchasedItemService {
     @Transactional
     public PurchasedItem createPurchasedItem(Item aItem, int itemQuantity) {
         PurchasedItem purchasedItem = new PurchasedItem();
-        List <PurchasedItem> purchasedItems = this.getAllPurchasedItem();
         String error = null;
-        PurchasedItem purchasedItem1 = purchasedItemRepository.findByPurchasedItemID(curID);
 
         if (aItem == null) {
             error="item cannot be null.";
         }
        else if (itemQuantity > aItem.getStock()) {
-           System.out.println("print");
            error="itemQuantity cannot be greater than the stock.";
        }
        if (itemQuantity == 0) {
@@ -109,23 +106,38 @@ public class PurchasedItemService {
     }
 
     @Transactional
-    public Item getPurchasedItemItem (Integer id){
-        if (id != null && purchasedItemRepository.findByPurchasedItemID(id) != null)
-            return purchasedItemRepository.findByPurchasedItemID(id).getItem();
-        else throw new IllegalArgumentException("Invalid id: Either no PurchasedItem has this id or the id given was null");
-    }
-
-    @Transactional
-    public PurchasedItem getPurchasedItemItem2 (Integer purchasedItemID) {
+    public PurchasedItem updatePurchasedItemQuantity(int itemQuantity, int purchasedItemID) {
         String error = null;
-        if (purchasedItemID <= 0) {
-            error = "ID is invalid.";
+
+        if (!purchasedItemRepository.existsById(purchasedItemID)) {
+            error = "PurchasedItem doesn't exist.";
+        }
+
+        PurchasedItem purchasedItem = this.getPurchasedItem(purchasedItemID);
+
+
+        if (itemQuantity == 0) {
+            error="item quantity cannot be zero.";
+        }
+        else if (itemQuantity < 0) {
+            error="item quantity cannot be negative.";
         }
 
         if (error != null) {
             throw new IllegalArgumentException(error);
         }
-        return purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
+
+        purchasedItem.setItemQuantity(itemQuantity);
+        purchasedItemRepository.save(purchasedItem);
+        return purchasedItem;
+    }
+
+
+        @Transactional
+    public Item getPurchasedItemItem (Integer id){
+        if (id != null && purchasedItemRepository.findByPurchasedItemID(id) != null)
+            return purchasedItemRepository.findByPurchasedItemID(id).getItem();
+        else throw new IllegalArgumentException("Invalid id: Either no PurchasedItem has this id or the id given was null");
     }
 
     private <T> List<T> toList(Iterable<T> iterable) {
