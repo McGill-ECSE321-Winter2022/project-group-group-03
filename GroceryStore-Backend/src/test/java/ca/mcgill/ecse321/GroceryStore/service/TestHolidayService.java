@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,13 +53,19 @@ public class TestHolidayService {
                 return null;
             }
         });
+        lenient().when(holidayRepository.existsById(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(HOLIDAY_KEY)) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+        });
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
         lenient().when(holidayRepository.save(any(Holiday.class))).thenAnswer(returnParameterAsAnswer);
 
     }
-
 
 
     @Test
@@ -200,12 +207,12 @@ public class TestHolidayService {
         Holiday holiday = null;
         String error = null;
         try {
-
             holiday = holidayService.getHoliday(HOLIDAY_KEY);
+
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        //assertNotNull(holiday);
+        assertNotNull(holiday);
         assertNull(error);
 
     }
@@ -215,9 +222,9 @@ public class TestHolidayService {
     public void testGetHolidayInvalidID() {
         Holiday holiday = null;
         String error = null;
-
+        Holiday holiday2 = null;
         try {
-            holiday = holidayService.getHoliday("Hello");
+            holiday = holidayService.getHoliday("test");
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -279,13 +286,20 @@ public class TestHolidayService {
     public void testDeleteHoliday() {
         Holiday holiday = null;
         String error = null;
+        ArrayList<Holiday> ls = new ArrayList<>();
+        when(holidayRepository.findAll()).thenReturn(ls);
         try {
+            holiday = holidayService.createHoliday(HOLIDAY_KEY, START_DATE,END_DATE);
             holidayService.deleteHoliday(HOLIDAY_KEY);
+            holidayService.getHoliday(HOLIDAY_KEY);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(error);
-    } //not really working
+        assertNull(holiday);
+    }
+
+    //not really working
 //    @Test
 //    public void testDeleteHolidayInvalidID() {
 //        Holiday holiday = null;

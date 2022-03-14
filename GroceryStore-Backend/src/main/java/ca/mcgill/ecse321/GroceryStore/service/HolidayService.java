@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.print.attribute.HashPrintJobAttributeSet;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,18 +62,16 @@ public class HolidayService {
 
     @Transactional
     public Holiday getHoliday(String name) {
-        String error = null;
+//        String error = null;
+        Holiday holiday = null;
         if (name == null || name.trim().length() == 0) {
-            error = "Name can't be empty.";
-        } else if (!holidayRepository.existsById(name)) {
-            error = "Holiday doesn't exist.";
+            throw new IllegalArgumentException("Name can't be empty.");
+        }
+        if(!holidayRepository.existsById(name)){
+            throw new IllegalArgumentException("Holiday doesn't exist.");
         }
 
-        if (error != null) {
-            throw new IllegalArgumentException(error);
-        }
         return holidayRepository.findByName(name);
-
     }
 
     @Transactional
@@ -80,8 +79,7 @@ public class HolidayService {
         String error = null;
         if (name == null || name.trim().length() == 0) {
             error = "Name can't be empty.";
-        } else if (holidayRepository.existsById(name)) {
-            Holiday holiday = holidayRepository.findByName(name);
+        } else if (!holidayRepository.existsById(name)) {
             error ="The holiday does not exist.";
         }
         if (error != null) {
