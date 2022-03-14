@@ -26,6 +26,7 @@ import org.mockito.Mock;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 @ExtendWith(MockitoExtension.class)
 public class TestCustomerService {
@@ -145,9 +146,84 @@ public class TestCustomerService {
         // check error
         assertEquals("Customer address cannot be empty!", error);
     }
+    @Test
+    public void testCreateCustomerNameEmpty() {
+        String name = "";
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(name, PASSWORD, EMAIL, ADDRESS);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(customer);
+        // check error
+        assertEquals("Customer name cannot be empty!", error);
+    }
+    @Test
+    public void testCreateCustomerPasswordEmpty() {
+        String password = "";
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(USERNAME_KEY, password, EMAIL, ADDRESS);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(customer);
+        // check error
+        assertEquals("Customer password cannot be empty!", error);
+    }
+    @Test
+    public void testCreateCustomerEmailEmpty() {
+        String email = "";
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, email, ADDRESS);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(customer);
+        // check error
+        assertEquals("Customer email cannot be empty!", error);
+    }
+    @Test
+    public void testCreateCustomerAddressEmpty() {
+        String address = "";
+        String error = null;
+        Customer customer = null;
+        try {
+            customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, address);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(customer);
+        // check error
+        assertEquals("Customer address cannot be empty!", error);
+    }
+    @Test
+    public void testCreateCustomerDuplicate(){
+        Customer customer1 = null;
+        Customer customer2 = null;
+        String error = null;
 
+        when(customerRepository.existsById(anyString())).thenReturn(Objects.nonNull(customer1));
+
+        try{
+            customer1 = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+            when(customerRepository.existsById(anyString())).thenReturn(Objects.nonNull(customer1));
+            customer2 = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        }catch(IllegalArgumentException e){
+            error = e.getMessage();
+        }
+
+        assertNotNull(customer1);
+
+        assertNull(customer2);
+        assertEquals("An identical customer already exists.",error);
+    }
     
-
 
 
 
