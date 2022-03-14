@@ -43,6 +43,7 @@ public class WorkShiftService {
     public WorkShift createWorkShift(Time aStartTime, Time aEndTime, String aDayOfWeek) {
         WorkShift workShift = new WorkShift();
 
+
         workShift.setStartTime(aStartTime);
         workShift.setEndTime(aEndTime);
 
@@ -54,6 +55,7 @@ public class WorkShiftService {
             case "Friday" -> workShift.setDay(WorkShift.DayOfWeek.Friday);
             case "Saturday" -> workShift.setDay(WorkShift.DayOfWeek.Saturday);
             case "Sunday" -> workShift.setDay(WorkShift.DayOfWeek.Sunday);
+            default -> throw new IllegalArgumentException("Please enter a valid day of the week.");
         }
         workShift.setShiftID(curID++);
 
