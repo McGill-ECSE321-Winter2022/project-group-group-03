@@ -105,6 +105,21 @@ public class PickupOrderService {
         order.setConfirmationNumber(confirmationNumber);
     }
 
+    @Transactional
+    public void setTotalCost(Integer current, Integer totalCost){
+        if (totalCost == null) {
+            throw new IllegalArgumentException("Total cost can't be empty.");
+        }
+        if (totalCost < 0) {
+            throw new IllegalArgumentException("Total cost can't be negative.");
+        }
+        if(!pickupOrderRepository.existsById(current)){
+            throw new IllegalArgumentException("Pickup order doesn't exist.");
+        }
+        PickupOrder order = getPickupOrder(current);
+        order.setTotalCost(totalCost);
+    }
+
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();
         for (T t: iterable){

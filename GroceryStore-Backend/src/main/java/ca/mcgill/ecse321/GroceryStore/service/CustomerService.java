@@ -47,7 +47,7 @@ public class CustomerService {
     }
     @Transactional
     public Customer getCustomer(String aUsername){
-        if(aUsername == null || aUsername ==""){
+        if(aUsername == null || aUsername.equals("") || aUsername.equals(" ")){
             throw new IllegalArgumentException("The customer name can't be empty");
         }
         if(!customerRepository.existsById(aUsername)){
@@ -68,16 +68,32 @@ public class CustomerService {
     }
     @Transactional
     public void setUsername(String current, String username){
+        if(username == null || username.equals("") || username.equals(" "))
+            throw new IllegalArgumentException("Username can't be empty.");
+        if(!customerRepository.existsById(current))
+            throw new IllegalArgumentException("Customer does not currently exist in system.");
         Customer customer = getCustomer(current);
         customer.setUsername(username);
     }
     @Transactional
     public void setPassword(String current, String password){
+        if(password == null || password.equals("") || password.equals(" "))
+            throw new IllegalArgumentException("Password can't be empty.");
+        if(!customerRepository.existsById(current))
+            throw new IllegalArgumentException("Customer does not currently exist in system.");
         Customer customer = getCustomer(current);
-        customer.setUsername(password);
+        customer.setPassword(password);
     }
     @Transactional
     public void setEmail(String current, String email){
+        if(email == null || email.equals("") || email.equals(" "))
+            throw new IllegalArgumentException("Email can't be empty.");
+        if (email.indexOf("@") <= 0 || email.indexOf("@") != email.lastIndexOf("@") ||
+                email.indexOf("@") >= email.lastIndexOf(".") - 1 ||
+                email.lastIndexOf(".") >= email.length() - 1)
+            throw new IllegalArgumentException("Invalid email format");
+        if(!customerRepository.existsById(current))
+            throw new IllegalArgumentException("Customer does not currently exist in system.");
         Customer customer = getCustomer(current);
         customer.setUsername(email);
     }

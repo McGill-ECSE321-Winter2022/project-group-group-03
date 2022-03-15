@@ -435,6 +435,25 @@ public class TestCustomerService {
         assertNotNull(customer.getUsername());
         assertEquals("Username can't be empty.", error);
     }
+
+    @Test
+    public void testUpdateCustomerUsernameWRONGID(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String username = "Marwan";
+        String error = null;
+
+        try {
+            customerService.setUsername("ALSDFLAKSJFLAKSJDA", username);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer.getUsername());
+        assertEquals("Customer does not currently exist in system.", error);
+    }
+
+
     @Test
     public void testUpdateCustomerNullPassword() {
         assertEquals(0, customerService.getAllCustomers().size());
@@ -444,7 +463,7 @@ public class TestCustomerService {
         String error = null;
 
         try {
-            customerService.setUsername(USERNAME_KEY, password);
+            customerService.setPassword(USERNAME_KEY, password);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -460,7 +479,7 @@ public class TestCustomerService {
         String error = null;
 
         try {
-            customerService.setUsername(USERNAME_KEY, password);
+            customerService.setPassword(USERNAME_KEY, password);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -476,13 +495,30 @@ public class TestCustomerService {
         String error = null;
 
         try {
-            customerService.setUsername(USERNAME_KEY, password);
+            customerService.setPassword(USERNAME_KEY, password);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNotNull(customer.getPassword());
         assertEquals("Password can't be empty.", error);
     }
+    @Test
+    public void testUpdateCustomerPasswordWRONGID(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String password = "ILOVEECSE321!";
+        String error = null;
+
+        try {
+            customerService.setPassword("ALSDFLAKSJFLAKSJDA", password);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer.getPassword());
+        assertEquals("Customer does not currently exist in system.", error);
+    }
+
     @Test
     public void testUpdateCustomerNullEmail() {
         assertEquals(0, customerService.getAllCustomers().size());
@@ -492,7 +528,7 @@ public class TestCustomerService {
         String error = null;
 
         try {
-            customerService.setUsername(USERNAME_KEY, email);
+            customerService.setEmail(USERNAME_KEY, email);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -508,7 +544,7 @@ public class TestCustomerService {
         String error = null;
 
         try {
-            customerService.setUsername(USERNAME_KEY, email);
+            customerService.setEmail(USERNAME_KEY, email);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -524,13 +560,128 @@ public class TestCustomerService {
         String error = null;
 
         try {
-            customerService.setUsername(USERNAME_KEY, email);
+            customerService.setEmail(USERNAME_KEY, email);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNotNull(customer.getEmail());
         assertEquals("Email can't be empty.", error);
     }
+    @Test
+    public void testUpdateCustomerEmailAtSymbolFirst(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String email = "@223";
+        String error = null;
+
+        try {
+            customerService.setEmail(USERNAME_KEY, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer.getEmail());
+        assertEquals("Invalid email format", error);
+    }
+    @Test
+    public void testUpdateCustomerEmailAtSymbolLast(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String email = "223@";
+        String error = null;
+
+        try {
+            customerService.setEmail(USERNAME_KEY, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer.getEmail());
+        assertEquals("Invalid email format", error);
+    }
+    @Test
+    public void testUpdateCustomerEmailAtSymbolAfterDot(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String email = "2.23@";
+        String error = null;
+
+        try {
+            customerService.setEmail(USERNAME_KEY, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer.getEmail());
+        assertEquals("Invalid email format", error);
+    }
+    @Test
+    public void testUpdateCustomerEmailDotSymbolLast(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String email = "22@3.";
+        String error = null;
+
+        try {
+            customerService.setEmail(USERNAME_KEY, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer.getEmail());
+        assertEquals("Invalid email format", error);
+    }
+    @Test
+    public void testUpdateCustomerEmailNoDotSymbol(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String email = "223@gmailcom";
+        String error = null;
+
+        try {
+            customerService.setEmail(USERNAME_KEY, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer.getEmail());
+        assertEquals("Invalid email format", error);
+    }
+    @Test
+    public void testUpdateCustomerEmailNoAtSymbol(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String email = "223gmail.com";
+        String error = null;
+
+        try {
+            customerService.setEmail(USERNAME_KEY, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer.getEmail());
+        assertEquals("Invalid email format", error);
+    }
+    @Test
+    public void testUpdateCustomerEmailWRONGID(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String email = "223@gmail.com";
+        String error = null;
+
+        try {
+            customerService.setEmail("AFKLJSADFJLK", email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer.getEmail());
+        assertEquals("Customer does not currently exist in system.", error);
+    }
+
+
+
     @Test
     public void testUpdateCustomerNullAddress(){
         assertEquals(0, customerService.getAllCustomers().size());

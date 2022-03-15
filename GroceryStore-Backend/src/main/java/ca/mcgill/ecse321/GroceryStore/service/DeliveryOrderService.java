@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.GroceryStore.service;
 import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Customer;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
+import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,7 +99,45 @@ public class DeliveryOrderService {
 
         deliveryOrderRepository.deleteById(confirmationNumber);
     }
-
+    @Transactional
+    public void setConfirmationNumber(Integer current, Integer confirmationNumber){
+        if (confirmationNumber == null) {
+            throw new IllegalArgumentException("Confirmation number can't be empty.");
+        }
+        if (confirmationNumber <= 0) {
+            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
+        }
+        if(!deliveryOrderRepository.existsById(confirmationNumber)){
+            throw new IllegalArgumentException("Delivery order doesn't exist.");
+        }
+        DeliveryOrder order = getDeliveryOrder(current);
+        order.setConfirmationNumber(confirmationNumber);
+    }
+    @Transactional
+    public void setTotalCost(Integer current, Integer totalCost){
+        if (totalCost == null) {
+            throw new IllegalArgumentException("Total cost can't be empty.");
+        }
+        if (totalCost < 0) {
+            throw new IllegalArgumentException("Total cost can't be negative.");
+        }
+        if(!deliveryOrderRepository.existsById(current)){
+            throw new IllegalArgumentException("Delivery order doesn't exist.");
+        }
+        DeliveryOrder order = getDeliveryOrder(current);
+        order.setTotalCost(totalCost);
+    }
+    @Transactional
+    public void setShippingAddress(Integer current, String address){
+        if (address == null || address.equals("") || address.equals(" ")) {
+            throw new IllegalArgumentException("Address can't be empty.");
+        }
+        if(!deliveryOrderRepository.existsById(current)){
+            throw new IllegalArgumentException("Delivery order doesn't exist.");
+        }
+        DeliveryOrder order = getDeliveryOrder(current);
+        order.setShippingAddress(address);
+    }
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
