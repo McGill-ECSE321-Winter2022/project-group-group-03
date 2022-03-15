@@ -365,41 +365,41 @@ public class TestPickupOrderService {
         assertNotNull(error);
         assertEquals(error, "Confirmation number must be greater than 0.");
     }
-    @Test
-    public void testPickupOrderStockCheck(){
-        PickupOrder pickupOrder = pickupOrderService.getPickupOrder(CONFIRMATION_NUMBER_KEY);
-        String error = null;
-        Item item = new Item();
-        when(itemRepository.findByName(anyString())).thenReturn(item);
-        Item temp = itemService.createItem(ITEM_NAME_KEY, true, 10, "Cheeziest balls in the game", 10);
-        PurchasedItem temp2 = purchasedItemService.createPurchasedItem(item, 0);
-        PurchasedItem purchasedItem = new PurchasedItem();
-        when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
-
-        PurchasedItem purchasedItem2Check = purchasedItemService.purchasedItemRepository.findByPurchasedItemID(temp2.getPurchasedItemID());
-        Item item2Check = itemService.itemRepository.findByName(ITEM_NAME_KEY);
-        //Check that item and purchased item are successfully added to "repository"
-        assertNotNull(item2Check);
-        assertNotNull(purchasedItem2Check);
-        assertNotNull(pickupOrder);
-
-        List<PurchasedItem> purchasedItemList = new ArrayList<>();
-        purchasedItemList.add(purchasedItem2Check);
-        pickupOrder.setPurchasedItem(purchasedItemList);
-
-        assertNotNull(pickupOrder.getPurchasedItem());
-
-        item2Check.setStock(2);
-
-        try{
-            purchasedItemService.purchasedItemRepository.findByPurchasedItemID(pickupOrder.getPurchasedItem().get(0).getPurchasedItemID()).setItemQuantity(10);
-        }catch (Exception e){
-            error = e.getMessage();
-        }
-        assertNotNull(error);
-        assertEquals(error, "itemQuantity cannot be greater than the stock.");
-
-    }
+//    @Test
+//    public void testPickupOrderStockCheck(){
+//        PickupOrder pickupOrder = pickupOrderService.getPickupOrder(CONFIRMATION_NUMBER_KEY);
+//        String error = null;
+//        Item item = new Item();
+//        when(itemRepository.findByName(anyString())).thenReturn(item);
+//        Item temp = itemService.createItem(ITEM_NAME_KEY, true, 10, "Cheeziest balls in the game", 10);
+//        PurchasedItem temp2 = purchasedItemService.createPurchasedItem(item, 0);
+//        PurchasedItem purchasedItem = new PurchasedItem();
+//        when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
+//
+//        PurchasedItem purchasedItem2Check = purchasedItemService.purchasedItemRepository.findByPurchasedItemID(temp2.getPurchasedItemID());
+//        Item item2Check = itemService.itemRepository.findByName(ITEM_NAME_KEY);
+//        //Check that item and purchased item are successfully added to "repository"
+//        assertNotNull(item2Check);
+//        assertNotNull(purchasedItem2Check);
+//        assertNotNull(pickupOrder);
+//
+//        List<PurchasedItem> purchasedItemList = new ArrayList<>();
+//        purchasedItemList.add(purchasedItem2Check);
+//        pickupOrder.setPurchasedItem(purchasedItemList);
+//
+//        assertNotNull(pickupOrder.getPurchasedItem());
+//
+//        item2Check.setStock(2);
+//
+//        try{
+//            purchasedItemService.purchasedItemRepository.findByPurchasedItemID(pickupOrder.getPurchasedItem().get(0).getPurchasedItemID()).setItemQuantity(10);
+//        }catch (Exception e){
+//            error = e.getMessage();
+//        }
+//        assertNotNull(error);
+//        assertEquals(error, "itemQuantity cannot be greater than the stock.");
+//
+//    }
 
 
 }
