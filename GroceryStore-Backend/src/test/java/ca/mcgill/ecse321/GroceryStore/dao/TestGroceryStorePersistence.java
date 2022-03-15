@@ -313,7 +313,7 @@ public class TestGroceryStorePersistence {
         deliveryOrder.setTotalCost(totalCost);
         deliveryOrder.setShippingAddress(shippingAddress);
         deliveryOrder.setShippingStatus(status);
-
+        deliveryOrder.setIsOutOfTown(true);
         deliveryOrderRepository.save(deliveryOrder);
         deliveryOrder = null;
 

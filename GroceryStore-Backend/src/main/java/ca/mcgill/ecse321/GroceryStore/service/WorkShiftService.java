@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.WorkShiftRepository;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,13 +36,56 @@ public class WorkShiftService {
         }
         return workShiftRepository.findByShiftID(shiftID);
     }
-//    @Transactional
-//    public List<WorkShift> getWorkShiftByDay(String day) {
-////        if(!workShiftRepository.existsById(day)){
-////            throw new IllegalArgumentException("Work shift doesn't exist.");
-////        }
-////        return workShiftRepository.findByShiftID(shiftID);
-//    }
+
+    @Transactional
+    public WorkShift updateWorkShiftDay(int shiftID, String newDay) {
+        if(!workShiftRepository.existsById(shiftID)){
+            throw new IllegalArgumentException("Work shift doesn't exist.");
+        }
+        WorkShift workShift = workShiftRepository.findByShiftID(shiftID);
+        switch (newDay) {
+            case "Monday" -> workShift.setDay(WorkShift.DayOfWeek.Monday);
+            case "Tuesday" -> workShift.setDay(WorkShift.DayOfWeek.Tuesday);
+            case "Wednesday" -> workShift.setDay(WorkShift.DayOfWeek.Wednesday);
+            case "Thursday" -> workShift.setDay(WorkShift.DayOfWeek.Thursday);
+            case "Friday" -> workShift.setDay(WorkShift.DayOfWeek.Friday);
+            case "Saturday" -> workShift.setDay(WorkShift.DayOfWeek.Saturday);
+            case "Sunday" -> workShift.setDay(WorkShift.DayOfWeek.Sunday);
+            default -> throw new IllegalArgumentException("Please enter a valid day of the week.");
+        }
+        return workShift;
+    }
+
+    @Transactional
+    public WorkShift updateWorkshiftTimeStart(int shiftID,  Time aStartTime) {
+        if(!workShiftRepository.existsById(shiftID)){
+            throw new IllegalArgumentException("Work shift doesn't exist.");
+        }
+        if (aStartTime == null) throw new IllegalArgumentException("Start Time can't be empty.");
+        WorkShift workShift = workShiftRepository.findByShiftID(shiftID);
+        if (workShift.getEndTime().before(aStartTime)) {
+            throw new IllegalArgumentException("End Time cannot be before Start Time.");
+        }
+        workShift.setStartTime(aStartTime);
+        return workShift;
+    }
+
+
+    @Transactional
+    public WorkShift updateWorkShiftTimeEnd(int shiftID,  Time aEndTime) {
+
+
+        if(!workShiftRepository.existsById(shiftID)){
+            throw new IllegalArgumentException("Work shift doesn't exist.");
+        }
+        if (aEndTime == null) throw new IllegalArgumentException("End Time can't be empty.");
+        WorkShift workShift = workShiftRepository.findByShiftID(shiftID);
+        if (aEndTime.before(workShift.getStartTime())) {
+            throw new IllegalArgumentException("End Time cannot be before Start Time.");
+        }
+        workShift.setEndTime(aEndTime);
+        return workShift;
+    }
 
     @Transactional
     public List<WorkShift> getAllWorkShift() {

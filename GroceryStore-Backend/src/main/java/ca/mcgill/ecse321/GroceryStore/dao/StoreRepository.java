@@ -6,7 +6,7 @@ import ca.mcgill.ecse321.GroceryStore.model.Store;
 
 public interface StoreRepository extends CrudRepository<Store, Integer>{
 
-	Store findById(int storeid);
+	Store findById(int storeID);
 
 
 }

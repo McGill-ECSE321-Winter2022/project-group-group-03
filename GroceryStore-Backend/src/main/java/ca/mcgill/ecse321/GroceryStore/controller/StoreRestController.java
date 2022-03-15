@@ -50,7 +50,18 @@ public class StoreRestController {
         Store s = convertToDomainObject(sDTO);
         return createBusinessHourDtosForStore(s);
     }
-
+    @PutMapping(value = {"/editStoreActiveDelivery/{storeID}"})
+    public StoreDTO updateStoreActiveDelivery(@PathVariable("storeID") int storeID, @RequestParam int newCurrentActiveDelivery) throws IllegalArgumentException{
+        return convertToDto(service.setActiveDelivery(storeID, newCurrentActiveDelivery));
+    }
+    @PutMapping(value = {"/editStoreActivePickup/{storeID"})
+    public StoreDTO updateStoreActivePickup(@PathVariable("storeID") int storeID, @RequestParam int newCurrentActivePickup) throws  IllegalArgumentException{
+        return convertToDto(service.setActivePickup(storeID,newCurrentActivePickup));
+    }
+    @PutMapping(value = {"/editStoreAddress/{storeID}"})
+    public StoreDTO updateStoreAddress(@PathVariable("storeID") int storeID, @RequestParam String address) throws IllegalArgumentException{
+        return convertToDto(service.setAddress(storeID, address));
+    }
 
     private StoreDTO convertToDto(Store c) {
         if (c == null) {

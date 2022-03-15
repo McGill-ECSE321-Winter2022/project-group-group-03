@@ -27,7 +27,7 @@ public class DeliveryOrder extends Order
 
   //DeliveryOrder Attributes
   private String shippingAddress;
-
+  private boolean outOfTown;
   public DeliveryOrder() {
     super();
   }
@@ -53,12 +53,9 @@ public class DeliveryOrder extends Order
   // INTERFACE
   //------------------------
 
-  public boolean setShippingAddress(String aShippingAddress)
+  public void setShippingAddress(String aShippingAddress)
   {
-    boolean wasSet = false;
-    shippingAddress = aShippingAddress;
-    wasSet = true;
-    return wasSet;
+    this.shippingAddress = aShippingAddress;
   }
 
   public String getShippingAddress()
@@ -71,7 +68,12 @@ public class DeliveryOrder extends Order
     String answer = shippingStatus.toString();
     return answer;
   }
-
+  public boolean isOutOfTown(){
+    return this.outOfTown;
+  }
+  public void setIsOutOfTown(boolean outOfTown1){
+    this.outOfTown = outOfTown1;
+  }
   public ShippingStatus getShippingStatus()
   {
     return shippingStatus;

@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.6.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'jacoco'
 }
 
 group = 'ca.mcgill.ecse321'
@@ -27,6 +28,41 @@ dependencies {
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2' // IMPORTANT VERSION
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
+	testLogging {
+		exceptionFormat "full"
+	}
+	finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude:  [
+					'ca/mcgill/ecse321/onlinelibrary/controller/*',
+					'ca/mcgill/ecse321/onlinelibrary/dto/*'
+			])
+		}))
+	}
+	dependsOn test // tests are required to run before generating the report
+}
+
+jacocoTestCoverageVerification {
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude:  [
+					'ca/mcgill/ecse321/GroceryStore/controller/*',
+					'ca/mcgill/ecse321/GroceryStore/dto/*'
+			])
+		}))
+	}
+
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.7
+			}
+		}
+	}
 }
