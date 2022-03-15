@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -27,10 +26,15 @@ public class EmployeeService {
     @Transactional
     public Employee createEmployee(String aUsername, String aEmail, String aPassword, String aAddress){
 
-        if (aUsername==null) throw new IllegalArgumentException("Username can't be empty.");
-        if (aEmail==null) throw new IllegalArgumentException("Email can't be empty.");
-        if (aPassword==null) throw new IllegalArgumentException("Password can't be empty.");
-        if (aAddress==null) throw new IllegalArgumentException("Address can't be empty.");
+        if (aUsername==null || aUsername.equals("")) throw new IllegalArgumentException("Username can't be empty.");
+        if (aEmail==null || aEmail.equals("")) throw new IllegalArgumentException("Email can't be empty.");
+        if (aPassword==null || aPassword.equals("")) throw new IllegalArgumentException("Password can't be empty.");
+        if (aAddress==null || aAddress.equals("")) throw new IllegalArgumentException("Address can't be empty.");
+
+        if (aEmail.indexOf("@") <= 0 ||
+                aEmail.indexOf("@") != aEmail.lastIndexOf("@") ||
+                aEmail.indexOf("@") >= aEmail.lastIndexOf(".") - 1 ||
+                aEmail.lastIndexOf(".") >= aEmail.length() - 1) throw new IllegalArgumentException("Invalid email");
 
         for (Employee employee : employeeRepository.findAll()){
             if (employee.getUsername().equals(aUsername)) throw new IllegalArgumentException("An identical employee already exists.");
@@ -49,7 +53,7 @@ public class EmployeeService {
 
     @Transactional
     public Employee getEmployee(String aUsername) {
-        if (aUsername != null) {
+        if (aUsername != null || !aUsername.equals("")) {
             for(Employee employee : employeeRepository.findAll()){
                 if (employee.getUsername().equals(aUsername)) return employee;
             }
@@ -70,8 +74,8 @@ public class EmployeeService {
 
     @Transactional
     public Employee updateEmployee(String username, String password, String address){
-        if (password==null) throw new IllegalArgumentException("Password cannot be empty");
-        if (address==null) throw new IllegalArgumentException("Address cannot be empty");
+        if (password==null || !password.equals("")) throw new IllegalArgumentException("Password cannot be empty");
+        if (address==null || !address.equals("")) throw new IllegalArgumentException("Address cannot be empty");
 
         Employee employee = getEmployee(username);
         employee.setPassword(password);
@@ -98,7 +102,7 @@ public class EmployeeService {
 
     @Transactional
     public void deleteOwner(String aUsername){
-        if (aUsername != null) {
+        if (aUsername != null || !aUsername.equals("")) {
             for(Employee employee : employeeRepository.findAll()){
                 if (employee.getUsername().equals(aUsername)) {
                     employee = null;
