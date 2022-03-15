@@ -26,7 +26,7 @@ public class DeliveryOrderRestController {
         return service.getAllDeliveryOrders().stream().map(this::convertToDto).collect(Collectors.toList());
 
     }
-    @GetMapping(value = {"/deliveryOrder/{confirmationNumber}", "/deliveryOrder/{confirmationNumber"})
+    @GetMapping(value = {"/deliveryOrder/{confirmationNumber}", "/deliveryOrder/{confirmationNumber}/"})
     public DeliveryOrderDTO getDeliveryOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException{
         return convertToDto(service.getDeliveryOrder(confirmationNumber));
     }
@@ -38,7 +38,7 @@ public class DeliveryOrderRestController {
     }
 
 
-    @DeleteMapping(value = {"/deliveryOrder{confirmationNumber}", "/deliveryOrder{confirmationNumber}"})
+    @DeleteMapping(value = {"/deliveryOrder/{confirmationNumber}", "/deliveryOrder/{confirmationNumber}/"})
     public void deleteDeliveryOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {
         service.deleteDeliveryOrder(confirmationNumber);
     }

@@ -54,7 +54,7 @@ public class StoreRestController {
     public StoreDTO updateStoreActiveDelivery(@PathVariable("storeID") int storeID, @RequestParam int newCurrentActiveDelivery) throws IllegalArgumentException{
         return convertToDto(service.setActiveDelivery(storeID, newCurrentActiveDelivery));
     }
-    @PutMapping(value = {"/editStoreActivePickup/{storeID"})
+    @PutMapping(value = {"/editStoreActivePickup/{storeID}"})
     public StoreDTO updateStoreActivePickup(@PathVariable("storeID") int storeID, @RequestParam int newCurrentActivePickup) throws  IllegalArgumentException{
         return convertToDto(service.setActivePickup(storeID,newCurrentActivePickup));
     }

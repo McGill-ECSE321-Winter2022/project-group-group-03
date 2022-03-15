@@ -72,11 +72,6 @@ public class ItemRestController {
         return convertToDto(service.getItem(itemName));
     }
 
-    @GetMapping(value = {"/item/{itemName}", "/item/{itemName}/"})
-    public ItemDTO getItem(@PathVariable("itemName") String itemName) throws IllegalArgumentException {
-        return convertToDto(service.getItem(itemName));
-    }
-
     private ItemDTO convertToDto(Item item) {
         if (item == null) throw new IllegalArgumentException("There is no such Item!");
         return new ItemDTO(item.getName(), item.getPurchasable(), item.getPrice(),item.getDescription(), item.getStock(), item.getTotalPurchased());
