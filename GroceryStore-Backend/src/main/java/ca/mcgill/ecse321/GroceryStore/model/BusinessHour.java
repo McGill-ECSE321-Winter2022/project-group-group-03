@@ -29,7 +29,7 @@ public class BusinessHour {
   private Time endTime;
 
   @Enumerated
-  @Column(nullable = false, unique = true)
+  @Column(nullable = false)
   private DayOfWeek day;
 
 

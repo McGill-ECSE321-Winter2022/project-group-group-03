@@ -22,7 +22,7 @@ public class EmployeeRestController {
     @Autowired
     private EmployeeService service;
 
-    @GetMapping(value = { "/employee", "/employee/" })
+    @GetMapping(value = { "/all_employees", "/all_employees/" })
     public List<EmployeeDTO> getAllEmployees() {
         return service.getAllEmployees().stream().map(this::convertToDto).collect(Collectors.toList());
     }

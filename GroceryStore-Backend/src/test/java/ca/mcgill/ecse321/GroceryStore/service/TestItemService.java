@@ -314,6 +314,18 @@ public class TestItemService {
     }
 
     @Test
+    public void testUpdateItemPurchasable() {
+        Item item = null;
+        try{
+            item = itemService.updateItemPurchasable(ITEM_KEY, !ITEM_PURCHASABLE);
+        }catch (Exception e){
+            fail();
+        }
+        assertNotNull(item);
+        assertEquals(item.getPurchasable(), !ITEM_PURCHASABLE);
+    }
+
+    @Test
     public void testDeleteItem() {
         try {
             itemService.deleteItem(ITEM_KEY);
