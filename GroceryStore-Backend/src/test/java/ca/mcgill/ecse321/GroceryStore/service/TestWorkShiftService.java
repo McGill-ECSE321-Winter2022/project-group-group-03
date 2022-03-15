@@ -198,6 +198,99 @@ public class TestWorkShiftService {
 
     }
 
+
+    @Test
+    public void testupdateWorkshiftDay() {
+        WorkShift workShift = null;
+        String errorMessage = null;
+        int shiftID = WORKSHIFT_KEY;
+        String newDay = STRING_DAY;
+
+        try {
+            workShift = workShiftService.updateWorkShiftDay(shiftID, newDay);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNotNull(workShift);
+    }
+
+    @Test
+    public void testUpdateWorkShiftTimeStart() {
+        WorkShift workShift = null;
+        String errorMessage = null;
+        int shiftID = WORKSHIFT_KEY;
+        String newDay = STRING_DAY;
+        Time startTime = START_TIME;
+
+        try {
+            workShift = workShiftService.updateWorkshiftTimeStart(shiftID, startTime);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNotNull(workShift);
+    }
+
+    @Test
+    public void testUpdateWorkShiftTimeEnd() {
+        WorkShift workShift = null;
+        String errorMessage = null;
+        int shiftID = WORKSHIFT_KEY;
+        Time endTime = END_TIME;
+
+        try {
+            workShift = workShiftService.updateWorkShiftTimeEnd(shiftID, endTime);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNotNull(workShift);
+    }
+    @Test
+    public void testUpdateInvalidWorkShiftTimeEnd() {
+        WorkShift workShift = null;
+        String errorMessage = null;
+        int shiftID = WORKSHIFT_KEY;
+        Time endTime = Time.valueOf(LocalTime.of(025,00));
+        try {
+            workShift = workShiftService.updateWorkShiftTimeEnd(shiftID, endTime);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNotNull(workShift);
+    }
+
+    @Test
+    public void testUpdateInvalidIDWorkShiftTimeEnd() {
+        WorkShift workShift = null;
+        String errorMessage = null;
+        int shiftID = 33333;
+        Time endTime = END_TIME;
+
+        try {
+            workShift = workShiftService.updateWorkShiftTimeEnd(shiftID, endTime);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertEquals("Work shift doesn't exist.", errorMessage);
+        assertNull(workShift);
+    }
+
+    @Test
+    public void testUpdateInvalidEndTimeWorkShiftTimeEnd() {
+        WorkShift workShift = null;
+        String errorMessage = null;
+
+        Time end_time = Time.valueOf(LocalTime.of(1,30));
+
+        try {
+            workShift = workShiftService.updateWorkShiftTimeEnd(WORKSHIFT_KEY, end_time);
+            workShift.setStartTime(START_TIME);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertEquals("End Time cannot be before Start Time.", errorMessage);
+        assertNull(workShift);
+    }
+
     @Test
     public void testGetWorkShiftInvalidID() {
         WorkShift workShift = null;

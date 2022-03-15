@@ -28,6 +28,9 @@ public class WorkShiftRestController {
         return convertToDto(workShift);
     }
 
+
+
+
     @GetMapping(value = {"/workShift", "/workShift/"})
     public List<WorkShiftDTO> getWorkShifts() throws IllegalArgumentException {
         List<WorkShiftDTO> workShiftDTOS = new ArrayList<>();

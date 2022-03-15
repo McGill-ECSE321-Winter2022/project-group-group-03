@@ -37,7 +37,7 @@ public class WorkShiftService {
     }
 
     @Transactional
-    public WorkShift updateWorkshiftDay(int shiftID, String newDay) {
+    public WorkShift updateWorkShiftDay(int shiftID, String newDay) {
         if(!workShiftRepository.existsById(shiftID)){
             throw new IllegalArgumentException("Work shift doesn't exist.");
         }
@@ -54,6 +54,7 @@ public class WorkShiftService {
         }
         return workShift;
     }
+
     @Transactional
     public WorkShift updateWorkshiftTimeStart(int shiftID,  Time aStartTime) {
         if(!workShiftRepository.existsById(shiftID)){
@@ -67,8 +68,10 @@ public class WorkShiftService {
         workShift.setStartTime(aStartTime);
         return workShift;
     }
+
+
     @Transactional
-    public WorkShift updateWorkshiftTimeEnd(int shiftID,  Time aEndTime) {
+    public WorkShift updateWorkShiftTimeEnd(int shiftID,  Time aEndTime) {
         if(!workShiftRepository.existsById(shiftID)){
             throw new IllegalArgumentException("Work shift doesn't exist.");
         }
