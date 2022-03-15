@@ -31,14 +31,16 @@ public class ItemRestController {
 
     }
 
+
+// Deleting item breaks purchase item and is not necessary
+    /*@DeleteMapping(value = {"/item/{itemName}", "/item/{itemName}/"})
+    public void deleteItem(@PathVariable("itemName") String itemName) throws IllegalArgumentException {
+        service.deleteItem(itemName);
+    }*/
+
     @GetMapping(value = {"/item/{itemName}", "/item/{itemName}/"})
     public ItemDTO getItem(@PathVariable("itemName") String itemName) throws IllegalArgumentException {
         return convertToDto(service.getItem(itemName));
-    }
-
-    @DeleteMapping(value = {"/item/{itemName}", "/item/{itemName}/"})
-    public void deleteItem(@PathVariable("itemName") String itemName) throws IllegalArgumentException {
-        service.deleteItem(itemName);
     }
 
     private ItemDTO convertToDto(Item item) {
