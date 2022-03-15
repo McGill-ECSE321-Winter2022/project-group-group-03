@@ -303,6 +303,7 @@ public class TestOwnerService {
             owner2 = ownerService.updateOwner(OWNER_USERNAME, newPassword);
         } catch (Exception e) {
             fail();
+
         }
         assertNotNull(owner2);
         assertEquals(owner2.getPassword(), newPassword);
