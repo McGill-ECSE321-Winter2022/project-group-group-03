@@ -24,12 +24,12 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class TestHolidayService {
     private static final String HOLIDAY_KEY = "TestHoliday";
-    private static final LocalDate LSDATE = LocalDate.of(2012, Month.JANUARY, 1);
-    private static final LocalDate LEDATE = LocalDate.of(2015, Month.AUGUST, 31);
+    private static final LocalDate LSDATE = LocalDate.of(2015, Month.AUGUST, 1);
+    private static final LocalDate LEDATE = LocalDate.of(2015, Month.AUGUST, 2);
     private static final Date START_DATE = Date.valueOf(LSDATE);
     private static final Date END_DATE = Date.valueOf(LEDATE);
-    private static final LocalDate LSADATE = LocalDate.of(2015, Month.FEBRUARY, 1);
-    private static final LocalDate LEADATE = LocalDate.of(2015, Month.JULY, 31);
+    private static final LocalDate LSADATE = LocalDate.of(2015, Month.AUGUST, 3);
+    private static final LocalDate LEADATE = LocalDate.of(2015, Month.AUGUST, 4);
     private static final Date START_ADATE = Date.valueOf(LSADATE);
     private static final Date END_ADATE = Date.valueOf(LEADATE);
 
@@ -283,7 +283,6 @@ public class TestHolidayService {
 
     @Test
     public void testDeleteHoliday() {
-        Holiday holiday = null;
         String error = null;
 
         try {
@@ -296,7 +295,6 @@ public class TestHolidayService {
 
     @Test
     public void testDeleteHolidayInvalidID() {
-        Holiday holiday = null;
         String error = null;
         try {
             holidayService.deleteHoliday("Fake");
@@ -309,7 +307,6 @@ public class TestHolidayService {
 
     @Test
     public void testDeleteHolidayEmptyID() {
-        Holiday holiday = null;
         String error = null;
         try {
             holidayService.deleteHoliday(null);
@@ -319,6 +316,159 @@ public class TestHolidayService {
         assertNotNull(error);
         assertEquals("Name can't be empty.",error);
     }
+    @Test
+    public void testUpdateHolidayStartDate(){
+        String error = null;
+        Holiday holiday = null;
+        Date date = Date.valueOf(LocalDate.of(2015, Month.JULY, 3));
+        try{
+           holiday = holidayService.updateHolidayDateStart(HOLIDAY_KEY,date);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNull(error);
+        assertNotEquals(START_DATE,START_ADATE);
+    }
+    @Test
+    public void testUpdateHolidayStartDateEmptyName(){
+        String error = null;
+        Holiday holiday = null;
+        Date date = Date.valueOf(LocalDate.of(2015, Month.JULY, 3));
+        try{
+            holiday = holidayService.updateHolidayDateStart("",date);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Name can't be empty.",error);
+    }
+    @Test
+    public void testUpdateHolidayStartDateNullName(){
+        String error = null;
+        Holiday holiday = null;
+        Date date = Date.valueOf(LocalDate.of(2015, Month.JULY, 3));
+        try{
+            holiday = holidayService.updateHolidayDateStart(null,date);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Name can't be empty.",error);
+    }
+    @Test
+    public void testUpdateHolidayStartDateInvalidId(){
+        String error = null;
+        Holiday holiday = null;
+        Date date = Date.valueOf(LocalDate.of(2015, Month.JULY, 3));
+        try{
+            holiday = holidayService.updateHolidayDateStart("hello",date);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Holiday doesn't exist.",error);
+    }
+    @Test
+    public void testUpdateHolidayStartDateNullDate(){
+        String error = null;
+        Holiday holiday = null;
+        try{
+            holiday = holidayService.updateHolidayDateStart(HOLIDAY_KEY,null);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Start Date can't be empty.",error);
+    }
+    @Test
+    public void testUpdateHolidayStartDateInvertDate(){
+        String error = null;
+        Holiday holiday = null;
+        try{
+            holiday = holidayService.updateHolidayDateStart(HOLIDAY_KEY,START_ADATE);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("End Date cannot be before Start Date.",error);
+    }
+    @Test
+    public void testUpdateHolidayEndDate(){
+        String error = null;
+        Holiday holiday = null;
+        Date date = Date.valueOf(LocalDate.of(2015, Month.AUGUST, 31));
+        try{
+            holiday = holidayService.updateHolidayDateEnd(HOLIDAY_KEY,date);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNull(error);
+        assertNotEquals(END_DATE,date);
+    }
+    @Test
+    public void testUpdateHolidayEndDateEmptyName(){
+        String error = null;
+        Holiday holiday = null;
+        Date date = Date.valueOf(LocalDate.of(2015, Month.AUGUST, 31));
+        try{
+            holiday = holidayService.updateHolidayDateEnd("",date);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Name can't be empty.",error);
+    }
+    @Test
+    public void testUpdateHolidayEndDateNullName(){
+        String error = null;
+        Holiday holiday = null;
+        Date date = Date.valueOf(LocalDate.of(2015, Month.AUGUST, 31));
+        try{
+            holiday = holidayService.updateHolidayDateStart(null,date);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Name can't be empty.",error);
+    }
+    @Test
+    public void testUpdateHolidayEndDateInvalidId(){
+        String error = null;
+        Holiday holiday = null;
+        Date date = Date.valueOf(LocalDate.of(2015, Month.AUGUST, 31));
+        try{
+            holiday = holidayService.updateHolidayDateEnd("hello",date);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Holiday doesn't exist.",error);
+    }
+    @Test
+    public void testUpdateHolidayEndDateNullDate(){
+        String error = null;
+        Holiday holiday = null;
+        try{
+            holiday = holidayService.updateHolidayDateEnd(HOLIDAY_KEY,null);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("Start Date can't be empty.",error);
+    }
+    @Test
+    public void testUpdateHolidayEndDateInvertDate(){
+        String error = null;
+        Holiday holiday = null;
+        try{
+            holiday = holidayService.updateHolidayDateEnd(HOLIDAY_KEY,START_DATE);
+        }catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals("End Date cannot be before Start Date.",error);
+    }
+
 
 
 }
