@@ -88,6 +88,16 @@ public class StoreService {
     public List<BusinessHour> getBusinessHours(int storeId){
         return storeRepository.findById(storeId).getBusinessHour();
     }
+    @Transactional
+    public void setStoreID(Integer current, Integer storeID){
+        Store store = getStore(current);
+        store.setStoreID(storeID);
+    }
+    @Transactional
+    public void setActiveDelivery(Integer current, Integer activeDelivery){
+        Store store = getStore(current);
+        store.setCurrentActiveDelivery(activeDelivery);
+    }
 
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();

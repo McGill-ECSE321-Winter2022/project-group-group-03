@@ -202,11 +202,11 @@ public class TestPickupOrderService {
         PickupOrder pickupOrder = null;
         pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
         try {
-            pickupOrderService.setTotalCost(confirmationNumber, 123);
+            pickupOrderService.setConfirmationNumber(confirmationNumber, 123);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        assertEquals(pickupOrder.getTotalCost(), TOTAL_COST);
+        assertEquals(pickupOrder.getConfirmationNumber(), CONFIRMATION_NUMBER_KEY);
         // check error
         assertEquals("Pickup order doesn't exist.", error);
     }
@@ -236,7 +236,7 @@ public class TestPickupOrderService {
         PickupOrder pickupOrder = null;
         pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
         try {
-            pickupOrderService.setTotalCost(CONFIRMATION_NUMBER_KEY, totalCost);
+            pickupOrderService.setTotalCost(TOTAL_COST, totalCost);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
