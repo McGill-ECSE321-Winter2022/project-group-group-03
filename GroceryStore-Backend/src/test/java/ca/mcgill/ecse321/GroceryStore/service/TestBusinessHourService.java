@@ -33,6 +33,10 @@ public class TestBusinessHourService {
     private static final int HOURS_ID = 10000;
     private static final Time START_TIME = Time.valueOf(LocalTime.of(8,35,0));
     private static final Time END_TIME = Time.valueOf(LocalTime.of(9,55,0));
+    private static final Time NEW_START_TIME = Time.valueOf(LocalTime.of(9,54,0));
+    private static final Time BAD_NEW_END_TIME = Time.valueOf(LocalTime.of(8,0,0));
+    private static final Time BAD_NEW_START_TIME = Time.valueOf(LocalTime.of(9,56,0));
+    private static final Time NEW_END_TIME = Time.valueOf(LocalTime.of(11,30,0));
     private static final BusinessHour.DayOfWeek DAY = BusinessHour.DayOfWeek.Wednesday;
     private static final String STRING_DAY = "Wednesday";
     private static final String BAD_DAY = "Today";
@@ -59,9 +63,7 @@ public class TestBusinessHourService {
                 return Boolean.FALSE;
             }
         });
-        Answer<?> returnParameterAnswer = (InvocationOnMock invocation) -> {
-            return invocation.getArgument(0);
-        };
+        Answer<?> returnParameterAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
         lenient().when(businessHourRepository.save(any(BusinessHour.class))).thenAnswer(returnParameterAnswer);
     }
 
@@ -199,7 +201,7 @@ public class TestBusinessHourService {
         }
         assertNotNull(firstBusinessHour);
         assertNull(secondBusinessHour);
-        assertEquals("An identical Business Hour already exists.", errorMessage);
+        assertEquals("The Business Hour for " + STRING_DAY + " has already been set.", errorMessage);
     }
 
     @Test
@@ -232,11 +234,10 @@ public class TestBusinessHourService {
     @Test
     public void testGetAllBusinessHours() {
         List<BusinessHour> businessHours = new ArrayList<>();
-        BusinessHour businessHour = null;
         when(businessHourRepository.findAll()).thenReturn(businessHours);
 
         try {
-            businessHour = businessHourService.createBusinessHour(START_TIME,END_TIME,STRING_DAY);
+            BusinessHour businessHour = businessHourService.createBusinessHour(START_TIME,END_TIME,STRING_DAY);
             businessHours.add(businessHour);
             businessHours = businessHourService.getAllBusinessHours();
         } catch(IllegalArgumentException error) {
@@ -265,4 +266,207 @@ public class TestBusinessHourService {
         }
         assertEquals("The business hour with ID: " + INVALID_ID + " does not exist.",errorMessage);
     }
+
+    @Test
+    public void testBusinessHourUpdateStartTime() {
+        assertEquals(0,businessHourService.getAllBusinessHours().size());
+
+        BusinessHour businessHour = null;
+
+        try {
+            businessHour = businessHourService.updateBusinessHourStartTime(HOURS_ID,NEW_START_TIME);
+        } catch(IllegalArgumentException error) {
+            fail();
+        }
+        assertNotNull(businessHour);
+        assertEquals(businessHour.getStartTime(),NEW_START_TIME);
+        assertEquals(businessHour.getEndTime(),END_TIME);
+        assertEquals(businessHour.getDay().name(),STRING_DAY);
+    }
+
+    @Test
+    public void testBusinessHourUpdateEndTime() {
+        assertEquals(0,businessHourService.getAllBusinessHours().size());
+
+        BusinessHour businessHour = null;
+
+        try {
+            businessHour = businessHourService.updateBusinessHourEndTime(HOURS_ID,NEW_END_TIME);
+        } catch(IllegalArgumentException error) {
+            fail();
+        }
+        assertNotNull(businessHour);
+        assertEquals(businessHour.getStartTime(),START_TIME);
+        assertEquals(businessHour.getEndTime(),NEW_END_TIME);
+        assertEquals(businessHour.getDay().name(),STRING_DAY);
+    }
+
+    @Test
+    public void testBusinessHourUpdateNullStartTime() {
+        assertEquals(0,businessHourService.getAllBusinessHours().size());
+        String errorMessage = null;
+        BusinessHour businessHour = null;
+
+        try {
+            businessHour = businessHourService.updateBusinessHourStartTime(HOURS_ID,null);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(businessHour);
+        assertEquals("A time parameter is needed.",errorMessage);
+
+    }
+
+    @Test
+    public void testBusinessHourUpdateNullEndTime() {
+        assertEquals(0,businessHourService.getAllBusinessHours().size());
+
+        BusinessHour businessHour = null;
+        String errorMessage = null;
+
+        try {
+            businessHour = businessHourService.updateBusinessHourEndTime(HOURS_ID,null);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(businessHour);
+        assertEquals("A time parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateBusinessHourStartTimeInvalidID() {
+        int INVALID_ID = 8000;
+        BusinessHour businessHour = null;
+        String errorMessage = null;
+        try {
+            businessHour = businessHourService.updateBusinessHourStartTime(INVALID_ID,NEW_START_TIME);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(businessHour);
+        assertEquals("The business hour with ID: " + INVALID_ID + " does not exist.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateBusinessHourEndTimeInvalidID() {
+        int INVALID_ID = 8000;
+        String errorMessage = null;
+        try {
+            businessHourService.updateBusinessHourStartTime(INVALID_ID,NEW_END_TIME);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertEquals("The business hour with ID: " + INVALID_ID + " does not exist.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateBusinessHourBadStartTime() {
+        assertEquals(0,businessHourService.getAllBusinessHours().size());
+
+        BusinessHour businessHour = null;
+        String errorMessage = null;
+
+        try {
+            businessHour = businessHourService.updateBusinessHourStartTime(HOURS_ID,BAD_NEW_START_TIME);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNull(businessHour);
+        assertEquals("Start Time cannot be after End Time.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateBusinessHourBadEndTime() {
+        assertEquals(0,businessHourService.getAllBusinessHours().size());
+
+        BusinessHour businessHour = null;
+        String errorMessage = null;
+
+        try {
+            businessHour = businessHourService.updateBusinessHourEndTime(HOURS_ID,BAD_NEW_END_TIME);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNull(businessHour);
+        assertEquals("End Time cannot be before Start Time.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateBusinessHour() {
+        assertEquals(0,businessHourService.getAllBusinessHours().size());
+
+        BusinessHour businessHour = null;
+
+        try {
+            businessHour = businessHourService.updateBusinessHour(HOURS_ID,NEW_START_TIME,NEW_END_TIME);
+        } catch(IllegalArgumentException error) {
+            fail();
+        }
+        assertNotNull(businessHour);
+        assertEquals(businessHour.getStartTime(),NEW_START_TIME);
+        assertEquals(businessHour.getEndTime(),NEW_END_TIME);
+        assertEquals(businessHour.getDay().name(),STRING_DAY);
+
+    }
+
+    @Test
+    public void testUpdateBusinessHourInvalidID() {
+        int INVALID_ID = 8000;
+        String errorMessage = null;
+        try {
+            businessHourService.updateBusinessHour(INVALID_ID,NEW_START_TIME,NEW_END_TIME);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertEquals("The business hour with ID: " + INVALID_ID + " does not exist.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateBusinessHourNullNewStartTime() {
+        assertEquals(0,businessHourService.getAllBusinessHours().size());
+        String errorMessage = null;
+        BusinessHour businessHour = null;
+
+        try {
+            businessHour = businessHourService.updateBusinessHour(HOURS_ID,null,NEW_END_TIME);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(businessHour);
+        assertEquals("A Start Time parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateBusinessHourNullNewEndTime() {
+        assertEquals(0,businessHourService.getAllBusinessHours().size());
+        String errorMessage = null;
+        BusinessHour businessHour = null;
+
+        try {
+            businessHour = businessHourService.updateBusinessHour(HOURS_ID,NEW_START_TIME,null);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(businessHour);
+        assertEquals("An End Time parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateBusinessHourEndBeforeStart() {
+        assertEquals(0,businessHourService.getAllBusinessHours().size());
+
+        BusinessHour businessHour = null;
+        String errorMessage = null;
+
+        try {
+            businessHour = businessHourService.updateBusinessHour(HOURS_ID,END_TIME,START_TIME);
+        } catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(businessHour);
+        assertEquals("Start Time cannot be after End Time.", errorMessage);
+    }
+
 }
