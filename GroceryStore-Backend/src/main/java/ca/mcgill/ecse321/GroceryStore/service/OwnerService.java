@@ -52,6 +52,14 @@ public class OwnerService {
     }
 
     @Transactional
+    public Owner updateOwner(String username, String password){
+        if (password == null) throw new IllegalArgumentException("Password cannot be empty");
+        Owner o = getOwner(username);
+        o.setPassword(password);
+        return o;
+    }
+
+    @Transactional
     public void deleteOwner(String aUsername){
         if (aUsername != null) {
             for(Owner owner : ownerRepository.findAll()){
