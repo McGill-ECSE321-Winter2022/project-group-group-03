@@ -131,13 +131,6 @@ public class ItemService {
        return item;
    }
 
-    @Transactional
-    public void deleteItem(String name) {
-        if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
-        Item item = itemRepository.findByName(name);
-        if (item == null) throw new IllegalArgumentException("The item with name " + name + " does not exist.");
-        else itemRepository.deleteById(name);
-    }
 
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();

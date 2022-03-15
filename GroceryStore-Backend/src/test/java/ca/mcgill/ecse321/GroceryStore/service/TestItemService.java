@@ -836,50 +836,5 @@ public class TestItemService {
         assertEquals("Price can't be negative.",errorMessage);
     }
 
-    @Test
-    public void testDeleteItem() {
-        try {
-            itemService.deleteItem(ITEM_KEY);
-        }
-        catch(IllegalArgumentException error) {
-            fail();
-        }
-    }
-
-    @Test
-    public void testDeleteItemNullName() {
-        String errorMessage = null;
-        try {
-            itemService.deleteItem(null);
-        }
-        catch(IllegalArgumentException error) {
-           errorMessage = error.getMessage();
-        }
-        assertEquals("A name parameter is needed.",errorMessage);
-    }
-
-    @Test
-    public void testDeleteItemEmptyName() {
-        String errorMessage = null;
-        try {
-            itemService.deleteItem("");
-        }
-        catch(IllegalArgumentException error) {
-            errorMessage = error.getMessage();
-        }
-        assertEquals("A name parameter is needed.",errorMessage);
-    }
-
-    @Test
-    public void testDeleteNonExistentItem() {
-        String errorMessage = null;
-        String nonExistentName = "OREO";
-        try {
-            itemService.deleteItem(nonExistentName);
-        } catch(IllegalArgumentException error) {
-            errorMessage = error.getMessage();
-        }
-        assertEquals("The item with name " + nonExistentName + " does not exist.",errorMessage);
-    }
 }
 
