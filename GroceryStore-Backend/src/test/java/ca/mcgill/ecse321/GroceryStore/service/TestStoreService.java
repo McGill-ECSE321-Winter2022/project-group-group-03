@@ -5,10 +5,14 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ca.mcgill.ecse321.GroceryStore.dao.*;
@@ -53,7 +57,7 @@ public class TestStoreService {
 
     @BeforeEach
     public void setMockOutput() {
-        lenient().when(storeRepository.findById(any(int.class))).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(storeRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(STORE_ID_KEY)) {
                 Store store = new Store();
                 store.setStoreID(STORE_ID_KEY);
@@ -119,7 +123,7 @@ public class TestStoreService {
         }
         assertNull(store);
         // check error
-        assertEquals("Store ID number must be greater than 0.", error);
+        assertEquals("Store ID must be greater than 0.", error);
 
     }
     @Test
@@ -197,61 +201,97 @@ public class TestStoreService {
         assertNull(store);
         assertEquals("Current active pickup can't be negative.", error);
     }
-//    @Test
-//    public void testGetEmployee(){
-//        Store store = null;
-//        Employee employee1 = null;
-//        Employee employee2 = null;
-//        List<Employee> employeeList = null;
-//
-//        try{
-//            store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY,CURRENT_ACTIVE_PICKUP);
-//            employee1 = employeeService.createEmployee("emp1@gmail.com", "name1", "1234", "add1");
-//            employee2 = employeeService.createEmployee();
-//            store.setEmployee(Arrays.asList(employee1,employee2));
-//            //test stub
-//            when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
-//            workShiftList = employeeService.getEmployeeWorkShifts(EMPLOYEE_USERNAME);
-//        } catch (Exception e){
-//            fail();
-//        }
-//        assertNotNull(workShiftList);
-//        assertEquals(workShiftList, Arrays.asList(workShift1, workShift2));
-//    }
+    @Test
+    public void testGetEmployee(){
+        Store store = storeService.getStore(STORE_ID_KEY);
+        Employee employee1 = null;
+        Employee employee2 = null;
+        List<Employee> employeeList = new ArrayList<>();
+
+        try{
+            employee1 = employeeService.createEmployee("emp1@gmail.com", "name1", "1234", "add1");
+            employee2 = employeeService.createEmployee("emp2@gmail.com", "name2", "12345", "add2");
+            store.setEmployee(Arrays.asList(employee1,employee2));
+            //test stub
+            when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
+            Store myS = storeService.getAllStores().get(0);
+            employeeList = myS.getEmployee();
+        } catch (Exception e){
+            fail();
+        }
+        assertNotNull(employeeList);
+        assertEquals(employeeList, Arrays.asList(employee1, employee2));
+    }
+
+
 
     @Test
     public void testGetBusinessHours(){
+        Store store = storeService.getStore(STORE_ID_KEY);
         String error = null;
-        BusinessHour businessHour = new BusinessHour();
-        when(businessHourRepository.findByHoursID(anyInt())).thenReturn(businessHour);
-        Time startTime = java.sql.Time.valueOf(LocalTime.of(8, 35));
-        Time endTime = java.sql.Time.valueOf(LocalTime.of(18, 55));
-        BusinessHour.DayOfWeek day = BusinessHour.DayOfWeek.Monday;
-
-        BusinessHour temp = businessHourService.createBusinessHour(startTime, endTime, day.name());
-       // Store store = new Store(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
-        List<BusinessHour> checker = storeRepository.findById(STORE_ID_KEY).getBusinessHour();
-        //Check that item and purchased item are successfully added to "repository"
-        assertNull(checker);
-//        assertNotNull(purchasedItem2Check);
-//        assertNotNull(pickupOrder);
-
-//        List<PurchasedItem> purchasedItemList = new ArrayList<>();
-//        purchasedItemList.add(purchasedItem2Check);
-//        pickupOrder.setPurchasedItem(purchasedItemList);
-//
-//        assertNotNull(pickupOrder.getPurchasedItem());
-//
-//        item2Check.setStock(2);
-//
-//        try{
-//            purchasedItemService.purchasedItemRepository.findByPurchasedItemID(pickupOrder.getPurchasedItem().get(0).getPurchasedItemID()).setItemQuantity(10);
-//        }catch (Exception e){
-//            error = e.getMessage();
-//        }
-//        assertNotNull(error);
-//        assertEquals(error, "itemQuantity cannot be greater than the stock.");
-
+        BusinessHour businessHour = null;
+        List<BusinessHour> businessHours = new ArrayList<>();
+        try{
+            Time startTime = java.sql.Time.valueOf(LocalTime.of(8, 35));
+            Time endTime = java.sql.Time.valueOf(LocalTime.of(18, 55));
+            BusinessHour.DayOfWeek day = BusinessHour.DayOfWeek.Monday;
+            businessHour = businessHourService.createBusinessHour(startTime, endTime, day.name());
+            store.setBusinessHour(Arrays.asList(businessHour));
+            //test stub
+            when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
+            Store myS = storeService.getAllStores().get(0);
+            businessHours = myS.getBusinessHour();
+        }catch (Exception e){
+            fail();
+        }
+        assertNotNull(businessHours);
+        assertEquals(businessHours, Arrays.asList(businessHour));
     }
+    @Test
+    public void testGetItem(){
+        Store store = storeService.getStore(STORE_ID_KEY);
+        Item item1 = null;
+        Item item2 = null;
+        List<Item> itemList = new ArrayList<>();
+
+        try{
+            item1 = itemService.createItem("apple1", true, 10, "juicy", 2);
+            item2 = itemService.createItem("apple2", true, 12, "crunchy", 3);
+            store.setItem(Arrays.asList(item1,item2));
+            //test stub
+            when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
+            Store myS = storeService.getAllStores().get(0);
+            itemList = myS.getItem();
+        } catch (Exception e){
+            fail();
+        }
+        assertNotNull(itemList);
+        assertEquals(itemList, Arrays.asList(item1, item2));
+    }
+    @Test
+    public void testGetHoliday(){
+        Store store = storeService.getStore(STORE_ID_KEY);
+        String error = null;
+        Holiday holiday = null;
+        List<Holiday> holidays = new ArrayList<>();
+        try{
+            String name = "TestHoliday";
+            LocalDate LSDATE = LocalDate.of(2012, Month.JANUARY, 1);
+            LocalDate LEDATE = LocalDate.of(2015, Month.AUGUST, 31);
+            Date START_DATE = Date.valueOf(LSDATE);
+            Date END_DATE = Date.valueOf(LEDATE);
+            holiday = holidayService.createHoliday(name, START_DATE, END_DATE);
+            store.setHoliday(Arrays.asList(holiday));
+            //test stub
+            when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
+            Store myS = storeService.getAllStores().get(0);
+            holidays = myS.getHoliday();
+        }catch (Exception e){
+            fail();
+        }
+        assertNotNull(holidays);
+        assertEquals(holidays, Arrays.asList(holiday));
+    }
+
 }
 
