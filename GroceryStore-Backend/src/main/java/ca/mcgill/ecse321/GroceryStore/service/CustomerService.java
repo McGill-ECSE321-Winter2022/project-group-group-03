@@ -99,12 +99,24 @@ public class CustomerService {
     }
     @Transactional
     public void setAddress(String current, String address){
+        if(address == null || address.equals("") || address.equals(" "))
+            throw new IllegalArgumentException("Address can't be empty.");
+        if(!customerRepository.existsById(current))
+            throw new IllegalArgumentException("Customer does not currently exist in system.");
         Customer customer = getCustomer(current);
         customer.setUsername(address);
     }
     @Transactional
     public List<Order> getCustomerOrders(String aUsername){
+        if(!customerRepository.existsById(aUsername))
+            throw new IllegalArgumentException("Customer does not currently exist in system.");
         return customerRepository.findCustomerByUsername(aUsername).getOrder();
+    }
+    @Transactional
+    public void setCustomerOrders(String aUsername, List<Order> orders){
+        if(!customerRepository.existsById(aUsername))
+            throw new IllegalArgumentException("Customer does not currently exist in system.");
+        customerRepository.findCustomerByUsername(aUsername).setOrder(orders);
     }
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();

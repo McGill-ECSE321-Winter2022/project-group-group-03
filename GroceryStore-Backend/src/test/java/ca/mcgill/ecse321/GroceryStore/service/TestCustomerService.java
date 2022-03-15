@@ -691,7 +691,7 @@ public class TestCustomerService {
         String error = null;
 
         try {
-            customerService.setUsername(USERNAME_KEY, address);
+            customerService.setAddress(USERNAME_KEY, address);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -707,7 +707,7 @@ public class TestCustomerService {
         String error = null;
 
         try {
-            customerService.setUsername(USERNAME_KEY, address);
+            customerService.setAddress(USERNAME_KEY, address);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -723,11 +723,60 @@ public class TestCustomerService {
         String error = null;
 
         try {
-            customerService.setUsername(USERNAME_KEY, address);
+            customerService.setAddress(USERNAME_KEY, address);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNotNull(customer.getEmail());
         assertEquals("Address can't be empty.", error);
     }
+    @Test
+    public void testUpdateCustomerAddressWRONGID(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String address = "3064 rue edmond rostand";
+        String error = null;
+
+        try {
+            customerService.setAddress("ADASDFHJKAS", address);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(customer.getEmail());
+        assertEquals("Customer does not currently exist in system.", error);
+    }
+
+    @Test
+    public void testGetOrderWRONGID(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String error = null;
+
+        try {
+            customer.setOrder(customerService.getCustomerOrders("ASKALFA"));
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(customer.getOrder());
+        assertEquals("Customer does not currently exist in system.", error);
+    }
+
+    @Test
+    public void testSetOrderWRONGID(){
+        assertEquals(0, customerService.getAllCustomers().size());
+        Customer customer = null;
+        customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
+        String error = null;
+        List<Order> order = new ArrayList<>();
+        try {
+            customerService.setCustomerOrders("ASKALFA", order);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(customer.getOrder());
+        assertEquals("Customer does not currently exist in system.", error);
+    }
+
 }
