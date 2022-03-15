@@ -298,4 +298,77 @@ public class TestEmployeeService {
         assertNotNull(orderList);
         assertEquals(orderList, Arrays.asList(deliveryOrder, pickupOrder));
     }
+
+    @Test
+    public void testUpdateEmployeePassword(){
+        Employee employee = null;
+        Employee employee1 = null;
+        String newPassword= "new password";
+
+        try{
+            employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
+            when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
+            employee1 = employeeService.updateEmployeePassword(EMPLOYEE_USERNAME, newPassword);
+        }catch (Exception e){
+            fail();
+        }
+        assertNotNull(employee);
+        assertNotNull(employee1);
+        assertEquals(employee1.getPassword(), newPassword);
+    }
+
+    @Test
+    public void testUpdateEmployeePasswordNull(){
+        Employee employee = null;
+        Employee employee1 = null;
+        String newPassword= null;
+        String error = null;
+
+        try{
+            employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
+            when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
+            employee1 = employeeService.updateEmployeePassword(EMPLOYEE_USERNAME, newPassword);
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals(error, "Password cannot be empty");
+    }
+
+    @Test
+    public void testUpdateEmployeeAddress(){
+        Employee employee = null;
+        Employee employee1 = null;
+        String newAddress = "new address";
+
+        try{
+            employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
+            when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
+            employee1 = employeeService.updateEmployeeAddress(EMPLOYEE_USERNAME, newAddress);
+        }catch (Exception e){
+            fail();
+        }
+        assertNotNull(employee);
+        assertNotNull(employee1);
+        assertEquals(employee1.getAddress(), newAddress);
+    }
+
+    @Test
+    public void testUpdateEmployeeAddressNull(){
+        Employee employee = null;
+        Employee employee1 = null;
+        String newAddress = null;
+        String error = null;
+
+        try{
+            employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
+            when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
+            employee1 = employeeService.updateEmployeeAddress(EMPLOYEE_USERNAME, newAddress);
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals(error, "Address cannot be empty");
+    }
+
 }

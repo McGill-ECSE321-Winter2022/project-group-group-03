@@ -35,8 +35,8 @@ public class BusinessHourService {
         if (aDayOfWeek == null) errorMessages.add("Day can't be empty.");
 
         for (BusinessHour businessHour : this.getAllBusinessHours()) {
-            if (businessHour.getStartTime() == startTime && businessHour.getEndTime() == endTime && businessHour.getDay().name().equals(aDayOfWeek)) {
-                errorMessages.add("An identical Business Hour already exists.");
+            if (businessHour.getDay().name().equals(aDayOfWeek)) {
+                errorMessages.add("The Business Hour for " + aDayOfWeek + " has already been set.");
                 break;
             }
         }
@@ -85,8 +85,46 @@ public class BusinessHourService {
     @Transactional
     public void deleteBusinessHour(int hoursID) {
         BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
-       if (businessHour == null) throw new IllegalArgumentException("The business hour with ID: " + hoursID + " does not exist.");
-       else businessHourRepository.deleteById(hoursID);
+        if (businessHour == null) throw new IllegalArgumentException("The business hour with ID: " + hoursID + " does not exist.");
+        else businessHourRepository.deleteById(hoursID);
+    }
+
+    @Transactional
+    public BusinessHour updateBusinessHourStartTime(int hoursID, Time time) {
+        BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
+        if (businessHour == null) throw new IllegalArgumentException("The business hour with ID: " + hoursID + " does not exist.");
+        if (time == null) throw new IllegalArgumentException("A time parameter is needed.");
+        if (time.after(businessHour.getEndTime())) throw new IllegalArgumentException("Start Time cannot be after End Time.");
+        businessHour.setStartTime(time);
+        return  businessHour;
+    }
+
+    @Transactional
+    public BusinessHour updateBusinessHour(int hoursID, Time newStartTime, Time newEndTime) {
+        BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
+        if (businessHour == null) throw new IllegalArgumentException("The business hour with ID: " + hoursID + " does not exist.");
+        if (newStartTime == null) throw new IllegalArgumentException("A Start Time parameter is needed.");
+        if (newEndTime == null) throw new IllegalArgumentException("An End Time parameter is needed.");
+        if (newStartTime.after(newEndTime)) throw new IllegalArgumentException("Start Time cannot be after End Time.");
+        if (newStartTime.before(businessHour.getStartTime())) {
+            businessHour.setStartTime(newStartTime);
+            businessHour.setEndTime(newEndTime);
+        }
+        if (newEndTime.after(businessHour.getEndTime())) {
+            businessHour.setEndTime(newEndTime);
+            businessHour.setStartTime(newStartTime);
+        }
+        return businessHour;
+    }
+
+    @Transactional
+    public BusinessHour updateBusinessHourEndTime(int hoursID, Time time) {
+        BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
+        if (businessHour == null) throw new IllegalArgumentException("The business hour with ID: " + hoursID + " does not exist.");
+        if (time == null) throw new IllegalArgumentException("A time parameter is needed.");
+        if (time.before(businessHour.getStartTime())) throw new IllegalArgumentException("End Time cannot be before Start Time.");
+        businessHour.setEndTime(time);
+        return businessHour;
     }
 
     private <T> List<T> toList(Iterable<T> iterable){

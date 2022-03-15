@@ -64,6 +64,74 @@ public class ItemService {
     }
 
     @Transactional
+    public Item updateItemPurchasable(String name, Boolean newPurchasable) {
+        if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
+        Item item = itemRepository.findByName(name);
+        if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
+        if (newPurchasable.equals(item.getPurchasable())) {
+            if (newPurchasable) throw new IllegalArgumentException("The Item with name: " + name + " is already purchasable.");
+            else throw new IllegalArgumentException("The Item with name: " + name + " is already not purchasable.");
+        }
+        item.setPurchasable(newPurchasable);
+        return item;
+    }
+
+    @Transactional
+    public Item updateItemDescription(String name, String newDescription) {
+        if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
+        Item item = itemRepository.findByName(name);
+        if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
+        if (newDescription == null || newDescription.trim().length() == 0) throw new IllegalArgumentException("A Description parameter is needed.");
+        item.setDescription(newDescription);
+        return item;
+    }
+
+    @Transactional
+    public Item updateItemTotalPurchased(String name, int newTotalPurchased) {
+        if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
+        Item item = itemRepository.findByName(name);
+        if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
+        if (newTotalPurchased == 0) throw new IllegalArgumentException("Total Purchased can't be 0.");
+        if (newTotalPurchased < 0) throw new IllegalArgumentException("Total Purchased can't be negative.");
+        item.setTotalPurchased(newTotalPurchased);
+        item.setStock(item.getStock()-newTotalPurchased);
+        return item;
+    }
+
+   @Transactional
+    public Item updateItemStock(String name, int newStock) {
+       if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
+       Item item = itemRepository.findByName(name);
+       if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
+       if (newStock == 0) throw new IllegalArgumentException("Stock can't be 0.");
+       if (newStock < 0) throw new IllegalArgumentException("Stock can't be negative.");
+       item.setStock(newStock);
+       return item;
+   }
+
+   @Transactional
+   public Item addItemStock(String name, int addedStock) {
+       if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
+       Item item = itemRepository.findByName(name);
+       if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
+       if (addedStock == 0) throw new IllegalArgumentException("Added Stock can't be 0.");
+       if (addedStock < 0) throw new IllegalArgumentException("Added Stock can't be negative.");
+       item.setStock(item.getStock()+addedStock);
+       return item;
+   }
+
+   @Transactional
+   public Item updateItemPrice(String name, int newPrice) {
+       if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
+       Item item = itemRepository.findByName(name);
+       if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
+       if (newPrice == 0) throw new IllegalArgumentException("Price can't be 0.");
+       if (newPrice < 0) throw new IllegalArgumentException("Price can't be negative.");
+       item.setPrice(newPrice);
+       return item;
+   }
+
+    @Transactional
     public void deleteItem(String name) {
         if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
         Item item = itemRepository.findByName(name);

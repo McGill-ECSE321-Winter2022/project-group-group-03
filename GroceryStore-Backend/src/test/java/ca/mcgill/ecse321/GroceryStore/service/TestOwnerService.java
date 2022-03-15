@@ -257,7 +257,6 @@ public class TestOwnerService {
     public void testCreateOwnerDuplicateEmail() {
 
         Store store = storeService.createStore(15, "MTL", 9, 8);
-        storeRepository.save(store);
 
         //test stub to create owner because we need a store
         when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
@@ -282,5 +281,64 @@ public class TestOwnerService {
         assertNotNull(owner1);
         assertNull(owner2);
         assertEquals("An identical owner already exists.",error);
+    }
+
+    @Test
+    public void testUpdateOwner() {
+        Store store = storeService.createStore(15, "MTL", 9, 8);
+
+        //test stub to create owner because we need a store
+        when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
+
+        Owner owner1 = null;
+        Owner owner2 = null;
+        String newPassword = "new password";
+
+        when(ownerRepository.findAll()).thenReturn(Arrays.asList());
+
+        try {
+            owner1 = ownerService.createOwner(OWNER_USERNAME, OWNER_EMAIL, OWNER_PASSWORD);
+
+            when(ownerRepository.findAll()).thenReturn(Arrays.asList(owner1));
+            owner2 = ownerService.updateOwner(OWNER_USERNAME, newPassword);
+        } catch (Exception e) {
+            fail();
+        }
+        assertNotNull(owner2);
+        assertEquals(owner2.getPassword(), newPassword);
+    }
+
+    @Test
+    public void testUpdateOwnerNullPassword() {
+
+        Owner owner2 = null;
+        String newPassword = null;
+        String error = null;
+
+        try {
+            owner2 = ownerService.updateOwner(OWNER_USERNAME, newPassword);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals(error, "Password cannot be empty");
+    }
+
+    @Test
+    public void testUpdateOwnerNullUsername() {
+
+        Owner owner2 = null;
+        String ownername = null;
+        String error = null;
+
+        try {
+
+            owner2 = ownerService.updateOwner(ownername, "newPassword");
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+        System.out.println(error);
+        assertNotNull(error);
+        assertEquals(error, "Invalid username: Either no Owner has this username or the string given was null");
     }
 }

@@ -22,7 +22,7 @@ public class EmployeeRestController {
     @Autowired
     private EmployeeService service;
 
-    @GetMapping(value = { "/employee", "/employee/" })
+    @GetMapping(value = { "/all_employees", "/all_employees/" })
     public List<EmployeeDTO> getAllEmployees() {
         return service.getAllEmployees().stream().map(this::convertToDto).collect(Collectors.toList());
     }
@@ -33,8 +33,8 @@ public class EmployeeRestController {
         return convertToDto(employee);
     }
 
-    @GetMapping(value = { "/employee/{username}", "/employee/{username}/" })
-    public EmployeeDTO getEmployeeByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
+    @GetMapping(value = { "/employee", "/employee/" })
+    public EmployeeDTO getEmployeeByUsername(@RequestParam String username) throws IllegalArgumentException {
         EmployeeDTO e = convertToDto(service.getEmployee(username));
         e.setWorkShifts(getWorkShiftsOfEmployee(username));
         e.setOrders(getOrdersOfEmployee(username));
@@ -49,6 +49,21 @@ public class EmployeeRestController {
     @GetMapping(value = { "/delivery_order/employee", "/delivery_order/employee/" })
     public List<OrderDTO> getOrdersOfEmployee(@RequestParam String username) {
         return createOrderDtosForEmployee(convertToDomainObject(getEmployeeByUsername(username)));
+    }
+
+    @PutMapping(value = { "/update_employee", "/update_employee/"})
+    public EmployeeDTO updateEmployee(@RequestParam String username, @RequestParam String password, @RequestParam String address) throws IllegalArgumentException{
+        return convertToDto(service.updateEmployee(username, password, address));
+    }
+
+    @PutMapping(value = { "/update_employee_password", "/update_employee_password/"})
+    public EmployeeDTO updateEmployeePassword(@RequestParam String username, @RequestParam String password){
+        return convertToDto(service.updateEmployeePassword(username, password));
+    }
+
+    @PutMapping(value = { "/update_employee_address", "/update_employee_address/"})
+    public EmployeeDTO updateEmployeeAddress(@RequestParam String username,  @RequestParam String address){
+        return convertToDto(service.updateEmployeeAddress(username, address));
     }
 
     @DeleteMapping(value = {"/employee", "/employee/"})

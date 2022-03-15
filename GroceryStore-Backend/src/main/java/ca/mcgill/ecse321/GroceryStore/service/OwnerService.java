@@ -18,9 +18,13 @@ public class OwnerService {
 
     @Transactional
     public Owner createOwner(String aUsername, String aEmail, String aPassword){
-        if (aUsername==null) throw new IllegalArgumentException("Username can't be empty.");
-        if (aEmail==null) throw new IllegalArgumentException("Email can't be empty.");
-        if (aPassword==null) throw new IllegalArgumentException("Password can't be empty.");
+        if (aUsername==null || aUsername.equals("")) throw new IllegalArgumentException("Username can't be empty.");
+        if (aEmail.indexOf("@") <= 0 ||
+                aEmail.indexOf("@") != aEmail.lastIndexOf("@") ||
+                aEmail.indexOf("@") >= aEmail.lastIndexOf(".") - 1 ||
+                aEmail.lastIndexOf(".") >= aEmail.length() - 1)  throw new IllegalArgumentException( "Invalid email");
+        if (aEmail==null  || aEmail.equals("")) throw new IllegalArgumentException("Email can't be empty.");
+        if (aPassword==null || aPassword.equals("")) throw new IllegalArgumentException("Password can't be empty.");
 
         for (Owner owner : ownerRepository.findAll()){
             if (owner.getUsername().equals(aUsername)) throw new IllegalArgumentException("An identical owner already exists.");
@@ -43,7 +47,7 @@ public class OwnerService {
 
     @Transactional
     public Owner getOwner(String aUsername) {
-        if (aUsername != null) {
+        if (aUsername != null || !aUsername.equals("")) {
             for(Owner owner : ownerRepository.findAll()){
                 if (owner.getUsername().equals(aUsername)) return owner;
             }
@@ -52,8 +56,16 @@ public class OwnerService {
     }
 
     @Transactional
+    public Owner updateOwner(String username, String password){
+        if (password == null || !password.equals("")) throw new IllegalArgumentException("Password cannot be empty");
+        Owner o = getOwner(username);
+        o.setPassword(password);
+        return o;
+    }
+
+    @Transactional
     public void deleteOwner(String aUsername){
-        if (aUsername != null) {
+        if (aUsername != null || !aUsername.equals("")) {
             for(Owner owner : ownerRepository.findAll()){
                 if (owner.getUsername().equals(aUsername)) {
                     owner = null;
@@ -68,7 +80,7 @@ public class OwnerService {
 
     @Transactional
     public Store getOwnerStore(String aUsername) {
-        if (aUsername != null) {
+        if (aUsername != null  || !aUsername.equals("")) {
             for(Owner owner : ownerRepository.findAll()){
                 if (owner.getUsername().equals(aUsername)) return owner.getStore();
             }
