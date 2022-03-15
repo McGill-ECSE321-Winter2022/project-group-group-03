@@ -99,7 +99,7 @@ public class HolidayService {
         }
         if (aEndDate == null) throw new IllegalArgumentException("Start Date can't be empty.");
         Holiday holiday = holidayRepository.findByName(name);
-        if (holiday.getStartDate().before(aEndDate)) {
+        if (!holiday.getStartDate().before(aEndDate)) {
             throw new IllegalArgumentException("End Date cannot be before Start Date.");
         }
         holiday.setEndDate(aEndDate);
