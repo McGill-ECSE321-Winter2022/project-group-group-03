@@ -53,13 +53,11 @@ public class EmployeeService {
 
     @Transactional
     public Employee getEmployee(String aUsername) {
-        if (aUsername != null || !aUsername.equals("")) {
-            for(Employee employee : employeeRepository.findAll()){
-                if (employee.getUsername().equals(aUsername)) return employee;
-            }
+        if (aUsername == null || aUsername.equals("")) throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
+        for(Employee employee : employeeRepository.findAll()){
+            if (employee.getUsername().equals(aUsername)) return employee;
         }
         throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
-
     }
 
     @Transactional
@@ -74,8 +72,8 @@ public class EmployeeService {
 
     @Transactional
     public Employee updateEmployee(String username, String password, String address){
-        if (password==null || !password.equals("")) throw new IllegalArgumentException("Password cannot be empty");
-        if (address==null || !address.equals("")) throw new IllegalArgumentException("Address cannot be empty");
+        if (password==null || password.equals("")) throw new IllegalArgumentException("Password cannot be empty");
+        if (address==null || address.equals("")) throw new IllegalArgumentException("Address cannot be empty");
 
         Employee employee = getEmployee(username);
         employee.setPassword(password);
@@ -102,6 +100,7 @@ public class EmployeeService {
 
     @Transactional
     public void deleteOwner(String aUsername){
+        if (aUsername != null || !aUsername.equals("")) throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
         if (aUsername != null || !aUsername.equals("")) {
             for(Employee employee : employeeRepository.findAll()){
                 if (employee.getUsername().equals(aUsername)) {

@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
 public class TestEmployeeService {
 
     private String EMPLOYEE_USERNAME = "TEST_USERNAME";
-    private String EMPLOYEE_EMAIL = "TEST_EMAIL";
+    private String EMPLOYEE_EMAIL = "TEST_EMAIL@mail.ca";
     private String EMPLOYEE_PASSWORD = "TEST_PASSWORD";
     private String EMPLOYEE_ADDRESS = "TEST_ADDRESS";
 
@@ -183,6 +183,7 @@ public class TestEmployeeService {
 
         Employee employee1 = null;
         Employee employee2 = null;
+        String error = null;
 
         try{
             employee1 = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
@@ -303,7 +304,8 @@ public class TestEmployeeService {
     public void testUpdateEmployeePassword(){
         Employee employee = null;
         Employee employee1 = null;
-        String newPassword= "new password";
+        String newPassword= "newPassword";
+        String error = null;
 
         try{
             employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
@@ -312,6 +314,7 @@ public class TestEmployeeService {
         }catch (Exception e){
             fail();
         }
+
         assertNotNull(employee);
         assertNotNull(employee1);
         assertEquals(employee1.getPassword(), newPassword);
