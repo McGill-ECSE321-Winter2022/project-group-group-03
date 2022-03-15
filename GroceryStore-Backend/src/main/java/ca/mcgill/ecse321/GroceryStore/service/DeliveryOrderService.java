@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
+import ca.mcgill.ecse321.GroceryStore.model.Customer;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,37 @@ public class DeliveryOrderService {
     DeliveryOrderRepository deliveryOrderRepository;
 
     @Transactional
-    public DeliveryOrder createDeliveryOrder(String shippingAddress, String shippingStatus, int confirmationNumber, int totalCost){
+    public DeliveryOrder createDeliveryOrder(String shippingAddress, String shippingStatus, Integer confirmationNumber, Integer totalCost){
         DeliveryOrder newDeliveryOrder = new DeliveryOrder();
+        List<DeliveryOrder> deliveryOrders = this.getAllDeliveryOrders();
+
+        if(shippingAddress == null || shippingAddress == "" || shippingAddress == " ") {
+            throw new IllegalArgumentException("Shipping address can't be empty.");
+        }
+        else if(shippingStatus == null || shippingStatus == "" || shippingStatus == " "){
+            throw new IllegalArgumentException("Shipping status can't be empty.");
+        }
+        else if(confirmationNumber == null){
+            throw new IllegalArgumentException("Confirmation number can't be empty.");
+        }
+        else if(confirmationNumber <= 0){
+            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
+        }
+        else if(totalCost == null){
+            throw new IllegalArgumentException("Total cost can't be empty.");
+        }
+       else  if(totalCost <= 0){
+            throw new IllegalArgumentException("Total cost must be greater than 0.");
+        }
+        else if (deliveryOrders != null && deliveryOrders.size() != 0) {
+            for (DeliveryOrder d : deliveryOrders) {
+                if (d.getConfirmationNumber() == (confirmationNumber)) {
+                    throw  new IllegalArgumentException("An identical delivery order with the same confirmation number already exists.");
+                }
+            }
+        }
+
+
         newDeliveryOrder.setShippingAddress(shippingAddress);
         newDeliveryOrder.setConfirmationNumber(confirmationNumber);
         newDeliveryOrder.setTotalCost(totalCost);
@@ -31,20 +61,42 @@ public class DeliveryOrderService {
         return newDeliveryOrder;
     }
     @Transactional
-    public DeliveryOrder getDeliveryOrder(int confirmationNumber) {
+    public DeliveryOrder getDeliveryOrder(Integer confirmationNumber) {
+        if (confirmationNumber == null) {
+            throw new IllegalArgumentException("Confirmation number can't be empty.");
+        }
+        if (confirmationNumber <= 0) {
+            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
+        }
+        if(!deliveryOrderRepository.existsById(confirmationNumber)){
+            throw new IllegalArgumentException("Delivery order doesn't exist.");
+        }
         return deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(confirmationNumber);
     }
 
     @Transactional
     public List<DeliveryOrder> getAllDeliveryOrders() {
-        return toList(deliveryOrderRepository.findAll());
+        List<DeliveryOrder> deliveryOrders = new ArrayList<>();
+        for (DeliveryOrder deliveryOrder:deliveryOrderRepository.findAll() ) {
+            deliveryOrders.add(deliveryOrder);
+        }
+
+        return deliveryOrders;
     }
 
     @Transactional
-    public void deleteDeliveryOrder(int confirmationNumber) {
-        DeliveryOrder deliveryOrder = deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(confirmationNumber);
-        if (deliveryOrder == null) throw new IllegalArgumentException("The deliveryOrder with confirmationNumber: " + confirmationNumber + " does not exist.");
-        else deliveryOrderRepository.deleteById(confirmationNumber);
+    public void deleteDeliveryOrder(Integer confirmationNumber) {
+        if (confirmationNumber == null) {
+            throw new IllegalArgumentException("Confirmation number can't be empty.");
+        }
+        if (confirmationNumber <= 0) {
+            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
+        }
+        if(!deliveryOrderRepository.existsById(confirmationNumber)){
+            throw new IllegalArgumentException("Delivery order doesn't exist.");
+        }
+
+        deliveryOrderRepository.deleteById(confirmationNumber);
     }
 
     private <T> List<T> toList(Iterable<T> iterable){

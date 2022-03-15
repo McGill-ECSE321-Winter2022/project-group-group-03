@@ -18,8 +18,7 @@ public class Customer
   // STATIC VARIABLES
   //------------------------
 
-  private static Map<String, Customer> customersByUsername = new HashMap<String, Customer>();
-  private static Map<String, Customer> customersByEmail = new HashMap<String, Customer>();
+
 
   //------------------------
   // MEMBER VARIABLES
@@ -50,77 +49,33 @@ public class Customer
   // INTERFACE
   //------------------------
 
-  public boolean setUsername(String aUsername)
+  public void setUsername(String aUsername)
   {
-    boolean wasSet = false;
-    String anOldUsername = getUsername();
-    if (anOldUsername != null && anOldUsername.equals(aUsername)) {
-      return true;
-    }
-    if (hasWithUsername(aUsername)) {
-      return wasSet;
-    }
-    username = aUsername;
-    wasSet = true;
-    if (anOldUsername != null) {
-      customersByUsername.remove(anOldUsername);
-    }
-    customersByUsername.put(aUsername, this);
-    return wasSet;
+    this.username=aUsername;
   }
 
-  public boolean setPassword(String aPassword)
+  public void setPassword(String aPassword)
   {
-    boolean wasSet = false;
-    password = aPassword;
-    wasSet = true;
-    return wasSet;
+    this.password=aPassword;
   }
 
   public void setOrder(List<Order> order) {
     this.order = order;
   }
 
-  public boolean setEmail(String aEmail)
+  public void setEmail(String aEmail)
   {
-    boolean wasSet = false;
-    String anOldEmail = getEmail();
-    if (anOldEmail != null && anOldEmail.equals(aEmail)) {
-      return true;
-    }
-    if (hasWithEmail(aEmail)) {
-      return wasSet;
-    }
-    email = aEmail;
-    wasSet = true;
-    if (anOldEmail != null) {
-      customersByEmail.remove(anOldEmail);
-    }
-    customersByEmail.put(aEmail, this);
-    return wasSet;
+    this.email = aEmail;
   }
 
-  public boolean setAddress(String aAddress)
+  public void setAddress(String aAddress)
   {
-    boolean wasSet = false;
-    address = aAddress;
-    wasSet = true;
-    return wasSet;
+    this.address = aAddress;
   }
 
   public String getUsername()
   {
     return username;
-  }
-  /* Code from template attribute_GetUnique */
-  public static Customer getWithUsername(String aUsername)
-  {
-    return customersByUsername.get(aUsername);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithUsername(String aUsername)
-  {
-    return getWithUsername(aUsername) != null;
   }
 
   public String getPassword()
@@ -132,16 +87,7 @@ public class Customer
   {
     return email;
   }
-  /* Code from template attribute_GetUnique */
-  public static Customer getWithEmail(String aEmail)
-  {
-    return customersByEmail.get(aEmail);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithEmail(String aEmail)
-  {
-    return getWithEmail(aEmail) != null;
-  }
+
 
   public String getAddress()
   {

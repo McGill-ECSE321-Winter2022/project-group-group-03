@@ -20,7 +20,22 @@ public class CustomerService {
 
     @Transactional
     public Customer createCustomer(String aUsername, String aPassword, String aEmail, String aAddress) {
-
+        if(aUsername == null || aUsername == "") {
+            throw new IllegalArgumentException("Username can't be empty");
+        }
+        if(aPassword == null || aPassword == ""){
+            throw new IllegalArgumentException("Password can't be empty");
+        }
+        if(aEmail == null || aEmail == ""){
+            throw new IllegalArgumentException("Email can't be empty");
+        }
+        if(aAddress == null || aAddress == ""){
+            throw new IllegalArgumentException("Address can't be empty");
+        }
+        for (Customer customer : customerRepository.findAll()){
+            if (customer.getUsername().equals(aUsername)) throw new IllegalArgumentException("An identical customer already exists.");
+            if (customer.getEmail().equals(aEmail)) throw new IllegalArgumentException("An identical customer already exists.");
+        }
         Customer newCustomer = new Customer();
         newCustomer.setAddress(aAddress);
         newCustomer.setEmail(aEmail);
@@ -31,12 +46,24 @@ public class CustomerService {
     }
     @Transactional
     public Customer getCustomer(String aUsername){
+        if(aUsername == null || aUsername ==""){
+            throw new IllegalArgumentException("The customer name can't be empty");
+        }
+        if(!customerRepository.existsById(aUsername)){
+            throw new IllegalArgumentException("Customer doesn't exist");
+        }
        return customerRepository.findCustomerByUsername(aUsername);
 
     }
     @Transactional
     public List<Customer> getAllCustomers(){
-        return toList(customerRepository.findAll());
+
+        List<Customer> customers = new ArrayList<>();
+        for (Customer customer:customerRepository.findAll() ) {
+            customers.add(customer);
+        }
+
+        return customers;
     }
     @Transactional
     public List<Order> getCustomerOrders(String aUsername){

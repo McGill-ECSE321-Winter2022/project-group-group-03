@@ -53,12 +53,9 @@ public class DeliveryOrder extends Order
   // INTERFACE
   //------------------------
 
-  public boolean setShippingAddress(String aShippingAddress)
+  public void setShippingAddress(String aShippingAddress)
   {
-    boolean wasSet = false;
-    shippingAddress = aShippingAddress;
-    wasSet = true;
-    return wasSet;
+    this.shippingAddress = aShippingAddress;
   }
 
   public String getShippingAddress()
