@@ -31,6 +31,8 @@ public class ItemRestController {
 
     }
 
+    //@PutMapping(value = {"/editItem/{hoursID}"})
+
     @GetMapping(value = {"/item/{itemName}", "/item/{itemName}/"})
     public ItemDTO getItem(@PathVariable("itemName") String itemName) throws IllegalArgumentException {
         return convertToDto(service.getItem(itemName));
