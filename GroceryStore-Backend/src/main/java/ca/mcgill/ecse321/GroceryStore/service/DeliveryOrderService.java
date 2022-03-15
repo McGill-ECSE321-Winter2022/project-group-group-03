@@ -18,7 +18,7 @@ public class DeliveryOrderService {
     DeliveryOrderRepository deliveryOrderRepository;
 
     @Transactional
-    public DeliveryOrder createDeliveryOrder(String shippingAddress, String shippingStatus, Integer confirmationNumber, Integer totalCost){
+    public DeliveryOrder createDeliveryOrder(String shippingAddress, String shippingStatus, Integer confirmationNumber, Integer totalCost, boolean isOutOfTown){
         DeliveryOrder newDeliveryOrder = new DeliveryOrder();
         List<DeliveryOrder> deliveryOrders = this.getAllDeliveryOrders();
 
