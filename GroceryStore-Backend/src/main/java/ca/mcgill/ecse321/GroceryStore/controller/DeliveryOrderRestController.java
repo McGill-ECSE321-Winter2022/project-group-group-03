@@ -31,6 +31,11 @@ public class DeliveryOrderRestController {
     public DeliveryOrderDTO getBusinessHour(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {
         return convertToDto(service.getDeliveryOrder(confirmationNumber));
     }
+    @PutMapping(value = {"/editDeliveryOrderShippingAddress/{confirmationNumber}/"})
+    public DeliveryOrderDTO updateDeliveryOrderShippingAddress(@PathVariable("confirmationNumber") int confirmationNumber, @RequestParam String newAddress) throws IllegalArgumentException{
+        return convertToDto(service.setShippingAddress(confirmationNumber, newAddress));
+    }
+
 
     @DeleteMapping(value = {"/deliveryOrder{confirmationNumber}", "/deliveryOrder{confirmationNumber}"})
     public void deleteDeliveryOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {

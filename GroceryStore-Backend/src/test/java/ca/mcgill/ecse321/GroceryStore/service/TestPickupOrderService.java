@@ -111,22 +111,6 @@ public class TestPickupOrderService {
         assertNull(pickupOrder);
         assertEquals("Confirmation number can't be empty.", error);
     }
-    @Test
-    public void testUpdatePickupOrderNullConfirmationNumber() {
-        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
-        PickupOrder pickupOrder = null;
-        pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        Integer confirmationNumber = null;
-        String error = null;
-
-        try {
-            pickupOrderService.setConfirmationNumber(CONFIRMATION_NUMBER_KEY, confirmationNumber);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNotNull(pickupOrder.getConfirmationNumber());
-        assertEquals("Confirmation number can't be empty.", error);
-    }
 
     @Test
     public void testCreatePickupOrderConfirmationNumberZero() {
@@ -143,22 +127,6 @@ public class TestPickupOrderService {
         // check error
         assertEquals("Confirmation number must be greater than 0.", error);
 
-    }
-    @Test
-    public void testUpdatePickupOrderConfirmationNumberZero() {
-        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
-        PickupOrder pickupOrder = null;
-        pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        Integer confirmationNumber = 0;
-        String error = null;
-
-        try {
-            pickupOrderService.setConfirmationNumber(CONFIRMATION_NUMBER_KEY, confirmationNumber);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNotNull(pickupOrder.getConfirmationNumber());
-        assertEquals("Confirmation number must be greater than 0.", error);
     }
 
     @Test
@@ -178,39 +146,6 @@ public class TestPickupOrderService {
     }
 
 
-    @Test
-    public void testUpdatePickupOrderConfirmationNumberNegative() {
-        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
-        PickupOrder pickupOrder = null;
-        pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        Integer confirmationNumber = -10;
-        String error = null;
-
-        try {
-            pickupOrderService.setConfirmationNumber(CONFIRMATION_NUMBER_KEY, confirmationNumber);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNotNull(pickupOrder.getConfirmationNumber());
-        assertEquals("Confirmation number must be greater than 0.", error);
-    }
-    @Test
-    public void testUpdatePickupOrderConfirmationNumberWRONGID() {
-        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
-        Integer confirmationNumber = 999;
-        String error = null;
-        PickupOrder pickupOrder = null;
-        pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        try {
-            pickupOrderService.setConfirmationNumber(confirmationNumber, 123);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertEquals(pickupOrder.getConfirmationNumber(), CONFIRMATION_NUMBER_KEY);
-        // check error
-        assertEquals("Pickup order doesn't exist.", error);
-    }
-
     //TOTAL COST
     @Test
     public void testCreatePickupOrderNullTotalCost() {
@@ -228,22 +163,7 @@ public class TestPickupOrderService {
         assertNull(pickupOrder);
         assertEquals("Total cost can't be empty.", error);
     }
-    @Test
-    public void testUpdatePickupOrderNullTotalCost() {
-        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
-        Integer totalCost = null;
-        String error = null;
-        PickupOrder pickupOrder = null;
-        pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        try {
-            pickupOrderService.setTotalCost(CONFIRMATION_NUMBER_KEY, totalCost);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNotNull(pickupOrder.getTotalCost());
-        // check error
-        assertEquals("Total cost can't be empty.", error);
-    }
+
 
     @Test
     public void testCreatePickupOrderTotalCostZero() {
@@ -260,38 +180,6 @@ public class TestPickupOrderService {
         }
         assertNull(pickupOrder);
         assertEquals("Total cost must be greater than 0.", error);
-    }
-    @Test
-    public void testUpdatePickupOrderTotalCostNegative() {
-        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
-        Integer totalCost = -10;
-        String error = null;
-        PickupOrder pickupOrder = null;
-        pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        try {
-            pickupOrderService.setTotalCost(CONFIRMATION_NUMBER_KEY, totalCost);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertEquals(pickupOrder.getTotalCost(), TOTAL_COST);
-        // check error
-        assertEquals("Total cost can't be negative.", error);
-    }
-    @Test
-    public void testUpdatePickupOrderTotalCostWRONGID() {
-        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
-        Integer confirmationNumber = 999;
-        String error = null;
-        PickupOrder pickupOrder = null;
-        pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
-        try {
-            pickupOrderService.setTotalCost(confirmationNumber, 123);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertEquals(pickupOrder.getTotalCost(), TOTAL_COST);
-        // check error
-        assertEquals("Pickup order doesn't exist.", error);
     }
 
     @Test

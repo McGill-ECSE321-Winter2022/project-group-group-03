@@ -90,35 +90,6 @@ public class PickupOrderService {
 
         pickupOrderRepository.deleteById(confirmationNumber);
     }
-    @Transactional
-    public void setConfirmationNumber(Integer current, Integer confirmationNumber){
-        if (confirmationNumber == null) {
-            throw new IllegalArgumentException("Confirmation number can't be empty.");
-        }
-        if (confirmationNumber <= 0) {
-            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
-        }
-        if(!pickupOrderRepository.existsById(confirmationNumber)){
-            throw new IllegalArgumentException("Pickup order doesn't exist.");
-        }
-        PickupOrder order = getPickupOrder(current);
-        order.setConfirmationNumber(confirmationNumber);
-    }
-
-    @Transactional
-    public void setTotalCost(Integer current, Integer totalCost){
-        if (totalCost == null) {
-            throw new IllegalArgumentException("Total cost can't be empty.");
-        }
-        if (totalCost < 0) {
-            throw new IllegalArgumentException("Total cost can't be negative.");
-        }
-        if(!pickupOrderRepository.existsById(current)){
-            throw new IllegalArgumentException("Pickup order doesn't exist.");
-        }
-        PickupOrder order = getPickupOrder(current);
-        order.setTotalCost(totalCost);
-    }
 
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();

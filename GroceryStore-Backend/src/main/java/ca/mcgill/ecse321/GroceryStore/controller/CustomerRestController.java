@@ -37,6 +37,18 @@ public class CustomerRestController {
         Customer c = convertToDomainObject(eDto);
         return createOrderDtosForCustomer(c);
     }
+    @PutMapping(value = {"/editPassword/{username}"})
+    public CustomerDTO updateCustomerPassword(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException{
+        return convertToDto(service.setPassword(username, password));
+    }
+    @PutMapping(value = {"/editEmail/{username}"})
+    public CustomerDTO updateCustomerEmail(@PathVariable("username") String username, @RequestParam String email) throws IllegalArgumentException{
+        return convertToDto(service.setEmail(username, email));
+    }
+    @PutMapping(value = {"/editAddress/{username}"})
+    public CustomerDTO updateCustomerAddress(@PathVariable("username") String username, @RequestParam String address) throws  IllegalArgumentException{
+        return convertToDto(service.setAddress(username, address));
+    }
 
     private CustomerDTO convertToDto(Customer c) {
         if (c == null) {

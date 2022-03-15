@@ -66,26 +66,19 @@ public class CustomerService {
 
         return customers;
     }
+
     @Transactional
-    public void setUsername(String current, String username){
-        if(username == null || username.equals("") || username.equals(" "))
-            throw new IllegalArgumentException("Username can't be empty.");
-        if(!customerRepository.existsById(current))
-            throw new IllegalArgumentException("Customer does not currently exist in system.");
-        Customer customer = getCustomer(current);
-        customer.setUsername(username);
-    }
-    @Transactional
-    public void setPassword(String current, String password){
+    public Customer setPassword(String current, String password){
         if(password == null || password.equals("") || password.equals(" "))
             throw new IllegalArgumentException("Password can't be empty.");
         if(!customerRepository.existsById(current))
             throw new IllegalArgumentException("Customer does not currently exist in system.");
         Customer customer = getCustomer(current);
         customer.setPassword(password);
+        return customer;
     }
     @Transactional
-    public void setEmail(String current, String email){
+    public Customer setEmail(String current, String email){
         if(email == null || email.equals("") || email.equals(" "))
             throw new IllegalArgumentException("Email can't be empty.");
         if (email.indexOf("@") <= 0 || email.indexOf("@") != email.lastIndexOf("@") ||
@@ -96,15 +89,17 @@ public class CustomerService {
             throw new IllegalArgumentException("Customer does not currently exist in system.");
         Customer customer = getCustomer(current);
         customer.setUsername(email);
+        return customer;
     }
     @Transactional
-    public void setAddress(String current, String address){
+    public Customer setAddress(String current, String address){
         if(address == null || address.equals("") || address.equals(" "))
             throw new IllegalArgumentException("Address can't be empty.");
         if(!customerRepository.existsById(current))
             throw new IllegalArgumentException("Customer does not currently exist in system.");
         Customer customer = getCustomer(current);
         customer.setUsername(address);
+        return customer;
     }
     @Transactional
     public List<Order> getCustomerOrders(String aUsername){
@@ -113,10 +108,11 @@ public class CustomerService {
         return customerRepository.findCustomerByUsername(aUsername).getOrder();
     }
     @Transactional
-    public void setCustomerOrders(String aUsername, List<Order> orders){
+    public Customer setCustomerOrders(String aUsername, List<Order> orders){
         if(!customerRepository.existsById(aUsername))
             throw new IllegalArgumentException("Customer does not currently exist in system.");
         customerRepository.findCustomerByUsername(aUsername).setOrder(orders);
+        return customerRepository.findCustomerByUsername(aUsername);
     }
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();

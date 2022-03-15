@@ -110,70 +110,7 @@ public class TestStoreService {
         assertNull(store);
         assertEquals("Store ID can't be null.", error);
     }
-    @Test
-    public void testUpdateNullStoreID() {
-        assertEquals(0, storeService.getAllStores().size());
-        Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
-        Integer storeID = null;
-        String error = null;
 
-        try {
-            storeService.setStoreID(STORE_ID_KEY, storeID);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNotNull(store.getStoreID());
-        assertEquals("StoreID can't be empty.", error);
-    }
-    @Test
-    public void testUpdateStoreIDZero() {
-        assertEquals(0, storeService.getAllStores().size());
-        Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
-        Integer storeID = 0;
-        String error = null;
-
-        try {
-            storeService.setStoreID(STORE_ID_KEY, storeID);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNotNull(store.getStoreID());
-        assertEquals("StoreID must be greater than 0.", error);
-    }
-    @Test
-    public void testUpdateStoreIDNegative() {
-        assertEquals(0, storeService.getAllStores().size());
-        Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
-        Integer storeID = -10;
-        String error = null;
-
-        try {
-            storeService.setStoreID(STORE_ID_KEY, storeID);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNotNull(store.getStoreID());
-        assertEquals("StoreID must be greater than 0.", error);
-    }
-    @Test
-    public void testUpdateStoreIDWrongID() {
-        assertEquals(0, storeService.getAllStores().size());
-        Integer storeID = 999;
-        String error = null;
-        Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
-        try {
-            storeService.setStoreID(STORE_ID_KEY, 123);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertEquals(store.getStoreID(), STORE_ID_KEY);
-        // check error
-        assertEquals("StoreID doesn't exist.", error);
-    }
 
     @Test
     public void testCreateStoreIDZero() {
@@ -219,7 +156,7 @@ public class TestStoreService {
             error = e.getMessage();
         }
         assertNull(store);
-        assertEquals("Current active delivery can't be null.", error);
+        assertEquals("Active delivery can't be null.", error);
     }
     @Test
     public void testUpdateNullActiveDelivery() {
@@ -237,6 +174,22 @@ public class TestStoreService {
         assertNotNull(store.getCurrentActiveDelivery());
         assertEquals("Active delivery can't be empty.", error);
     }
+    @Test
+    public void testUpdateStoreIDWrongIDforActiveDelivery() {
+        assertEquals(0, storeService.getAllStores().size());
+        //Integer activeDelivery = 999;
+        String error = null;
+        Store store = null;
+        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        try {
+            storeService.setActiveDelivery(435464, 999);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+      //  assertEquals(store.getCurrentActiveDelivery(), CURRENT_ACTIVE_DELIVERY);
+        // check error
+        assertEquals("Store isn't registered in the system.", error);
+    }
     
 
     @Test
@@ -251,7 +204,23 @@ public class TestStoreService {
             error = e.getMessage();
         }
         assertNull(store);
-        assertEquals("Current active delivery can't be negative.", error);
+        assertEquals("Active delivery can't be negative.", error);
+    }
+    @Test
+    public void testUpdateNegativeActiveDelivery() {
+        assertEquals(0, storeService.getAllStores().size());
+        Store store = null;
+        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        Integer activeDelivery = -20;
+        String error = null;
+
+        try {
+            storeService.setActiveDelivery(STORE_ID_KEY, activeDelivery);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(store.getCurrentActiveDelivery());
+        assertEquals("Active delivery can't be negative.", error);
     }
 
     @Test
@@ -266,7 +235,7 @@ public class TestStoreService {
             error = e.getMessage();
         }
         assertNull(store);
-        assertEquals("Current active pickup can't be null.", error);
+        assertEquals("Active pickup can't be null.", error);
     }
 
     @Test
@@ -281,7 +250,132 @@ public class TestStoreService {
             error = e.getMessage();
         }
         assertNull(store);
-        assertEquals("Current active pickup can't be negative.", error);
+        assertEquals("Active pickup can't be negative.", error);
+    }
+    @Test
+    public void testUpdateStoreIDWrongIDforPikcupDelivery() {
+        assertEquals(0, storeService.getAllStores().size());
+        //Integer activeDelivery = 999;
+        String error = null;
+        Store store = null;
+        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        try {
+            storeService.setActivePickup(435464, 999);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        //  assertEquals(store.getCurrentActiveDelivery(), CURRENT_ACTIVE_DELIVERY);
+        // check error
+        assertEquals("Store isn't registered in the system.", error);
+    }
+    @Test
+    public void testNullAddressStore(){
+        String address = null;
+        Store store = null;
+        String error = null;
+
+        try {
+            store = storeService.createStore(STORE_ID_KEY, address, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(store);
+        // check error
+        assertEquals("Address can't be empty.", error);
+    }
+    @Test
+    public void testEmptyAddressStore(){
+        String address = "";
+        Store store = null;
+        String error = null;
+
+        try {
+            store = storeService.createStore(STORE_ID_KEY, address, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(store);
+        // check error
+        assertEquals("Address can't be empty.", error);
+    }
+    @Test
+    public void testEmptySpaceAddressStore(){
+        String address = " ";
+        Store store = null;
+        String error = null;
+
+        try {
+            store = storeService.createStore(STORE_ID_KEY, address, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNull(store);
+        // check error
+        assertEquals("Address can't be empty.", error);
+    }
+    @Test
+    public void testUpdateStoreIDWrongIDforAddress() {
+        assertEquals(0, storeService.getAllStores().size());
+        //Integer activeDelivery = 999;
+        String error = null;
+        Store store = null;
+        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        try {
+            storeService.setAddress(435464, "1234 edward street");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        //  assertEquals(store.getCurrentActiveDelivery(), CURRENT_ACTIVE_DELIVERY);
+        // check error
+        assertEquals("Store isn't registered in the system.", error);
+    }
+    @Test
+    public void testUpdateAddressWithNullAddress() {
+        assertEquals(0, storeService.getAllStores().size());
+        //Integer activeDelivery = 999;
+        String error = null;
+        Store store = null;
+        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        try {
+            storeService.setAddress(STORE_ID_KEY, null);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertEquals(store.getAddress(), ADDRESS);
+        // check error
+        assertEquals("Address can't be empty.", error);
+    }
+    @Test
+    public void testUpdateAddressWithEmptyAddress() {
+        assertEquals(0, storeService.getAllStores().size());
+        //Integer activeDelivery = 999;
+        String error = null;
+        Store store = null;
+        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        try {
+            storeService.setAddress(STORE_ID_KEY, "");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertEquals(store.getAddress(), ADDRESS);
+        // check error
+        assertEquals("Address can't be empty.", error);
+    }
+    @Test
+    public void testUpdateAddressWithEmptySpaceAddress() {
+        assertEquals(0, storeService.getAllStores().size());
+        //Integer activeDelivery = 999;
+        String error = null;
+        Store store = null;
+        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        try {
+            storeService.setAddress(STORE_ID_KEY, " ");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertEquals(store.getAddress(), ADDRESS);
+        // check error
+        assertEquals("Address can't be empty.", error);
     }
     @Test
     public void testGetEmployee(){

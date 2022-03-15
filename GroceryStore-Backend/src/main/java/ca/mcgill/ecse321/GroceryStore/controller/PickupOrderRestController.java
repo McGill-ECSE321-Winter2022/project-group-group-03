@@ -29,6 +29,8 @@ public class PickupOrderRestController {
     public PickupOrderDTO getPickupOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {
         return convertToDto(service.getPickupOrder(confirmationNumber));
     }
+    @PutMapping(value = {"/editPickupOrderTotalCost"})
+
     @DeleteMapping(value = {"/pickupOrder{confirmationNumber}", "/pickupOrder{confirmationNumber}"})
     public void deletePickupOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {
         service.deletePickupOrder(confirmationNumber);
@@ -37,4 +39,6 @@ public class PickupOrderRestController {
         if (aPickupOrder == null) throw new IllegalArgumentException("There is no such Pickup Order!");
         return new PickupOrderDTO(aPickupOrder.getPaymentMethod().name(), aPickupOrder.getPickupStatus().name(), aPickupOrder.getConfirmationNumber(),aPickupOrder.getTotalCost());
     }
+
+
 }
