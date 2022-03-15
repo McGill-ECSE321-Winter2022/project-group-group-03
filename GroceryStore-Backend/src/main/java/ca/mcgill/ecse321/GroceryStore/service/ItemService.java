@@ -114,8 +114,8 @@ public class ItemService {
        if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
        Item item = itemRepository.findByName(name);
        if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
-       if (addedStock == 0) throw new IllegalArgumentException("Stock can't be 0.");
-       if (addedStock < 0) throw new IllegalArgumentException("Stock can't be negative.");
+       if (addedStock == 0) throw new IllegalArgumentException("Added Stock can't be 0.");
+       if (addedStock < 0) throw new IllegalArgumentException("Added Stock can't be negative.");
        item.setStock(item.getStock()+addedStock);
        return item;
    }

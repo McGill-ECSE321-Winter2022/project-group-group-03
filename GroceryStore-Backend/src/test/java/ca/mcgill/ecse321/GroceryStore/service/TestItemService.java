@@ -59,9 +59,7 @@ public class TestItemService {
                 return Boolean.FALSE;
             }
         });
-        Answer<?> returnParameterAnswer = (InvocationOnMock invocation) -> {
-            return invocation.getArgument(0);
-        };
+        Answer<?> returnParameterAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
         lenient().when(itemRepository.save(any(Item.class))).thenAnswer(returnParameterAnswer);
     }
 
@@ -300,11 +298,10 @@ public class TestItemService {
     @Test
     public void testGetAllItems() {
         List<Item> items = new ArrayList<>();
-        Item item = null;
         when(itemRepository.findAll()).thenReturn(items);
 
         try {
-            item = itemService.createItem("OREO",ITEM_PURCHASABLE,VALID_PRICE,ITEM_DESCRIPTION,VALID_STOCK);
+            Item item = itemService.createItem("OREO",ITEM_PURCHASABLE,VALID_PRICE,ITEM_DESCRIPTION,VALID_STOCK);
             items.add(item);
             items = itemService.getAllItems();
         } catch(IllegalArgumentException error) {
@@ -323,6 +320,520 @@ public class TestItemService {
         }
         assertNotNull(item);
         assertEquals(item.getPurchasable(), !ITEM_PURCHASABLE);
+    }
+
+    @Test
+    public void testUpdateItemPurchasableNullName() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemPurchasable(null,!ITEM_PURCHASABLE);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemPurchasableEmptyName() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemPurchasable("",!ITEM_PURCHASABLE);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemPurchasableNonExistentName() {
+        Item item = null;
+        String INVALID_NAME = "OREO";
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemPurchasable(INVALID_NAME,!ITEM_PURCHASABLE);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("The Item with name: " + INVALID_NAME + " was not found in the database.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemPurchasableAlreadyTrue() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemPurchasable(ITEM_KEY,ITEM_PURCHASABLE);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("The Item with name: " + ITEM_KEY + " is already purchasable.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemPurchasableAlreadyFalse() {
+        Item item2 = null;
+        String errorMessage = null;
+        String newItem = "OREO";
+        Item item = itemService.createItem(newItem,!ITEM_PURCHASABLE,30,"Goes better with milk.",30);
+        when(itemRepository.findByName(anyString())).thenReturn(item);
+        try {
+            item2 = itemService.updateItemPurchasable(newItem,!ITEM_PURCHASABLE);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item2);
+        assertEquals("The Item with name: " + newItem + " is already not purchasable.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemDescription() {
+        Item item = null;
+        String newDescription = "Now in multiple flavours";
+        try{
+            item = itemService.updateItemDescription(ITEM_KEY, newDescription);
+        }catch (Exception e){
+            fail();
+        }
+        assertNotNull(item);
+        assertEquals(item.getDescription(), newDescription);
+    }
+
+    @Test
+    public void testUpdateItemDescriptionNullName() {
+        Item item = null;
+        String errorMessage = null;
+        String newDescription = "Now in multiple flavours";
+        try {
+            item = itemService.updateItemDescription(null,newDescription);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemDescriptionEmptyName() {
+        Item item = null;
+        String errorMessage = null;
+        String newDescription = "Now in multiple flavours";
+        try {
+            item = itemService.updateItemDescription("",newDescription);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemDescriptionNonExistentName() {
+        Item item = null;
+        String INVALID_NAME = "OREO";
+        String newDescription = "Now in multiple flavours";
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemDescription(INVALID_NAME,newDescription);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("The Item with name: " + INVALID_NAME + " was not found in the database.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemDescriptionNullDescription() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemDescription(ITEM_KEY,null);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A Description parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemDescriptionEmptyDescription() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemDescription(ITEM_KEY,"");
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A Description parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemTotalPurchased() {
+        Item item = null;
+        int newTotalPurchased = 5;
+        try{
+            item = itemService.updateItemTotalPurchased(ITEM_KEY, newTotalPurchased);
+        }catch (Exception e){
+            fail();
+        }
+        assertNotNull(item);
+        assertEquals(item.getTotalPurchased(), newTotalPurchased);
+        assertEquals(item.getStock(),VALID_STOCK-newTotalPurchased);
+    }
+
+    @Test
+    public void testUpdateItemTotalPurchasedNullName() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemTotalPurchased(null,5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemTotalPurchasedEmptyName() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemTotalPurchased("",5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemTotalPurchasedNonExistentName() {
+        Item item = null;
+        String INVALID_NAME = "OREO";
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemTotalPurchased(INVALID_NAME,5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("The Item with name: " + INVALID_NAME + " was not found in the database.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateTotalPurchasedZero() {
+        assertEquals(0,itemService.getAllItems().size());
+        String errorMessage = null;
+        Item item = null;
+        try {
+            item = itemService.updateItemTotalPurchased(ITEM_KEY,0);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNull(item);
+        assertEquals("Total Purchased can't be 0.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateTotalPurchasedNegative() {
+        assertEquals(0,itemService.getAllItems().size());
+        String errorMessage = null;
+        Item item = null;
+        try {
+            item = itemService.updateItemTotalPurchased(ITEM_KEY,-1);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNull(item);
+        assertEquals("Total Purchased can't be negative.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemStock() {
+        Item item = null;
+        int newStock = 5;
+        try{
+            item = itemService.updateItemStock(ITEM_KEY, newStock);
+        }catch (Exception e){
+            fail();
+        }
+        assertNotNull(item);
+        assertEquals(item.getStock(), newStock);
+    }
+
+    @Test
+    public void testUpdateItemStockNullName() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemStock(null,5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemStockEmptyName() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemStock("",5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemStockNonExistentName() {
+        Item item = null;
+        String INVALID_NAME = "OREO";
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemStock(INVALID_NAME,5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("The Item with name: " + INVALID_NAME + " was not found in the database.",errorMessage);
+    }
+
+    @Test
+        public void testUpdateStockZero() {
+        assertEquals(0,itemService.getAllItems().size());
+        String errorMessage = null;
+        Item item = null;
+        try {
+            item = itemService.updateItemStock(ITEM_KEY,0);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNull(item);
+        assertEquals("Stock can't be 0.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateStockNegative() {
+        assertEquals(0,itemService.getAllItems().size());
+        String errorMessage = null;
+        Item item = null;
+        try {
+            item = itemService.updateItemStock(ITEM_KEY,-1);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNull(item);
+        assertEquals("Stock can't be negative.",errorMessage);
+    }
+
+    @Test
+    public void testAddItemStock() {
+        Item item = null;
+        int newStock = 5;
+        try{
+            item = itemService.addItemStock(ITEM_KEY, newStock);
+        }catch (Exception e){
+            fail();
+        }
+        assertNotNull(item);
+        assertEquals(item.getStock(), VALID_STOCK+newStock);
+    }
+
+    @Test
+    public void testAddItemStockNullName() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.addItemStock(null,5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testAddItemStockEmptyName() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.addItemStock("",5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testAddItemStockNonExistentName() {
+        Item item = null;
+        String INVALID_NAME = "OREO";
+        String errorMessage = null;
+        try {
+            item = itemService.addItemStock(INVALID_NAME,5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("The Item with name: " + INVALID_NAME + " was not found in the database.",errorMessage);
+    }
+
+    @Test
+    public void testAddStockZero() {
+        assertEquals(0,itemService.getAllItems().size());
+        String errorMessage = null;
+        Item item = null;
+        try {
+            item = itemService.addItemStock(ITEM_KEY,0);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNull(item);
+        assertEquals("Added Stock can't be 0.",errorMessage);
+    }
+
+    @Test
+    public void testAddStockNegative() {
+        assertEquals(0,itemService.getAllItems().size());
+        String errorMessage = null;
+        Item item = null;
+        try {
+            item = itemService.addItemStock(ITEM_KEY,-1);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNull(item);
+        assertEquals("Added Stock can't be negative.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemPrice() {
+        Item item = null;
+        int newPrice = 5;
+        try{
+            item = itemService.updateItemPrice(ITEM_KEY, newPrice);
+        }catch (Exception e){
+            fail();
+        }
+        assertNotNull(item);
+        assertEquals(item.getPrice(), newPrice);
+    }
+
+    @Test
+    public void testUpdateItemPriceNullName() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemPrice(null,5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemPriceEmptyName() {
+        Item item = null;
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemPrice("",5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("A name parameter is needed.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemPriceNonExistentName() {
+        Item item = null;
+        String INVALID_NAME = "OREO";
+        String errorMessage = null;
+        try {
+            item = itemService.updateItemPrice(INVALID_NAME,5);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+        assertNull(item);
+        assertEquals("The Item with name: " + INVALID_NAME + " was not found in the database.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemPriceZero() {
+        assertEquals(0,itemService.getAllItems().size());
+        String errorMessage = null;
+        Item item = null;
+        try {
+            item = itemService.updateItemPrice(ITEM_KEY,0);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNull(item);
+        assertEquals("Price can't be 0.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateItemPriceNegative() {
+        assertEquals(0,itemService.getAllItems().size());
+        String errorMessage = null;
+        Item item = null;
+        try {
+            item = itemService.updateItemPrice(ITEM_KEY,-1);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNull(item);
+        assertEquals("Price can't be negative.",errorMessage);
     }
 
     @Test
