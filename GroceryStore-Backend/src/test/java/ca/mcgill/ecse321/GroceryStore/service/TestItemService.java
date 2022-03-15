@@ -348,7 +348,7 @@ public class TestItemService {
     }
 
     @Test
-    public void testDeletenNonExistentItem() {
+    public void testDeleteNonExistentItem() {
         String errorMessage = null;
         String nonExistentName = "OREO";
         try {
