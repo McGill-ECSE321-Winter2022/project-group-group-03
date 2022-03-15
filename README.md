@@ -51,3 +51,5 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 |Sébastien Cantin|<ul><li>Designed most of the UML class diagram and UML state diagram<li>Wrote the rationale for the UML class diagram<li>Setup the Heroku database<li>Setup JPA tags<li>Helped debugging during testing of persistence layer<li>Setup initial issue on GitHub project view<li>Participated in formulating 15 most important functional and non-functional requirements<li>Started the initial use case diagram<li>Cleaned up umple generated code</ul>| 38|
 
 The deliverable 1 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-1-Report)
+
+The deliverable 2 report can be found [here]()
