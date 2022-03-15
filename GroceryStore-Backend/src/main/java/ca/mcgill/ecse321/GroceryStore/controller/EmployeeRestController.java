@@ -61,7 +61,7 @@ public class EmployeeRestController {
         return convertToDto(service.updateEmployeePassword(username, password));
     }
 
-    @PutMapping(value = { "/update_employee", "/update_employee/"})
+    @PutMapping(value = { "/update_employee_address", "/update_employee_address/"})
     public EmployeeDTO updateEmployeeAddress(@RequestParam String username,  @RequestParam String address){
         return convertToDto(service.updateEmployeeAddress(username, address));
     }
