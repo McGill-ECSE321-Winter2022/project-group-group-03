@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.GroceryStore.service;
 import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Customer;
 import ca.mcgill.ecse321.GroceryStore.model.Order;
+import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +65,26 @@ public class CustomerService {
         }
 
         return customers;
+    }
+    @Transactional
+    public void setUsername(String current, String username){
+        Customer customer = getCustomer(current);
+        customer.setUsername(username);
+    }
+    @Transactional
+    public void setPassword(String current, String password){
+        Customer customer = getCustomer(current);
+        customer.setUsername(password);
+    }
+    @Transactional
+    public void setEmail(String current, String email){
+        Customer customer = getCustomer(current);
+        customer.setUsername(email);
+    }
+    @Transactional
+    public void setAddress(String current, String address){
+        Customer customer = getCustomer(current);
+        customer.setUsername(address);
     }
     @Transactional
     public List<Order> getCustomerOrders(String aUsername){
