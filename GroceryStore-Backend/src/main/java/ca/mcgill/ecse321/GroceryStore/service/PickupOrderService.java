@@ -90,6 +90,21 @@ public class PickupOrderService {
 
         pickupOrderRepository.deleteById(confirmationNumber);
     }
+    @Transactional
+    public void setConfirmationNumber(Integer current, Integer confirmationNumber){
+        if (confirmationNumber == null) {
+            throw new IllegalArgumentException("Confirmation number can't be empty.");
+        }
+        if (confirmationNumber <= 0) {
+            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
+        }
+        if(!pickupOrderRepository.existsById(confirmationNumber)){
+            throw new IllegalArgumentException("Pickup order doesn't exist.");
+        }
+        PickupOrder order = getPickupOrder(current);
+        order.setConfirmationNumber(confirmationNumber);
+    }
+
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();
         for (T t: iterable){

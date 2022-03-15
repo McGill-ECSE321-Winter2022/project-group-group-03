@@ -111,6 +111,22 @@ public class TestPickupOrderService {
         assertNull(pickupOrder);
         assertEquals("Confirmation number can't be empty.", error);
     }
+    @Test
+    public void testUpdatePickupOrderNullConfirmationNumber() {
+        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
+        PickupOrder pickupOrder = null;
+        pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
+        Integer confirmationNumber = null;
+        String error = null;
+
+        try {
+            pickupOrderService.setConfirmationNumber(CONFIRMATION_NUMBER_KEY, confirmationNumber);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(pickupOrder.getConfirmationNumber());
+        assertEquals("Confirmation number can't be empty.", error);
+    }
 
     @Test
     public void testCreatePickupOrderConfirmationNumberZero() {
@@ -128,6 +144,22 @@ public class TestPickupOrderService {
         assertEquals("Confirmation number must be greater than 0.", error);
 
     }
+    @Test
+    public void testUpdatePickupOrderConfirmationNumberZero() {
+        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
+        PickupOrder pickupOrder = null;
+        pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
+        Integer confirmationNumber = 0;
+        String error = null;
+
+        try {
+            pickupOrderService.setConfirmationNumber(CONFIRMATION_NUMBER_KEY, confirmationNumber);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(pickupOrder.getConfirmationNumber());
+        assertEquals("Confirmation number must be greater than 0.", error);
+    }
 
     @Test
     public void testCreatePickupOrderConfirmationNumberNegative() {
@@ -142,6 +174,23 @@ public class TestPickupOrderService {
         }
         assertNull(pickupOrder);
         // check error
+        assertEquals("Confirmation number must be greater than 0.", error);
+    }
+
+    @Test
+    public void testUpdatePickupOrderConfirmationNumberNegative() {
+        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
+        PickupOrder pickupOrder = null;
+        pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
+        Integer confirmationNumber = -10;
+        String error = null;
+
+        try {
+            pickupOrderService.setConfirmationNumber(CONFIRMATION_NUMBER_KEY, confirmationNumber);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        assertNotNull(pickupOrder.getConfirmationNumber());
         assertEquals("Confirmation number must be greater than 0.", error);
     }
 
