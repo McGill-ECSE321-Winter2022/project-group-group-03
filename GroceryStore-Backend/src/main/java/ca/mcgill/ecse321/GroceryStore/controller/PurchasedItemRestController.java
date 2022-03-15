@@ -31,7 +31,7 @@ public class PurchasedItemRestController {
         return convertToDto(purchasedItem);
     }
 
-    @PutMapping(value = { "/edit_purchasedItem/{id}"})
+    @PutMapping(value = { "/edit_purchasedItem/{id}","/edit_purchasedItem/{id}/"})
     public PurchasedItemDTO updatePurchasedItem(@PathVariable("id") int purchasedItemID, @RequestParam int itemQuantity)
             throws IllegalArgumentException {
         PurchasedItem purchasedItem = purchasedItemService.updatePurchasedItemQuantity(itemQuantity, purchasedItemID);
