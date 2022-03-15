@@ -236,7 +236,7 @@ public class TestPickupOrderService {
         PickupOrder pickupOrder = null;
         pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
         try {
-            pickupOrderService.setTotalCost(TOTAL_COST, totalCost);
+            pickupOrderService.setTotalCost(CONFIRMATION_NUMBER_KEY, totalCost);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
