@@ -230,14 +230,14 @@ public class TestStoreService {
         String error = null;
 
         try {
-            storeService.setActiveDelivery(CURRENT_ACTIVE_DELIVERY, activeDelivery);
+            storeService.setActiveDelivery(STORE_ID_KEY, activeDelivery);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNotNull(store.getCurrentActiveDelivery());
         assertEquals("Active delivery can't be empty.", error);
     }
-
+    
 
     @Test
     public void testStoreCurrentActiveDeliveryNegative(){
