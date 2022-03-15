@@ -385,8 +385,8 @@ public class TestStoreService {
         List<Employee> employeeList = new ArrayList<>();
 
         try{
-            employee1 = employeeService.createEmployee("emp1@gmail.com", "name1", "1234", "add1");
-            employee2 = employeeService.createEmployee("emp2@gmail.com", "name2", "12345", "add2");
+            employee1 = employeeService.createEmployee("Joe", "emp1@gmail.com", "1234", "add1");
+            employee2 = employeeService.createEmployee("Monco", "emp2@gmail.com", "12345", "add2");
             store.setEmployee(Arrays.asList(employee1,employee2));
             //test stub
             when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
