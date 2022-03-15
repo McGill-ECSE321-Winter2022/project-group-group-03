@@ -34,6 +34,11 @@ public class OwnerRestController {
         return createStoreDtoOfOwner(convertToDomainObject(getOwner(username)));
     }
 
+    @PutMapping(value = {"/update_owner", "/update_owner/"})
+    public OwnerDTO updateOwner(@RequestParam String username, @RequestParam String password){
+        return convertToDto(service.updateOwner(username, password));
+    }
+
     @DeleteMapping(value = {"/owner", "/owner/"})
     public void deleteOwner(String username) {service.deleteOwner(username);}
 

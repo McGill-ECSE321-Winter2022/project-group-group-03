@@ -51,6 +51,21 @@ public class EmployeeRestController {
         return createOrderDtosForEmployee(convertToDomainObject(getEmployeeByUsername(username)));
     }
 
+    @PutMapping(value = { "/update_employee", "/update_employee/"})
+    public EmployeeDTO updateEmployee(@RequestParam String username, @RequestParam String password, @RequestParam String address) throws IllegalArgumentException{
+        return convertToDto(service.updateEmployee(username, password, address));
+    }
+
+    @PutMapping(value = { "/update_employee_password", "/update_employee_password/"})
+    public EmployeeDTO updateEmployeePassword(@RequestParam String username, @RequestParam String password){
+        return convertToDto(service.updateEmployeePassword(username, password));
+    }
+
+    @PutMapping(value = { "/update_employee", "/update_employee/"})
+    public EmployeeDTO updateEmployeeAddress(@RequestParam String username,  @RequestParam String address){
+        return convertToDto(service.updateEmployeeAddress(username, address));
+    }
+
     @DeleteMapping(value = {"/employee", "/employee/"})
     public void deleteEmployee(@RequestParam String username){
         service.deleteOwner(username);
