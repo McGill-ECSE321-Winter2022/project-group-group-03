@@ -31,6 +31,8 @@ public class EmployeeService {
         if (aPassword==null || aPassword.equals("")) throw new IllegalArgumentException("Password can't be empty.");
         if (aAddress==null || aAddress.equals("")) throw new IllegalArgumentException("Address can't be empty.");
 
+        System.out.println(aEmail);
+        System.out.println((aEmail.indexOf("@") <= 0) +"\n"+ (aEmail.indexOf("@") != aEmail.lastIndexOf("@"))+"\n"+(aEmail.indexOf("@") >= aEmail.lastIndexOf(".") - 1)+ "\n" + (aEmail.lastIndexOf(".") >= aEmail.length() - 1));
         if (aEmail.indexOf("@") <= 0 ||
                 aEmail.indexOf("@") != aEmail.lastIndexOf("@") ||
                 aEmail.indexOf("@") >= aEmail.lastIndexOf(".") - 1 ||

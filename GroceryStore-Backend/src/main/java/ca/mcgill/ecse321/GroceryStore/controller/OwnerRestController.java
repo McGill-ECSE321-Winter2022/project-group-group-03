@@ -46,7 +46,7 @@ public class OwnerRestController {
         if (o == null) {
             throw new IllegalArgumentException("There is no such Owner!");
         }
-        OwnerDTO oDTO = new OwnerDTO(o.getUsername(), o.getEmail(), o.getPassword());
+        OwnerDTO oDTO = new OwnerDTO(o.getUsername(), o.getPassword(), o.getEmail());
         oDTO.setStore(convertToDto(o.getStore()));
         return oDTO;
     }

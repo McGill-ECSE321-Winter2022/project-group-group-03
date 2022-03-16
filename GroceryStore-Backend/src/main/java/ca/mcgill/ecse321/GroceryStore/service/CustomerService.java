@@ -88,7 +88,7 @@ public class CustomerService {
         if(!customerRepository.existsById(current))
             throw new IllegalArgumentException("Customer does not currently exist in system.");
         Customer customer = getCustomer(current);
-        customer.setUsername(email);
+        customer.setEmail(email);
         return customer;
     }
     @Transactional
@@ -98,7 +98,7 @@ public class CustomerService {
         if(!customerRepository.existsById(current))
             throw new IllegalArgumentException("Customer does not currently exist in system.");
         Customer customer = getCustomer(current);
-        customer.setUsername(address);
+        customer.setAddress(address);
         return customer;
     }
     @Transactional

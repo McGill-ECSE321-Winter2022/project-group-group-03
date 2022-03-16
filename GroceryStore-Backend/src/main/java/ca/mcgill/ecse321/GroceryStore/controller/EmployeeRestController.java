@@ -29,7 +29,7 @@ public class EmployeeRestController {
 
     @PostMapping(value = { "/employee", "/employee/" })
     public EmployeeDTO createEmployee(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
-        Employee employee = service.createEmployee(username, password, email, address);
+        Employee employee = service.createEmployee(username, email, password, address);
         return convertToDto(employee);
     }
 
