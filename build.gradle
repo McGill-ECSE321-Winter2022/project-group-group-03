@@ -1,13 +1,94 @@
 task stage () {
     dependsOn ':GroceryStore-Backend:assemble'
 }
-task integrationTest(){
-    integrationTest.greet();
-}
+task integrationTest(type:Exec) {
+    ArrayList<String> posts = new ArrayList<>();
+    ArrayList<String> gets = new ArrayList<>();
+    ArrayList<String> puts = new ArrayList<>();
+    ArrayList<String> deletes = new ArrayList<>();
 
-abstract class integrationTest extends DefaultTask {
-    @TaskAction
-    public static void greet() {
-        java.lang.System.out.println('hello from GreetingTask');
+    posts.add("http://localhost:8080/holiday?name=Easter&startDate=2021-08-09&endDate=2021-08-10");
+    posts.add("http://localhost:8080/workShift?aStartTime=02:30&aEndTime=03:30&aDay=Monday");
+    posts.add("http://localhost:8080/employee?username=Jeet&email=jeetjeet@mail.com&password=1aq2w3&address=69420 jeet street");
+    posts.add("http://localhost:8080/businessHour?startTime=02:35:00&endTime=04:24:00&day=Sunday");
+    posts.add("http://localhost:8080/item?itemName=coke&purchasable=true&price=30&description=2&stock=1000000");
+    posts.add("http://localhost:8080/purchased_item?item=coke&aItemQuantity=2");
+    posts.add("http://localhost:8080/store/1?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3");
+    posts.add("http://localhost:8080/owner?username=owner&email=owner@mail.ca&password=j84gf9");
+    posts.add("http://localhost:8080/pickupOrder?paymentMethod=Cash&pickupStatus=Ordered&confirmationNumber=30000&totalCost=12");
+    posts.add("http://localhost:8080/deliveryOrder/?shippingAddress=sherbrooke&shippingStatus=Ordered&confirmationNumber=20000&totalCost=32&isOutOfTown=false");
+    posts.add("http://localhost:8080/customer/Seb?password=jeetisnice&email=Lmao@mmks.ca&address=Bobsville");
+
+    gets.add("http://localhost:8080/owner?username=owner");
+    gets.add("http://localhost:8080/owners");
+    gets.add("http://localhost:8080/holiday/Easter");
+    gets.add("http://localhost:8080/holiday");
+    gets.add("http://localhost:8080/purchased_item");
+    gets.add("http://localhost:8080/purchased_item/90000");
+    gets.add("http://localhost:8080/workShift/50000");
+    gets.add("http://localhost:8080/workShift");
+    gets.add("http://localhost:8080/employee?username=Jeet");
+    gets.add("http://localhost:8080/all_employees");
+    gets.add("http://localhost:8080/item");
+    gets.add("http://localhost:8080/item/coke");
+    gets.add("http://localhost:8080/businessHour/10000/");
+    gets.add("http://localhost:8080/businessHour");
+    gets.add("http://localhost:8080/customer/?username=Seb");
+    gets.add("http://localhost:8080/customer/");
+    gets.add("http://localhost:8080/store");
+    gets.add("http://localhost:8080/store?storeID=1");
+    gets.add("http://localhost:8080/employee/store/1");
+    gets.add("http://localhost:8080/item/store/1");
+    gets.add("http://localhost:8080/holiday/store/1");
+    gets.add("http://localhost:8080/business_hour/store/1");
+
+
+    puts.add("http://localhost:8080/edit_purchasedItem/90000?itemQuantity=30");
+    puts.add("http://localhost:8080/edit_workShift_startTime/50000?startTime=01:25");
+    puts.add("http://localhost:8080/edit_workShift_endTime/50000?endTime=08:20");
+    puts.add("http://localhost:8080/edit_holiday_startDate/Easter?startDate=2021-08-08");
+    puts.add("http://localhost:8080/edit_holiday_endDate/Easter?endDate=2021-08-11");
+    puts.add("http://localhost:8080/update_owner?username=owner&password=newPassword");
+    puts.add("http://localhost:8080/update_employee?username=Jeet&password=newPass1&address=newAddr1");
+    puts.add("http://localhost:8080/update_employee_password?username=Jeet&password=newPass2");
+    puts.add("http://localhost:8080/update_employee_address?username=Jeet&address=newAddr2");
+    puts.add("http://localhost:8080/fire_employee?username=Jeet");
+    puts.add("http://localhost:8080/editPassword/Seb?password=newPassword");
+    puts.add("http://localhost:8080/editEmail/Seb?email=customer@mail.ca");
+    puts.add("http://localhost:8080/editAddress/Seb?address=newAddress");
+    puts.add("http://localhost:8080/editStoreActiveDelivery/1?newCurrentActiveDelivery=1");
+    puts.add("http://localhost:8080/editStoreActivePickup/1?newCurrentActivePickup=5");
+    puts.add("http://localhost:8080/editStoreAddress/1?address=newAddress");
+    puts.add("http://localhost:8080/editDeliveryOrderShippingAddress/20000/?newAddress=newAddress");
+    puts.add("http://localhost:8080/editItemPurchasable/coke?newPurchasable=false");
+    puts.add("http://localhost:8080/editItemPrice/coke?newPrice=15");
+    puts.add("http://localhost:8080/addItemStock/coke?addedStock=5");
+    puts.add("http://localhost:8080/editItemDescription/coke?newDescription=Better than Pepsi");
+    puts.add("http://localhost:8080/editItemStock/coke?newStock=21");
+    puts.add("http://localhost:8080/editItemTotalPurchased/coke?newTotalPurchased=29");
+    puts.add("http://localhost:8080/editBusinessHourStartTime/10001?startTime=03:00:00");
+    puts.add("http://localhost:8080/editBusinessHourEndTime/10001?endTime=05:00:00");
+    puts.add("http://localhost:8080/editBusinessHour/10001?startTime=02:00:00&endTime=04:00:00");
+
+
+    deletes.add("http://localhost:8080/purchased_item/90000");
+    deletes.add("http://localhost:8080/workShift/50000?");
+    deletes.add("http://localhost:8080/holiday/Easter");
+    deletes.add("http://localhost:8080/businessHour/10000");
+    deletes.add("http://localhost:8080/owner?username=owner");
+    deletes.add("http://localhost:8080/deliveryOrder/20000");
+    deletes.add("http://localhost:8080/pickupOrder/30000");
+
+    commandLine 'curl', 'http://localhost:8080'
+    //commandLine 'cmd', '/c', 'stop.bat'
+    //commandLine "gradle -tasks";
+    //ArrayList<String> gets2 = new ArrayList<>();
+    String curl = "curl"
+    for (String s : gets) {
+        //String st = curl +"  '" + s+"'" ;
+        //gets2.add(st);
+        System.out.println("hi");
+        commandLine curl, s
     }
+    //commandLine(gets2);
 }
