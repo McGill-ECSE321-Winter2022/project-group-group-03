@@ -50,7 +50,7 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 |Rooshnie Velautham|<ul><li>Helped to design the UML class diagram and UML state diagram<li>Setup the initial JPA tags<li>Helped debug JPA tags errors<li>Completed use-case diagram<li>Project wiki and deliverable 1 report in the correct format<li>Added all the functional and non-functional requirements as issues<li>Distributed all the issues to members of the group<li>Assure that that the backlog is up-to-date<li>Helped debug errors during testing of persistence layer<li>Participated in formulating 15 most important functional and non-functional requirements<li>Completed use case scenario specification for a user creating an account<li>Helped clean up umple generated code<li>Wrote testing documentation on wiki and README.md<li>Made sure that everything from the correcting scheme is done neatly</ul>| 29|
 |Sébastien Cantin|<ul><li>Designed most of the UML class diagram and UML state diagram<li>Wrote the rationale for the UML class diagram<li>Setup the Heroku database<li>Setup JPA tags<li>Helped debugging during testing of persistence layer<li>Setup initial issue on GitHub project view<li>Participated in formulating 15 most important functional and non-functional requirements<li>Started the initial use case diagram<li>Cleaned up umple generated code</ul>| 38|
 
-The deliverable 1 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-1-Report)
+### The deliverable 1 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-1-Report)
 
 ## Deliverable 2 
 
@@ -65,4 +65,4 @@ The deliverable 1 report can be found [here](https://github.com/McGill-ECSE321-W
 |Sébastien Cantin|<ul><li>Continuously updated project README.md<li>Helped other team members write unit tests for the service layer<li>Helped debug errors during testing of service layer<li>Helped update unit tests for the persistence layer<li>Helped debug errors during testing of persistence layer<li>Updated model classes in accordance with the service methods<li>Wrote the DTO classes for `Owner` and `Employee` <li>Wrote the service classes for `Owner` and `Employee`<li>Wrote the REST controller classes for `Owner` and `Employee`<li>Wrote the `TestService` classes for `Owner` and `Employee`<li>Assured checklist from deliverable instructions have been met<li>Assured backlog is being maintained<li>Fixed `application.properties`<li>Wrote `application-prod.properties`<li>Wrote `application-test.properties`<li>Added Gradle task for running integration tests<li>Ran Integration tests on Postman</ul>| 66|
 
 
-The deliverable 2 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-2-Report)
+### The deliverable 2 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-2-Report)
