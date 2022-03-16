@@ -1,14 +1,13 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
+import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.OwnerRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.WorkShiftRepository;
 import ca.mcgill.ecse321.GroceryStore.dto.EmployeeDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.WorkShiftDTO;
-import ca.mcgill.ecse321.GroceryStore.model.Employee;
+import ca.mcgill.ecse321.GroceryStore.model.*;
 
-import ca.mcgill.ecse321.GroceryStore.model.Order;
-import ca.mcgill.ecse321.GroceryStore.model.Owner;
-import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +21,12 @@ import java.util.List;
 public class EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    OwnerRepository ownerRepository;
 
     @Transactional
     public Employee createEmployee(String aUsername, String aEmail, String aPassword, String aAddress){
@@ -39,6 +44,14 @@ public class EmployeeService {
         for (Employee employee : employeeRepository.findAll()){
             if (employee.getUsername().equals(aUsername)) throw new IllegalArgumentException("An identical employee already exists.");
             if (employee.getEmail().equals(aEmail)) throw new IllegalArgumentException("An identical employee already exists.");
+        }
+        for (Customer customer : customerRepository.findAll()){
+            if (customer.getUsername().equals(aUsername)) throw new IllegalArgumentException("A customer already has this username");
+            if (customer.getEmail().equals(aEmail)) throw new IllegalArgumentException("A customer already has this email");
+        }
+        for (Customer customer : customerRepository.findAll()){
+            if (customer.getUsername().equals(aUsername)) throw new IllegalArgumentException("An owner already has this username");
+            if (customer.getEmail().equals(aEmail)) throw new IllegalArgumentException("An owner already has this email");
         }
 
         Employee newEmployee = new Employee();
@@ -58,6 +71,13 @@ public class EmployeeService {
             if (employee.getUsername().equals(aUsername)) return employee;
         }
         throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
+    }
+
+    @Transactional
+    public Employee loginEmployee(String username, String password){
+        Employee employee = getEmployee(username);
+        if (employee.getPassword().equals(password)) return employee;
+        throw new IllegalArgumentException("Wrong password was given for username: " + username);
     }
 
     @Transactional

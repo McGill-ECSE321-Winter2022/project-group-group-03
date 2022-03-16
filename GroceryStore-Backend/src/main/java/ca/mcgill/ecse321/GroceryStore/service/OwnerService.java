@@ -1,7 +1,11 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
+import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.OwnerRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.StoreRepository;
+import ca.mcgill.ecse321.GroceryStore.model.Customer;
+import ca.mcgill.ecse321.GroceryStore.model.Employee;
 import ca.mcgill.ecse321.GroceryStore.model.Owner;
 import ca.mcgill.ecse321.GroceryStore.model.Store;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,10 @@ public class OwnerService {
     OwnerRepository ownerRepository;
     @Autowired
     StoreRepository storeRepository;
+    @Autowired
+    CustomerRepository customerRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @Transactional
     public Owner createOwner(String aUsername, String aEmail, String aPassword){
@@ -33,6 +41,14 @@ public class OwnerService {
         for (Owner owner : ownerRepository.findAll()){
             if (owner.getUsername().equals(aUsername)) throw new IllegalArgumentException("An identical owner already exists.");
             if (owner.getEmail().equals(aEmail)) throw new IllegalArgumentException("An identical owner already exists.");
+        }
+        for (Customer customer : customerRepository.findAll()){
+            if (customer.getUsername().equals(aUsername)) throw new IllegalArgumentException("A customer already has this username");
+            if (customer.getEmail().equals(aEmail)) throw new IllegalArgumentException("A customer already has this email");
+        }
+        for (Employee employee : employeeRepository.findAll()){
+            if (employee.getUsername().equals(aUsername)) throw new IllegalArgumentException("A customer already has this username");
+            if (employee.getEmail().equals(aEmail)) throw new IllegalArgumentException("A customer already has this email");
         }
 
         Owner newOwner = new Owner();
@@ -65,6 +81,13 @@ public class OwnerService {
         List<Owner> owners = new ArrayList<>();
         for(Owner o: ownerRepository.findAll()) owners.add(o);
         return owners;
+    }
+
+    @Transactional
+    public Owner loginOwner(String username, String password){
+        Owner owner = getOwner(username);
+        if (owner.getPassword().equals(password)) return owner;
+        throw new IllegalArgumentException("Wrong password was given for username: " + username);
     }
 
     @Transactional
