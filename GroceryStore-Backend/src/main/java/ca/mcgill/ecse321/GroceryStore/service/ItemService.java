@@ -93,6 +93,8 @@ public class ItemService {
         if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
         if (newTotalPurchased == 0) throw new IllegalArgumentException("Total Purchased can't be 0.");
         if (newTotalPurchased < 0) throw new IllegalArgumentException("Total Purchased can't be negative.");
+        if (item.getStock() == 0) throw new IllegalArgumentException("There are no " + name + "s available currently.");
+        if (item.getStock() < newTotalPurchased) throw new IllegalArgumentException("There are only " + item.getStock() + " " + name + "s available currently.");
         item.setTotalPurchased(newTotalPurchased);
         item.setStock(item.getStock()-newTotalPurchased);
         return item;
@@ -103,7 +105,6 @@ public class ItemService {
        if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
        Item item = itemRepository.findByName(name);
        if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
-       if (newStock == 0) throw new IllegalArgumentException("Stock can't be 0.");
        if (newStock < 0) throw new IllegalArgumentException("Stock can't be negative.");
        item.setStock(newStock);
        return item;

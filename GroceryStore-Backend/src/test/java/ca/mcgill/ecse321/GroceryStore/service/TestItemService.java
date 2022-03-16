@@ -556,6 +556,8 @@ public class TestItemService {
         assertEquals("Total Purchased can't be 0.",errorMessage);
     }
 
+
+
     @Test
     public void testUpdateTotalPurchasedNegative() {
         assertEquals(0,itemService.getAllItems().size());
@@ -570,6 +572,43 @@ public class TestItemService {
 
         assertNull(item);
         assertEquals("Total Purchased can't be negative.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateTotalPurchasedWhenStockZero() {
+        assertEquals(0,itemService.getAllItems().size());
+        String errorMessage = null;
+        Item item;
+        item = itemService.updateItemStock(ITEM_KEY,0);
+        try {
+            when(itemRepository.findByName(anyString())).thenReturn(item);
+            item = itemService.updateItemTotalPurchased(ITEM_KEY,2);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNotNull(item);
+        assertEquals(0,item.getStock());
+        assertEquals("There are no " + ITEM_KEY + "s available currently.",errorMessage);
+    }
+
+    @Test
+    public void testUpdateTotalPurchasedWhenStockNotEnough() {
+        assertEquals(0,itemService.getAllItems().size());
+        String errorMessage = null;
+        Item item = itemService.getItem(ITEM_KEY);
+        Item nullItem = null;
+        try {
+            nullItem = itemService.updateItemTotalPurchased(ITEM_KEY,14);
+        }
+        catch(IllegalArgumentException error) {
+            errorMessage = error.getMessage();
+        }
+
+        assertNull(nullItem);
+        assertEquals("There are only " + item.getStock() + " " + ITEM_KEY + "s available currently.",errorMessage);
+
     }
 
     @Test
@@ -626,22 +665,6 @@ public class TestItemService {
         }
         assertNull(item);
         assertEquals("The Item with name: " + INVALID_NAME + " was not found in the database.",errorMessage);
-    }
-
-    @Test
-        public void testUpdateStockZero() {
-        assertEquals(0,itemService.getAllItems().size());
-        String errorMessage = null;
-        Item item = null;
-        try {
-            item = itemService.updateItemStock(ITEM_KEY,0);
-        }
-        catch(IllegalArgumentException error) {
-            errorMessage = error.getMessage();
-        }
-
-        assertNull(item);
-        assertEquals("Stock can't be 0.",errorMessage);
     }
 
     @Test
