@@ -1,15 +1,15 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
-import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
-import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
-import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
-import ca.mcgill.ecse321.GroceryStore.dao.WorkShiftRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.*;
 import ca.mcgill.ecse321.GroceryStore.model.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -32,6 +32,10 @@ public class TestEmployeeService {
     private String EMPLOYEE_PASSWORD = "TEST_PASSWORD";
     private String EMPLOYEE_ADDRESS = "TEST_ADDRESS";
 
+    private String OWNER_USERNAME = "testOwner";
+    private String OWNER_EMAIL = "owner@mail.ca";
+    private String OWNER_PASSWORD = "testPass";
+
     @Mock
     private EmployeeRepository employeeRepository;
 
@@ -43,6 +47,10 @@ public class TestEmployeeService {
 
     @Mock
     private PickupOrderRepository pickupOrderRepository;
+    @Mock
+    private OwnerRepository ownerRepository;
+    @Mock
+    private CustomerRepository customerRepository;
 
     @InjectMocks
     private EmployeeService employeeService;
@@ -55,6 +63,27 @@ public class TestEmployeeService {
 
     @InjectMocks
     private PickupOrderService pickupOrderService;
+
+    @BeforeEach
+    public void setMockOutput() {
+
+        lenient().when(customerRepository.existsById(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(OWNER_USERNAME)){
+                return true;
+            }
+            else{
+                return null;
+            }
+        });
+        lenient().when(ownerRepository.existsById(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(OWNER_USERNAME)){
+                return true;
+            }
+            else{
+                return null;
+            }
+        });
+    }
 
     @Test
     public void testCreateEmployee() {

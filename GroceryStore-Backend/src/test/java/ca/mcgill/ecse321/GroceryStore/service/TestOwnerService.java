@@ -1,7 +1,10 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
+import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.OwnerRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.StoreRepository;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 import ca.mcgill.ecse321.GroceryStore.model.Owner;
 import ca.mcgill.ecse321.GroceryStore.model.Store;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,11 +44,36 @@ public class TestOwnerService {
     private OwnerRepository ownerRepository;
     @Mock
     private StoreRepository storeRepository;
+    @Mock
+    private CustomerRepository customerRepository;
+    @Mock
+    private EmployeeRepository employeeRepository;
 
     @InjectMocks
     private OwnerService ownerService;
     @InjectMocks
     private StoreService storeService;
+
+    @BeforeEach
+    public void setMockOutput() {
+
+        lenient().when(customerRepository.existsById(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(OWNER_USERNAME)){
+                return true;
+            }
+            else{
+                return null;
+            }
+        });
+        lenient().when(employeeRepository.existsById(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(OWNER_USERNAME)){
+                return true;
+            }
+            else{
+                return null;
+            }
+        });
+    }
 
     @Test
     public void testCreateOwner() {
