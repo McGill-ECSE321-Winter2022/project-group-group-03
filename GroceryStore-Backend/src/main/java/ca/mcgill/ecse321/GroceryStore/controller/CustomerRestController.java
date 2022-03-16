@@ -23,19 +23,19 @@ public class CustomerRestController {
     public List<CustomerDTO> getAllCustomers(){
         return service.getAllCustomers().stream().map(this::convertToDto).collect(Collectors.toList());
     }
-    @PostMapping(value = { "/customer/{username}", "/customer/{username}/" })
-    public CustomerDTO createCustomer(@PathVariable("username") String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
+    @PostMapping(value = { "/customer", "/customer/" })
+    public CustomerDTO createCustomer(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
         Customer customer = service.createCustomer(username, password, email, address);
         return convertToDto(customer);
     }
     @GetMapping(value = { "/customer/{username}", "/customer/{username}/" })
-    public CustomerDTO getCustomerByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
+    public CustomerDTO getCustomerByUsername(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException {
         return convertToDto(service.getCustomer(username));
     }
     @GetMapping(value = { "/delivery_order/customer/{username}", "/delivery_order/customer/{username}/" })
-    public List<OrderDTO> getDeliveryOrdersOfCustomer(@PathVariable("username") CustomerDTO eDto) {
-        Customer c = convertToDomainObject(eDto);
-        return createOrderDtosForCustomer(c);
+    public List<OrderDTO> getDeliveryOrdersOfCustomer(@PathVariable("username") String username) {
+        List<Order> customerOrders = service.getCustomerOrders(username);
+        return customerOrders.stream().map(this::convertToDto).collect(Collectors.toList());
     }
     @PutMapping(value = {"/editPassword/{username}"})
     public CustomerDTO updateCustomerPassword(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException{

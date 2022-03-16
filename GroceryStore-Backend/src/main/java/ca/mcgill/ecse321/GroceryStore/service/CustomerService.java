@@ -54,7 +54,12 @@ public class CustomerService {
             throw new IllegalArgumentException("Customer doesn't exist");
         }
        return customerRepository.findCustomerByUsername(aUsername);
-
+    }
+    @Transactional
+    public Customer loginCustomer(String aUsername, String aPassword){
+        Customer customer = getCustomer(aUsername);
+        if (customer.getPassword().equals(customer)) return customer;
+        throw new IllegalArgumentException("Wrong password was given for username: " + aUsername);
     }
     @Transactional
     public List<Customer> getAllCustomers(){
