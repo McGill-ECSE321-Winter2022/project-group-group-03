@@ -1,3 +1,13 @@
 task stage () {
     dependsOn ':GroceryStore-Backend:assemble'
 }
+task integrationTest(){
+    integrationTest.greet();
+}
+
+abstract class integrationTest extends DefaultTask {
+    @TaskAction
+    public static void greet() {
+        java.lang.System.out.println('hello from GreetingTask');
+    }
+}
