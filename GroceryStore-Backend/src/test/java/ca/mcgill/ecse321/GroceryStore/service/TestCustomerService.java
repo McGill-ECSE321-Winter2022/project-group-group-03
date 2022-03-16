@@ -289,7 +289,6 @@ public class TestCustomerService {
     public void testGetCustomerByInvalidUsername() {
         Customer customer = null;
         String error = null;
-        Customer customer2 = null;
 
         try {
             customer = customerService.getCustomer("wrong");
@@ -314,6 +313,20 @@ public class TestCustomerService {
         assertNull(customer);
         assertEquals("The customer name can't be empty", error);
 
+    }
+    @Test
+    public void testLoginCustomerWrongPassword(){
+        Customer customer = null;
+        String error = null;
+
+        try{
+            customer = customerService.loginCustomer(USERNAME_KEY, "badpassword");
+
+        } catch (IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNull(customer);
+        assertEquals("Wrong password was given for username: " + USERNAME_KEY, error);
     }
 
     @Test
@@ -347,6 +360,7 @@ public class TestCustomerService {
         }
         assertNotNull(customers);
     }
+
 
     @Test
     public void getCustomerOrders() {

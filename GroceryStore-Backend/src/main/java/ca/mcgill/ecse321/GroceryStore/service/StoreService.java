@@ -145,7 +145,7 @@ public class StoreService {
         if(activePickup == null)
             throw new IllegalArgumentException("Active pickup can't be null");
         Store store = getStore(storeId);
-        store.setCurrentActiveDelivery(activePickup);
+        store.setCurrentActivePickup(activePickup);
         return store;
     }
     @Transactional

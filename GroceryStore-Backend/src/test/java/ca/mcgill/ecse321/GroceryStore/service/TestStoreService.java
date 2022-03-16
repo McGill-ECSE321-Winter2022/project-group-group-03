@@ -253,7 +253,7 @@ public class TestStoreService {
         assertEquals("Active pickup can't be negative.", error);
     }
     @Test
-    public void testUpdateStoreIDWrongIDforPikcupDelivery() {
+    public void testUpdateStoreIDWrongIDforActivePickup() {
         assertEquals(0, storeService.getAllStores().size());
         //Integer activeDelivery = 999;
         String error = null;
