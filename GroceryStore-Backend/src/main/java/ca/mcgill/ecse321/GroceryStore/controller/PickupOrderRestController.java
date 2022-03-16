@@ -25,13 +25,13 @@ public class PickupOrderRestController {
     public List<PickupOrderDTO> getPickupOrder() throws IllegalArgumentException {
         return service.getAllPickupOrders().stream().map(this::convertToDto).collect(Collectors.toList());
     }
-    @GetMapping(value = {"/pickupOrder{confirmationNumber}", "/pickupOrder{confirmationNumber}/"})
+    @GetMapping(value = {"/pickupOrder/{confirmationNumber}", "/pickupOrder/{confirmationNumber}/"})
     public PickupOrderDTO getPickupOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {
         return convertToDto(service.getPickupOrder(confirmationNumber));
     }
-    @PutMapping(value = {"/editPickupOrderTotalCost"})
 
-    @DeleteMapping(value = {"/pickupOrder{confirmationNumber}", "/pickupOrder{confirmationNumber}"})
+
+    @DeleteMapping(value = {"/pickupOrder/{confirmationNumber}", "/pickupOrder/{confirmationNumber}/"})
     public void deletePickupOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {
         service.deletePickupOrder(confirmationNumber);
     }
