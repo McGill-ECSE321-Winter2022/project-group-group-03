@@ -37,6 +37,7 @@ public class CustomerRestController {
         List<Order> customerOrders = service.getCustomerOrders(username);
         return customerOrders.stream().map(this::convertToDto).collect(Collectors.toList());
     }
+
     @PutMapping(value = {"/editPassword/{username}"})
     public CustomerDTO updateCustomerPassword(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException{
         return convertToDto(service.setPassword(username, password));

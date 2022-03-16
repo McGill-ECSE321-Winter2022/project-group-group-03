@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
+import ca.mcgill.ecse321.GroceryStore.dao.*;
 import ca.mcgill.ecse321.GroceryStore.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,9 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.*;
-import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
-import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
-import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.stubbing.Answer;
@@ -33,12 +32,27 @@ public class TestCustomerService {
     private static final String PASSWORD = "123456";
     private static final String EMAIL = "edward@gmail.com";
     private static final String ADDRESS = "3064 rue Edmond Rostand";
+
+    private String EMPLOYEE_USERNAME = "TEST_USERNAME";
+    private String EMPLOYEE_EMAIL = "TEST_EMAIL@mail.ca";
+    private String EMPLOYEE_PASSWORD = "TEST_PASSWORD";
+    private String EMPLOYEE_ADDRESS = "TEST_ADDRESS";
+
+    private String OWNER_USERNAME = "testOwner";
+    private String OWNER_EMAIL = "owner@mail.ca";
+    private String OWNER_PASSWORD = "testPass";
+
     @Mock
     private CustomerRepository customerRepository;
     @Mock
     private DeliveryOrderRepository deliveryOrderRepository;
     @Mock
     private PickupOrderRepository pickupOrderRepository;
+    @Mock
+    private OwnerRepository ownerRepository;
+    @Mock
+    private EmployeeRepository employeeRepository;
+
 
     @InjectMocks
     private CustomerService customerService;
@@ -46,6 +60,10 @@ public class TestCustomerService {
     private DeliveryOrderService deliveryOrderService;
     @InjectMocks
     private PickupOrderService pickupOrderService;
+    @InjectMocks
+    private EmployeeService employeeService;
+    @InjectMocks
+    private OwnerService ownerService;
 
     @BeforeEach
     public void setMockOutput() {
@@ -60,6 +78,35 @@ public class TestCustomerService {
                 customer.setAddress(ADDRESS);
                 return customer;
             } else {
+                return null;
+            }
+        });
+        lenient().when(employeeRepository.existsById(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
+           if (invocation.getArgument(0).equals(EMPLOYEE_USERNAME)){
+               ArrayList<Employee> employees = new ArrayList<Employee>();
+               Employee employee = new Employee();
+               employee.setUsername(EMPLOYEE_USERNAME);
+               employee.setPassword(EMPLOYEE_PASSWORD);
+               employee.setEmail(EMPLOYEE_EMAIL);
+               employee.setAddress(EMPLOYEE_ADDRESS);
+               employees.add(employee);
+               return employee;
+           }
+           else{
+               return null;
+           }
+        });
+        lenient().when(ownerRepository.existsById(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(OWNER_USERNAME)){
+                ArrayList<Owner> owners = new ArrayList<Owner>();
+                Owner owner = new Owner();
+                owner.setUsername(EMPLOYEE_USERNAME);
+                owner.setPassword(EMPLOYEE_PASSWORD);
+                owner.setEmail(EMPLOYEE_EMAIL);
+                owners.add(owner);
+                return owner;
+            }
+            else{
                 return null;
             }
         });

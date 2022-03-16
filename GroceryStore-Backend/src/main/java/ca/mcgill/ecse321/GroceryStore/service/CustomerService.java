@@ -1,9 +1,9 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
-import ca.mcgill.ecse321.GroceryStore.model.Customer;
-import ca.mcgill.ecse321.GroceryStore.model.Order;
-import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
+import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.OwnerRepository;
+import ca.mcgill.ecse321.GroceryStore.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +18,10 @@ public class CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    OwnerRepository ownerRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @Transactional
     public Customer createCustomer(String aUsername, String aPassword, String aEmail, String aAddress) {
@@ -36,6 +40,14 @@ public class CustomerService {
         for (Customer customer : customerRepository.findAll()){
             if (customer.getUsername().equals(aUsername)) throw new IllegalArgumentException("An identical customer already exists.");
             if (customer.getEmail().equals(aEmail)) throw new IllegalArgumentException("An identical customer already exists.");
+        }
+        for (Owner owner : ownerRepository.findAll()){
+            if (owner.getUsername().equals(aUsername)) throw new IllegalArgumentException("An identical owner already exists.");
+            if (owner.getEmail().equals(aEmail)) throw new IllegalArgumentException("An identical owner already exists.");
+        }
+        for (Employee employee : employeeRepository.findAll()){
+            if (employee.getUsername().equals(aUsername)) throw new IllegalArgumentException("A customer already has this username");
+            if (employee.getEmail().equals(aEmail)) throw new IllegalArgumentException("A customer already has this email");
         }
         Customer newCustomer = new Customer();
         newCustomer.setAddress(aAddress);
