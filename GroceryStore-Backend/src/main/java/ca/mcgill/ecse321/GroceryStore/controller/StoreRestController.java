@@ -31,23 +31,23 @@ public class StoreRestController {
     }
 
     @GetMapping(value = { "/employee/store/{storeID}", "/employee/store/{storeID}/" })
-    public List<EmployeeDTO> getEmployeesOfStore(@PathVariable("storeID") StoreDTO sDTO) {
-        Store s = convertToDomainObject(sDTO);
+    public List<EmployeeDTO> getEmployeesOfStore(@PathVariable("storeID") int storeID) {
+        Store s = convertToDomainObject(storeID);
         return createEmployeeDtosForStore(s);
     }
     @GetMapping(value = { "/item/store/{storeID}", "/item/store/{storeID}/" })
-    public List<ItemDTO> getItemsOfStore(@PathVariable("storeID") StoreDTO sDTO) {
-        Store s = convertToDomainObject(sDTO);
+    public List<ItemDTO> getItemsOfStore(@PathVariable("storeID") int storeID) {
+        Store s = convertToDomainObject(storeID);
         return createItemDtosForStore(s);
     }
     @GetMapping(value = { "/holiday/store/{storeID}", "/holiday/store/{storeID}/" })
-    public List<HolidayDTO> getHolidaysOfStore(@PathVariable("storeID") StoreDTO sDTO) {
-        Store s = convertToDomainObject(sDTO);
+    public List<HolidayDTO> getHolidaysOfStore(@PathVariable("storeID") int storeID) {
+        Store s = convertToDomainObject(storeID);
         return createHolidayDtosForStore(s);
     }
     @GetMapping(value = { "/business_hour/store/{storeID}", "/business_hour/store/{storeID}/" })
-    public List<BusinessHourDTO> getBusinessHoursOfStore(@PathVariable("storeID") StoreDTO sDTO) {
-        Store s = convertToDomainObject(sDTO);
+    public List<BusinessHourDTO> getBusinessHoursOfStore(@PathVariable("storeID") int storeID) {
+        Store s = convertToDomainObject(storeID);
         return createBusinessHourDtosForStore(s);
     }
     @PutMapping(value = {"/editStoreActiveDelivery/{storeID}"})
@@ -96,10 +96,10 @@ public class StoreRestController {
     }
 
 
-    private Store convertToDomainObject(StoreDTO eDto) {
+    private Store convertToDomainObject(int storeID) {
         List<Store> allStores = service.getAllStores();
         for (Store store : allStores) {
-            if (store.getStoreID() == (eDto.getStoreID())) {
+            if (store.getStoreID() == (storeID)) {
                 return store;
             }
         }
