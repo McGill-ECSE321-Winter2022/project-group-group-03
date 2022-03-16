@@ -469,5 +469,6 @@ public class TestStoreService {
         assertEquals(holidays, Arrays.asList(holiday));
     }
 
+
 }
 

@@ -16,6 +16,7 @@ import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,6 +36,8 @@ public class TestPurchasedItemService {
     private ItemRepository itemRepository;
     @InjectMocks
     private PurchasedItemService purchasedItemService;
+    @InjectMocks
+    private ItemService itemService;
 
     private static final String VALID_NAME = "HELLO";
 
@@ -282,6 +285,64 @@ public class TestPurchasedItemService {
             fail();
         }
         assertNotNull(item);
+    }
+    @Test
+    public void testUpdatePurchasedItemQuantity(){
+        Item item = new Item();
+        String error = null;
+        item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
+        item.setStock(10);
+
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+
+        try{
+            when(purchasedItemRepository.existsById(anyInt())).thenReturn(true);
+            when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
+            purchasedItemService.updatePurchasedItemQuantity(20, purchasedItem.getPurchasedItemID());
+        }
+        catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals(error, "itemQuantity cannot be greater than the stock.");
+    }
+
+    @Test
+    public void testUpdatePurchasedItemQuantityNegative(){
+        Item item = new Item();
+        String error = null;
+        item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
+        item.setStock(10);
+
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+
+        try{
+            when(purchasedItemRepository.existsById(anyInt())).thenReturn(true);
+            when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
+            purchasedItemService.updatePurchasedItemQuantity(-1, purchasedItem.getPurchasedItemID());
+        }
+        catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals(error, "item quantity cannot be negative.");
+    }
+    @Test
+    public void testUpdatePurchasedItemQuantityWrongId(){
+
+        Item item = new Item();
+        String error = null;
+        item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
+        item.setStock(10);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+        try{
+            purchasedItem = purchasedItemService.updatePurchasedItemQuantity(1, 1234);
+        }
+        catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals(error, "PurchasedItem doesn't exist.");
     }
 
 }

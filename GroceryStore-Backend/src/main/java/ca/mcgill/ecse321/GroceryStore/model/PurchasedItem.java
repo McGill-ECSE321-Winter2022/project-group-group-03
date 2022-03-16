@@ -41,24 +41,18 @@ public class PurchasedItem
   // INTERFACE
   //------------------------
 
-  public boolean setPurchasedItemID(int aPurchasedItemID)
+  public void setPurchasedItemID(int aPurchasedItemID)
   {
-    boolean wasSet = false;
-    purchasedItemID = aPurchasedItemID;
-    wasSet = true;
-    return wasSet;
+    this.purchasedItemID = aPurchasedItemID;
   }
 
   public void setItem(Item item) {
     this.item = item;
   }
 
-  public boolean setItemQuantity(int aItemQuantity)
+  public void setItemQuantity(int aItemQuantity)
   {
-    boolean wasSet = false;
-    itemQuantity = aItemQuantity;
-    wasSet = true;
-    return wasSet;
+    this.itemQuantity = aItemQuantity;
   }
 
   public Item getItem() {

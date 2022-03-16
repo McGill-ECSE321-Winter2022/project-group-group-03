@@ -114,7 +114,7 @@ public class PurchasedItemService {
         }
 
         PurchasedItem purchasedItem = this.getPurchasedItem(purchasedItemID);
-
+        Item item = purchasedItem.getItem();
 
         if (itemQuantity == 0) {
             error="item quantity cannot be zero.";
@@ -126,6 +126,8 @@ public class PurchasedItemService {
         if (error != null) {
             throw new IllegalArgumentException(error);
         }
+        if(itemQuantity > item.getStock())
+            throw new IllegalArgumentException("itemQuantity cannot be greater than the stock.");
 
         purchasedItem.setItemQuantity(itemQuantity);
         purchasedItemRepository.save(purchasedItem);
@@ -139,6 +141,7 @@ public class PurchasedItemService {
             return purchasedItemRepository.findByPurchasedItemID(id).getItem();
         else throw new IllegalArgumentException("Invalid id: Either no PurchasedItem has this id or the id given was null");
     }
+
 
     private <T> List<T> toList(Iterable<T> iterable) {
         List<T> resultList = new ArrayList<>();

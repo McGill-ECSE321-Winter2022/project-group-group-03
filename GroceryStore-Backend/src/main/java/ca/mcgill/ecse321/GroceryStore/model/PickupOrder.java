@@ -57,12 +57,9 @@ public class PickupOrder extends Order
   // INTERFACE
   //------------------------
 
-  public boolean setPaymentMethod(PaymentMethod aPaymentMethod)
+  public void setPaymentMethod(PaymentMethod aPaymentMethod)
   {
-    boolean wasSet = false;
-    paymentMethod = aPaymentMethod;
-    wasSet = true;
-    return wasSet;
+    this.paymentMethod = aPaymentMethod;
   }
 
   public PaymentMethod getPaymentMethod()

@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ca.mcgill.ecse321.GroceryStore.dao.*;
@@ -367,41 +368,61 @@ public class TestPickupOrderService {
         assertNotNull(error);
         assertEquals(error, "Confirmation number must be greater than 0.");
     }
-//    @Test
-//    public void testPickupOrderStockCheck(){
-//        PickupOrder pickupOrder = pickupOrderService.getPickupOrder(CONFIRMATION_NUMBER_KEY);
-//        String error = null;
-//        Item item = new Item();
-//        when(itemRepository.findByName(anyString())).thenReturn(item);
-//        Item temp = itemService.createItem(ITEM_NAME_KEY, true, 10, "Cheeziest balls in the game", 10);
-//        PurchasedItem temp2 = purchasedItemService.createPurchasedItem(item, 0);
-//        PurchasedItem purchasedItem = new PurchasedItem();
-//        when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
-//
-//        PurchasedItem purchasedItem2Check = purchasedItemService.purchasedItemRepository.findByPurchasedItemID(temp2.getPurchasedItemID());
-//        Item item2Check = itemService.itemRepository.findByName(ITEM_NAME_KEY);
-//        //Check that item and purchased item are successfully added to "repository"
-//        assertNotNull(item2Check);
-//        assertNotNull(purchasedItem2Check);
-//        assertNotNull(pickupOrder);
-//
-//        List<PurchasedItem> purchasedItemList = new ArrayList<>();
-//        purchasedItemList.add(purchasedItem2Check);
-//        pickupOrder.setPurchasedItem(purchasedItemList);
-//
-//        assertNotNull(pickupOrder.getPurchasedItem());
-//
-//        item2Check.setStock(2);
-//
-//        try{
-//            purchasedItemService.purchasedItemRepository.findByPurchasedItemID(pickupOrder.getPurchasedItem().get(0).getPurchasedItemID()).setItemQuantity(10);
-//        }catch (Exception e){
-//            error = e.getMessage();
-//        }
-//        assertNotNull(error);
-//        assertEquals(error, "itemQuantity cannot be greater than the stock.");
-//
-//    }
+    @Test
+    public void testPickupOrderStockCheck(){
+        List<PurchasedItem> pIs = new ArrayList<>();
+        String error = null;
+        Item item = new Item();
+        PurchasedItem purchasedItem = new PurchasedItem();
+        item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
+        item.setStock(10);
+        when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
+        purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+        PickupOrder order = pickupOrderService.createPickupOrder("CASH","PickedUp",10,10);
+        order.setPurchasedItem(Arrays.asList(purchasedItem));
+
+
+        try{
+            when(purchasedItemRepository.existsById(anyInt())).thenReturn(true);
+            when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
+
+           PurchasedItem ps2 = purchasedItemService.updatePurchasedItemQuantity(20, order.getPurchasedItem().get(0).getPurchasedItemID());
+            System.out.println(ps2.getItemQuantity());
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals(error, "itemQuantity cannot be greater than the stock.");
+
+    }
+
+    @Test
+    public void testPickupOrderStockCheckNegative(){
+        List<PurchasedItem> pIs = new ArrayList<>();
+        String error = null;
+        Item item = new Item();
+        PurchasedItem purchasedItem = new PurchasedItem();
+        item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
+        item.setStock(10);
+        when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
+        purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+        PickupOrder order = pickupOrderService.createPickupOrder("CASH","PickedUp",10,10);
+        order.setPurchasedItem(Arrays.asList(purchasedItem));
+
+
+        try{
+            when(purchasedItemRepository.existsById(anyInt())).thenReturn(true);
+            when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
+
+            PurchasedItem ps2 = purchasedItemService.updatePurchasedItemQuantity(-20, order.getPurchasedItem().get(0).getPurchasedItemID());
+            System.out.println(ps2.getItemQuantity());
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNotNull(error);
+        assertEquals(error, "item quantity cannot be negative.");
+
+    }
 
 
 }
