@@ -81,12 +81,18 @@ public class EmployeeRestController {
             throw new IllegalArgumentException("There is no such Employee!");
         }
         EmployeeDTO employeeDTO = new EmployeeDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress(), e.getWorkingStatusFullName());
-        List<OrderDTO> orderDTOS = new ArrayList<>();
-        for (Order o : e.getOrder()) orderDTOS.add(convertToDto(o));
-        employeeDTO.setOrders(orderDTOS);
-        List<WorkShiftDTO> workShiftDTOS = new ArrayList<>();
-        for (WorkShift w : e.getWorkShift()) workShiftDTOS.add(convertToDto(w));
-        employeeDTO.setWorkShifts(workShiftDTOS);
+        if (e.getOrder() == null) employeeDTO.setOrders(null);
+        else {
+            List<OrderDTO> orderDTOS = new ArrayList<>();
+            for (Order o : e.getOrder()) orderDTOS.add(convertToDto(o));
+            employeeDTO.setOrders(orderDTOS);
+        }
+        if (e.getWorkShift()==null)employeeDTO.setWorkShifts(null);
+        else {
+            List<WorkShiftDTO> workShiftDTOS = new ArrayList<>();
+            for (WorkShift w : e.getWorkShift()) workShiftDTOS.add(convertToDto(w));
+            employeeDTO.setWorkShifts(workShiftDTOS);
+        }
         return employeeDTO;
     }
 
