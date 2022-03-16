@@ -34,29 +34,29 @@ public class BusinessHourRestController {
 
     }
 
-    @GetMapping(value = {"/businessHours/{hoursID}", "/businessHours/{hoursID}/"})
+    @GetMapping(value = {"/businessHour/{hoursID}", "/businessHour/{hoursID}/"})
     public BusinessHourDTO getBusinessHour(@PathVariable("hoursID") int hoursID) throws IllegalArgumentException {
         return convertToDto(service.getBusinessHour(hoursID));
     }
 
-    @DeleteMapping(value = {"/businessHours/{hoursID}", "/businessHours/{hoursID}/"})
+    @DeleteMapping(value = {"/businessHour/{hoursID}", "/businessHour/{hoursID}/"})
     public void deleteBusinessHour(@PathVariable("hoursID") int hoursID) throws IllegalArgumentException {
         service.deleteBusinessHour(hoursID);
     }
 
-    @PutMapping(value = {"/editBusinessHoursStartTime/{hoursID}"})
+    @PutMapping(value = {"/editBusinessHourStartTime/{hoursID}"})
     public BusinessHourDTO updateBusinessHourStartTime(@PathVariable("hoursID") int hoursID,
                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime startTime) throws IllegalArgumentException {
         return convertToDto(service.updateBusinessHourStartTime(hoursID,Time.valueOf(startTime)));
     }
 
-    @PutMapping(value = {"/editBusinessHoursEndTime/{hoursID}"})
+    @PutMapping(value = {"/editBusinessHourEndTime/{hoursID}"})
     public BusinessHourDTO updateBusinessHourEndTime(@PathVariable("hoursID") int hoursID,
                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime endTime) throws IllegalArgumentException {
         return convertToDto(service.updateBusinessHourEndTime(hoursID,Time.valueOf(endTime)));
     }
 
-    @PutMapping(value = {"/editBusinessHours/{hoursID}"})
+    @PutMapping(value = {"/editBusinessHour/{hoursID}"})
     public BusinessHourDTO updateBusinessHour(@PathVariable("hoursID") int hoursID,
                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime startTime,
                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime endTime) throws IllegalArgumentException {

@@ -9,6 +9,9 @@ import ca.mcgill.ecse321.GroceryStore.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @CrossOrigin(origins = "*")
 @RestController
 public class OwnerRestController {
@@ -25,8 +28,17 @@ public class OwnerRestController {
     }
 
     @GetMapping(value = { "/owner", "/owner/" })
-    public OwnerDTO getOwner(String username) {
+    public OwnerDTO getOwner(@RequestParam String username) {
         return convertToDto(service.getOwner(username));
+    }
+
+    @GetMapping(value = { "/owners", "/owners/" })
+    public List<OwnerDTO> getOwners() {
+        List<OwnerDTO> ownerDTOS = new ArrayList<>();
+        for (Owner o : service.getOwners()){
+            ownerDTOS.add(convertToDto(o));
+        }
+        return ownerDTOS;
     }
 
     @GetMapping(value = { "/store/owner", "/store/owner/" })

@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class OwnerService {
@@ -42,7 +45,7 @@ public class OwnerService {
             throw new IllegalArgumentException("A store is needed to initialize an owner");
         }
         ownerRepository.save(newOwner);
-        System.out.println(newOwner.getStore());
+
         return newOwner;
     }
 
@@ -55,6 +58,13 @@ public class OwnerService {
             }
         }
         throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
+    }
+
+    @Transactional
+    public List<Owner> getOwners(){
+        List<Owner> owners = new ArrayList<>();
+        for(Owner o: ownerRepository.findAll()) owners.add(o);
+        return owners;
     }
 
     @Transactional

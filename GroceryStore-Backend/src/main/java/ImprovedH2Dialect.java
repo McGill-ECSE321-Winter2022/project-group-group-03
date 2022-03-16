@@ -1,5 +1,6 @@
 import org.hibernate.dialect.H2Dialect;
 
+//copy pasted from internet because drop table was causing app to not run
 public class ImprovedH2Dialect extends H2Dialect {
     @Override
     public String getDropSequenceString(String sequenceName) {
