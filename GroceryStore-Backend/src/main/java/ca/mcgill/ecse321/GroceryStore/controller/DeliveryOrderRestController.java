@@ -45,6 +45,6 @@ public class DeliveryOrderRestController {
 
     private DeliveryOrderDTO convertToDto(DeliveryOrder aDeliveryOrder) {
         if (aDeliveryOrder == null) throw new IllegalArgumentException("There is no such Delivery Order!");
-        return new DeliveryOrderDTO(aDeliveryOrder.getShippingAddress(),aDeliveryOrder.getShippingStatus().name(),aDeliveryOrder.getTotalCost(),aDeliveryOrder.getConfirmationNumber(), aDeliveryOrder.isOutOfTown());
+        return new DeliveryOrderDTO(aDeliveryOrder.getShippingAddress(),aDeliveryOrder.getShippingStatus().name(),aDeliveryOrder.getConfirmationNumber(), aDeliveryOrder.getTotalCost(), aDeliveryOrder.isOutOfTown());
     }
 }
