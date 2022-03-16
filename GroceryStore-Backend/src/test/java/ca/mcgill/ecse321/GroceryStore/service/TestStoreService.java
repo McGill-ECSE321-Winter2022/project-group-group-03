@@ -43,6 +43,8 @@ public class TestStoreService {
     private HolidayRepository holidayRepository;
     @Mock
     private ItemRepository itemRepository;
+    @Mock
+    private CustomerRepository customerRepository;
 
     @InjectMocks
     private StoreService storeService;
@@ -379,10 +381,13 @@ public class TestStoreService {
     }
     @Test
     public void testGetEmployee(){
+        when(customerRepository.findAll()).thenReturn(new ArrayList<>());
         Store store = storeService.getStore(STORE_ID_KEY);
         Employee employee1 = null;
         Employee employee2 = null;
         List<Employee> employeeList = new ArrayList<>();
+
+
 
         try{
             employee1 = employeeService.createEmployee("Joe", "emp1@gmail.com", "1234", "add1");
@@ -397,6 +402,7 @@ public class TestStoreService {
         }
         assertNotNull(employeeList);
         assertEquals(employeeList, Arrays.asList(employee1, employee2));
+
     }
 
 
