@@ -47,11 +47,19 @@ public class StoreService {
                 }
             }
         }
+        List<Holiday> holidays = new ArrayList<>();
+        List<Employee> employees = new ArrayList<>();
+        List<BusinessHour> businessHours = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
         Store newStore = new Store();
         newStore.setStoreID(storeID);
         newStore.setAddress(aAddress);
         newStore.setCurrentActiveDelivery(aCurrentActiveDelivery);
         newStore.setCurrentActivePickup(aCurrentActivePickup);
+        newStore.setHoliday(holidays);
+        newStore.setEmployee(employees);
+        newStore.setBusinessHour(businessHours);
+        newStore.setItem(items);
         storeRepository.save(newStore);
         return newStore;
     }
