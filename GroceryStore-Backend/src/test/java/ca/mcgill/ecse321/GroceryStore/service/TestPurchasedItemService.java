@@ -126,6 +126,7 @@ public class TestPurchasedItemService {
     public void testCreatePurchasedItemQuantityGreaterThanStock() {
         assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
         Item item = new Item();
+        item.setPurchasable(true);
         item.setStock(9000);
         String error = null;
 
@@ -171,6 +172,7 @@ public class TestPurchasedItemService {
         assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
 
         Item aItem = new Item();
+        aItem.setPurchasable(true);
         PurchasedItem purchasedItem = new PurchasedItem();
         String error = null;
 
@@ -207,6 +209,7 @@ public class TestPurchasedItemService {
         PurchasedItem purchasedItem = null;
 
         Item aItem = new Item();
+        aItem.setPurchasable(true);
 
         when(purchasedItemRepository.findAll()).thenReturn(purchasedItems);
 
