@@ -15,14 +15,20 @@ He can also decide the business hours of the store as well as occasions of holid
 
  ##### Backend App Name:
 grocerystore-backend-ise2022w 
- ##### Database: 
+##### prod-database:
 - `spring.datasource.url`:jdbc:postgresql://ec2-3-91-127-228.compute-1.amazonaws.com:5432/daaah13ecc2e9c   
 - `spring.datasource.username`:vdgjvdmjzreell   
 - `spring.datasource.password`: 1766bd0bda93b6655add493bb145aa4dd24414a48a00e8466b9c95b9774f155c
 
+##### test-database:
+- `spring.datasource.url`:jdbc:postgresql://ec2-34-224-226-38.compute-1.amazonaws.com:5432/dt1ltla077q2v   
+- `spring.datasource.username`:glxeofrnzvwwyi
+- `spring.datasource.password`: 0e03c6d3baef79a1dc4fbbb5cee69313ce7d611681861983700930416cb53920
+
+
 ##### How to run this project
 To run the project, clone this repository and run the java file `GroceryStoreBackendApplication.java`  \
-locally as a  `Spring Boot Application`. 
+locally as a  `Spring Boot Application`. In order to choose which database the application runs on, open `application.properties` and set `spring.profiles.default` =test or =prod depending on which one you want to use.
 
 This will deploy the backend [here](http://localhost:8080/) locally.
 
