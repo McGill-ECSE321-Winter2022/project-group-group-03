@@ -81,6 +81,9 @@ public class PurchasedItemService {
         if (aItem == null) {
             error="item cannot be null.";
         }
+        else if (!aItem.getPurchasable()) {
+            error="item is not purchasable.";
+        }
        else if (itemQuantity > aItem.getStock()) {
            error="itemQuantity cannot be greater than the stock.";
        }

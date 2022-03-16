@@ -138,11 +138,25 @@ public class TestPurchasedItemService {
     }
 
     @Test
+    public void testCreatePurchasedItemNotPurchaseable() {
+        assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
+        String error = null;
+        Item item = new Item();
+        item.setPurchasable(false);
+        try{
+            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, ITEM_QUANTITY);
+        }catch(IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertEquals("item is not purchasable.", error);
+    }
+
+
+    @Test
     public void testCreatePurchasedItemNullItem() {
         assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
         Item item = new Item();
         String error = null;
-
         try{
             PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(null, ITEM_QUANTITY);
         }catch(IllegalArgumentException e){
