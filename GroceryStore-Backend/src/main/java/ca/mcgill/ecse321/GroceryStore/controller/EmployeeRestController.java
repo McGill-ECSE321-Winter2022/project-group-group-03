@@ -66,6 +66,11 @@ public class EmployeeRestController {
         return convertToDto(service.updateEmployeeAddress(username, address));
     }
 
+    @PutMapping(value = {"/fire_employee", "/fire_employee/"})
+    public EmployeeDTO fireEmployee(@RequestParam String username){
+        return convertToDto(service.fireEmployee(username));
+    }
+
     @DeleteMapping(value = {"/employee", "/employee/"})
     public void deleteEmployee(@RequestParam String username){
         service.deleteOwner(username);
@@ -75,7 +80,7 @@ public class EmployeeRestController {
         if (e == null) {
             throw new IllegalArgumentException("There is no such Employee!");
         }
-        return new EmployeeDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress());
+        return new EmployeeDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress(), e.getWorkingStatusFullName());
     }
 
     private OrderDTO convertToDto(Order o) {

@@ -73,6 +73,14 @@ public class EmployeeService {
     }
 
     @Transactional
+    public Employee fireEmployee(String username){
+        Employee e = getEmployee(username);
+        if (e.getWorkingStatusFullName().equals("Fired")) throw new IllegalArgumentException("Employee has already been fired");
+        e.fireEmployee();
+        return e;
+    }
+
+    @Transactional
     public Employee updateEmployee(String username, String password, String address){
         if (password==null || password.equals("")) throw new IllegalArgumentException("Password cannot be empty");
         if (address==null || address.equals("")) throw new IllegalArgumentException("Address cannot be empty");

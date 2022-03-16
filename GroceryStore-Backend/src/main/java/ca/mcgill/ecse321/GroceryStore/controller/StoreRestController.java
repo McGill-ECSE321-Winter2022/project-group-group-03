@@ -73,7 +73,7 @@ public class StoreRestController {
         if (e == null) {
             throw new IllegalArgumentException("There is no such Employee!");
         }
-        return new EmployeeDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress());
+        return new EmployeeDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress(), e.getWorkingStatusFullName());
     }
 
     private ItemDTO convertToDto(Item i) {

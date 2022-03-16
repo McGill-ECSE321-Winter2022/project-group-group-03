@@ -8,17 +8,19 @@ public class EmployeeDTO {
     private String password;
     private String email;
     private String address;
+    private String workingStatus;
 
     private List<WorkShiftDTO> workShifts;
     private List<OrderDTO> orders;
 
 
 
-    public EmployeeDTO(String username, String password, String email, String address){
+    public EmployeeDTO(String username, String password, String email, String address, String workingStatus){
         this.username = username;
         this.password = password;
         this.email = email;
         this.address = address;
+        this.workingStatus = workingStatus;
     }
 
     public String getUsername(){
@@ -37,6 +39,10 @@ public class EmployeeDTO {
         return address;
     }
 
+    public String getWorkingStatus() {
+        return workingStatus;
+    }
+
     public List<WorkShiftDTO> getWorkShifts() {
         return workShifts;
     }
@@ -53,4 +59,7 @@ public class EmployeeDTO {
         this.orders = orders;
     }
 
+    public void setWorkingStatus(String workingStatus) {
+        this.workingStatus = workingStatus;
+    }
 }
