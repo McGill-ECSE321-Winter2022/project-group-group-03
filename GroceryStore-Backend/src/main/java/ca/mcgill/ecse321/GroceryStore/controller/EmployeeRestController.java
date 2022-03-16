@@ -8,6 +8,7 @@ import ca.mcgill.ecse321.GroceryStore.model.Order;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
 
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,10 +36,9 @@ public class EmployeeRestController {
 
     @GetMapping(value = { "/employee", "/employee/" })
     public EmployeeDTO getEmployeeByUsername(@RequestParam String username) throws IllegalArgumentException {
-        EmployeeDTO e = convertToDto(service.getEmployee(username));
-        e.setWorkShifts(getWorkShiftsOfEmployee(username));
-        e.setOrders(getOrdersOfEmployee(username));
-        return e;
+        Employee e = service.getEmployee(username);
+        EmployeeDTO eDTO = convertToDto(e);
+        return eDTO;
     }
 
     @GetMapping(value = { "/workshift/employee", "/workshift/employee/" })
@@ -80,7 +80,14 @@ public class EmployeeRestController {
         if (e == null) {
             throw new IllegalArgumentException("There is no such Employee!");
         }
-        return new EmployeeDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress(), e.getWorkingStatusFullName());
+        EmployeeDTO employeeDTO = new EmployeeDTO(e.getUsername(),e.getPassword(),e.getEmail(),e.getAddress(), e.getWorkingStatusFullName());
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for (Order o : e.getOrder()) orderDTOS.add(convertToDto(o));
+        employeeDTO.setOrders(orderDTOS);
+        List<WorkShiftDTO> workShiftDTOS = new ArrayList<>();
+        for (WorkShift w : e.getWorkShift()) workShiftDTOS.add(convertToDto(w));
+        employeeDTO.setWorkShifts(workShiftDTOS);
+        return employeeDTO;
     }
 
     private OrderDTO convertToDto(Order o) {
