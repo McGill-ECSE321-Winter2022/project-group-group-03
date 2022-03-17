@@ -11,7 +11,6 @@ import java.util.List;
 
 import ca.mcgill.ecse321.GroceryStore.dao.*;
 import ca.mcgill.ecse321.GroceryStore.model.*;
-import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

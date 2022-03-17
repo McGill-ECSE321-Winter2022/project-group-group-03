@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
