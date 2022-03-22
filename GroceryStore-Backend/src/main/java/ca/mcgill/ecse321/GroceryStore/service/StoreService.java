@@ -12,20 +12,17 @@ import java.util.List;
 
 @Service
 public class StoreService {
+    private static int presetStoreID = 123;
     @Autowired
     StoreRepository storeRepository;
 
     @Transactional
-    public Store createStore(Integer storeID, String aAddress, Integer aCurrentActiveDelivery, Integer aCurrentActivePickup){
+    public Store createStore(String aAddress, Integer aCurrentActiveDelivery, Integer aCurrentActivePickup){
         Store store = new Store();
-        List<Store> stores = this.getAllStores();
-        if(storeID == null) {
-            throw new IllegalArgumentException("Store ID can't be null.");
-        }
-        else if(storeID <= 0){
-            throw new IllegalArgumentException("Store ID must be greater than 0.");
-        }
-        else if(aAddress == null || aAddress.equals("") || aAddress.equals(" ")){
+
+
+
+        if(aAddress == null || aAddress.equals("") || aAddress.equals(" ")){
             throw new IllegalArgumentException("Address can't be empty.");
         }
         else if(aCurrentActiveDelivery == null){
@@ -40,19 +37,16 @@ public class StoreService {
         else  if(aCurrentActivePickup < 0){
             throw new IllegalArgumentException("Active pickup can't be negative.");
         }
-        else if (stores != null && stores.size() != 0) {
-            for (Store s : stores) {
-                if (s.getStoreID() == (storeID)) {
-                    throw  new IllegalArgumentException("An identical store with the same store ID already exists.");
-                }
-            }
+        while(storeRepository.existsById(presetStoreID)){
+            presetStoreID++;
         }
+
         List<Holiday> holidays = new ArrayList<>();
         List<Employee> employees = new ArrayList<>();
         List<BusinessHour> businessHours = new ArrayList<>();
         List<Item> items = new ArrayList<>();
         Store newStore = new Store();
-        newStore.setStoreID(storeID);
+        store.setStoreID(presetStoreID);
         newStore.setAddress(aAddress);
         newStore.setCurrentActiveDelivery(aCurrentActiveDelivery);
         newStore.setCurrentActivePickup(aCurrentActivePickup);

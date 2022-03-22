@@ -56,7 +56,7 @@ public class TestPickupOrderService {
                 pickupOrder.setPickupStatus(PICKUP_STATUS);
                 pickupOrder.setPaymentMethod(PAYMENT_METHOD);
                 pickupOrder.setTotalCost(TOTAL_COST);
-                Store store = storeService.createStore(15, "MTL", 9, 8);
+                Store store = storeService.createStore( "MTL", 9, 8);
                 // when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
                 pickupOrder.setStore(store);
 
