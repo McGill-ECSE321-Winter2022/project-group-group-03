@@ -612,6 +612,16 @@ public class TestItemService {
     }
 
     @Test
+    public void testUpdateItem() {
+        Item item = itemService.updateItem(ITEM_KEY,23,21,"You'll love it",ITEM_PURCHASABLE);
+
+        assertEquals(item.getPrice(),23);
+        assertEquals(item.getStock(),21);
+        assertEquals(item.getDescription(),"You'll love it");
+        assertEquals(item.getPurchasable(),ITEM_PURCHASABLE);
+    }
+
+    @Test
     public void testUpdateItemStock() {
         Item item = null;
         int newStock = 5;

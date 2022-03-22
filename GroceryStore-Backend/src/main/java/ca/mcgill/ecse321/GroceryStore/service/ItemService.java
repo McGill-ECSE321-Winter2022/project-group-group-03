@@ -132,6 +132,32 @@ public class ItemService {
        return item;
    }
 
+   @Transactional
+   public Item updateItem(String name, int newPrice, int newStock, String newDescription, boolean newPurchasable) {
+        Item item = itemRepository.findByName(name);
+        ArrayList<String> errorMessages = new ArrayList<>();
+
+       if (name == null || name.trim().length() == 0) errorMessages.add("Name can't be empty.");
+
+       if (newDescription == null || newDescription.trim().length() == 0) errorMessages.add("Description can't be empty.");
+
+       if (newPrice == 0) errorMessages.add("Item's price can't be 0.");
+
+       if (newStock == 0) errorMessages.add("Item's stock can't be 0.");
+
+       if (newPrice < 0) errorMessages.add("Item's price can't be negative.");
+
+       if (newStock < 0) errorMessages.add("Item's stock can't be negative.");
+
+       if (errorMessages.size() > 0) throw new IllegalArgumentException(String.join(" ", errorMessages));
+
+
+       item.setPurchasable(newPurchasable);
+       item.setPrice(newPrice);
+       item.setDescription(newDescription);
+       item.setStock(newStock);
+       return item;
+   }
 
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();
