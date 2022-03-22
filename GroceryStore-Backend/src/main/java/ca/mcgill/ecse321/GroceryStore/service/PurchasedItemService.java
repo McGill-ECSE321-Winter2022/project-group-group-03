@@ -136,12 +136,13 @@ public class PurchasedItemService {
     }
 
 
-        @Transactional
+    @Transactional
     public Item getPurchasedItemItem (Integer id){
         if (id != null && purchasedItemRepository.findByPurchasedItemID(id) != null)
             return purchasedItemRepository.findByPurchasedItemID(id).getItem();
         else throw new IllegalArgumentException("Invalid id: Either no PurchasedItem has this id or the id given was null");
     }
+
 
 
     private <T> List<T> toList(Iterable<T> iterable) {

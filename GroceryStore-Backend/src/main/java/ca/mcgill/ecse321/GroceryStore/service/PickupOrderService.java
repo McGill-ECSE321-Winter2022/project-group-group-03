@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
+import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,6 +90,14 @@ public class PickupOrderService {
         }
 
         pickupOrderRepository.deleteById(confirmationNumber);
+    }
+    @Transactional
+    public int getTotalCost(Integer OrderId){
+        int totalCost = 0;
+        for(PurchasedItem purchasedItem : pickupOrderRepository.findByConfirmationNumber(OrderId).getPurchasedItem()){
+            totalCost += purchasedItem.getItemQuantity()*purchasedItem.getItem().getPrice();
+        }
+        return totalCost;
     }
 
     private <T> List<T> toList(Iterable<T> iterable){

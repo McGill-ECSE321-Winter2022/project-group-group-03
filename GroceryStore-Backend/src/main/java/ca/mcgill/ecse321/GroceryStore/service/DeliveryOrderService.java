@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
+import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -110,6 +111,17 @@ public class DeliveryOrderService {
         order.setShippingAddress(address);
         return order;
     }
+
+    @Transactional
+    public int getTotalCost(Integer OrderId){
+        int totalCost = 0;
+        for(PurchasedItem purchasedItem : deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId).getPurchasedItem()){
+            totalCost += purchasedItem.getItemQuantity()*purchasedItem.getItem().getPrice();
+        }
+
+        return (deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId).isOutOfTown()) ? totalCost + DeliveryOrder.SHIPPINGFEE: totalCost;
+    }
+
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
