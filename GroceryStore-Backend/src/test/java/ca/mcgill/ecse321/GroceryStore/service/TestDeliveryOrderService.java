@@ -59,7 +59,7 @@ public class TestDeliveryOrderService {
                 deliveryOrder.setShippingAddress(SHIPPING_ADDRESS);
                 deliveryOrder.setTotalCost(TOTAL_COST);
                 deliveryOrder.setIsOutOfTown(IS_IN_TOWN);
-                Store store = storeService.createStore(15, "MTL", 9, 8);
+                Store store = storeService.createStore("MTL", 9, 8);
                // when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
                 deliveryOrder.setStore(store);
 

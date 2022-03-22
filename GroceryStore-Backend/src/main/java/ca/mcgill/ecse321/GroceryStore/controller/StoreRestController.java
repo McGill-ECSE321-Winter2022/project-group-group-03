@@ -20,9 +20,9 @@ public class StoreRestController {
     public List<StoreDTO> getAllStores(){
         return service.getAllStores().stream().map(this::convertToDto).collect(Collectors.toList());
     }
-    @PostMapping(value = { "/store/{storeID}", "/store/{storeID}/" })
-    public StoreDTO createStore(@PathVariable("storeID") int storeID, @RequestParam String aAddress, @RequestParam int aCurrentActiveDelivery, @RequestParam int aCurrentActivePickup) throws IllegalArgumentException {
-        Store store = service.createStore(storeID, aAddress, aCurrentActiveDelivery, aCurrentActivePickup);
+    @PostMapping(value = { "/store/", "/store/" })
+    public StoreDTO createStore(@RequestParam String aAddress, @RequestParam int aCurrentActiveDelivery, @RequestParam int aCurrentActivePickup) throws IllegalArgumentException {
+        Store store = service.createStore(aAddress, aCurrentActiveDelivery, aCurrentActivePickup);
         return convertToDto(store);
     }
     @GetMapping(value = { "/store/{storeID}", "/store/{storeID}/" })

@@ -61,7 +61,6 @@ public class TestStoreService {
         lenient().when(storeRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(STORE_ID_KEY)) {
                 Store store = new Store();
-                store.setStoreID(STORE_ID_KEY);
                 store.setAddress(ADDRESS);
                 store.setCurrentActiveDelivery(CURRENT_ACTIVE_DELIVERY);
                 store.setCurrentActivePickup(CURRENT_ACTIVE_PICKUP);
@@ -89,61 +88,13 @@ public class TestStoreService {
         Store store = null;
 
         try{
-            store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+            store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         }catch(IllegalArgumentException e){
             fail();
         }
         assertNotNull(store);
     }
-    @Test
-    public void testNullStoreID(){
-        assertEquals(0, storeService.getAllStores().size());
 
-        Integer storeID = null;
-        Store store = null;
-        String error = null;
-
-        try {
-            store = storeService.createStore(storeID, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNull(store);
-        assertEquals("Store ID can't be null.", error);
-    }
-
-
-    @Test
-    public void testCreateStoreIDZero() {
-        assertEquals(0, storeService.getAllStores().size());
-        int storeID = 0;
-        String error = null;
-        Store store = null;
-        try {
-            store = storeService.createStore(storeID, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNull(store);
-        // check error
-        assertEquals("Store ID must be greater than 0.", error);
-
-    }
-    @Test
-    public void testCreateStoreIDNegative() {
-        assertEquals(0, storeService.getAllStores().size());
-        int storeID = -5;
-        String error = null;
-        Store store = null;
-        try {
-            store = storeService.createStore(storeID, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNull(store);
-        // check error
-        assertEquals("Store ID must be greater than 0.", error);
-    }
 
     @Test
     public void testStoreCurrentActiveDeliveryNull(){
@@ -152,7 +103,7 @@ public class TestStoreService {
         String error = null;
 
         try{
-            store = storeService.createStore(STORE_ID_KEY, ADDRESS, null, CURRENT_ACTIVE_PICKUP);
+            store = storeService.createStore(ADDRESS, null, CURRENT_ACTIVE_PICKUP);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
@@ -163,7 +114,7 @@ public class TestStoreService {
     public void testUpdateNullActiveDelivery() {
         assertEquals(0, storeService.getAllStores().size());
         Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         Integer activeDelivery = null;
         String error = null;
 
@@ -181,7 +132,7 @@ public class TestStoreService {
         //Integer activeDelivery = 999;
         String error = null;
         Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         try {
             storeService.setActiveDelivery(435464, 999);
         } catch (IllegalArgumentException e) {
@@ -200,7 +151,7 @@ public class TestStoreService {
         String error = null;
 
         try{
-            store = storeService.createStore(STORE_ID_KEY, ADDRESS, -10, CURRENT_ACTIVE_PICKUP);
+            store = storeService.createStore(ADDRESS, -10, CURRENT_ACTIVE_PICKUP);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
@@ -211,7 +162,7 @@ public class TestStoreService {
     public void testUpdateNegativeActiveDelivery() {
         assertEquals(0, storeService.getAllStores().size());
         Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         Integer activeDelivery = -20;
         String error = null;
 
@@ -231,7 +182,7 @@ public class TestStoreService {
         String error = null;
 
         try{
-            store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, null);
+            store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, null);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
@@ -246,7 +197,7 @@ public class TestStoreService {
         String error = null;
 
         try{
-            store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, -10);
+            store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, -10);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
@@ -259,7 +210,7 @@ public class TestStoreService {
         //Integer activeDelivery = 999;
         String error = null;
         Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         try {
             storeService.setActivePickup(435464, 999);
         } catch (IllegalArgumentException e) {
@@ -276,7 +227,7 @@ public class TestStoreService {
         String error = null;
 
         try {
-            store = storeService.createStore(STORE_ID_KEY, address, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+            store = storeService.createStore(address, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -291,7 +242,7 @@ public class TestStoreService {
         String error = null;
 
         try {
-            store = storeService.createStore(STORE_ID_KEY, address, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+            store = storeService.createStore(address, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -306,7 +257,7 @@ public class TestStoreService {
         String error = null;
 
         try {
-            store = storeService.createStore(STORE_ID_KEY, address, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+            store = storeService.createStore(address, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -320,7 +271,7 @@ public class TestStoreService {
         //Integer activeDelivery = 999;
         String error = null;
         Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         try {
             storeService.setAddress(435464, "1234 edward street");
         } catch (IllegalArgumentException e) {
@@ -336,7 +287,7 @@ public class TestStoreService {
         //Integer activeDelivery = 999;
         String error = null;
         Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         try {
             storeService.setAddress(STORE_ID_KEY, null);
         } catch (IllegalArgumentException e) {
@@ -352,7 +303,7 @@ public class TestStoreService {
         //Integer activeDelivery = 999;
         String error = null;
         Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         try {
             storeService.setAddress(STORE_ID_KEY, "");
         } catch (IllegalArgumentException e) {
@@ -368,7 +319,7 @@ public class TestStoreService {
         //Integer activeDelivery = 999;
         String error = null;
         Store store = null;
-        store = storeService.createStore(STORE_ID_KEY, ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
+        store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         try {
             storeService.setAddress(STORE_ID_KEY, " ");
         } catch (IllegalArgumentException e) {

@@ -69,7 +69,7 @@ public class TestOwnerService {
     @Test
     public void testCreateOwner() {
 
-        Store store = storeService.createStore(15, "MTL", 9, 8);
+        Store store = storeService.createStore( "MTL", 9, 8);
         storeRepository.save(store);
 
         //test stub
@@ -155,7 +155,7 @@ public class TestOwnerService {
     @Test
     public void testGetOwner() {
 
-        Store store = storeService.createStore(15, "MTL", 9, 8);
+        Store store = storeService.createStore( "MTL", 9, 8);
         storeRepository.save(store);
 
         //test stub
@@ -179,7 +179,7 @@ public class TestOwnerService {
     @Test
     public void testGetOwnerDoesNotExist() {
 
-        Store store = storeService.createStore(15, "MTL", 9, 8);
+        Store store = storeService.createStore( "MTL", 9, 8);
         storeRepository.save(store);
 
         //test stub
@@ -221,7 +221,7 @@ public class TestOwnerService {
     @Test
     public void testGetOwnerStore() {
 
-        Store store = storeService.createStore(15, "MTL", 9, 8);
+        Store store = storeService.createStore( "MTL", 9, 8);
         storeRepository.save(store);
 
         //test stub
@@ -245,7 +245,7 @@ public class TestOwnerService {
     @Test
     public void testCreateOwnerDuplicateUsername() {
 
-        Store store = storeService.createStore(15, "MTL", 9, 8);
+        Store store = storeService.createStore( "MTL", 9, 8);
         storeRepository.save(store);
 
         //test stub to create owner because we need a store
@@ -275,7 +275,7 @@ public class TestOwnerService {
     @Test
     public void testCreateOwnerDuplicateEmail() {
 
-        Store store = storeService.createStore(15, "MTL", 9, 8);
+        Store store = storeService.createStore( "MTL", 9, 8);
 
         //test stub to create owner because we need a store
         when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
@@ -304,7 +304,7 @@ public class TestOwnerService {
 
     @Test
     public void testUpdateOwner() {
-        Store store = storeService.createStore(15, "MTL", 9, 8);
+        Store store = storeService.createStore("MTL", 9, 8);
 
         //test stub to create owner because we need a store
         when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
