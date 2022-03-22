@@ -31,6 +31,13 @@ public class ItemRestController {
 
     }
 
+    @PutMapping(value = {"/editItem/{itemName}"})
+    public ItemDTO updateItemPurchasable(@PathVariable("itemName") String itemName,
+                                         @RequestParam int newPrice, @RequestParam int newStock,
+                                         @RequestParam String newDescription, @RequestParam boolean newPurchasable) throws IllegalArgumentException {
+        return convertToDto(service.updateItem(itemName,newPrice,newStock,newDescription,newPurchasable));
+    }
+
     @PutMapping(value = {"/editItemPurchasable/{itemName}"})
     public ItemDTO updateItemPurchasable(@PathVariable("itemName") String itemName,
                                          @RequestParam boolean newPurchasable) throws IllegalArgumentException {
