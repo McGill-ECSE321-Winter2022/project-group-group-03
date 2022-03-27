@@ -73,6 +73,8 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 
 ### The deliverable 2 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-2-Report)
 
+## Deliverable 3 
+
 ### Tasks and Time Spent
 | Name| Tasks|Time Spent (hrs)|
 | :--- |--- |:---: |
