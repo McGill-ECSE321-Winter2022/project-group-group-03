@@ -78,7 +78,7 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 ### Tasks and Time Spent
 | Name| Tasks|Time Spent (hrs)|
 | :--- |--- |:---: |
-|Abhijeet Praveen |<ul></ul>|| 
+|Abhijeet Praveen |<ul>Started README.md for Deliverable 3</ul>|| 
 |Ari Arabian |<ul></ul>||
 |Edward Habelrih| <ul></ul>||
 |Neel Faucher |<ul></ul>| |
