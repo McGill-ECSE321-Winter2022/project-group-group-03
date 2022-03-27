@@ -126,17 +126,17 @@ public class TestGroceryStorePersistence {
 	public void clearDatabase() {
 
         // First, we clear registrations to avoid exceptions due to inconsistencies
-        storeRepository.deleteAll();
-        ownerRepository.deleteAll();
-        employeeRepository.deleteAll();
-        customerRepository.deleteAll();
+        holidayRepository.deleteAll();
+        purchasedItemRepository.deleteAll();
         businessHourRepository.deleteAll();
         workShiftRepository.deleteAll();
-        holidayRepository.deleteAll();
-        itemRepository.deleteAll();
+        employeeRepository.deleteAll();
+        customerRepository.deleteAll();
         pickupOrderRepository.deleteAll();
         deliveryOrderRepository.deleteAll();
-        purchasedItemRepository.deleteAll();
+        itemRepository.deleteAll();
+        ownerRepository.deleteAll();
+        storeRepository.deleteAll();
 
     }
     /**
