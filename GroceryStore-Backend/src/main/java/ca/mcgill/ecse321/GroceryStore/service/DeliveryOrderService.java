@@ -17,7 +17,7 @@ public class DeliveryOrderService {
     DeliveryOrderRepository deliveryOrderRepository;
 
     @Transactional
-    public DeliveryOrder createDeliveryOrder(String shippingAddress, String shippingStatus, Integer confirmationNumber, Integer totalCost, boolean isOutOfTown){
+    public DeliveryOrder createDeliveryOrder(String shippingAddress, String shippingStatus, Integer confirmationNumber, boolean isOutOfTown){
         DeliveryOrder newDeliveryOrder = new DeliveryOrder();
         List<DeliveryOrder> deliveryOrders = this.getAllDeliveryOrders();
 
@@ -33,12 +33,7 @@ public class DeliveryOrderService {
         else if(confirmationNumber <= 0){
             throw new IllegalArgumentException("Confirmation number must be greater than 0.");
         }
-        else if(totalCost == null){
-            throw new IllegalArgumentException("Total cost can't be empty.");
-        }
-       else  if(totalCost <= 0){
-            throw new IllegalArgumentException("Total cost must be greater than 0.");
-        }
+
         else if (deliveryOrders != null && deliveryOrders.size() != 0) {
             for (DeliveryOrder d : deliveryOrders) {
                 if (d.getConfirmationNumber() == (confirmationNumber)) {
@@ -46,16 +41,16 @@ public class DeliveryOrderService {
                 }
             }
         }
-
-
         newDeliveryOrder.setShippingAddress(shippingAddress);
         newDeliveryOrder.setConfirmationNumber(confirmationNumber);
-        newDeliveryOrder.setTotalCost(totalCost);
+        newDeliveryOrder.setIsOutOfTown(isOutOfTown);
+        newDeliveryOrder.setTotalCost(0);
         switch(shippingStatus){
             case "InCart" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.InCart);
             case "Ordered" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Ordered);
             case "Prepared" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Prepared);
             case "Delivered" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Delivered);
+            default -> throw new IllegalArgumentException("Invalid shipping status");
         }
         deliveryOrderRepository.save(newDeliveryOrder);
         return newDeliveryOrder;
@@ -100,6 +95,27 @@ public class DeliveryOrderService {
     }
 
     @Transactional
+    public void setShippingStatus(Integer confirmationNumber, String shippingStatus) {
+        if (confirmationNumber == null) {
+            throw new IllegalArgumentException("Confirmation number can't be empty.");
+        }
+        if (confirmationNumber <= 0) {
+            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
+        }
+        if(!deliveryOrderRepository.existsById(confirmationNumber)){
+            throw new IllegalArgumentException("Delivery order doesn't exist.");
+        }
+        DeliveryOrder newDeliveryOrder = deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(confirmationNumber);
+        switch(shippingStatus){
+            case "InCart" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.InCart);
+            case "Ordered" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Ordered);
+            case "Prepared" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Prepared);
+            case "Delivered" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Delivered);
+            default -> throw new IllegalArgumentException("Invalid shipping status");
+        }
+    }
+
+    @Transactional
     public DeliveryOrder setShippingAddress(Integer current, String address){
         if (address == null || address.equals("") || address.equals(" ")) {
             throw new IllegalArgumentException("Address can't be empty.");
@@ -112,14 +128,26 @@ public class DeliveryOrderService {
         return order;
     }
 
+
     @Transactional
-    public int getTotalCost(Integer OrderId){
+    public void updateTotalCost(Integer OrderId){
+        if (OrderId == null) {
+            throw new IllegalArgumentException("Confirmation number can't be empty.");
+        }
+        if (OrderId <= 0) {
+            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
+        }
+        if(!deliveryOrderRepository.existsById(OrderId)){
+            throw new IllegalArgumentException("Delivery order doesn't exist.");
+        }
         int totalCost = 0;
         for(PurchasedItem purchasedItem : deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId).getPurchasedItem()){
             totalCost += purchasedItem.getItemQuantity()*purchasedItem.getItem().getPrice();
         }
+        if(deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId).isOutOfTown())
+            totalCost += DeliveryOrder.SHIPPINGFEE;
 
-        return (deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId).isOutOfTown()) ? totalCost + DeliveryOrder.SHIPPINGFEE: totalCost;
+        deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId).setTotalCost(totalCost);
     }
 
     private <T> List<T> toList(Iterable<T> iterable){

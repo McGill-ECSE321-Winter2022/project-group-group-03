@@ -17,8 +17,8 @@ public class PickupOrderRestController {
 
     @PostMapping(value = { "/pickupOrder", "/pickupOrder/" })
     public PickupOrderDTO createPickupOrder(@RequestParam String paymentMethod, @RequestParam String pickupStatus,
-                                                @RequestParam int confirmationNumber, @RequestParam int totalCost) throws IllegalArgumentException {
-        return convertToDto(service.createPickupOrder(paymentMethod, pickupStatus, confirmationNumber,totalCost));
+                                                @RequestParam int confirmationNumber) throws IllegalArgumentException {
+        return convertToDto(service.createPickupOrder(paymentMethod, pickupStatus, confirmationNumber));
     }
 
     @GetMapping(value = {"/pickupOrder","/pickupOrder/"})

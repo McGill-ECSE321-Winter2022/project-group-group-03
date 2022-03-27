@@ -428,8 +428,8 @@ public class TestCustomerService {
 
         try {
             customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
-            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house", "Delivered", 69, 70, true);
-            pickupOrder = pickupOrderService.createPickupOrder("Cash", "PickedUp", 70, 100);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house", "Delivered", 69,  true);
+            pickupOrder = pickupOrderService.createPickupOrder("Cash", "PickedUp", 70);
             customer.setOrder(Arrays.asList(deliveryOrder, pickupOrder));
             DeliveryOrder finalDeliveryOrder = deliveryOrder;
             PickupOrder finalPickupOrder = pickupOrder;
@@ -790,7 +790,7 @@ public class TestCustomerService {
         Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
         Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10 );
         PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 5);
-        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "PickedUp", 123, 999, false);
+        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "PickedUp", 123,  false);
         List<Order> orders = new ArrayList<>();
         List<PurchasedItem> purchasedItems = new ArrayList<>();
         purchasedItem.setItem(item);
@@ -827,7 +827,7 @@ public class TestCustomerService {
         Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
         Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10 );
         PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 5);
-        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "PickedUp", 123, 999, false);
+        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "PickedUp", 123,  false);
         List<Order> orders = new ArrayList<>();
         List<PurchasedItem> purchasedItems = new ArrayList<>();
         purchasedItem.setItem(item);
@@ -862,7 +862,7 @@ public class TestCustomerService {
         Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
         Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10 );
         PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 5);
-        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "PickedUp", 123, 999, false);
+        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "PickedUp", 123,  false);
         List<Order> orders = new ArrayList<>();
         List<PurchasedItem> purchasedItems = new ArrayList<>();
         purchasedItem.setItem(item);
@@ -897,7 +897,7 @@ public class TestCustomerService {
         Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
         Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 2 );
         PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
-        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "PickedUp", 123, 999, false);
+        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "PickedUp", 123,  false);
         List<Order> orders = new ArrayList<>();
         List<PurchasedItem> purchasedItems = new ArrayList<>();
         purchasedItem.setItem(item);

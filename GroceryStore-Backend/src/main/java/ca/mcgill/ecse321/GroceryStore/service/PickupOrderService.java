@@ -16,7 +16,7 @@ public class PickupOrderService {
     PickupOrderRepository pickupOrderRepository;
 
     @Transactional
-    public PickupOrder createPickupOrder(String paymentMethod, String pickupStatus, Integer confirmationNumber, Integer totalCost){
+    public PickupOrder createPickupOrder(String paymentMethod, String pickupStatus, Integer confirmationNumber){
         PickupOrder newPickupOrder = new PickupOrder();
         List<PickupOrder> pickupOrders = this.getAllPickupOrders();
         if(paymentMethod == null || paymentMethod == "" || paymentMethod == " ") {
@@ -31,12 +31,7 @@ public class PickupOrderService {
         else if(confirmationNumber <= 0){
             throw new IllegalArgumentException("Confirmation number must be greater than 0.");
         }
-        else if(totalCost == null){
-            throw new IllegalArgumentException("Total cost can't be empty.");
-        }
-        else  if(totalCost <= 0){
-            throw new IllegalArgumentException("Total cost must be greater than 0.");
-        }
+
         else if (pickupOrders != null && pickupOrders.size() != 0) {
             for (PickupOrder p : pickupOrders) {
                 if (p.getConfirmationNumber() == (confirmationNumber)) {
@@ -45,7 +40,7 @@ public class PickupOrderService {
             }
         }
         newPickupOrder.setConfirmationNumber(confirmationNumber);
-        newPickupOrder.setTotalCost(totalCost);
+        newPickupOrder.setTotalCost(0);
         switch(paymentMethod) {
             case "Cash" -> newPickupOrder.setPaymentMethod(PickupOrder.PaymentMethod.Cash);
             case "CreditCard" -> newPickupOrder.setPaymentMethod(PickupOrder.PaymentMethod.CreditCard);
@@ -74,6 +69,46 @@ public class PickupOrderService {
     }
 
     @Transactional
+    public void updatePickupStatus(Integer confirmationNumber, String pickupStatus){
+        if (confirmationNumber == null) {
+            throw new IllegalArgumentException("Confirmation number can't be empty.");
+        }
+        if (confirmationNumber <= 0) {
+            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
+        }
+        if(!pickupOrderRepository.existsById(confirmationNumber)){
+            throw new IllegalArgumentException("Pickup order doesn't exist.");
+        }
+        PickupOrder newPickupOrder = pickupOrderRepository.findByConfirmationNumber(confirmationNumber);
+        switch(pickupStatus){
+            case "InCart" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.InCart);
+            case "Ordered" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.Ordered);
+            case "Prepared" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.Prepared);
+            case "PickedUp" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.PickedUp);
+            default -> throw new IllegalArgumentException("Not a valid pickup status");
+        }
+    }
+    @Transactional
+    public void updatePaymentMethod(Integer confirmationNumber, String paymentMethod){
+        if (confirmationNumber == null) {
+            throw new IllegalArgumentException("Confirmation number can't be empty.");
+        }
+        if (confirmationNumber <= 0) {
+            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
+        }
+        if(!pickupOrderRepository.existsById(confirmationNumber)){
+            throw new IllegalArgumentException("Pickup order doesn't exist.");
+        }
+        PickupOrder newPickupOrder = pickupOrderRepository.findByConfirmationNumber(confirmationNumber);
+        switch(paymentMethod) {
+            case "Cash" -> newPickupOrder.setPaymentMethod(PickupOrder.PaymentMethod.Cash);
+            case "CreditCard" -> newPickupOrder.setPaymentMethod(PickupOrder.PaymentMethod.CreditCard);
+            default -> throw new IllegalArgumentException("Invalid payment method");
+        }
+    }
+
+
+    @Transactional
     public List<PickupOrder> getAllPickupOrders(){
         return toList(pickupOrderRepository.findAll());
     }
@@ -92,12 +127,21 @@ public class PickupOrderService {
         pickupOrderRepository.deleteById(confirmationNumber);
     }
     @Transactional
-    public int getTotalCost(Integer OrderId){
+    public void setTotalCost(Integer OrderId){
+        if (OrderId == null) {
+            throw new IllegalArgumentException("Confirmation number can't be empty.");
+        }
+        if (OrderId <= 0) {
+            throw new IllegalArgumentException("Confirmation number must be greater than 0.");
+        }
+        if(!pickupOrderRepository.existsById(OrderId)){
+            throw new IllegalArgumentException("Pickup order doesn't exist.");
+        }
         int totalCost = 0;
         for(PurchasedItem purchasedItem : pickupOrderRepository.findByConfirmationNumber(OrderId).getPurchasedItem()){
             totalCost += purchasedItem.getItemQuantity()*purchasedItem.getItem().getPrice();
         }
-        return totalCost;
+        pickupOrderRepository.findByConfirmationNumber(OrderId).setTotalCost(totalCost);
     }
 
     private <T> List<T> toList(Iterable<T> iterable){

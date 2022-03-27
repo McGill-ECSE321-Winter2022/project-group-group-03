@@ -88,7 +88,7 @@ public class TestPickupOrderService {
         PickupOrder pickupOrder = null;
 
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), confirmationNumber, TOTAL_COST);
+            pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), confirmationNumber);
         } catch (IllegalArgumentException e) {
             fail();
         }
@@ -105,7 +105,7 @@ public class TestPickupOrderService {
         String error = null;
 
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), confirmationNumber, TOTAL_COST);
+            pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), confirmationNumber);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -120,7 +120,7 @@ public class TestPickupOrderService {
         String error = null;
         PickupOrder pickupOrder = null;
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), confirmationNumber, TOTAL_COST);
+            pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), confirmationNumber);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -137,67 +137,13 @@ public class TestPickupOrderService {
         String error = null;
         PickupOrder pickupOrder = null;
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), confirmationNumber, TOTAL_COST);
+            pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), confirmationNumber);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(pickupOrder);
         // check error
         assertEquals("Confirmation number must be greater than 0.", error);
-    }
-
-
-    //TOTAL COST
-    @Test
-    public void testCreatePickupOrderNullTotalCost() {
-        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
-
-        Integer totalCost = null;
-        PickupOrder pickupOrder = null;
-        String error = null;
-
-        try {
-            pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY, totalCost);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNull(pickupOrder);
-        assertEquals("Total cost can't be empty.", error);
-    }
-
-
-    @Test
-    public void testCreatePickupOrderTotalCostZero() {
-        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
-
-        Integer totalCost = 0;
-        PickupOrder pickupOrder = null;
-        String error = null;
-
-        try {
-            pickupOrder = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), PICKUP_STATUS.name(), CONFIRMATION_NUMBER_KEY, totalCost);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNull(pickupOrder);
-        assertEquals("Total cost must be greater than 0.", error);
-    }
-
-    @Test
-    public void testCreatePickupOrderTotalCostNegative() {
-        assertEquals(0, pickupOrderService.getAllPickupOrders().size());
-
-        Integer totalCost = -5;
-        PickupOrder pickupOrder = null;
-        String error = null;
-
-        try {
-            pickupOrder = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), PICKUP_STATUS.name(), CONFIRMATION_NUMBER_KEY, totalCost);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNull(pickupOrder);
-        assertEquals("Total cost must be greater than 0.", error);
     }
 
     //Duplicate pickup order created
@@ -212,9 +158,9 @@ public class TestPickupOrderService {
         when(pickupOrderRepository.findAll()).thenReturn(POs);
 
         try {
-            pickupOrder1 = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), PICKUP_STATUS.name(), confirmationNumber, TOTAL_COST);
+            pickupOrder1 = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), PICKUP_STATUS.name(), confirmationNumber);
             POs.add(pickupOrder1);
-            pickupOrder2 = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), PICKUP_STATUS.name(), confirmationNumber, TOTAL_COST);
+            pickupOrder2 = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), PICKUP_STATUS.name(), confirmationNumber);
 
         } catch(
                 IllegalArgumentException e){
@@ -233,7 +179,7 @@ public class TestPickupOrderService {
         when(pickupOrderRepository.findAll()).thenReturn(pickupOrders);
 
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), PICKUP_STATUS.name(), confirmationNumber, TOTAL_COST);
+            pickupOrder = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), PICKUP_STATUS.name(), confirmationNumber);
             pickupOrders.add(pickupOrder);
             pickupOrders = pickupOrderService.getAllPickupOrders();
         } catch (IllegalArgumentException e) {
@@ -246,7 +192,7 @@ public class TestPickupOrderService {
 
     @Test
     public void testDeletePickupOrder() {
-        pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), PICKUP_STATUS.name(), CONFIRMATION_NUMBER_KEY, TOTAL_COST);
+        pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), PICKUP_STATUS.name(), CONFIRMATION_NUMBER_KEY);
         String error = null;
 
         try {
@@ -378,7 +324,7 @@ public class TestPickupOrderService {
         item.setStock(10);
         when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
         purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
-        PickupOrder order = pickupOrderService.createPickupOrder("CASH","PickedUp",10,10);
+        PickupOrder order = pickupOrderService.createPickupOrder("CASH","PickedUp",10);
         order.setPurchasedItem(Arrays.asList(purchasedItem));
 
 
@@ -406,7 +352,7 @@ public class TestPickupOrderService {
         item.setStock(10);
         when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
         purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
-        PickupOrder order = pickupOrderService.createPickupOrder("CASH","PickedUp",10,10);
+        PickupOrder order = pickupOrderService.createPickupOrder("CASH","PickedUp",10);
         order.setPurchasedItem(Arrays.asList(purchasedItem));
 
 
