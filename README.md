@@ -72,3 +72,15 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 
 
 ### The deliverable 2 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-2-Report)
+
+### Tasks and Time Spent
+| Name| Tasks|Time Spent (hrs)|
+| :--- |--- |:---: |
+|Abhijeet Praveen |<ul></ul>|| 
+|Ari Arabian |<ul></ul>||
+|Edward Habelrih| <ul></ul>||
+|Neel Faucher |<ul></ul>| |
+|Rooshnie Velautham|<ul></ul>| |
+|Sébastien Cantin|<ul></ul>| |
+
+### The deliverable 3 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-3-Report)
