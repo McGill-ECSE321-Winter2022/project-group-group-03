@@ -17,23 +17,19 @@ public class PickupOrderService {
     PickupOrderRepository pickupOrderRepository;
 
     //TODO: to be uncommented once create method is ready to be changed
-    //@Autowired
-    //UserService userService;
+//    @Autowired
+//    UserService userService;
 
     @Autowired
     StoreService storeService;
 
     @Transactional
-    public PickupOrder createPickupOrder(String paymentMethod, String pickupStatus, Integer confirmationNumber){
+    public PickupOrder createPickupOrder(String paymentMethod, Integer confirmationNumber){
         PickupOrder newPickupOrder = new PickupOrder();
         List<PickupOrder> pickupOrders = this.getAllPickupOrders();
         if(paymentMethod == null || paymentMethod.equals("") || paymentMethod.equals(" ")) {
             throw new IllegalArgumentException("Payment method can't be empty.");
-        }
-        else if(pickupStatus == null || pickupStatus.equals("") || pickupStatus.equals(" ")){
-            throw new IllegalArgumentException("Pickup status can't be empty.");
-        }
-        else if(confirmationNumber == null){
+        } else if(confirmationNumber == null){
             throw new IllegalArgumentException("Confirmation number can't be empty.");
         }
         else if(confirmationNumber <= 0){
@@ -53,12 +49,7 @@ public class PickupOrderService {
             case "Cash" -> newPickupOrder.setPaymentMethod(PickupOrder.PaymentMethod.Cash);
             case "CreditCard" -> newPickupOrder.setPaymentMethod(PickupOrder.PaymentMethod.CreditCard);
         }
-        switch(pickupStatus){
-            case "InCart" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.InCart);
-            case "Ordered" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.Ordered);
-            case "Prepared" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.Prepared);
-            case "PickedUp" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.PickedUp);
-        }
+        newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.InCart);
         newPickupOrder.setStore(storeService.getStore());
         //TODO: uncomment later
         //userService.addOrder(username, newPickupOrder);
@@ -98,6 +89,8 @@ public class PickupOrderService {
             case "PickedUp" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.PickedUp);
             default -> throw new IllegalArgumentException("Not a valid pickup status");
         }
+        if(newPickupOrder.getPickupStatus().name().equals("Ordered")) storeService.incrementActivePickup();
+        if(newPickupOrder.getPickupStatus().name().equals("PickedUp")) storeService.decrementActivePickup();
         return pickupOrderRepository.findByConfirmationNumber(confirmationNumber);
     }
 
