@@ -78,7 +78,7 @@ public class EmployeeRestController {
 
     @DeleteMapping(value = {"/employee", "/employee/"})
     public void deleteEmployee(@RequestParam String username){
-        service.deleteOwner(username);
+        service.deleteEmployee(username);
     }
 
     private EmployeeDTO convertToDto(Employee e) {
