@@ -28,6 +28,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 public class TestPurchasedItemService {
     private static final int PURCHASED_ITEM_ID = 3;
     private static final int ITEM_QUANTITY = 2;
+    private static final int ORDER_NUMBER = 123;
 
 
     @Mock
@@ -38,6 +39,9 @@ public class TestPurchasedItemService {
     private PurchasedItemService purchasedItemService;
     @Mock
     private ItemService itemService;
+    @Mock
+    private OrderService orderService;
+
 
     private static final String VALID_NAME = "HELLO";
 
@@ -103,14 +107,15 @@ public class TestPurchasedItemService {
         PurchasedItem purchasedItem = null;
         String error = null;
 
-        try{
-            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME,0);
-        }catch(IllegalArgumentException e){
+        try {
+            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 0, ORDER_NUMBER);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(purchasedItem);
         assertEquals("item quantity cannot be zero.", error);
     }
+
 
     @Test
     public void testCreatePurchasedItemNegativeQuantity() {
@@ -119,14 +124,15 @@ public class TestPurchasedItemService {
         PurchasedItem purchasedItem = null;
         String error = null;
 
-        try{
-            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME,-1);
-        }catch(IllegalArgumentException e){
+        try {
+            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, -1, ORDER_NUMBER);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(purchasedItem);
         assertEquals("item quantity cannot be negative.", error);
     }
+
 
     @Test
     public void testCreatePurchasedItemQuantityGreaterThanStock() {
@@ -135,27 +141,28 @@ public class TestPurchasedItemService {
 
         String error = null;
 
-        try{
+        try {
             ITEM.setPurchasable(true);
             ITEM.setStock(9000);
-            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 9001);
-        }catch(IllegalArgumentException e){
+            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 9001, ORDER_NUMBER);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertEquals("itemQuantity cannot be greater than the stock.", error);
     }
 
+
     @Test
     public void testCreatePurchasedItemNotPurchaseable() {
         assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
         String error = null;
-        Item item  = new Item();
+        Item item = new Item();
         item.setPurchasable(false);
 
-        try{
+        try {
             when(itemService.getItem(VALID_NAME)).thenReturn(item);
-            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, ITEM_QUANTITY);
-        }catch(IllegalArgumentException e){
+            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, ITEM_QUANTITY, ORDER_NUMBER);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertEquals("item is not purchasable.", error);
@@ -167,13 +174,14 @@ public class TestPurchasedItemService {
         assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
         Item item = new Item();
         String error = null;
-        try{
-            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(null, ITEM_QUANTITY);
-        }catch(IllegalArgumentException e){
+        try {
+            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(null, ITEM_QUANTITY, ORDER_NUMBER);
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertEquals("item cannot be null.", error);
     }
+
 
     //TODO
     @Test
@@ -184,8 +192,10 @@ public class TestPurchasedItemService {
         String error = null;
         Item item = null;
 
+        //lenient().when(pickupOrderService.addPurchasedItemToPickupOrder(anyInt(), purchasedItem)))
+
         try {
-            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, ITEM_QUANTITY);
+            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, ITEM_QUANTITY, ORDER_NUMBER);
             item = itemService.getItem(VALID_NAME);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
@@ -221,7 +231,7 @@ public class TestPurchasedItemService {
 
         try {
             aItem.setStock(1000);
-            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, ITEM_QUANTITY);
+            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, ITEM_QUANTITY, ORDER_NUMBER);
             purchasedItems.add(purchasedItem);
             purchasedItems = purchasedItemService.getAllPurchasedItem();
         } catch (IllegalArgumentException e) {
@@ -286,14 +296,15 @@ public class TestPurchasedItemService {
         PurchasedItem purchasedItem = null;
         String error = null;
 
-        try{
+        try {
             purchasedItem = purchasedItemService.updatePurchasedItemQuantity(-1, PURCHASED_ITEM_ID);
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNull(purchasedItem);
         assertEquals("item quantity cannot be negative.", error);
     }
+
 
     @Test
     public void testGetPurchasedItemItem() {
@@ -312,7 +323,7 @@ public class TestPurchasedItemService {
     @Test
     public void testUpdatePurchasedItemQuantity(){
         String error = null;
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2, ORDER_NUMBER);
 
         try{
             when(purchasedItemRepository.existsById(anyInt())).thenReturn(true);
@@ -329,7 +340,7 @@ public class TestPurchasedItemService {
     @Test
     public void testUpdatePurchasedItemQuantityNegative(){
         String error = null;
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2, ORDER_NUMBER);
 
         try{
             when(purchasedItemRepository.existsById(anyInt())).thenReturn(true);
@@ -346,7 +357,7 @@ public class TestPurchasedItemService {
     public void testUpdatePurchasedItemQuantityWrongId(){
 
         String error = null;
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2, ORDER_NUMBER);
         try{
             purchasedItem = purchasedItemService.updatePurchasedItemQuantity(1, 1234);
         }
