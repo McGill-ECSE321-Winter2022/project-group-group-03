@@ -72,7 +72,7 @@ public class TestCustomerService {
     private EmployeeService employeeService;
     @InjectMocks
     private OwnerService ownerService;
-    @InjectMocks
+    @Mock
     private ItemService itemService;
     @InjectMocks
     private PurchasedItemService purchasedItemService;
@@ -93,20 +93,21 @@ public class TestCustomerService {
                 return null;
             }
         });
+
         lenient().when(employeeRepository.existsById(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
-           if (invocation.getArgument(0).equals(EMPLOYEE_USERNAME)){
-               ArrayList<Employee> employees = new ArrayList<Employee>();
-               Employee employee = new Employee();
-               employee.setUsername(EMPLOYEE_USERNAME);
-               employee.setPassword(EMPLOYEE_PASSWORD);
-               employee.setEmail(EMPLOYEE_EMAIL);
-               employee.setAddress(EMPLOYEE_ADDRESS);
-               employees.add(employee);
-               return employee;
-           }
-           else{
-               return null;
-           }
+            if (invocation.getArgument(0).equals(EMPLOYEE_USERNAME)){
+                ArrayList<Employee> employees = new ArrayList<Employee>();
+                Employee employee = new Employee();
+                employee.setUsername(EMPLOYEE_USERNAME);
+                employee.setPassword(EMPLOYEE_PASSWORD);
+                employee.setEmail(EMPLOYEE_EMAIL);
+                employee.setAddress(EMPLOYEE_ADDRESS);
+                employees.add(employee);
+                return employee;
+            }
+            else{
+                return null;
+            }
         });
         lenient().when(ownerRepository.existsById(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(OWNER_USERNAME)){
@@ -785,163 +786,6 @@ public class TestCustomerService {
         }
         assertNull(customer.getOrder());
         assertEquals("Customer does not currently exist in system.", error);
-    }
-
-    @Test
-    public void testCustomerWantsToUpdateStockDeliveryOrderOverflow(){
-        String error = null;
-        //Initialization
-        Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
-        Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10 );
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem("item", 5);
-        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "InCart", 123,  false);
-        List<Order> orders = new ArrayList<>();
-        List<PurchasedItem> purchasedItems = new ArrayList<>();
-        purchasedItem.setItem(item);
-        purchasedItems.add(purchasedItem);
-        deliveryOrder.setPurchasedItem(purchasedItems);
-        orders.add(deliveryOrder);
-        customer.setOrder(orders);
-        //Test
-        try{
-            when(customerRepository.findCustomerByUsername(anyString())).thenReturn(customer);
-            //Test Customer -> Order
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getConfirmationNumber(), deliveryOrder.getConfirmationNumber());
-            //Test Customer -> Order -> Purchased Item
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getPurchasedItemID(), purchasedItem.getPurchasedItemID());
-            //Test Customer -> Order -> Purchased Item -> Item
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getItem().getName(), "Cheeze");
-            //Adjust purchased item quantity from customer
-            Item tempItem = customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getItem();
-            when(itemRepository.findByName(anyString())).thenReturn(item);
-            itemService.updateItemTotalPurchased(tempItem.getName(), 400);
-        }
-        catch(IllegalArgumentException e){
-            error = e.getMessage();
-        }
-        assertEquals(error, "There are only " + item.getStock() + " " + item.getName()+ "s available currently.");
-    }
-
-
-
-    @Test
-    public void testCustomerWantsToUpdateStockDeliveryOrderNegative(){
-        String error = null;
-        //Initialization
-        Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
-        Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10 );
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem("item", 5);
-        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "InCart", 123,  false);
-        List<Order> orders = new ArrayList<>();
-        List<PurchasedItem> purchasedItems = new ArrayList<>();
-        purchasedItem.setItem(item);
-        purchasedItems.add(purchasedItem);
-        deliveryOrder.setPurchasedItem(purchasedItems);
-        orders.add(deliveryOrder);
-        customer.setOrder(orders);
-        //Test
-        try{
-            when(customerRepository.findCustomerByUsername(anyString())).thenReturn(customer);
-            //Test Customer -> Order
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getConfirmationNumber(), deliveryOrder.getConfirmationNumber());
-            //Test Customer -> Order -> Purchased Item
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getPurchasedItemID(), purchasedItem.getPurchasedItemID());
-            //Test Customer -> Order -> Purchased Item -> Item
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getItem().getName(), "Cheeze");
-            //Adjust purchased item quantity from customer
-            Item tempItem = customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getItem();
-            when(itemRepository.findByName(anyString())).thenReturn(item);
-            itemService.updateItemTotalPurchased(tempItem.getName(), -2);
-        }
-        catch(IllegalArgumentException e){
-            error = e.getMessage();
-        }
-        assertEquals(error, "Total Purchased can't be negative.");
-    }
-
-    @Test
-    public void testCustomerWantsToUpdateStockDeliveryOrderZero(){
-        String error = null;
-        //Initialization
-        Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
-        Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10 );
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem("item", 5);
-        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "InCart", 123,  false);
-        List<Order> orders = new ArrayList<>();
-        List<PurchasedItem> purchasedItems = new ArrayList<>();
-        purchasedItem.setItem(item);
-        purchasedItems.add(purchasedItem);
-        deliveryOrder.setPurchasedItem(purchasedItems);
-        orders.add(deliveryOrder);
-        customer.setOrder(orders);
-        //Test
-        try{
-            when(customerRepository.findCustomerByUsername(anyString())).thenReturn(customer);
-            //Test Customer -> Order
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getConfirmationNumber(), deliveryOrder.getConfirmationNumber());
-            //Test Customer -> Order -> Purchased Item
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getPurchasedItemID(), purchasedItem.getPurchasedItemID());
-            //Test Customer -> Order -> Purchased Item -> Item
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getItem().getName(), "Cheeze");
-            //Adjust purchased item quantity from customer
-            Item tempItem = customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getItem();
-            when(itemRepository.findByName(anyString())).thenReturn(item);
-            itemService.updateItemTotalPurchased(tempItem.getName(), 0);
-        }
-        catch(IllegalArgumentException e){
-            error = e.getMessage();
-        }
-        assertEquals(error, "Total Purchased can't be 0.");
-    }
-
-    @Test
-    public void testCustomerWantsToUpdatePurchasedQuantityButStockNull(){
-        String error = null;
-        //Initialization
-        Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
-        Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 2 );
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem("item", 2);
-        DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "InCart", 123,  false);
-        List<Order> orders = new ArrayList<>();
-        List<PurchasedItem> purchasedItems = new ArrayList<>();
-        purchasedItem.setItem(item);
-        purchasedItems.add(purchasedItem);
-        deliveryOrder.setPurchasedItem(purchasedItems);
-        orders.add(deliveryOrder);
-        customer.setOrder(orders);
-        //Test
-        try{
-            when(customerRepository.findCustomerByUsername(anyString())).thenReturn(customer);
-            //Test Customer -> Order
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getConfirmationNumber(), deliveryOrder.getConfirmationNumber());
-            //Test Customer -> Order -> Purchased Item
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getPurchasedItemID(), purchasedItem.getPurchasedItemID());
-            //Test Customer -> Order -> Purchased Item -> Item
-            assertEquals(customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getItem().getName(), "Cheeze");
-            //Adjust purchased item quantity from customer
-            Item tempItem = customerRepository.findCustomerByUsername(USERNAME_KEY).getOrder().get(0).getPurchasedItem().get(0).getItem();
-            when(itemRepository.findByName(anyString())).thenReturn(item);
-            //Empty item stock
-            itemService.updateItemTotalPurchased(tempItem.getName(), 2);
-            //Add more when stock is down
-            itemService.updateItemTotalPurchased(tempItem.getName(), 5);
-        }
-        catch(IllegalArgumentException e){
-            error = e.getMessage();
-        }
-        assertEquals(error, "There are no " + item.getName() + "s available currently.");
-    }
-
-    @Test
-    public void testCustomerWantsToUpdatePurchasedQuantityButStockItemIDWrong(){
-        String error = null;
-        try{
-            itemService.updateItemTotalPurchased("Ball", 2);
-        }
-        catch(IllegalArgumentException e){
-            error = e.getMessage();
-        }
-        assertEquals(error, "The Item with name: " + "Ball" + " was not found in the database.");
     }
 
 }
