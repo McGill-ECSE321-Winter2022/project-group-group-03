@@ -55,7 +55,6 @@ public class DeliveryOrderService {
         newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.InCart);
 
         newDeliveryOrder.setStore(storeService.getStore());
-        //TODO: to be uncommented later
         userService.addOrder(username, newDeliveryOrder);
         deliveryOrderRepository.save(newDeliveryOrder);
         return newDeliveryOrder;

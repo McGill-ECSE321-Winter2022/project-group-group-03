@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
-import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,9 @@ public class PickupOrderService {
     @Autowired
     PickupOrderRepository pickupOrderRepository;
 
+    @Autowired
+    UserService userService;
+
     //TODO: to be uncommented once create method is ready to be changed
 //    @Autowired
 //    UserService userService;
@@ -24,7 +26,7 @@ public class PickupOrderService {
     StoreService storeService;
 
     @Transactional
-    public PickupOrder createPickupOrder(String paymentMethod, Integer confirmationNumber){
+    public PickupOrder createPickupOrder(String username, String paymentMethod, Integer confirmationNumber){
         PickupOrder newPickupOrder = new PickupOrder();
         List<PickupOrder> pickupOrders = this.getAllPickupOrders();
         if(paymentMethod == null || paymentMethod.equals("") || paymentMethod.equals(" ")) {
@@ -51,8 +53,7 @@ public class PickupOrderService {
         }
         newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.InCart);
         newPickupOrder.setStore(storeService.getStore());
-        //TODO: uncomment later
-        //userService.addOrder(username, newPickupOrder);
+        userService.addOrder(username, newPickupOrder);
         pickupOrderRepository.save(newPickupOrder);
         return newPickupOrder;
     }

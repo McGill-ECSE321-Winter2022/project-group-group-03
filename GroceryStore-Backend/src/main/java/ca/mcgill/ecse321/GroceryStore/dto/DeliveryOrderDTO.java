@@ -23,6 +23,7 @@ public class DeliveryOrderDTO {
     public String getShippingStatus(){
         return shippingStatus;
     }
+    public boolean getIsOutOfTown() {return isOutOfTown;}
 
     public int getConfirmationNumber() {return confirmationNumber;}
     public int getTotalCost() {return totalCost;}

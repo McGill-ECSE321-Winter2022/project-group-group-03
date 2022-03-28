@@ -25,6 +25,7 @@ public class TestPickupOrderService {
     private String ITEM_NAME_KEY = "Cheesy Balls";
     private PickupOrder.PaymentMethod PAYMENT_METHOD = PickupOrder.PaymentMethod.Cash;
     private PickupOrder.PickupStatus PICKUP_STATUS = PickupOrder.PickupStatus.PickedUp;
+    private String USERNAME = "Seb";
     private int TOTAL_COST = 68;
 
     @Mock
@@ -92,7 +93,7 @@ public class TestPickupOrderService {
         PickupOrder pickupOrder = null;
 
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), confirmationNumber);
+            pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
         } catch (IllegalArgumentException e) {
             fail();
         }
@@ -109,7 +110,7 @@ public class TestPickupOrderService {
         String error = null;
 
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), confirmationNumber);
+            pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -124,7 +125,7 @@ public class TestPickupOrderService {
         String error = null;
         PickupOrder pickupOrder = null;
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), confirmationNumber);
+            pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -141,7 +142,7 @@ public class TestPickupOrderService {
         String error = null;
         PickupOrder pickupOrder = null;
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), confirmationNumber);
+            pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -162,9 +163,9 @@ public class TestPickupOrderService {
         when(pickupOrderRepository.findAll()).thenReturn(POs);
 
         try {
-            pickupOrder1 = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), confirmationNumber);
+            pickupOrder1 = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
             POs.add(pickupOrder1);
-            pickupOrder2 = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), confirmationNumber);
+            pickupOrder2 = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
 
         } catch(
                 IllegalArgumentException e){
@@ -183,7 +184,7 @@ public class TestPickupOrderService {
         when(pickupOrderRepository.findAll()).thenReturn(pickupOrders);
 
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(PICKUP_STATUS.name(), confirmationNumber);
+            pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
             pickupOrders.add(pickupOrder);
             pickupOrders = pickupOrderService.getAllPickupOrders();
         } catch (IllegalArgumentException e) {
@@ -196,7 +197,7 @@ public class TestPickupOrderService {
 
     @Test
     public void testDeletePickupOrder() {
-        pickupOrderService.createPickupOrder(PAYMENT_METHOD.name(), CONFIRMATION_NUMBER_KEY);
+        pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
         String error = null;
 
         try {
