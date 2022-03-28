@@ -53,13 +53,12 @@ public class TestEmployeeService {
     @InjectMocks
     private EmployeeService employeeService;
 
-    @InjectMocks
+    @Mock
     private WorkShiftService workShiftService;
 
-    @InjectMocks
+    @Mock
     private DeliveryOrderService deliveryOrderService;
-
-    @InjectMocks
+    @Mock
     private PickupOrderService pickupOrderService;
     @Mock
     private StoreRepository storeRepository;
