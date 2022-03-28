@@ -30,16 +30,16 @@ public class TestPickupOrderService {
     @Mock
     private PickupOrderRepository pickupOrderRepository;
     @Mock
-    private StoreRepository storeRepository;
-    @Mock
     private PurchasedItemRepository purchasedItemRepository;
     @Mock
     private ItemRepository itemRepository;
+    @Mock
+    private StoreRepository storeRepository;
+    @Mock
+    private StoreService storeService;
 
     @InjectMocks
     private PickupOrderService pickupOrderService;
-    @InjectMocks
-    private StoreService storeService;
     @InjectMocks
     private PurchasedItemService purchasedItemService;
     @InjectMocks
@@ -64,6 +64,10 @@ public class TestPickupOrderService {
             } else {
                 return null;
             }
+        });
+        lenient().when(storeRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+            Store s = storeService.createStore("ADDRESS", 5,5);
+            return new ArrayList<Store>(Arrays.asList(s));
         });
         lenient().when(pickupOrderRepository.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(CONFIRMATION_NUMBER_KEY)) {
@@ -314,61 +318,7 @@ public class TestPickupOrderService {
         assertNotNull(error);
         assertEquals(error, "Confirmation number must be greater than 0.");
     }
-    @Test
-    public void testPickupOrderStockCheck(){
-        List<PurchasedItem> pIs = new ArrayList<>();
-        String error = null;
-        Item item = new Item();
-        PurchasedItem purchasedItem = new PurchasedItem();
-        item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
-        item.setStock(10);
-        when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
-        purchasedItem = purchasedItemService.createPurchasedItem("item", 2);
-        PickupOrder order = pickupOrderService.createPickupOrder("CASH","PickedUp",10);
-        order.setPurchasedItem(Arrays.asList(purchasedItem));
 
-
-        try{
-            when(purchasedItemRepository.existsById(anyInt())).thenReturn(true);
-            when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
-
-           PurchasedItem ps2 = purchasedItemService.updatePurchasedItemQuantity(20, order.getPurchasedItem().get(0).getPurchasedItemID());
-            System.out.println(ps2.getItemQuantity());
-        }catch (Exception e){
-            error = e.getMessage();
-        }
-        assertNotNull(error);
-        assertEquals(error, "itemQuantity cannot be greater than the stock.");
-
-    }
-
-    @Test
-    public void testPickupOrderStockCheckNegative(){
-        List<PurchasedItem> pIs = new ArrayList<>();
-        String error = null;
-        Item item = new Item();
-        PurchasedItem purchasedItem = new PurchasedItem();
-        item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
-        item.setStock(10);
-        when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
-        purchasedItem = purchasedItemService.createPurchasedItem("item", 2);
-        PickupOrder order = pickupOrderService.createPickupOrder("CASH","PickedUp",10);
-        order.setPurchasedItem(Arrays.asList(purchasedItem));
-
-
-        try{
-            when(purchasedItemRepository.existsById(anyInt())).thenReturn(true);
-            when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
-
-            PurchasedItem ps2 = purchasedItemService.updatePurchasedItemQuantity(-20, order.getPurchasedItem().get(0).getPurchasedItemID());
-            System.out.println(ps2.getItemQuantity());
-        }catch (Exception e){
-            error = e.getMessage();
-        }
-        assertNotNull(error);
-        assertEquals(error, "item quantity cannot be negative.");
-
-    }
     @Test
     public void updatePickupStatusNullConfirmationNumber(){
         PickupOrder pickupOrder = null;
