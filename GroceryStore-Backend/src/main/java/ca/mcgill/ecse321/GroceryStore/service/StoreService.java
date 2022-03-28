@@ -144,6 +144,38 @@ public class StoreService {
     }
 
     @Transactional
+    public Store decrementActivePickup(){
+        Store store = getStore();
+        if (store.getCurrentActivePickup()-1 < 0) throw new IllegalArgumentException("Active pickups can't be negative.");
+        store.setCurrentActivePickup(store.getCurrentActivePickup() -1);
+        return store;
+    }
+
+    @Transactional
+    public Store incrementActivePickup(){
+        Store store = getStore();
+        if (store.getCurrentActivePickup()+1 < Store.MAXPICKUPS) throw new IllegalArgumentException("Active pickups can't be exceed max: "+Store.MAXPICKUPS);
+        store.setCurrentActivePickup(store.getCurrentActivePickup() +1);
+        return store;
+    }
+
+    @Transactional
+    public Store decrementActiveDelivery(){
+        Store store = getStore();
+        if (store.getCurrentActiveDelivery()-1 < 0) throw new IllegalArgumentException("Active deliveries can't be negative.");
+        store.setCurrentActiveDelivery(store.getCurrentActiveDelivery() -1);
+        return store;
+    }
+
+    @Transactional
+    public Store incrementActiveDelivery(){
+        Store store = getStore();
+        if (store.getCurrentActiveDelivery()+1 < Store.MAXSHIPPING) throw new IllegalArgumentException("Active deliveries can't be exceed max: "+Store.MAXSHIPPING);
+        store.setCurrentActiveDelivery(store.getCurrentActiveDelivery() +1);
+        return store;
+    }
+
+    @Transactional
     public Store setAddress(String address){
         if(address == null || address.equals("") || address.equals(" ")){
             throw new IllegalArgumentException("Address can't be empty.");
@@ -160,10 +192,5 @@ public class StoreService {
         }
         return resultList;
     }
-
-
-
-
-
 
 }
