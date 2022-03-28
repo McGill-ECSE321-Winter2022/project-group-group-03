@@ -1,0 +1,2033 @@
+{
+	"info": {
+		"_postman_id": "40618db6-4796-4f4c-a8fe-73acb581e8a6",
+		"name": "Integration Tests Deliverable 2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post Requests",
+			"item": [
+				{
+					"name": "Holiday",
+					"item": [
+						{
+							"name": "Create Holiday",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/holiday?name=Easter&startDate=2021-08-09&endDate=2021-08-10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"holiday"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Easter"
+										},
+										{
+											"key": "startDate",
+											"value": "2021-08-09"
+										},
+										{
+											"key": "endDate",
+											"value": "2021-08-10"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "WorkShift",
+					"item": [
+						{
+							"name": "createWorkShift",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/workShift?aStartTime=02:30&aEndTime=03:30&aDay=Monday",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workShift"
+									],
+									"query": [
+										{
+											"key": "aStartTime",
+											"value": "02:30"
+										},
+										{
+											"key": "aEndTime",
+											"value": "03:30"
+										},
+										{
+											"key": "aDay",
+											"value": "Monday"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Employee",
+					"item": [
+						{
+							"name": "createEmployee",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/employee?username=Jeet&email=jeetjeet@mail.com&password=1aq2w3&address=69420 jeet street",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"employee"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Jeet"
+										},
+										{
+											"key": "email",
+											"value": "jeetjeet@mail.com"
+										},
+										{
+											"key": "password",
+											"value": "1aq2w3"
+										},
+										{
+											"key": "address",
+											"value": "69420 jeet street"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Business hour",
+					"item": [
+						{
+							"name": "Create Business Hour",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/businessHour?startTime=02:35:00&endTime=04:24:00&day=Sunday",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"businessHour"
+									],
+									"query": [
+										{
+											"key": "startTime",
+											"value": "02:35:00"
+										},
+										{
+											"key": "endTime",
+											"value": "04:24:00"
+										},
+										{
+											"key": "day",
+											"value": "Sunday"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Item",
+					"item": [
+						{
+							"name": "createItem",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/item?itemName=coke&purchasable=true&price=30&description=2&stock=1000000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"item"
+									],
+									"query": [
+										{
+											"key": "itemName",
+											"value": "coke"
+										},
+										{
+											"key": "purchasable",
+											"value": "true"
+										},
+										{
+											"key": "price",
+											"value": "30"
+										},
+										{
+											"key": "description",
+											"value": "2"
+										},
+										{
+											"key": "stock",
+											"value": "1000000"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PurchasedItem",
+					"item": [
+						{
+							"name": "createPurchasedItem",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/purchased_item?item=coke&aItemQuantity=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchased_item"
+									],
+									"query": [
+										{
+											"key": "item",
+											"value": "coke"
+										},
+										{
+											"key": "aItemQuantity",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Store",
+					"item": [
+						{
+							"name": "createStore",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/store/1?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"store",
+										"1"
+									],
+									"query": [
+										{
+											"key": "aAddress",
+											"value": "Sherbrooke"
+										},
+										{
+											"key": "aCurrentActiveDelivery",
+											"value": "2"
+										},
+										{
+											"key": "aCurrentActivePickup",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Owner",
+					"item": [
+						{
+							"name": "createOwner",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/owner?username=owner&email=owner@mail.ca&password=j84gf9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"owner"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "owner"
+										},
+										{
+											"key": "email",
+											"value": "owner@mail.ca"
+										},
+										{
+											"key": "password",
+											"value": "j84gf9"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PickupOrder",
+					"item": [
+						{
+							"name": "createPickupOrder",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/pickupOrder?paymentMethod=Cash&pickupStatus=Ordered&confirmationNumber=30000&totalCost=12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"pickupOrder"
+									],
+									"query": [
+										{
+											"key": "paymentMethod",
+											"value": "Cash"
+										},
+										{
+											"key": "pickupStatus",
+											"value": "Ordered"
+										},
+										{
+											"key": "confirmationNumber",
+											"value": "30000"
+										},
+										{
+											"key": "totalCost",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "createDeliveryOrder",
+					"item": [
+						{
+							"name": "createDeliveryOrder",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/deliveryOrder/?shippingAddress=\"sherbrooke\"&shippingStatus=Ordered&confirmationNumber=20000&totalCost=32&isOutOfTown=false",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"deliveryOrder",
+										""
+									],
+									"query": [
+										{
+											"key": "shippingAddress",
+											"value": "\"sherbrooke\""
+										},
+										{
+											"key": "shippingStatus",
+											"value": "Ordered"
+										},
+										{
+											"key": "confirmationNumber",
+											"value": "20000"
+										},
+										{
+											"key": "totalCost",
+											"value": "32"
+										},
+										{
+											"key": "isOutOfTown",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Customer",
+					"item": [
+						{
+							"name": "createCustomer",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customer?username=Seb&password=jeetisnice&email=Lmao@mmks.ca&address=Bobsville",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"customer"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Seb"
+										},
+										{
+											"key": "password",
+											"value": "jeetisnice"
+										},
+										{
+											"key": "email",
+											"value": "Lmao@mmks.ca"
+										},
+										{
+											"key": "address",
+											"value": "Bobsville"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get Requests",
+			"item": [
+				{
+					"name": "Owner",
+					"item": [
+						{
+							"name": "getOwner",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/owner?username=owner",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"owner"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "owner"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetOwners",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/owners",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"owners"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Holiday",
+					"item": [
+						{
+							"name": "Get a Specific Holiday",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/holiday/Easter",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"holiday",
+										"Easter"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Holidays",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/holiday",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"holiday"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PurchasedItem",
+					"item": [
+						{
+							"name": "getPurchasedItems",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/purchased_item",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchased_item"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getPurchasedItem",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/purchased_item/90000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchased_item",
+										"90000"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "WorkShift",
+					"item": [
+						{
+							"name": "getWorkShift",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/workShift/50000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workShift",
+										"50000"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getWorkShifts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/workShift",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workShift"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Employee",
+					"item": [
+						{
+							"name": "getEmployee",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/employee?username=Jeet",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"employee"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Jeet"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllEmployees",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/all_employees",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"all_employees"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Item",
+					"item": [
+						{
+							"name": "getItems",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/item",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"item"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getItem",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/item/coke",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"item",
+										"coke"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "BusinessHour",
+					"item": [
+						{
+							"name": "Get a Specific Business Hour",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/businessHour/10000/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"businessHour",
+										"10000",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Business Hours",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/businessHour",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"businessHour"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Customer",
+					"item": [
+						{
+							"name": "Get a Specific Customer",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customer/?username=Seb",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"customer",
+										""
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Seb"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Customers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/customer/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"customer",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Store",
+					"item": [
+						{
+							"name": "Get All Stores",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/store",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"store"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get a Store",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/store?storeID=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"store"
+									],
+									"query": [
+										{
+											"key": "storeID",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Store Employees",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/employee/store/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"employee",
+										"store",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Store Items",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/item/store/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"item",
+										"store",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Store Holidays",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/holiday/store/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"holiday",
+										"store",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Store Business Hours",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/business_hour/store/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"business_hour",
+										"store",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DeliveryOrder",
+					"item": [
+						{
+							"name": "Get All Delivery Orders",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/deliveryOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"deliveryOrder"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get a Specific Delivery Order",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/deliveryOrder?confirmationNumber=20000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"deliveryOrder"
+									],
+									"query": [
+										{
+											"key": "confirmationNumber",
+											"value": "20000"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PickUpOrder",
+					"item": [
+						{
+							"name": "Get All Pick Up Orders",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/pickupOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"pickupOrder"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get a Specific Pick Up Order",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/pickupOrder?confirmationNumber=30000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"pickupOrder"
+									],
+									"query": [
+										{
+											"key": "confirmationNumber",
+											"value": "30000"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Put Requests",
+			"item": [
+				{
+					"name": "PurchasedItem",
+					"item": [
+						{
+							"name": "updatePurchasedItem",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/edit_purchasedItem/90000?itemQuantity=30",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"edit_purchasedItem",
+										"90000"
+									],
+									"query": [
+										{
+											"key": "itemQuantity",
+											"value": "30"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "WorkShift",
+					"item": [
+						{
+							"name": "updateWorkShiftStartTime",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/edit_workShift_startTime/50000?startTime=01:25",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"edit_workShift_startTime",
+										"50000"
+									],
+									"query": [
+										{
+											"key": "startTime",
+											"value": "01:25"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateWorkShiftEndTime",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/edit_workShift_endTime/50000?endTime=08:20",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"edit_workShift_endTime",
+										"50000"
+									],
+									"query": [
+										{
+											"key": "endTime",
+											"value": "08:20"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Holiday",
+					"item": [
+						{
+							"name": "update Start Date Holiday",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/edit_holiday_startDate/Easter?startDate=2021-08-08",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"edit_holiday_startDate",
+										"Easter"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2021-08-08"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update End date Holiday",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/edit_holiday_endDate/Easter?endDate=2021-08-11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"edit_holiday_endDate",
+										"Easter"
+									],
+									"query": [
+										{
+											"key": "endDate",
+											"value": "2021-08-11"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Owner",
+					"item": [
+						{
+							"name": "updateOwner",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/update_owner?username=owner&password=newPassword",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"update_owner"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "owner"
+										},
+										{
+											"key": "password",
+											"value": "newPassword"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Employee",
+					"item": [
+						{
+							"name": "updateEmployee",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/update_employee?username=Jeet&password=newPass1&address=newAddr1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"update_employee"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Jeet"
+										},
+										{
+											"key": "password",
+											"value": "newPass1"
+										},
+										{
+											"key": "address",
+											"value": "newAddr1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateEmployeePassword",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/update_employee_password?username=Jeet&password=newPass2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"update_employee_password"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Jeet"
+										},
+										{
+											"key": "password",
+											"value": "newPass2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateEmployeeAddress",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/update_employee_address?username=Jeet&address=newAddr2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"update_employee_address"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Jeet"
+										},
+										{
+											"key": "address",
+											"value": "newAddr2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "fireEmployee",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/fire_employee?username=Jeet",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"fire_employee"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Jeet"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Customer",
+					"item": [
+						{
+							"name": "updateCustomerPassword",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editPassword/Seb?password=newPassword",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editPassword",
+										"Seb"
+									],
+									"query": [
+										{
+											"key": "password",
+											"value": "newPassword"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateCustomerEmail",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editEmail/Seb?email=customer@mail.ca",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editEmail",
+										"Seb"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "customer@mail.ca"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateCustomerAddress",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editAddress/Seb?address=newAddress",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editAddress",
+										"Seb"
+									],
+									"query": [
+										{
+											"key": "address",
+											"value": "newAddress"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Store",
+					"item": [
+						{
+							"name": "updateStoreActiveDelivery",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editStoreActiveDelivery/1?newCurrentActiveDelivery=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editStoreActiveDelivery",
+										"1"
+									],
+									"query": [
+										{
+											"key": "newCurrentActiveDelivery",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "newCurrentActivePickup",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editStoreActivePickup/1?newCurrentActivePickup=5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editStoreActivePickup",
+										"1"
+									],
+									"query": [
+										{
+											"key": "newCurrentActivePickup",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateStoreAddress",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editStoreAddress/1?address=newAddress",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editStoreAddress",
+										"1"
+									],
+									"query": [
+										{
+											"key": "address",
+											"value": "newAddress"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DeliveryOrder",
+					"item": [
+						{
+							"name": "updateDeliveryOrderShippingAddress",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editDeliveryOrderShippingAddress/20000/?newAddress=newAddress",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editDeliveryOrderShippingAddress",
+										"20000",
+										""
+									],
+									"query": [
+										{
+											"key": "newAddress",
+											"value": "newAddress"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Item",
+					"item": [
+						{
+							"name": "updateItemPurchasable",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editItemPurchasable/coke?newPurchasable=false",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editItemPurchasable",
+										"coke"
+									],
+									"query": [
+										{
+											"key": "newPurchasable",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateItemPrice",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editItemPrice/coke?newPrice=15",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editItemPrice",
+										"coke"
+									],
+									"query": [
+										{
+											"key": "newPrice",
+											"value": "15"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "addItemStock",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/addItemStock/coke?addedStock=5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"addItemStock",
+										"coke"
+									],
+									"query": [
+										{
+											"key": "addedStock",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateItemDescription",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editItemDescription/coke?newDescription=Better than Pepsi",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editItemDescription",
+										"coke"
+									],
+									"query": [
+										{
+											"key": "newDescription",
+											"value": "Better than Pepsi"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateItemStock",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editItemStock/coke?newStock=21",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editItemStock",
+										"coke"
+									],
+									"query": [
+										{
+											"key": "newStock",
+											"value": "21"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateItemTotalPurchased",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editItemTotalPurchased/coke?newTotalPurchased=5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editItemTotalPurchased",
+										"coke"
+									],
+									"query": [
+										{
+											"key": "newTotalPurchased",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "BusinessHour",
+					"item": [
+						{
+							"name": "Update BusinessHour StartTime",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editBusinessHourStartTime/10000?startTime=03:00:00",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editBusinessHourStartTime",
+										"10000"
+									],
+									"query": [
+										{
+											"key": "startTime",
+											"value": "03:00:00"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update BusinessHour EndTime",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editBusinessHourEndTime/10000?endTime=05:00:00",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editBusinessHourEndTime",
+										"10000"
+									],
+									"query": [
+										{
+											"key": "endTime",
+											"value": "05:00:00"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update BusinessHour",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/editBusinessHour/10000?startTime=02:00:00&endTime=04:00:00",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"editBusinessHour",
+										"10000"
+									],
+									"query": [
+										{
+											"key": "startTime",
+											"value": "02:00:00"
+										},
+										{
+											"key": "endTime",
+											"value": "04:00:00"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Delete Requests",
+			"item": [
+				{
+					"name": "PurchasedItem",
+					"item": [
+						{
+							"name": "deletePurchasedItem",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/purchased_item/90000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchased_item",
+										"90000"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "WorkShift",
+					"item": [
+						{
+							"name": "deleteWorkShift",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/workShift/50000?",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"workShift",
+										"50000"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Holiday",
+					"item": [
+						{
+							"name": "Delete Holiday",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/holiday/Easter",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"holiday",
+										"Easter"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Business Hour",
+					"item": [
+						{
+							"name": "Delete Business Hour",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/businessHour/10000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"businessHour",
+										"10000"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Owner",
+					"item": [
+						{
+							"name": "deleteOwner",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/owner?username=owner",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"owner"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "owner"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DeliveryOrder",
+					"item": [
+						{
+							"name": "deleteDeliveryOrder",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/deliveryOrder/20000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"deliveryOrder",
+										"20000"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PickupOrder",
+					"item": [
+						{
+							"name": "deletePickupOrder",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/pickupOrder/30000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"pickupOrder",
+										"30000"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "https://grocerystore-backend-ise2022w.herokuapp.com/",
+			"type": "string"
+		}
+	]
+}

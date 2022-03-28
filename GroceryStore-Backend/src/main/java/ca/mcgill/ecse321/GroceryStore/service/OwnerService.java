@@ -61,7 +61,7 @@ public class OwnerService {
             throw new IllegalArgumentException("A store is needed to initialize an owner");
         }
         ownerRepository.save(newOwner);
-
+        
         return newOwner;
     }
 

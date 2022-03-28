@@ -58,17 +58,9 @@ public class TestStoreService {
 
     @BeforeEach
     public void setMockOutput() {
-        lenient().when(storeRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(STORE_ID_KEY)) {
-                Store store = new Store();
-                store.setAddress(ADDRESS);
-                store.setCurrentActiveDelivery(CURRENT_ACTIVE_DELIVERY);
-                store.setCurrentActivePickup(CURRENT_ACTIVE_PICKUP);
-
-                return store;
-            } else {
-                return null;
-            }
+        lenient().when(storeRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+                ArrayList<Store> storeArrayList = new ArrayList<>();
+                return storeArrayList;
         });
         lenient().when(storeRepository.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(STORE_ID_KEY)) {
@@ -87,6 +79,7 @@ public class TestStoreService {
     public void testCreateStore(){
         Store store = null;
 
+
         try{
             store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         }catch(IllegalArgumentException e){
@@ -98,7 +91,6 @@ public class TestStoreService {
 
     @Test
     public void testStoreCurrentActiveDeliveryNull(){
-        assertEquals(0, storeService.getAllStores().size());
         Store store = null;
         String error = null;
 
@@ -112,41 +104,24 @@ public class TestStoreService {
     }
     @Test
     public void testUpdateNullActiveDelivery() {
-        assertEquals(0, storeService.getAllStores().size());
         Store store = null;
         store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         Integer activeDelivery = null;
         String error = null;
 
         try {
-            storeService.setActiveDelivery(STORE_ID_KEY, activeDelivery);
+            storeService.setActiveDelivery(activeDelivery);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
         assertNotNull(store.getCurrentActiveDelivery());
         assertEquals("Active delivery can't be empty.", error);
     }
-    @Test
-    public void testUpdateStoreIDWrongIDforActiveDelivery() {
-        assertEquals(0, storeService.getAllStores().size());
-        //Integer activeDelivery = 999;
-        String error = null;
-        Store store = null;
-        store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
-        try {
-            storeService.setActiveDelivery(435464, 999);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-      //  assertEquals(store.getCurrentActiveDelivery(), CURRENT_ACTIVE_DELIVERY);
-        // check error
-        assertEquals("Store isn't registered in the system.", error);
-    }
+
     
 
     @Test
     public void testStoreCurrentActiveDeliveryNegative(){
-        assertEquals(0, storeService.getAllStores().size());
         Store store = null;
         String error = null;
 
@@ -160,14 +135,13 @@ public class TestStoreService {
     }
     @Test
     public void testUpdateNegativeActiveDelivery() {
-        assertEquals(0, storeService.getAllStores().size());
         Store store = null;
         store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         Integer activeDelivery = -20;
         String error = null;
 
         try {
-            storeService.setActiveDelivery(STORE_ID_KEY, activeDelivery);
+            storeService.setActiveDelivery(activeDelivery);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -177,7 +151,6 @@ public class TestStoreService {
 
     @Test
     public void testStoreCurrentActivePickupNull(){
-        assertEquals(0, storeService.getAllStores().size());
         Store store = null;
         String error = null;
 
@@ -192,7 +165,6 @@ public class TestStoreService {
 
     @Test
     public void testStoreCurrentActivePickupNegative(){
-        assertEquals(0, storeService.getAllStores().size());
         Store store = null;
         String error = null;
 
@@ -204,22 +176,7 @@ public class TestStoreService {
         assertNull(store);
         assertEquals("Active pickup can't be negative.", error);
     }
-    @Test
-    public void testUpdateStoreIDWrongIDforActivePickup() {
-        assertEquals(0, storeService.getAllStores().size());
-        //Integer activeDelivery = 999;
-        String error = null;
-        Store store = null;
-        store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
-        try {
-            storeService.setActivePickup(435464, 999);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        //  assertEquals(store.getCurrentActiveDelivery(), CURRENT_ACTIVE_DELIVERY);
-        // check error
-        assertEquals("Store isn't registered in the system.", error);
-    }
+
     @Test
     public void testNullAddressStore(){
         String address = null;
@@ -265,31 +222,15 @@ public class TestStoreService {
         // check error
         assertEquals("Address can't be empty.", error);
     }
-    @Test
-    public void testUpdateStoreIDWrongIDforAddress() {
-        assertEquals(0, storeService.getAllStores().size());
-        //Integer activeDelivery = 999;
-        String error = null;
-        Store store = null;
-        store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
-        try {
-            storeService.setAddress(435464, "1234 edward street");
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        //  assertEquals(store.getCurrentActiveDelivery(), CURRENT_ACTIVE_DELIVERY);
-        // check error
-        assertEquals("Store isn't registered in the system.", error);
-    }
+
     @Test
     public void testUpdateAddressWithNullAddress() {
-        assertEquals(0, storeService.getAllStores().size());
         //Integer activeDelivery = 999;
         String error = null;
         Store store = null;
         store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         try {
-            storeService.setAddress(STORE_ID_KEY, null);
+            storeService.setAddress(null);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -299,13 +240,12 @@ public class TestStoreService {
     }
     @Test
     public void testUpdateAddressWithEmptyAddress() {
-        assertEquals(0, storeService.getAllStores().size());
         //Integer activeDelivery = 999;
         String error = null;
         Store store = null;
         store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         try {
-            storeService.setAddress(STORE_ID_KEY, "");
+            storeService.setAddress("");
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -315,13 +255,12 @@ public class TestStoreService {
     }
     @Test
     public void testUpdateAddressWithEmptySpaceAddress() {
-        assertEquals(0, storeService.getAllStores().size());
         //Integer activeDelivery = 999;
         String error = null;
         Store store = null;
         store = storeService.createStore(ADDRESS, CURRENT_ACTIVE_DELIVERY, CURRENT_ACTIVE_PICKUP);
         try {
-            storeService.setAddress(STORE_ID_KEY, " ");
+            storeService.setAddress(" ");
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -332,7 +271,10 @@ public class TestStoreService {
     @Test
     public void testGetEmployee(){
         when(customerRepository.findAll()).thenReturn(new ArrayList<>());
-        Store store = storeService.getStore(STORE_ID_KEY);
+        Store store = new Store();
+        store.setAddress(ADDRESS);
+        store.setCurrentActiveDelivery(CURRENT_ACTIVE_DELIVERY);
+        store.setCurrentActivePickup(CURRENT_ACTIVE_PICKUP);
         Employee employee1 = null;
         Employee employee2 = null;
         List<Employee> employeeList = new ArrayList<>();
@@ -345,7 +287,7 @@ public class TestStoreService {
             store.setEmployee(Arrays.asList(employee1,employee2));
             //test stub
             when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
-            Store myS = storeService.getAllStores().get(0);
+            Store myS = storeService.getStore();
             employeeList = myS.getEmployee();
         } catch (Exception e){
             fail();
@@ -359,7 +301,10 @@ public class TestStoreService {
 
     @Test
     public void testGetBusinessHours(){
-        Store store = storeService.getStore(STORE_ID_KEY);
+        Store store = new Store();
+        store.setAddress(ADDRESS);
+        store.setCurrentActiveDelivery(CURRENT_ACTIVE_DELIVERY);
+        store.setCurrentActivePickup(CURRENT_ACTIVE_PICKUP);
         String error = null;
         BusinessHour businessHour = null;
         List<BusinessHour> businessHours = new ArrayList<>();
@@ -371,7 +316,7 @@ public class TestStoreService {
             store.setBusinessHour(Arrays.asList(businessHour));
             //test stub
             when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
-            Store myS = storeService.getAllStores().get(0);
+            Store myS = storeService.getStore();
             businessHours = myS.getBusinessHour();
         }catch (Exception e){
             fail();
@@ -381,7 +326,10 @@ public class TestStoreService {
     }
     @Test
     public void testGetItem(){
-        Store store = storeService.getStore(STORE_ID_KEY);
+        Store store = new Store();
+        store.setAddress(ADDRESS);
+        store.setCurrentActiveDelivery(CURRENT_ACTIVE_DELIVERY);
+        store.setCurrentActivePickup(CURRENT_ACTIVE_PICKUP);
         Item item1 = null;
         Item item2 = null;
         List<Item> itemList = new ArrayList<>();
@@ -392,7 +340,7 @@ public class TestStoreService {
             store.setItem(Arrays.asList(item1,item2));
             //test stub
             when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
-            Store myS = storeService.getAllStores().get(0);
+            Store myS = storeService.getStore();
             itemList = myS.getItem();
         } catch (Exception e){
             fail();
@@ -402,7 +350,10 @@ public class TestStoreService {
     }
     @Test
     public void testGetHoliday(){
-        Store store = storeService.getStore(STORE_ID_KEY);
+        Store store = new Store();
+        store.setAddress(ADDRESS);
+        store.setCurrentActiveDelivery(CURRENT_ACTIVE_DELIVERY);
+        store.setCurrentActivePickup(CURRENT_ACTIVE_PICKUP);
         String error = null;
         Holiday holiday = null;
         List<Holiday> holidays = new ArrayList<>();
@@ -416,7 +367,7 @@ public class TestStoreService {
             store.setHoliday(Arrays.asList(holiday));
             //test stub
             when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
-            Store myS = storeService.getAllStores().get(0);
+            Store myS = storeService.getStore();
             holidays = myS.getHoliday();
         }catch (Exception e){
             fail();

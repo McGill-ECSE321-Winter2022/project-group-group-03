@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -16,51 +16,43 @@ public class StoreRestController {
     @Autowired
     private StoreService service;
 
-    @GetMapping(value = {"/store", "/store/"})
-    public List<StoreDTO> getAllStores(){
-        return service.getAllStores().stream().map(this::convertToDto).collect(Collectors.toList());
-    }
-    @PostMapping(value = { "/store/", "/store/" })
+    @PostMapping(value = { "/store", "/store/" })
     public StoreDTO createStore(@RequestParam String aAddress, @RequestParam int aCurrentActiveDelivery, @RequestParam int aCurrentActivePickup) throws IllegalArgumentException {
         Store store = service.createStore(aAddress, aCurrentActiveDelivery, aCurrentActivePickup);
         return convertToDto(store);
     }
-    @GetMapping(value = { "/store/{storeID}", "/store/{storeID}/" })
-    public StoreDTO getStoreByID(@PathVariable("storeID") int storeID) throws IllegalArgumentException {
-        return convertToDto(service.getStore(storeID));
+    @GetMapping(value = { "/store", "/store" })
+    public StoreDTO getStoreByID() throws IllegalArgumentException {
+        return convertToDto(service.getStore());
     }
 
-    @GetMapping(value = { "/employee/store/{storeID}", "/employee/store/{storeID}/" })
-    public List<EmployeeDTO> getEmployeesOfStore(@PathVariable("storeID") int storeID) {
-        Store s = convertToDomainObject(storeID);
-        return createEmployeeDtosForStore(s);
+    @GetMapping(value = { "/employee/store", "/employee/store/" })
+    public List<EmployeeDTO> getEmployeesOfStore() {
+        return createEmployeeDtosForStore();
     }
-    @GetMapping(value = { "/item/store/{storeID}", "/item/store/{storeID}/" })
-    public List<ItemDTO> getItemsOfStore(@PathVariable("storeID") int storeID) {
-        Store s = convertToDomainObject(storeID);
-        return createItemDtosForStore(s);
+    @GetMapping(value = { "/item/store", "/item/store/" })
+    public List<ItemDTO> getItemsOfStore() {
+        return createItemDtosForStore();
     }
-    @GetMapping(value = { "/holiday/store/{storeID}", "/holiday/store/{storeID}/" })
-    public List<HolidayDTO> getHolidaysOfStore(@PathVariable("storeID") int storeID) {
-        Store s = convertToDomainObject(storeID);
-        return createHolidayDtosForStore(s);
+    @GetMapping(value = { "/holiday/store", "/holiday/store/" })
+    public List<HolidayDTO> getHolidaysOfStore() {
+        return createHolidayDtosForStore();
     }
-    @GetMapping(value = { "/business_hour/store/{storeID}", "/business_hour/store/{storeID}/" })
-    public List<BusinessHourDTO> getBusinessHoursOfStore(@PathVariable("storeID") int storeID) {
-        Store s = convertToDomainObject(storeID);
-        return createBusinessHourDtosForStore(s);
+    @GetMapping(value = { "/business_hour/store", "/business_hour/store/" })
+    public List<BusinessHourDTO> getBusinessHoursOfStore() {
+        return createBusinessHourDtosForStore();
     }
-    @PutMapping(value = {"/editStoreActiveDelivery/{storeID}"})
-    public StoreDTO updateStoreActiveDelivery(@PathVariable("storeID") int storeID, @RequestParam int newCurrentActiveDelivery) throws IllegalArgumentException{
-        return convertToDto(service.setActiveDelivery(storeID, newCurrentActiveDelivery));
+    @PutMapping(value = {"/editStoreActiveDelivery/"})
+    public StoreDTO updateStoreActiveDelivery(@RequestParam int newCurrentActiveDelivery) throws IllegalArgumentException{
+        return convertToDto(service.setActiveDelivery(newCurrentActiveDelivery));
     }
-    @PutMapping(value = {"/editStoreActivePickup/{storeID}"})
-    public StoreDTO updateStoreActivePickup(@PathVariable("storeID") int storeID, @RequestParam int newCurrentActivePickup) throws  IllegalArgumentException{
-        return convertToDto(service.setActivePickup(storeID,newCurrentActivePickup));
+    @PutMapping(value = {"/editStoreActivePickup"})
+    public StoreDTO updateStoreActivePickup(@RequestParam int newCurrentActivePickup) throws  IllegalArgumentException{
+        return convertToDto(service.setActivePickup(newCurrentActivePickup));
     }
-    @PutMapping(value = {"/editStoreAddress/{storeID}"})
-    public StoreDTO updateStoreAddress(@PathVariable("storeID") int storeID, @RequestParam String address) throws IllegalArgumentException{
-        return convertToDto(service.setAddress(storeID, address));
+    @PutMapping(value = {"/editStoreAddress"})
+    public StoreDTO updateStoreAddress(@RequestParam String address) throws IllegalArgumentException{
+        return convertToDto(service.setAddress(address));
     }
 
     private StoreDTO convertToDto(Store c) {
@@ -96,18 +88,8 @@ public class StoreRestController {
     }
 
 
-    private Store convertToDomainObject(int storeID) {
-        List<Store> allStores = service.getAllStores();
-        for (Store store : allStores) {
-            if (store.getStoreID() == (storeID)) {
-                return store;
-            }
-        }
-        return null;
-    }
-
-    private List<EmployeeDTO> createEmployeeDtosForStore(Store s) {
-        List<Employee> employeesForStore = service.getEmployees(s.getStoreID());
+    private List<EmployeeDTO> createEmployeeDtosForStore() {
+        List<Employee> employeesForStore = service.getEmployees();
         List<EmployeeDTO> employees = new ArrayList<>();
         for (Employee employee : employeesForStore) {
             employees.add(convertToDto(employee));
@@ -115,8 +97,8 @@ public class StoreRestController {
         return employees;
     }
 
-    private List<ItemDTO> createItemDtosForStore(Store s) {
-        List<Item> itemsForStore = service.getItems(s.getStoreID());
+    private List<ItemDTO> createItemDtosForStore() {
+        List<Item> itemsForStore = service.getItems();
         List<ItemDTO> items = new ArrayList<>();
         for (Item item : itemsForStore) {
             items.add(convertToDto(item));
@@ -124,16 +106,16 @@ public class StoreRestController {
         return items;
     }
 
-    private List<HolidayDTO> createHolidayDtosForStore(Store s) {
-        List<Holiday> holidaysForStore = service.getStoreHolidays(s.getStoreID());
+    private List<HolidayDTO> createHolidayDtosForStore() {
+        List<Holiday> holidaysForStore = service.getStoreHolidays();
         List<HolidayDTO> holidays = new ArrayList<>();
         for (Holiday holiday : holidaysForStore) {
             holidays.add(convertToDto(holiday));
         }
         return holidays;
     }
-    private List<BusinessHourDTO> createBusinessHourDtosForStore(Store s) {
-        List<BusinessHour> businessHoursForStore = service.getBusinessHours(s.getStoreID());
+    private List<BusinessHourDTO> createBusinessHourDtosForStore() {
+        List<BusinessHour> businessHoursForStore = service.getBusinessHours();
         List<BusinessHourDTO> businessHours = new ArrayList<>();
         for (BusinessHour businessHour : businessHoursForStore) {
             businessHours.add(convertToDto(businessHour));

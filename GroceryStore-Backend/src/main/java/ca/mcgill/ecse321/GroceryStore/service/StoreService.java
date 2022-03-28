@@ -20,7 +20,9 @@ public class StoreService {
     public Store createStore(String aAddress, Integer aCurrentActiveDelivery, Integer aCurrentActivePickup){
         Store store = new Store();
 
-
+        int count = 0;
+        for (Store s : storeRepository.findAll()) count++;
+        if (count >= 1) throw new IllegalArgumentException("There can't be more than one store");
 
         if(aAddress == null || aAddress.equals("") || aAddress.equals(" ")){
             throw new IllegalArgumentException("Address can't be empty.");
@@ -58,98 +60,74 @@ public class StoreService {
         return newStore;
     }
     @Transactional
-    public Store getStore(Integer storeID){
-        if(storeID == null) {
-            throw new IllegalArgumentException("Store ID can't be null.");
-        }
-        if(storeID <= 0) {
-            throw new IllegalArgumentException("Store ID must be greater than 0.");
-        }
-        if(!storeRepository.existsById(storeID))
-            throw new IllegalArgumentException("Store isn't registered in the system.");
-
-        return storeRepository.findById((int)storeID);
-    }
-    @Transactional
-    public List<Store> getAllStores(){
-        return toList(storeRepository.findAll());
-    }
-    @Transactional
-    public List<Holiday> getStoreHolidays(Integer storeId){
-        if(storeId == null)
-            throw  new IllegalArgumentException("Store Id can't be null.");
-        if(storeId <= 0)
-            throw new IllegalArgumentException("Store Id must be greater than 0.");
-        if(!storeRepository.existsById(storeId))
-            throw new IllegalArgumentException("Store isn't registered in the system.");
-        return storeRepository.findById((int)storeId).getHoliday();
-    }
-    @Transactional
-    public List<Item> getItems(Integer storeId){
-        if(storeId == null)
-            throw  new IllegalArgumentException("Store Id can't be null.");
-        if(storeId <= 0)
-            throw new IllegalArgumentException("Store Id must be greater than 0.");
-        if(!storeRepository.existsById(storeId))
-            throw new IllegalArgumentException("Store isn't registered in the system.");
-        return storeRepository.findById((int)storeId).getItem();
+    public Store getStore(){
+        int count = 0;
+        for (Store s : storeRepository.findAll()) count++;
+        if (count == 0) throw new IllegalArgumentException("There is no store yet.");
+        return storeRepository.findAll().iterator().next();
     }
 
     @Transactional
-    public List<Employee> getEmployees(Integer storeId){
-        if(storeId == null)
-            throw  new IllegalArgumentException("Store Id can't be null.");
-        if(storeId <= 0)
-            throw new IllegalArgumentException("Store Id must be greater than 0.");
-        if(!storeRepository.existsById(storeId))
-            throw new IllegalArgumentException("Store isn't registered in the system.");
-        return storeRepository.findById((int)storeId).getEmployee();
+    public List<Holiday> getStoreHolidays(){
+        return getStore().getHoliday();
+    }
+    @Transactional
+    public List<Item> getItems(){
+        return getStore().getItem();
     }
 
     @Transactional
-    public List<BusinessHour> getBusinessHours(Integer storeId){
-        if(storeId == null)
-            throw  new IllegalArgumentException("Store Id can't be null.");
-        if(storeId <= 0)
-            throw new IllegalArgumentException("Store Id must be greater than 0.");
-        if(!storeRepository.existsById(storeId))
-            throw new IllegalArgumentException("Store isn't registered in the system.");
-        return storeRepository.findById((int)storeId).getBusinessHour();
+    public List<Employee> getEmployees(){
+        return getStore().getEmployee();
     }
 
     @Transactional
-    public Store setActiveDelivery(int storeId, Integer activeDelivery){
-        if(!storeRepository.existsById(storeId))
-            throw new IllegalArgumentException("Store isn't registered in the system.");
+    public List<BusinessHour> getBusinessHours(){
+        return getStore().getBusinessHour();
+    }
+
+    @Transactional
+    public Store setActiveDelivery(Integer activeDelivery){
         if(activeDelivery == null)
             throw new IllegalArgumentException("Active delivery can't be empty.");
         if(activeDelivery < 0)
             throw new IllegalArgumentException("Active delivery can't be negative.");
-
-        Store store = getStore(storeId);
+        Store store = getStore();
         store.setCurrentActiveDelivery(activeDelivery);
         return store;
     }
+
+    public List<Holiday> addHoliday( Holiday holiday) {
+        if (holiday==null) throw new IllegalArgumentException("A Holiday parameter is needed");
+        List<Holiday> holidays = getStore().getHoliday();
+        holidays.add(holiday);
+        return holidays;
+    }
+
+    public List<Employee> addEmployee(Employee employee) {
+        if (employee==null) throw new IllegalArgumentException("An Employee parameter is needed");
+        List<Employee> employees = getStore().getEmployee();
+        employees.add(employee);
+        return employees;
+    }
+
     @Transactional
-    public Store setActivePickup(int storeId, Integer activePickup){
-        if(!storeRepository.existsById(storeId))
-            throw new IllegalArgumentException("Store isn't registered in the system.");
+    public Store setActivePickup(Integer activePickup){
+        if(activePickup == null)
+            throw new IllegalArgumentException("Active pickup can't be empty.");
         if(activePickup < 0)
             throw new IllegalArgumentException("Active pickup can't be negative.");
-        if(activePickup == null)
-            throw new IllegalArgumentException("Active pickup can't be null");
-        Store store = getStore(storeId);
+        Store store = getStore();
         store.setCurrentActivePickup(activePickup);
         return store;
     }
+
     @Transactional
-    public Store setAddress(int storeId, String address){
-        if(!storeRepository.existsById(storeId))
-            throw new IllegalArgumentException("Store isn't registered in the system.");
+    public Store setAddress(String address){
         if(address == null || address.equals("") || address.equals(" ")){
             throw new IllegalArgumentException("Address can't be empty.");
         }
-        Store store = getStore(storeId);
+        Store store = getStore();
         store.setAddress(address);
         return store;
     }

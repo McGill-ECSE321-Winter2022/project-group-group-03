@@ -54,7 +54,6 @@ public class Store
   private List<BusinessHour> businessHour = new ArrayList<>();
 
 
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -68,36 +67,24 @@ public class Store
   // INTERFACE
   //------------------------
 
-  public boolean setStoreID(Integer aStoreID)
+  public void setStoreID(Integer aStoreID)
   {
-    boolean wasSet = false;
-    storeID = aStoreID;
-    wasSet = true;
-    return wasSet;
+    this.storeID = aStoreID;
   }
 
-  public boolean setAddress(String aAddress)
+  public void setAddress(String aAddress)
   {
-    boolean wasSet = false;
-    address = aAddress;
-    wasSet = true;
-    return wasSet;
+    this.address = aAddress;
   }
 
-  public boolean setCurrentActivePickup(int aCurrentActivePickup)
+  public void setCurrentActivePickup(int aCurrentActivePickup)
   {
-    boolean wasSet = false;
-    currentActivePickup = aCurrentActivePickup;
-    wasSet = true;
-    return wasSet;
+    this.currentActivePickup = aCurrentActivePickup;
   }
 
-  public boolean setCurrentActiveDelivery(Integer aCurrentActiveDelivery)
+  public void setCurrentActiveDelivery(Integer aCurrentActiveDelivery)
   {
-    boolean wasSet = false;
-    currentActiveDelivery = aCurrentActiveDelivery;
-    wasSet = true;
-    return wasSet;
+    this.currentActiveDelivery = aCurrentActiveDelivery;
   }
 
   public void setItem(List<Item> item) {
@@ -115,6 +102,7 @@ public class Store
   public void setBusinessHour(List<BusinessHour> businessHour){
       this.businessHour = businessHour;
   }
+
   public int getStoreID()
   {
         return storeID;
@@ -147,6 +135,7 @@ public class Store
   {
     return currentActiveDelivery;
   }
+
 
 
   public List<Item> getItem()

@@ -17,6 +17,8 @@ public class StoreDTO {
 
 
 
+
+
     public StoreDTO(int storeID, String address, int currentActiveDelivery, int currentActivePickup){
         this.storeID = storeID;
         this.address = address;
@@ -61,3 +63,5 @@ public class StoreDTO {
         this.businesshours = businesshours;
     }
 }
+
+
