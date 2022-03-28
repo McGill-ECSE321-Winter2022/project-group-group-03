@@ -95,6 +95,13 @@ public class CustomerService {
         customer.setPassword(password);
         return customer;
     }
+
+    @Transactional
+    public void addOrder(String username, Order order){
+        Customer c = getCustomer(username);
+        c.getOrder().add(order);
+    }
+
     @Transactional
     public Customer setEmail(String current, String email){
         if(email == null || email.equals("") || email.equals(" "))

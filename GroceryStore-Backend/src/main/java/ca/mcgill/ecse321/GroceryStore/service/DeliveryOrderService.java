@@ -18,7 +18,7 @@ public class DeliveryOrderService {
 
     //TODO: uncomment this code when create function is updated to add to employee
     //@Autowired
-    //EmployeeService employeeService;
+    //UserService userService;
 
     @Autowired
     StoreService storeService;

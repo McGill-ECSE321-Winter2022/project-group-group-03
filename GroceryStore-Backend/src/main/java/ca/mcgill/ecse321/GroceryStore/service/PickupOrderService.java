@@ -18,7 +18,7 @@ public class PickupOrderService {
 
     //TODO: to be uncommented once create method is ready to be changed
     //@Autowired
-    //EmployeeService employeeService;
+    //UserService userService;
 
     @Autowired
     StoreService storeService;
@@ -61,7 +61,7 @@ public class PickupOrderService {
         }
         newPickupOrder.setStore(storeService.getStore());
         //TODO: uncomment later
-        //employeeService.addOrder(username, newPickupOrder);
+        //userService.addOrder(username, newPickupOrder);
         pickupOrderRepository.save(newPickupOrder);
         return newPickupOrder;
     }
