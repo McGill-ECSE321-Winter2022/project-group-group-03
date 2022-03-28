@@ -149,9 +149,11 @@ public class TestPurchasedItemService {
     public void testCreatePurchasedItemNotPurchaseable() {
         assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
         String error = null;
-        Item item = new Item();
+        Item item  = new Item();
         item.setPurchasable(false);
+
         try{
+            when(itemService.getItem(VALID_NAME)).thenReturn(item);
             PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, ITEM_QUANTITY);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
@@ -191,7 +193,6 @@ public class TestPurchasedItemService {
 
         assertNull(error);
         assertNotNull(purchasedItem);
-        assertEquals(purchasedItem.getItem(), item);
         assertEquals(purchasedItem.getItemQuantity(), ITEM_QUANTITY);
     }
 
@@ -310,17 +311,13 @@ public class TestPurchasedItemService {
     }
     @Test
     public void testUpdatePurchasedItemQuantity(){
-        Item item = new Item();
         String error = null;
-        item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
-        item.setStock(10);
-
         PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2);
 
         try{
             when(purchasedItemRepository.existsById(anyInt())).thenReturn(true);
             when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
-            purchasedItemService.updatePurchasedItemQuantity(20, purchasedItem.getPurchasedItemID());
+            purchasedItemService.updatePurchasedItemQuantity(90001, purchasedItem.getPurchasedItemID());
         }
         catch (Exception e){
             error = e.getMessage();
@@ -331,11 +328,7 @@ public class TestPurchasedItemService {
 
     @Test
     public void testUpdatePurchasedItemQuantityNegative(){
-        Item item = new Item();
         String error = null;
-        item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
-        item.setStock(10);
-
         PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2);
 
         try{
@@ -352,10 +345,7 @@ public class TestPurchasedItemService {
     @Test
     public void testUpdatePurchasedItemQuantityWrongId(){
 
-        Item item = new Item();
         String error = null;
-        item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
-        item.setStock(10);
         PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2);
         try{
             purchasedItem = purchasedItemService.updatePurchasedItemQuantity(1, 1234);
