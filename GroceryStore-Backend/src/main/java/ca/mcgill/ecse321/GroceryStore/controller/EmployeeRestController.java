@@ -2,9 +2,11 @@ package ca.mcgill.ecse321.GroceryStore.controller;
 
 import ca.mcgill.ecse321.GroceryStore.dto.EmployeeDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.OrderDTO;
+import ca.mcgill.ecse321.GroceryStore.dto.OwnerDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.WorkShiftDTO;
 import ca.mcgill.ecse321.GroceryStore.model.Employee;
 import ca.mcgill.ecse321.GroceryStore.model.Order;
+import ca.mcgill.ecse321.GroceryStore.model.Owner;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
 
@@ -31,6 +33,12 @@ public class EmployeeRestController {
     @PostMapping(value = { "/employee", "/employee/" })
     public EmployeeDTO createEmployee(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
         Employee employee = service.createEmployee(username, email, password, address);
+        return convertToDto(employee);
+    }
+
+    @GetMapping(value = {"/employee_login", "/employee_login/"})
+    public EmployeeDTO loginEmployee(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
+        Employee employee = service.loginEmployee(username, password);
         return convertToDto(employee);
     }
 

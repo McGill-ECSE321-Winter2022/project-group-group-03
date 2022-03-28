@@ -27,6 +27,12 @@ public class OwnerRestController {
         return convertToDto(owner);
     }
 
+    @GetMapping(value = {"/owner_login", "/owner_login/"})
+    public OwnerDTO loginOwner(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
+        Owner owner = service.loginOwner(username, password);
+        return convertToDto(owner);
+    }
+
     @GetMapping(value = { "/owner", "/owner/" })
     public OwnerDTO getOwner(@RequestParam String username) {
         return convertToDto(service.getOwner(username));

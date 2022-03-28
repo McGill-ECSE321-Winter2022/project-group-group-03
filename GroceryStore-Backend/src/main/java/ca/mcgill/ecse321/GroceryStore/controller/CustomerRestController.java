@@ -2,8 +2,10 @@ package ca.mcgill.ecse321.GroceryStore.controller;
 
 import ca.mcgill.ecse321.GroceryStore.dto.CustomerDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.OrderDTO;
+import ca.mcgill.ecse321.GroceryStore.dto.OwnerDTO;
 import ca.mcgill.ecse321.GroceryStore.model.Customer;
 import ca.mcgill.ecse321.GroceryStore.model.Order;
+import ca.mcgill.ecse321.GroceryStore.model.Owner;
 import ca.mcgill.ecse321.GroceryStore.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,11 @@ public class CustomerRestController {
     @GetMapping(value = { "/customer/{username}", "/customer/{username}/" })
     public CustomerDTO getCustomerByUsername(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException {
         return convertToDto(service.getCustomer(username));
+    }
+    @GetMapping(value = {"/customer_login", "/customer_login/"})
+    public CustomerDTO loginOwner(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
+        Customer customer= service.loginCustomer(username, password);
+        return convertToDto(customer);
     }
     @GetMapping(value = { "/delivery_order/customer/{username}", "/delivery_order/customer/{username}/" })
     public List<OrderDTO> getDeliveryOrdersOfCustomer(@PathVariable("username") String username) {

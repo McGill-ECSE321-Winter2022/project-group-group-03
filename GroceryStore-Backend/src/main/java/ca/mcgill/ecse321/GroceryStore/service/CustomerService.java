@@ -73,6 +73,7 @@ public class CustomerService {
         if (customer.getPassword().equals(customer)) return customer;
         throw new IllegalArgumentException("Wrong password was given for username: " + aUsername);
     }
+
     @Transactional
     public List<Customer> getAllCustomers(){
 

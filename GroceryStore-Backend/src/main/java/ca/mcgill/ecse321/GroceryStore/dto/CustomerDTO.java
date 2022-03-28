@@ -12,13 +12,13 @@ public class CustomerDTO {
     private List<DeliveryOrderDTO> deliveryOrders;
     private List<PickupOrderDTO> pickupOrders;
 
-
     public CustomerDTO(String username, String password, String email, String address){
         this.username = username;
         this.address = address;
         this.email = email;
         this.password = password;
     }
+
     public String getUsername(){
         return username;
     }

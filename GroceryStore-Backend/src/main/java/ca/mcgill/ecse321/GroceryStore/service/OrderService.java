@@ -25,10 +25,7 @@ public class OrderService {
         String error = null;
         List<Order> orders = new ArrayList<>();
         for (PickupOrder pickupOrder : pickupOrderRepository.findAll()) orders.add(pickupOrder);
-
         for(DeliveryOrder deliveryOrder: deliveryOrderRepository.findAll()) orders.add(deliveryOrder);
-
-
         return orders;
     }
 }
