@@ -35,7 +35,7 @@ public class CustomerRestController {
         return convertToDto(service.getCustomer(username));
     }
     @GetMapping(value = {"/customer_login", "/customer_login/"})
-    public CustomerDTO loginOwner(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
+    public CustomerDTO loginCustomer(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
         Customer customer= service.loginCustomer(username, password);
         return convertToDto(customer);
     }
