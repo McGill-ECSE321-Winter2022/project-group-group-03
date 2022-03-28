@@ -17,8 +17,8 @@ public class WorkShiftService {
     WorkShiftRepository workShiftRepository;
 
     //TODO: uncomment when changing create function to add to employee
-    //@Autowired
-    //EmployeeService employeeService
+    @Autowired
+    EmployeeService employeeService;
 
     private static int curID = 50000;
 
@@ -96,7 +96,7 @@ public class WorkShiftService {
     }
 
     @Transactional
-    public WorkShift createWorkShift(Time aStartTime, Time aEndTime, String aDayOfWeek) {
+    public WorkShift createWorkShift(Time aStartTime, Time aEndTime, String aDayOfWeek,String username) {
         WorkShift workShift = new WorkShift();
         if (aStartTime == null) throw new IllegalArgumentException("Start Time can't be empty.");
 
@@ -131,7 +131,7 @@ public class WorkShiftService {
         workShift.setShiftID(curID++);
 
         //TODO: add workshift to employee
-        //employeeService.addWorkShift(username, workShift);
+        employeeService.addWorkShift(username, workShift);
         workShiftRepository.save(workShift);
         return workShift;
     }

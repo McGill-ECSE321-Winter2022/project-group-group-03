@@ -26,8 +26,8 @@ public class WorkShiftRestController {
     @PostMapping(value = {"/workShift", "/workShift/"})
     public WorkShiftDTO createWorkShift(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime aStartTime,
                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime aEndTime,
-                                      @RequestParam String aDay) throws IllegalArgumentException {
-        WorkShift workShift = workShiftService.createWorkShift(Time.valueOf(aStartTime), Time.valueOf(aEndTime), aDay);
+                                      @RequestParam String aDay, @RequestParam String username) throws IllegalArgumentException {
+        WorkShift workShift = workShiftService.createWorkShift(Time.valueOf(aStartTime), Time.valueOf(aEndTime), aDay,username );
         return convertToDto(workShift);
     }
 

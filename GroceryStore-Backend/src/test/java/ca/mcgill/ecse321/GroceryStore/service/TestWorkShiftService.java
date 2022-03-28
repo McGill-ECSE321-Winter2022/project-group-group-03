@@ -1,8 +1,11 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 
+import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.WorkShiftRepository;
 
+import ca.mcgill.ecse321.GroceryStore.model.Employee;
+import ca.mcgill.ecse321.GroceryStore.model.Store;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,9 +38,17 @@ public class TestWorkShiftService {
     private static final Time LEATIME = Time.valueOf(LocalTime.of(05,00));
     private static final WorkShift.DayOfWeek DAY = WorkShift.DayOfWeek.Wednesday;
     private static final String STRING_DAY = "Monday";
+    private static final String USERNAME = "Employee";
+    private static final String EMPLOYEE_EMAIL = "TEST_EMAIL@mail.ca";
+    private static final String EMPLOYEE_PASSWORD = "TEST_PASSWORD";
+    private static final String EMPLOYEE_ADDRESS = "TEST_ADDRESS";
 
     @Mock
     private WorkShiftRepository workShiftRepository;
+    @Mock
+    private EmployeeRepository employeeRepository;
+    @Mock
+    private EmployeeService employeeService;
     @InjectMocks
     private WorkShiftService workShiftService;
 
@@ -63,6 +74,10 @@ public class TestWorkShiftService {
                 return Boolean.FALSE;
             }
         });
+        lenient().when(employeeRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+            Employee e = employeeService.createEmployee(USERNAME, EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
+            return new ArrayList<Employee>(Arrays.asList(e));
+        });
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
@@ -75,7 +90,7 @@ public class TestWorkShiftService {
 
         WorkShift workShift = null;
         try {
-            workShift = workShiftService.createWorkShift(START_TIME,END_TIME,STRING_DAY);
+            workShift = workShiftService.createWorkShift(START_TIME,END_TIME,STRING_DAY,USERNAME);
         } catch(IllegalArgumentException error) {
             fail();
         }
@@ -87,7 +102,7 @@ public class TestWorkShiftService {
         String error = null;
 
         try {
-            workShift = workShiftService.createWorkShift(null,END_TIME,STRING_DAY);
+            workShift = workShiftService.createWorkShift(null,END_TIME,STRING_DAY,USERNAME );
         } catch(IllegalArgumentException e)  {
             error = e.getMessage();
         }
@@ -102,7 +117,7 @@ public class TestWorkShiftService {
         String errorMessage = null;
 
         try {
-            workShift = workShiftService.createWorkShift(START_TIME,null,STRING_DAY);
+            workShift = workShiftService.createWorkShift(START_TIME,null,STRING_DAY,USERNAME );
         } catch(IllegalArgumentException error) {
             errorMessage = error.getMessage();
         }
@@ -117,7 +132,7 @@ public class TestWorkShiftService {
         String errorMessage = null;
 
         try {
-            workShift = workShiftService.createWorkShift(START_TIME,END_TIME,null);
+            workShift = workShiftService.createWorkShift(START_TIME,END_TIME,null,USERNAME );
         } catch(IllegalArgumentException error) {
             errorMessage = error.getMessage();
         }
@@ -131,7 +146,7 @@ public class TestWorkShiftService {
         String errorMessage = null;
 
         try {
-            workShift = workShiftService.createWorkShift(START_TIME,END_TIME,"");
+            workShift = workShiftService.createWorkShift(START_TIME,END_TIME,"",USERNAME );
         } catch(IllegalArgumentException error) {
             errorMessage = error.getMessage();
         }
@@ -145,7 +160,7 @@ public class TestWorkShiftService {
         String errorMessage = null;
 
         try {
-            workShift = workShiftService.createWorkShift(START_TIME,END_TIME,"test");
+            workShift = workShiftService.createWorkShift(START_TIME,END_TIME,"test",USERNAME );
         } catch(IllegalArgumentException error) {
             errorMessage = error.getMessage();
         }
@@ -160,7 +175,7 @@ public class TestWorkShiftService {
         String errorMessage = null;
 
         try {
-            workShift = workShiftService.createWorkShift(END_TIME,START_TIME,STRING_DAY);
+            workShift = workShiftService.createWorkShift(END_TIME,START_TIME,STRING_DAY,USERNAME );
         } catch(IllegalArgumentException error) {
             errorMessage = error.getMessage();
         }
@@ -176,9 +191,9 @@ public class TestWorkShiftService {
 
 
         try {
-            workShift1 = workShiftService.createWorkShift(START_TIME,END_TIME,STRING_DAY);
+            workShift1 = workShiftService.createWorkShift(START_TIME,END_TIME,STRING_DAY,USERNAME );
             when(workShiftRepository.findAll()).thenReturn(Arrays.asList(workShift1));
-            workShift2 = workShiftService.createWorkShift(START_TIME,END_TIME,STRING_DAY);
+            workShift2 = workShiftService.createWorkShift(START_TIME,END_TIME,STRING_DAY,USERNAME );
         } catch(IllegalArgumentException error) {
             errorMessage = error.getMessage();
         }
@@ -361,7 +376,7 @@ public class TestWorkShiftService {
         WorkShift workShift = null;
         when(workShiftRepository.findAll()).thenReturn(workShifts);
         try {
-            workShift = workShiftService.createWorkShift(START_TIME,END_TIME,STRING_DAY);
+            workShift = workShiftService.createWorkShift(START_TIME,END_TIME,STRING_DAY,USERNAME);
             workShifts.add(workShift);
             workShifts = workShiftService.getAllWorkShift();
         } catch(IllegalArgumentException error) {

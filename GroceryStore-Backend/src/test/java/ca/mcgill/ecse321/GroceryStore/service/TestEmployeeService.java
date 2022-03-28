@@ -301,8 +301,8 @@ public class TestEmployeeService {
 
         try{
             employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
-            workShift1 = workShiftService.createWorkShift(Time.valueOf(LocalTime.of(10,10)), Time.valueOf(LocalTime.of(11,10)), "Monday");
-            workShift2 = workShiftService.createWorkShift(Time.valueOf(LocalTime.of(11,10)), Time.valueOf(LocalTime.of(12,10)), "Tuesday");
+            workShift1 = workShiftService.createWorkShift(Time.valueOf(LocalTime.of(10,10)), Time.valueOf(LocalTime.of(11,10)), "Monday",EMPLOYEE_USERNAME );
+            workShift2 = workShiftService.createWorkShift(Time.valueOf(LocalTime.of(11,10)), Time.valueOf(LocalTime.of(12,10)), "Tuesday",EMPLOYEE_USERNAME );
             employee.setWorkShift(Arrays.asList(workShift1,workShift2));
             //test stub
             when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
@@ -324,8 +324,8 @@ public class TestEmployeeService {
 
         try{
             employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
-            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house",  69,  true);
-            pickupOrder = pickupOrderService.createPickupOrder("Cash",420);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(EMPLOYEE_USERNAME,"my house",  69,  true);
+            pickupOrder = pickupOrderService.createPickupOrder(EMPLOYEE_USERNAME,"Cash",420);
             employee.setOrder(Arrays.asList(deliveryOrder, pickupOrder));
             when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
             orderList = employeeService.getEmployeeOrders(EMPLOYEE_USERNAME);
