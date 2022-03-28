@@ -29,7 +29,14 @@ public class PickupOrderRestController {
     public PickupOrderDTO getPickupOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {
         return convertToDto(service.getPickupOrder(confirmationNumber));
     }
-
+    @PutMapping(value = {"/editPickupOrderStatus/{confirmationNumber}/"})
+    public PickupOrderDTO updatePickupStatus(@PathVariable("confirmationNumber") int confirmationNumber, @RequestParam String newPickupStatus) throws IllegalArgumentException {
+        return convertToDto(service.updatePickupStatus(confirmationNumber, newPickupStatus));
+    }
+    @PutMapping(value = {"/editPickupOrderPaymentMethod/{confirmationNumber}/"})
+    public PickupOrderDTO updatePaymentMethod(@PathVariable("confirmationNumber") int confirmationNumber, @RequestParam String newPaymentMethod) throws IllegalArgumentException {
+        return convertToDto(service.updatePaymentMethod(confirmationNumber, newPaymentMethod));
+    }
 
     @DeleteMapping(value = {"/pickupOrder/{confirmationNumber}", "/pickupOrder/{confirmationNumber}/"})
     public void deletePickupOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {

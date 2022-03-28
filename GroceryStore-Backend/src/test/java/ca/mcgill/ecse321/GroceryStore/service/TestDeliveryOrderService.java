@@ -544,6 +544,107 @@ public class TestDeliveryOrderService {
         assertEquals(error, "item quantity cannot be negative.");
 
     }
+    @Test
+    public void updateDeliveryShippingStatusNullConfirmationNumber(){
+        DeliveryOrder deliveryOrder = null;
+        String error = null;
+        Integer confirmationNumber = null;
+
+        try{
+            deliveryOrder = deliveryOrderService.setShippingStatus(confirmationNumber, SHIPPING_STATUS.name());
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(deliveryOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number can't be empty.");
+    }
+    @Test
+    public void updateDeliveryShippingStatusConfirmationNumberZero(){
+        DeliveryOrder deliveryOrder = null;
+        String error = null;
+
+        try{
+            deliveryOrder = deliveryOrderService.setShippingStatus(0, SHIPPING_STATUS.name());
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(deliveryOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number must be greater than 0.");
+    }
+    @Test
+    public void updateDeliveryShippingStatusConfirmationNumberNegative(){
+        DeliveryOrder deliveryOrder = null;
+        String error = null;
+
+        try{
+            deliveryOrder = deliveryOrderService.setShippingStatus(-124, SHIPPING_STATUS.name());
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(deliveryOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number must be greater than 0.");
+    }
+    @Test
+    public void updateDeliveryShippingStatusInvalidShippingStatus(){
+        DeliveryOrder deliveryOrder = null;
+        String error = null;
+
+        try{
+            deliveryOrder = deliveryOrderService.setShippingStatus(CONFIRMATION_NUMBER_KEY, "invalid");
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(deliveryOrder);
+        assertNotNull(error);
+        assertEquals(error, "Invalid shipping status");
+    }
+    @Test
+    public void updateDeliveryTotalCostNull(){
+        DeliveryOrder deliveryOrder = null;
+        String error = null;
+        Integer OrderID = null;
+
+        try{
+            deliveryOrder = deliveryOrderService.updateTotalCost(OrderID);
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(deliveryOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number can't be empty.");
+    }
+    @Test
+    public void updateDeliveryTotalCostZero(){
+        DeliveryOrder deliveryOrder = null;
+        String error = null;
+
+        try{
+            deliveryOrder = deliveryOrderService.updateTotalCost(0);
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(deliveryOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number must be greater than 0.");
+    }
+    @Test
+    public void updateDeliveryTotalCostNegative(){
+        DeliveryOrder deliveryOrder = null;
+        String error = null;
+
+        try{
+            deliveryOrder = deliveryOrderService.updateTotalCost(-1234);
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(deliveryOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number must be greater than 0.");
+    }
+
 
 }
 

@@ -369,7 +369,123 @@ public class TestPickupOrderService {
         assertEquals(error, "item quantity cannot be negative.");
 
     }
+    @Test
+    public void updatePickupStatusNullConfirmationNumber(){
+        PickupOrder pickupOrder = null;
+        String error = null;
+        Integer confirmationNumber = null;
 
+        try{
+            pickupOrder = pickupOrderService.updatePickupStatus(confirmationNumber, PICKUP_STATUS.name());
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(pickupOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number can't be empty.");
+    }
+    @Test
+    public void updatePickupStatusConfirmationNumberZero(){
+        PickupOrder pickupOrder = null;
+        String error = null;
+
+
+        try{
+            pickupOrder = pickupOrderService.updatePickupStatus(0, PICKUP_STATUS.name());
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(pickupOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number must be greater than 0.");
+    }
+    @Test
+    public void updatePickupStatusConfirmationNumberNegative(){
+        PickupOrder pickupOrder = null;
+        String error = null;
+
+
+        try{
+            pickupOrder = pickupOrderService.updatePickupStatus(-12, PICKUP_STATUS.name());
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(pickupOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number must be greater than 0.");
+    }
+    @Test
+    public void updatePickupStatusInvalidStatus(){
+        PickupOrder pickupOrder = null;
+        String error = null;
+
+        try{
+            pickupOrder = pickupOrderService.updatePickupStatus(CONFIRMATION_NUMBER_KEY, "invalid");
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(pickupOrder);
+        assertNotNull(error);
+        assertEquals(error, "Not a valid pickup status");
+    }
+    @Test
+    public void updatePickupPaymentNullConfirmationNumber(){
+        PickupOrder pickupOrder = null;
+        String error = null;
+        Integer confirmationNumber = null;
+
+        try{
+            pickupOrder = pickupOrderService.updatePaymentMethod(confirmationNumber, PICKUP_STATUS.name());
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(pickupOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number can't be empty.");
+    }
+    @Test
+    public void updatePickupPaymentConfirmationNumberZero(){
+        PickupOrder pickupOrder = null;
+        String error = null;
+
+        try{
+            pickupOrder = pickupOrderService.updatePaymentMethod(0, PAYMENT_METHOD.name());
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(pickupOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number must be greater than 0.");
+    }
+    @Test
+    public void updatePickupPaymentConfirmationNumberNegative(){
+        PickupOrder pickupOrder = null;
+        String error = null;
+
+
+        try{
+            pickupOrder = pickupOrderService.updatePaymentMethod(-12, PAYMENT_METHOD.name());
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(pickupOrder);
+        assertNotNull(error);
+        assertEquals(error, "Confirmation number must be greater than 0.");
+    }
+    @Test
+    public void updatePickupPaymentInvalidPaymentMethod(){
+        PickupOrder pickupOrder = null;
+        String error = null;
+
+        try{
+            pickupOrder = pickupOrderService.updatePaymentMethod(CONFIRMATION_NUMBER_KEY, "invalid");
+        }catch (Exception e){
+            error = e.getMessage();
+        }
+        assertNull(pickupOrder);
+        assertNotNull(error);
+        assertEquals(error, "Invalid payment method");
+    }
 
 }
 

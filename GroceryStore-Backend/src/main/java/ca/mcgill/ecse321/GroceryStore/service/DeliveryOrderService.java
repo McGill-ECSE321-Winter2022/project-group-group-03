@@ -95,7 +95,7 @@ public class DeliveryOrderService {
     }
 
     @Transactional
-    public void setShippingStatus(Integer confirmationNumber, String shippingStatus) {
+    public DeliveryOrder setShippingStatus(Integer confirmationNumber, String shippingStatus) {
         if (confirmationNumber == null) {
             throw new IllegalArgumentException("Confirmation number can't be empty.");
         }
@@ -113,6 +113,7 @@ public class DeliveryOrderService {
             case "Delivered" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Delivered);
             default -> throw new IllegalArgumentException("Invalid shipping status");
         }
+        return deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(confirmationNumber);
     }
 
     @Transactional
@@ -130,7 +131,7 @@ public class DeliveryOrderService {
 
 
     @Transactional
-    public void updateTotalCost(Integer OrderId){
+    public DeliveryOrder updateTotalCost(Integer OrderId){
         if (OrderId == null) {
             throw new IllegalArgumentException("Confirmation number can't be empty.");
         }
@@ -147,7 +148,7 @@ public class DeliveryOrderService {
         if(deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId).isOutOfTown())
             totalCost += DeliveryOrder.SHIPPINGFEE;
 
-        deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId).setTotalCost(totalCost);
+        return deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId);
     }
 
     private <T> List<T> toList(Iterable<T> iterable){

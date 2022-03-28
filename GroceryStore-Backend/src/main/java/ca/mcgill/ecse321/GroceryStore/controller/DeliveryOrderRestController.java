@@ -37,6 +37,16 @@ public class DeliveryOrderRestController {
         return convertToDto(service.setShippingAddress(confirmationNumber, newAddress));
     }
 
+    @PutMapping(value = {"/editDeliveryOrderShippingStatus/{confirmationNumber}/"})
+    public DeliveryOrderDTO setShippingStatus(@PathVariable("confirmationNumber") int confirmationNumber, @RequestParam String newShippingStatus) throws IllegalArgumentException{
+        return convertToDto(service.setShippingStatus(confirmationNumber, newShippingStatus));
+    }
+
+    @PutMapping(value = {"/editDeliveryOrderTotalCost/{confirmationNumber}/"})
+    public DeliveryOrderDTO updateTotalCost(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException{
+        return convertToDto(service.updateTotalCost(confirmationNumber));
+    }
+
 
     @DeleteMapping(value = {"/deliveryOrder/{confirmationNumber}", "/deliveryOrder/{confirmationNumber}/"})
     public void deleteDeliveryOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {

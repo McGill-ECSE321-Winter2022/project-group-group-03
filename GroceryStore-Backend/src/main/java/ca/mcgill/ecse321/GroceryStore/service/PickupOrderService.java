@@ -69,8 +69,8 @@ public class PickupOrderService {
     }
 
     @Transactional
-    public void updatePickupStatus(Integer confirmationNumber, String pickupStatus){
-        if (confirmationNumber == null) {
+    public PickupOrder updatePickupStatus(Integer confirmationNumber, String pickupStatus){
+        if (confirmationNumber == null){
             throw new IllegalArgumentException("Confirmation number can't be empty.");
         }
         if (confirmationNumber <= 0) {
@@ -87,9 +87,10 @@ public class PickupOrderService {
             case "PickedUp" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.PickedUp);
             default -> throw new IllegalArgumentException("Not a valid pickup status");
         }
+        return pickupOrderRepository.findByConfirmationNumber(confirmationNumber);
     }
     @Transactional
-    public void updatePaymentMethod(Integer confirmationNumber, String paymentMethod){
+    public PickupOrder updatePaymentMethod(Integer confirmationNumber, String paymentMethod){
         if (confirmationNumber == null) {
             throw new IllegalArgumentException("Confirmation number can't be empty.");
         }
@@ -105,6 +106,7 @@ public class PickupOrderService {
             case "CreditCard" -> newPickupOrder.setPaymentMethod(PickupOrder.PaymentMethod.CreditCard);
             default -> throw new IllegalArgumentException("Invalid payment method");
         }
+        return pickupOrderRepository.findByConfirmationNumber(confirmationNumber);
     }
 
 
