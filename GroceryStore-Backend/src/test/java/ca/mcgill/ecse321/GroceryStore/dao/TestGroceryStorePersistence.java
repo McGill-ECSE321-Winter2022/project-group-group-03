@@ -51,23 +51,23 @@ public class TestGroceryStorePersistence {
 
     //Order -> A customer can have many orders therefore we use a list
     PickupOrder defaultOrder = new PickupOrder();
-    List<PickupOrder> orderList = new ArrayList<PickupOrder>();
+    List<PickupOrder> orderList = new ArrayList<>();
 
     //Item -> A customer can have many items therefore we use a list
     Item defaultItem = new Item();
-    List<Item> itemList = new ArrayList<Item>();
+    List<Item> itemList = new ArrayList<>();
 
     //Workshift -> An employee can have many workshifts therefore we use a list
     WorkShift defaultWorkShift = new WorkShift();
-    List<WorkShift> workShiftList = new ArrayList<WorkShift>();
+    List<WorkShift> workShiftList = new ArrayList<>();
 
     //Purchased Item -> An order can have many purchased items therefore we use a list
     PurchasedItem defaultPurchasedItem = new PurchasedItem();
-    List<PurchasedItem> purchasedItemList = new ArrayList<PurchasedItem>();
+    List<PurchasedItem> purchasedItemList = new ArrayList<>();
 
     //Holiday -> Many holidays therefore we use a list
     Holiday defaultHoliday = new Holiday();
-    List<Holiday> holidayList = new ArrayList<Holiday>();
+    List<Holiday> holidayList = new ArrayList<>();
 
 
     //These methods will initialize and create the references that will test the following associations

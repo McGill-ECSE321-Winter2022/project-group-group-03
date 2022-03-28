@@ -68,11 +68,10 @@ public class OwnerService {
     @Transactional
     public Owner getOwner(String aUsername) {
         if (aUsername == null || aUsername.equals(""))throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
-        if (aUsername != null || !aUsername.equals("")) {
             for(Owner owner : ownerRepository.findAll()){
                 if (owner.getUsername().equals(aUsername)) return owner;
             }
-        }
+
         throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }
 
@@ -101,14 +100,13 @@ public class OwnerService {
     @Transactional
     public void deleteOwner(String aUsername){
         if (aUsername == null || aUsername.equals("")) throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
-        if (aUsername != null || !aUsername.equals("")) {
+
             for(Owner owner : ownerRepository.findAll()){
                 if (owner.getUsername().equals(aUsername)) {
-                    owner = null;
                     ownerRepository.deleteById(aUsername);
                     return;
                 }
-            }
+
         }
         throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }
@@ -117,10 +115,10 @@ public class OwnerService {
     @Transactional
     public Store getOwnerStore(String aUsername) {
         if (aUsername == null  || aUsername.equals("")) throw new IllegalArgumentException("Invalid username: the string given was null");
-        if (aUsername != null  || !aUsername.equals("")) {
+
             for(Owner owner : ownerRepository.findAll()){
                 if (owner.getUsername().equals(aUsername)) return owner.getStore();
-            }
+
         }
         throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }

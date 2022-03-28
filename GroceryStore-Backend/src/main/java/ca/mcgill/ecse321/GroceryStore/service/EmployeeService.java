@@ -139,18 +139,15 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void deleteOwner(String aUsername){
-        if (aUsername != null || !aUsername.equals("")) throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
-        if (aUsername != null || !aUsername.equals("")) {
+    public void deleteEmployee(String aUsername){
+        if (aUsername == null || aUsername.equals("")) throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
             for(Employee employee : employeeRepository.findAll()){
                 if (employee.getUsername().equals(aUsername)) {
-                    employee = null;
                     employeeRepository.deleteById(aUsername);
                     return;
                 }
             }
-        }
-        throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
+        throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
     }
 
     private <T> List<T> toList(Iterable<T> iterable){

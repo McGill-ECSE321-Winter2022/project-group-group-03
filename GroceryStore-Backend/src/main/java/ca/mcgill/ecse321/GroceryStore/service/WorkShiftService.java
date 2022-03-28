@@ -24,7 +24,6 @@ public class WorkShiftService {
 
     @Transactional
     public void deleteWorkShift(int shiftID) {
-        String error = null;
         if (!workShiftRepository.existsById(shiftID)) {
             throw new IllegalArgumentException("The work shift does not exist.");
         }

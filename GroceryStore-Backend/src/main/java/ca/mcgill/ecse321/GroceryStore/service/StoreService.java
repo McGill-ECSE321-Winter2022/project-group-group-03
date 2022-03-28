@@ -185,12 +185,7 @@ public class StoreService {
         return store;
     }
 
-    private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<>();
-        for (T t : iterable) {
-            resultList.add(t);
-        }
-        return resultList;
-    }
+
+
 
 }

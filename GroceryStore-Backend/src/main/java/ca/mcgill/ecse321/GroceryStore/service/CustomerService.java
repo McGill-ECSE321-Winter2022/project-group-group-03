@@ -25,16 +25,16 @@ public class CustomerService {
 
     @Transactional
     public Customer createCustomer(String aUsername, String aPassword, String aEmail, String aAddress) {
-        if(aUsername == null || aUsername == "") {
+        if(aUsername == null || aUsername.equals("")) {
             throw new IllegalArgumentException("Username can't be empty");
         }
-        if(aPassword == null || aPassword == ""){
+        if(aPassword == null || aPassword.equals("")){
             throw new IllegalArgumentException("Password can't be empty");
         }
-        if(aEmail == null || aEmail == ""){
+        if(aEmail == null || aEmail.equals("")){
             throw new IllegalArgumentException("Email can't be empty");
         }
-        if(aAddress == null || aAddress == ""){
+        if(aAddress == null || aAddress.equals("")){
             throw new IllegalArgumentException("Address can't be empty");
         }
         for (Customer customer : customerRepository.findAll()){
@@ -70,7 +70,7 @@ public class CustomerService {
     @Transactional
     public Customer loginCustomer(String aUsername, String aPassword){
         Customer customer = getCustomer(aUsername);
-        if (customer.getPassword().equals(customer)) return customer;
+        if (customer.getPassword().equals(aPassword)) return customer;
         throw new IllegalArgumentException("Wrong password was given for username: " + aUsername);
     }
 
@@ -139,11 +139,5 @@ public class CustomerService {
         customerRepository.findCustomerByUsername(aUsername).setOrder(orders);
         return customerRepository.findCustomerByUsername(aUsername);
     }
-    private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<>();
-        for (T t : iterable) {
-            resultList.add(t);
-        }
-        return resultList;
-    }
+
 }

@@ -64,7 +64,7 @@ public class TestBusinessHourService {
         });
         lenient().when(storeRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             Store s = storeService.createStore("ADDRESS", 5,5);
-            return new ArrayList<Store>(Arrays.asList(s));
+            return new ArrayList<>(Arrays.asList(s));
         });
         lenient().when(businessHourRepository.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(HOURS_ID)) {

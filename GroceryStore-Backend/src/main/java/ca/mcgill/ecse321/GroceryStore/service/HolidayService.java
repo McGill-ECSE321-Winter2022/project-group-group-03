@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.HolidayRepository;
-import ca.mcgill.ecse321.GroceryStore.dao.StoreRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

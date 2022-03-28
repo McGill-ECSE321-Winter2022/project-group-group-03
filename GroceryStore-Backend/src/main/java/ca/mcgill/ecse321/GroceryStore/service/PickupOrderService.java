@@ -18,9 +18,6 @@ public class PickupOrderService {
     @Autowired
     UserService userService;
 
-    //TODO: to be uncommented once create method is ready to be changed
-//    @Autowired
-//    UserService userService;
 
     @Autowired
     StoreService storeService;
