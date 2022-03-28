@@ -25,6 +25,7 @@ public class TestDeliveryOrderService {
     private int CONFIRMATION_NUMBER_KEY = 123;
     private String ITEM_NAME_KEY = "Cheesy Balls";
     private String SHIPPING_ADDRESS = "3064 rue edmond rostand";
+    private String USERNAME = "bob";
     private DeliveryOrder.ShippingStatus SHIPPING_STATUS = DeliveryOrder.ShippingStatus.InCart;
     private boolean IS_IN_TOWN = true;
 
@@ -97,7 +98,7 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             fail();
         }
@@ -114,7 +115,7 @@ public class TestDeliveryOrderService {
         String error = null;
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -130,7 +131,7 @@ public class TestDeliveryOrderService {
         String error = null;
         DeliveryOrder deliveryOrder = null;
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -148,7 +149,7 @@ public class TestDeliveryOrderService {
         String error = null;
         DeliveryOrder deliveryOrder = null;
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,confirmationNumber, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS,confirmationNumber, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -170,7 +171,7 @@ public class TestDeliveryOrderService {
         String error = null;
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, shippingAddress, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -181,7 +182,7 @@ public class TestDeliveryOrderService {
     public void testUpdateDeliveryOrderNullShippingAddress() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         DeliveryOrder deliveryOrder = null;
-        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+        deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS,CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         String address = null;
         String error = null;
 
@@ -203,7 +204,7 @@ public class TestDeliveryOrderService {
         String error = null;
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, shippingAddress, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -214,7 +215,7 @@ public class TestDeliveryOrderService {
     public void testUpdateDeliveryOrderEmptyShippingAddress() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         DeliveryOrder deliveryOrder = null;
-        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+        deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         String address = "";
         String error = null;
 
@@ -236,7 +237,7 @@ public class TestDeliveryOrderService {
         String error = null;
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, shippingAddress, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -247,7 +248,7 @@ public class TestDeliveryOrderService {
     public void testUpdateDeliveryOrderSingleSpaceShippingAddress() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         DeliveryOrder deliveryOrder = null;
-        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+        deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         String address = " ";
         String error = null;
 
@@ -267,7 +268,7 @@ public class TestDeliveryOrderService {
         String address = "lol";
         String error = null;
         DeliveryOrder deliveryOrder = null;
-        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+        deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         try {
             deliveryOrderService.setShippingAddress(10000, address);
         } catch (IllegalArgumentException e) {
@@ -291,9 +292,9 @@ public class TestDeliveryOrderService {
         when(deliveryOrderRepository.findAll()).thenReturn(DOs);
 
         try {
-            deliveryOrder1 = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
+            deliveryOrder1 = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
             DOs.add(deliveryOrder1);
-            deliveryOrder2 = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
+            deliveryOrder2 = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
 
     } catch(
     IllegalArgumentException e){
@@ -312,7 +313,7 @@ public class TestDeliveryOrderService {
         when(deliveryOrderRepository.findAll()).thenReturn(deliveryOrders);
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,confirmationNumber, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS,confirmationNumber, IS_IN_TOWN);
             deliveryOrders.add(deliveryOrder);
             deliveryOrders = deliveryOrderService.getAllDeliveryOrders();
         } catch (IllegalArgumentException e) {
@@ -325,7 +326,7 @@ public class TestDeliveryOrderService {
 
     @Test
     public void testDeleteDeliveryOrder() {
-        deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+        deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         String error = null;
 
         try {

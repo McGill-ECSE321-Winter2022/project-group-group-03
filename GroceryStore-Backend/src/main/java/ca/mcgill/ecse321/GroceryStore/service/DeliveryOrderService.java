@@ -23,8 +23,11 @@ public class DeliveryOrderService {
     @Autowired
     StoreService storeService;
 
+    @Autowired
+    UserService userService;
+
     @Transactional
-    public DeliveryOrder createDeliveryOrder(String shippingAddress, Integer confirmationNumber, boolean isOutOfTown){
+    public DeliveryOrder createDeliveryOrder(String username, String shippingAddress, Integer confirmationNumber, boolean isOutOfTown){
         DeliveryOrder newDeliveryOrder = new DeliveryOrder();
         List<DeliveryOrder> deliveryOrders = this.getAllDeliveryOrders();
 
@@ -53,7 +56,7 @@ public class DeliveryOrderService {
 
         newDeliveryOrder.setStore(storeService.getStore());
         //TODO: to be uncommented later
-        //employeeService.addOrder(username, newDeliveryOrder);
+        userService.addOrder(username, newDeliveryOrder);
         deliveryOrderRepository.save(newDeliveryOrder);
         return newDeliveryOrder;
     }

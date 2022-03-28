@@ -433,7 +433,7 @@ public class TestCustomerService {
 
         try {
             customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
-            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house", 69,  true);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder("bob", "my house", 69,  true);
             pickupOrder = pickupOrderService.createPickupOrder("Cash", 70);
             customer.setOrder(Arrays.asList(deliveryOrder, pickupOrder));
             DeliveryOrder finalDeliveryOrder = deliveryOrder;
