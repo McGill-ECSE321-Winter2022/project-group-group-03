@@ -2,11 +2,9 @@ package ca.mcgill.ecse321.GroceryStore.controller;
 
 import ca.mcgill.ecse321.GroceryStore.dto.EmployeeDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.OrderDTO;
-import ca.mcgill.ecse321.GroceryStore.dto.OwnerDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.WorkShiftDTO;
 import ca.mcgill.ecse321.GroceryStore.model.Employee;
 import ca.mcgill.ecse321.GroceryStore.model.Order;
-import ca.mcgill.ecse321.GroceryStore.model.Owner;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
 
@@ -45,8 +43,7 @@ public class EmployeeRestController {
     @GetMapping(value = { "/employee", "/employee/" })
     public EmployeeDTO getEmployeeByUsername(@RequestParam String username) throws IllegalArgumentException {
         Employee e = service.getEmployee(username);
-        EmployeeDTO eDTO = convertToDto(e);
-        return eDTO;
+        return convertToDto(e);
     }
 
     @GetMapping(value = { "/workshift/employee", "/workshift/employee/" })
@@ -129,6 +126,7 @@ public class EmployeeRestController {
     }
 
     private List<WorkShiftDTO> createWorkShiftDtosForEmployee(Employee e) {
+        if (e == null) throw new IllegalArgumentException("There is no such Employee.");
         List<WorkShift> workShiftsForEmployee = service.getEmployeeWorkShifts(e.getUsername());
         List<WorkShiftDTO> workShifts = new ArrayList<>();
         for (WorkShift workShift : workShiftsForEmployee) {
@@ -138,6 +136,7 @@ public class EmployeeRestController {
     }
 
     private List<OrderDTO> createOrderDtosForEmployee(Employee e) {
+        if (e == null) throw new IllegalArgumentException("There is no such Employee.");
         List<Order> ordersForEmployee = service.getEmployeeOrders(e.getUsername());
         List<OrderDTO> orders = new ArrayList<>();
         for (Order order : ordersForEmployee) {

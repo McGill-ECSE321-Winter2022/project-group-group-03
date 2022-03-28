@@ -2,15 +2,13 @@ package ca.mcgill.ecse321.GroceryStore.controller;
 
 import ca.mcgill.ecse321.GroceryStore.dto.CustomerDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.OrderDTO;
-import ca.mcgill.ecse321.GroceryStore.dto.OwnerDTO;
 import ca.mcgill.ecse321.GroceryStore.model.Customer;
 import ca.mcgill.ecse321.GroceryStore.model.Order;
-import ca.mcgill.ecse321.GroceryStore.model.Owner;
 import ca.mcgill.ecse321.GroceryStore.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +29,7 @@ public class CustomerRestController {
         return convertToDto(customer);
     }
     @GetMapping(value = { "/customer/{username}", "/customer/{username}/" })
-    public CustomerDTO getCustomerByUsername(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException {
+    public CustomerDTO getCustomerByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
         return convertToDto(service.getCustomer(username));
     }
     @GetMapping(value = {"/customer_login", "/customer_login/"})
@@ -70,23 +68,5 @@ public class CustomerRestController {
         }
         return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem());
     }
-    private Customer convertToDomainObject(CustomerDTO eDto) {
-        List<Customer> allCustomers = service.getAllCustomers();
-        for (Customer customer : allCustomers) {
-            if (customer.getUsername().equals(eDto.getUsername())) {
-                return customer;
-            }
-        }
-        return null;
-    }
-    private List<OrderDTO> createOrderDtosForCustomer(Customer c) {
-        List<Order> ordersForCustomer = service.getCustomerOrders(c.getUsername());
-        List<OrderDTO> orders = new ArrayList<>();
-        for (Order order : ordersForCustomer) {
-            orders.add(convertToDto(order));
-        }
-        return orders;
-    }
-
 
 }

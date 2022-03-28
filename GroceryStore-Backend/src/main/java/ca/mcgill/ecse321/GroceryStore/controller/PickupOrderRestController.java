@@ -38,6 +38,12 @@ public class PickupOrderRestController {
         return convertToDto(service.updatePaymentMethod(confirmationNumber, newPaymentMethod));
     }
 
+    @PutMapping(value = {"/editPickupOrderTotalCost/{confirmationNumber}/"})
+    public PickupOrderDTO updateTotalCost(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {
+        return convertToDto(service.updateTotalCost(confirmationNumber));
+    }
+
+
     @DeleteMapping(value = {"/pickupOrder/{confirmationNumber}", "/pickupOrder/{confirmationNumber}/"})
     public void deletePickupOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {
         service.deletePickupOrder(confirmationNumber);
