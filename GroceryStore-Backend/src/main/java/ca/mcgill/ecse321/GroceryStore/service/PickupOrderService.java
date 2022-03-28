@@ -27,10 +27,10 @@ public class PickupOrderService {
     public PickupOrder createPickupOrder(String paymentMethod, String pickupStatus, Integer confirmationNumber){
         PickupOrder newPickupOrder = new PickupOrder();
         List<PickupOrder> pickupOrders = this.getAllPickupOrders();
-        if(paymentMethod == null || paymentMethod == "" || paymentMethod == " ") {
+        if(paymentMethod == null || paymentMethod.equals("") || paymentMethod.equals(" ")) {
             throw new IllegalArgumentException("Payment method can't be empty.");
         }
-        else if(pickupStatus == null || pickupStatus == "" || pickupStatus == " "){
+        else if(pickupStatus == null || pickupStatus.equals("") || pickupStatus.equals(" ")){
             throw new IllegalArgumentException("Pickup status can't be empty.");
         }
         else if(confirmationNumber == null){
@@ -147,7 +147,7 @@ public class PickupOrderService {
         pickupOrderRepository.deleteById(confirmationNumber);
     }
     @Transactional
-    public void setTotalCost(Integer OrderId){
+    public PickupOrder updateTotalCost(Integer OrderId){
         if (OrderId == null) {
             throw new IllegalArgumentException("Confirmation number can't be empty.");
         }
@@ -161,7 +161,9 @@ public class PickupOrderService {
         for(PurchasedItem purchasedItem : pickupOrderRepository.findByConfirmationNumber(OrderId).getPurchasedItem()){
             totalCost += purchasedItem.getItemQuantity()*purchasedItem.getItem().getPrice();
         }
-        pickupOrderRepository.findByConfirmationNumber(OrderId).setTotalCost(totalCost);
+        PickupOrder pickupOrder = pickupOrderRepository.findByConfirmationNumber(OrderId);
+        pickupOrder.setTotalCost(totalCost);
+        return pickupOrder;
     }
 
     private <T> List<T> toList(Iterable<T> iterable){

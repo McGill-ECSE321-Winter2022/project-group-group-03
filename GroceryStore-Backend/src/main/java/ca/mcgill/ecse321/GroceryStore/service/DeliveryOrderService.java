@@ -28,10 +28,10 @@ public class DeliveryOrderService {
         DeliveryOrder newDeliveryOrder = new DeliveryOrder();
         List<DeliveryOrder> deliveryOrders = this.getAllDeliveryOrders();
 
-        if(shippingAddress == null || shippingAddress == "" || shippingAddress == " ") {
+        if(shippingAddress == null || shippingAddress.equals("") || shippingAddress.equals(" ")) {
             throw new IllegalArgumentException("Shipping address can't be empty.");
         }
-        else if(shippingStatus == null || shippingStatus == "" || shippingStatus == " "){
+        else if(shippingStatus == null || shippingStatus.equals("") || shippingStatus.equals(" ")){
             throw new IllegalArgumentException("Shipping status can't be empty.");
         }
         else if(confirmationNumber == null){
@@ -163,15 +163,8 @@ public class DeliveryOrderService {
         }
         if(deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId).isOutOfTown())
             totalCost += DeliveryOrder.SHIPPINGFEE;
-
-        return deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId);
-    }
-
-    private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<>();
-        for (T t : iterable) {
-            resultList.add(t);
-        }
-        return resultList;
+        DeliveryOrder deliveryOrder = deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId);
+        deliveryOrder.setTotalCost(totalCost);
+        return deliveryOrder;
     }
 }
