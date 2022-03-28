@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.HolidayRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.StoreRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Holiday;
+import ca.mcgill.ecse321.GroceryStore.model.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +17,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,6 +38,10 @@ public class TestHolidayService {
 
     @Mock
     private HolidayRepository holidayRepository;
+    @Mock
+    private StoreRepository storeRepository;
+    @Mock
+    private StoreService storeService;
     @InjectMocks
     private HolidayService holidayService;
 
@@ -51,6 +58,10 @@ public class TestHolidayService {
             } else {
                 return null;
             }
+        });
+        lenient().when(storeRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+            Store s = storeService.createStore("ADDRESS", 5,5);
+            return new ArrayList<Store>(Arrays.asList(s));
         });
         lenient().when(holidayRepository.existsById(anyString())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(HOLIDAY_KEY)) {
