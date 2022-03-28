@@ -17,6 +17,9 @@ public class BusinessHourService {
     @Autowired
     BusinessHourRepository businessHourRepository;
 
+    @Autowired
+    StoreService storeService;
+
 
     private static int curID = 10000;
 
@@ -67,7 +70,7 @@ public class BusinessHourService {
         newBusinessHour.setStartTime(startTime);
         newBusinessHour.setEndTime(endTime);
         newBusinessHour.setHoursID(curID++);
-
+        storeService.addBusinessHour(newBusinessHour);
         businessHourRepository.save(newBusinessHour);
         return newBusinessHour;
     }

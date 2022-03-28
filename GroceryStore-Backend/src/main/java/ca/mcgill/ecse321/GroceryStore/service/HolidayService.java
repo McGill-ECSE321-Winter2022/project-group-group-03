@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.HolidayRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.StoreRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ import java.util.List;
 public class HolidayService {
     @Autowired
     HolidayRepository holidayRepository;
+
+    @Autowired
+    StoreService storeService;
 
     @Transactional
     public Holiday createHoliday(String name, Date startDate, Date endDate) {
@@ -46,6 +50,7 @@ public class HolidayService {
             holiday.setName(name);
             holiday.setStartDate(startDate);
             holiday.setEndDate(endDate);
+            storeService.addHoliday(holiday);//add holiday does error checking for store existence
             holidayRepository.save(holiday);
 
             return holiday;

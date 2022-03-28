@@ -24,6 +24,9 @@ public class EmployeeService {
     @Autowired
     OwnerRepository ownerRepository;
 
+    @Autowired
+    StoreService storeService;
+
     @Transactional
     public Employee createEmployee(String aUsername, String aEmail, String aPassword, String aAddress){
 
@@ -56,6 +59,7 @@ public class EmployeeService {
         newEmployee.setPassword(aPassword);
         newEmployee.setAddress(aAddress);
         newEmployee.setWorkingStatus(Employee.WorkingStatus.Hired);
+        storeService.addEmployee(newEmployee);
         employeeRepository.save(newEmployee);
         return newEmployee;
     }
@@ -115,6 +119,18 @@ public class EmployeeService {
     public Employee updateEmployeeAddress(String username, String address){
         Employee employee = getEmployee(username);
         return updateEmployee(username, employee.getPassword(), address);
+    }
+
+    @Transactional
+    public void addWorkShift(String username, WorkShift workShift){
+        Employee e = getEmployee(username);
+        e.getWorkShift().add(workShift);
+    }
+
+    @Transactional
+    public void addOrder(String username, Order order){
+        Employee e = getEmployee(username);
+        e.getOrder().add(order);
     }
 
     @Transactional

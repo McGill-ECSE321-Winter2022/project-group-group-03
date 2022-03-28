@@ -5,6 +5,7 @@ import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 import ca.mcgill.ecse321.GroceryStore.model.Order;
 import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
+import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,10 @@ public class OrderService {
     PickupOrderRepository pickupOrderRepository;
     @Autowired
     DeliveryOrderRepository deliveryOrderRepository;
+    @Autowired
+    DeliveryOrderService deliveryOrderService;
+    @Autowired
+    PickupOrderService pickupOrderService;
 
     @Transactional
     public List<Order> getAllOrders() {
@@ -27,5 +32,23 @@ public class OrderService {
         for (PickupOrder pickupOrder : pickupOrderRepository.findAll()) orders.add(pickupOrder);
         for(DeliveryOrder deliveryOrder: deliveryOrderRepository.findAll()) orders.add(deliveryOrder);
         return orders;
+    }
+
+    @Transactional
+    public void addPurchasedItemToOrder(int confirmationNumber, PurchasedItem purchasedItem){
+        int count = 0;
+        try{
+            deliveryOrderService.addPurchasedItemToDeliveryOrder(confirmationNumber, purchasedItem);
+        }catch (Exception e){
+            count++;
+        }
+        try{
+            pickupOrderService.addPurchasedItemToPickupOrder(confirmationNumber, purchasedItem);
+        }catch (Exception e){
+            count++;
+        }
+        if (count==2){
+            throw new IllegalArgumentException("The input confirmation number does not correspond to an Order");
+        }
     }
 }

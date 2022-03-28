@@ -16,6 +16,10 @@ public class WorkShiftService {
     @Autowired
     WorkShiftRepository workShiftRepository;
 
+    //TODO: uncomment when changing create function to add to employee
+    //@Autowired
+    //EmployeeService employeeService
+
     private static int curID = 50000;
 
     @Transactional
@@ -126,6 +130,8 @@ public class WorkShiftService {
         workShift.setEndTime(aEndTime);
         workShift.setShiftID(curID++);
 
+        //TODO: add workshift to employee
+        //employeeService.addWorkShift(username, workShift);
         workShiftRepository.save(workShift);
         return workShift;
     }

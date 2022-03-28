@@ -20,6 +20,14 @@ public class PurchasedItemService {
     @Autowired
     ItemRepository itemRepository;
 
+    //TODO: might need to be uncommented if add item needs to use name instead of item
+    //@Autowired
+    //ItemService itemService;
+
+    //TODO: uncomment when code around is worked on
+    //@Autowired
+    //OrderService orderService;
+
     @Transactional
     public void deletePurchasedItem(int purchasedItemID) {
         PurchasedItem pItem = purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
@@ -99,6 +107,8 @@ public class PurchasedItemService {
             curID++;
         }
 
+        //TODO: might need to be switched to item class, hopefully this is ok
+        //purchasedItem.setItem(itemService.getItem(itemName);
         purchasedItem.setItem(aItem);
         purchasedItem.setItemQuantity(itemQuantity);
         purchasedItem.setPurchasedItemID(curID);

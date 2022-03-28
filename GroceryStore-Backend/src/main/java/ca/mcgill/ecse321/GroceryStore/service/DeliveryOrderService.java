@@ -16,6 +16,13 @@ public class DeliveryOrderService {
     @Autowired
     DeliveryOrderRepository deliveryOrderRepository;
 
+    //TODO: uncomment this code when create function is updated to add to employee
+    //@Autowired
+    //EmployeeService employeeService;
+
+    @Autowired
+    StoreService storeService;
+
     @Transactional
     public DeliveryOrder createDeliveryOrder(String shippingAddress, String shippingStatus, Integer confirmationNumber, boolean isOutOfTown){
         DeliveryOrder newDeliveryOrder = new DeliveryOrder();
@@ -52,6 +59,9 @@ public class DeliveryOrderService {
             case "Delivered" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Delivered);
             default -> throw new IllegalArgumentException("Invalid shipping status");
         }
+        newDeliveryOrder.setStore(storeService.getStore());
+        //TODO: to be uncommented later
+        //employeeService.addOrder(username, newDeliveryOrder);
         deliveryOrderRepository.save(newDeliveryOrder);
         return newDeliveryOrder;
     }
@@ -92,6 +102,12 @@ public class DeliveryOrderService {
         }
 
         deliveryOrderRepository.deleteById(confirmationNumber);
+    }
+
+    @Transactional
+    public void addPurchasedItemToDeliveryOrder(Integer confirmationNumber, PurchasedItem purchasedItem){
+        DeliveryOrder d = getDeliveryOrder(confirmationNumber);
+        d.getPurchasedItem().add(purchasedItem);
     }
 
     @Transactional

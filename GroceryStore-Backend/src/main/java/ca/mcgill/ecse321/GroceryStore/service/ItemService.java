@@ -15,6 +15,9 @@ public class ItemService {
     @Autowired
     ItemRepository itemRepository;
 
+    @Autowired
+    StoreService storeService;
+
     @Transactional
     public Item createItem(String name, boolean purchasable, int price, String description, int stock) {
         ArrayList<String> errorMessages = new ArrayList<>();
@@ -46,6 +49,7 @@ public class ItemService {
         item.setDescription(description);
         item.setStock(stock);
         item.setTotalPurchased(0);
+        storeService.addItem(item);
         itemRepository.save(item);
         return item;
     }

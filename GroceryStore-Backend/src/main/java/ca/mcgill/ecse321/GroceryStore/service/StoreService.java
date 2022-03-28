@@ -16,6 +16,7 @@ public class StoreService {
     @Autowired
     StoreRepository storeRepository;
 
+
     @Transactional
     public Store createStore(String aAddress, Integer aCurrentActiveDelivery, Integer aCurrentActivePickup){
         Store store = new Store();
@@ -97,18 +98,38 @@ public class StoreService {
         return store;
     }
 
-    public List<Holiday> addHoliday( Holiday holiday) {
+    /**
+     * The four add functions return void because they are called in the create functions,
+     * so their output is never used that function returns the created object, not the list in the
+     * association
+     */
+
+    @Transactional
+    public void addHoliday(Holiday holiday) {
         if (holiday==null) throw new IllegalArgumentException("A Holiday parameter is needed");
         List<Holiday> holidays = getStore().getHoliday();
         holidays.add(holiday);
-        return holidays;
     }
 
-    public List<Employee> addEmployee(Employee employee) {
+    @Transactional
+    public void addEmployee(Employee employee) {
         if (employee==null) throw new IllegalArgumentException("An Employee parameter is needed");
         List<Employee> employees = getStore().getEmployee();
         employees.add(employee);
-        return employees;
+    }
+
+    @Transactional
+    public void addItem(Item item) {
+        if (item==null) throw new IllegalArgumentException("An Employee parameter is needed");
+        List<Item> items = getStore().getItem();
+        items.add(item);
+    }
+
+    @Transactional
+    public void addBusinessHour(BusinessHour businessHour) {
+        if (businessHour==null) throw new IllegalArgumentException("An Employee parameter is needed");
+        List<BusinessHour> businessHours = getStore().getBusinessHour();
+        businessHours.add(businessHour);
     }
 
     @Transactional

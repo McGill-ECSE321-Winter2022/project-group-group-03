@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,13 @@ import java.util.List;
 public class PickupOrderService {
     @Autowired
     PickupOrderRepository pickupOrderRepository;
+
+    //TODO: to be uncommented once create method is ready to be changed
+    //@Autowired
+    //EmployeeService employeeService;
+
+    @Autowired
+    StoreService storeService;
 
     @Transactional
     public PickupOrder createPickupOrder(String paymentMethod, String pickupStatus, Integer confirmationNumber){
@@ -51,6 +59,9 @@ public class PickupOrderService {
             case "Prepared" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.Prepared);
             case "PickedUp" -> newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.PickedUp);
         }
+        newPickupOrder.setStore(storeService.getStore());
+        //TODO: uncomment later
+        //employeeService.addOrder(username, newPickupOrder);
         pickupOrderRepository.save(newPickupOrder);
         return newPickupOrder;
     }
@@ -89,6 +100,13 @@ public class PickupOrderService {
         }
         return pickupOrderRepository.findByConfirmationNumber(confirmationNumber);
     }
+
+    @Transactional
+    public void addPurchasedItemToPickupOrder(Integer confirmationNumber, PurchasedItem purchasedItem){
+        PickupOrder p = getPickupOrder(confirmationNumber);
+        p.getPurchasedItem().add(purchasedItem);
+    }
+
     @Transactional
     public PickupOrder updatePaymentMethod(Integer confirmationNumber, String paymentMethod){
         if (confirmationNumber == null) {
