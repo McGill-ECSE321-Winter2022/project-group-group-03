@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.BusinessHourRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.StoreRepository;
 import ca.mcgill.ecse321.GroceryStore.model.BusinessHour;
+import ca.mcgill.ecse321.GroceryStore.model.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +17,7 @@ import org.mockito.stubbing.Answer;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +29,10 @@ public class TestBusinessHourService {
 
     @Mock
     private BusinessHourRepository businessHourRepository;
-
+    @Mock
+    private StoreRepository storeRepository;
+    @Mock
+    private StoreService storeService;
     @InjectMocks
     private BusinessHourService businessHourService;
 
@@ -55,6 +61,10 @@ public class TestBusinessHourService {
             else {
             return null;
             }
+        });
+        lenient().when(storeRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+            Store s = storeService.createStore("ADDRESS", 5,5);
+            return new ArrayList<Store>(Arrays.asList(s));
         });
         lenient().when(businessHourRepository.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(HOURS_ID)) {

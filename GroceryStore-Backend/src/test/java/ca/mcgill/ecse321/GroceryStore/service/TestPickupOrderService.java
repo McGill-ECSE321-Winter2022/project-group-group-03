@@ -323,7 +323,7 @@ public class TestPickupOrderService {
         item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
         item.setStock(10);
         when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
-        purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+        purchasedItem = purchasedItemService.createPurchasedItem("item", 2);
         PickupOrder order = pickupOrderService.createPickupOrder("CASH","PickedUp",10);
         order.setPurchasedItem(Arrays.asList(purchasedItem));
 
@@ -351,7 +351,7 @@ public class TestPickupOrderService {
         item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
         item.setStock(10);
         when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
-        purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+        purchasedItem = purchasedItemService.createPurchasedItem("item", 2);
         PickupOrder order = pickupOrderService.createPickupOrder("CASH","PickedUp",10);
         order.setPurchasedItem(Arrays.asList(purchasedItem));
 

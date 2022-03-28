@@ -36,16 +36,31 @@ public class TestPurchasedItemService {
     private ItemRepository itemRepository;
     @InjectMocks
     private PurchasedItemService purchasedItemService;
-    @InjectMocks
+    @Mock
     private ItemService itemService;
 
     private static final String VALID_NAME = "HELLO";
 
-    private static final Item ITEM = Mockito.spy(new Item());
+    private static final Item ITEM = new Item();
 
     @BeforeEach
     public void setMockOutput() {
-        Mockito.when(ITEM.getName()).thenReturn(VALID_NAME);
+
+        lenient().when(itemService.getItem(anyString()))
+                .thenAnswer((InvocationOnMock invocation) -> {
+                    if (invocation.getArgument(0).equals(VALID_NAME)) {
+                        Item item = new Item();
+                        item.setName(VALID_NAME);
+                        item.setPurchasable(true);
+                        item.setPrice(5);
+                        item.setDescription("good");
+                        item.setStock(9000);
+                        item.setTotalPurchased(0);
+                        return item;
+                    } else {
+                        return null;
+                    }
+                });
 
         lenient().when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(PURCHASED_ITEM_ID)) {
@@ -78,26 +93,18 @@ public class TestPurchasedItemService {
         lenient().when(purchasedItemRepository.save(any(PurchasedItem.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(itemRepository.save(any(Item.class))).thenAnswer(returnParameterAsAnswer);
 
-        lenient().when(itemRepository.findByName(any(String.class)))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                    if (invocation.getArgument(0).equals(VALID_NAME)) {
-                        return ITEM;
-                    } else {
-                        return null;
-                    }
-                });
+
     }
 
     @Test
     public void testCreatePurchasedItemZeroQuantity() {
         assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
 
-        Item item = new Item();
         PurchasedItem purchasedItem = null;
         String error = null;
 
         try{
-            purchasedItem = purchasedItemService.createPurchasedItem(item,0);
+            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME,0);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
@@ -109,12 +116,11 @@ public class TestPurchasedItemService {
     public void testCreatePurchasedItemNegativeQuantity() {
         assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
 
-        Item item = new Item();
         PurchasedItem purchasedItem = null;
         String error = null;
 
         try{
-            purchasedItem = purchasedItemService.createPurchasedItem(item,-1);
+            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME,-1);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
@@ -125,13 +131,14 @@ public class TestPurchasedItemService {
     @Test
     public void testCreatePurchasedItemQuantityGreaterThanStock() {
         assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
-        Item item = new Item();
-        item.setPurchasable(true);
-        item.setStock(9000);
+
+
         String error = null;
 
         try{
-            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 9001);
+            ITEM.setPurchasable(true);
+            ITEM.setStock(9000);
+            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 9001);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
@@ -145,7 +152,7 @@ public class TestPurchasedItemService {
         Item item = new Item();
         item.setPurchasable(false);
         try{
-            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, ITEM_QUANTITY);
+            PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, ITEM_QUANTITY);
         }catch(IllegalArgumentException e){
             error = e.getMessage();
         }
@@ -171,22 +178,20 @@ public class TestPurchasedItemService {
     public void testCreatePurchasedItem() {
         assertEquals(0, purchasedItemService.getAllPurchasedItem().size());
 
-        Item aItem = new Item();
-        aItem.setPurchasable(true);
         PurchasedItem purchasedItem = new PurchasedItem();
         String error = null;
+        Item item = null;
 
         try {
-            aItem.setStock(10000);
-            purchasedItem = purchasedItemService.createPurchasedItem(aItem, ITEM_QUANTITY);
+            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, ITEM_QUANTITY);
+            item = itemService.getItem(VALID_NAME);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
 
         assertNull(error);
         assertNotNull(purchasedItem);
-
-        assertEquals(purchasedItem.getItem(), aItem);
+        assertEquals(purchasedItem.getItem(), item);
         assertEquals(purchasedItem.getItemQuantity(), ITEM_QUANTITY);
     }
 
@@ -215,7 +220,7 @@ public class TestPurchasedItemService {
 
         try {
             aItem.setStock(1000);
-            purchasedItem = purchasedItemService.createPurchasedItem(aItem, ITEM_QUANTITY);
+            purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, ITEM_QUANTITY);
             purchasedItems.add(purchasedItem);
             purchasedItems = purchasedItemService.getAllPurchasedItem();
         } catch (IllegalArgumentException e) {
@@ -310,7 +315,7 @@ public class TestPurchasedItemService {
         item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
         item.setStock(10);
 
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2);
 
         try{
             when(purchasedItemRepository.existsById(anyInt())).thenReturn(true);
@@ -331,7 +336,7 @@ public class TestPurchasedItemService {
         item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
         item.setStock(10);
 
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2);
 
         try{
             when(purchasedItemRepository.existsById(anyInt())).thenReturn(true);
@@ -351,7 +356,7 @@ public class TestPurchasedItemService {
         String error = null;
         item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
         item.setStock(10);
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(VALID_NAME, 2);
         try{
             purchasedItem = purchasedItemService.updatePurchasedItemQuantity(1, 1234);
         }

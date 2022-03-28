@@ -21,8 +21,8 @@ public class PurchasedItemService {
     ItemRepository itemRepository;
 
     //TODO: might need to be uncommented if add item needs to use name instead of item
-    //@Autowired
-    //ItemService itemService;
+    @Autowired
+    ItemService itemService;
 
     //TODO: uncomment when code around is worked on
     //@Autowired
@@ -80,17 +80,18 @@ public class PurchasedItemService {
 
 
     @Transactional
-    public PurchasedItem createPurchasedItem(Item aItem, int itemQuantity) {
+    public PurchasedItem createPurchasedItem(String itemName, int itemQuantity) {
         PurchasedItem purchasedItem = new PurchasedItem();
         String error = null;
-
-        if (aItem == null) {
-            error="item cannot be null.";
+        if (itemName== null || itemName.trim().length() == 0) {
+            throw new IllegalArgumentException("item cannot be null.");
         }
-        else if (!aItem.getPurchasable()) {
+        Item item = itemService.getItem(itemName);
+
+        if (!item.getPurchasable()) {
             error="item is not purchasable.";
         }
-       else if (itemQuantity > aItem.getStock()) {
+       else if (itemQuantity > item.getStock()) {
            error="itemQuantity cannot be greater than the stock.";
        }
        if (itemQuantity == 0) {
@@ -108,8 +109,8 @@ public class PurchasedItemService {
         }
 
         //TODO: might need to be switched to item class, hopefully this is ok
-        //purchasedItem.setItem(itemService.getItem(itemName);
-        purchasedItem.setItem(aItem);
+        purchasedItem.setItem(item);
+        //purchasedItem.setItem(aItem);
         purchasedItem.setItemQuantity(itemQuantity);
         purchasedItem.setPurchasedItemID(curID);
         purchasedItemRepository.save(purchasedItem);

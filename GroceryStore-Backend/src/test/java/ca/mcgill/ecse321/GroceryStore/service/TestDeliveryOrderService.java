@@ -499,7 +499,7 @@ public class TestDeliveryOrderService {
         item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
         item.setStock(10);
         when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
-        purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+        purchasedItem = purchasedItemService.createPurchasedItem("item", 2);
         DeliveryOrder order = deliveryOrderService.createDeliveryOrder("123 edward street", "Delivered", 12,  true);
         order.setPurchasedItem(Arrays.asList(purchasedItem));
 
@@ -527,7 +527,7 @@ public class TestDeliveryOrderService {
         item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10);
         item.setStock(10);
         when(purchasedItemRepository.findByPurchasedItemID(anyInt())).thenReturn(purchasedItem);
-        purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+        purchasedItem = purchasedItemService.createPurchasedItem("item", 2);
         DeliveryOrder order = deliveryOrderService.createDeliveryOrder("3064 edmond rosts","Delivered",10, true);
         order.setPurchasedItem(Arrays.asList(purchasedItem));
 

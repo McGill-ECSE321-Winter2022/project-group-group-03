@@ -56,6 +56,10 @@ public class TestCustomerService {
     private ItemRepository itemRepository;
     @Mock
     private PurchasedItemRepository purchasedItemRepository;
+    @Mock
+    private StoreRepository storeRepository;
+    @Mock
+    private StoreService storeService;
 
 
     @InjectMocks
@@ -789,7 +793,7 @@ public class TestCustomerService {
         //Initialization
         Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
         Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10 );
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 5);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem("item", 5);
         DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "InCart", 123,  false);
         List<Order> orders = new ArrayList<>();
         List<PurchasedItem> purchasedItems = new ArrayList<>();
@@ -826,7 +830,7 @@ public class TestCustomerService {
         //Initialization
         Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
         Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10 );
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 5);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem("item", 5);
         DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "InCart", 123,  false);
         List<Order> orders = new ArrayList<>();
         List<PurchasedItem> purchasedItems = new ArrayList<>();
@@ -861,7 +865,7 @@ public class TestCustomerService {
         //Initialization
         Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
         Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 10 );
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 5);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem("item", 5);
         DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "InCart", 123,  false);
         List<Order> orders = new ArrayList<>();
         List<PurchasedItem> purchasedItems = new ArrayList<>();
@@ -896,7 +900,7 @@ public class TestCustomerService {
         //Initialization
         Customer customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
         Item item = itemService.createItem("Cheeze", true, 10, "Cheezy", 2 );
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, 2);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem("item", 2);
         DeliveryOrder deliveryOrder = deliveryOrderService.createDeliveryOrder("3064 edmond rostand", "InCart", 123,  false);
         List<Order> orders = new ArrayList<>();
         List<PurchasedItem> purchasedItems = new ArrayList<>();
