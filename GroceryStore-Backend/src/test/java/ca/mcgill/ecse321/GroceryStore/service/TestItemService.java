@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.ItemRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Item;
+import ca.mcgill.ecse321.GroceryStore.dao.StoreRepository;
+import ca.mcgill.ecse321.GroceryStore.model.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +15,7 @@ import org.mockito.stubbing.Answer;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,6 +30,12 @@ public class TestItemService {
 
     @InjectMocks
     private ItemService itemService;
+
+    @Mock
+    private StoreRepository storeRepository;
+
+    @Mock
+    private StoreService storeService;
 
     private static final String ITEM_KEY = "Coke Zero";
     private static final Boolean ITEM_PURCHASABLE = true;
@@ -51,6 +60,10 @@ public class TestItemService {
             else {
                 return null;
             }
+        });
+        lenient().when(storeRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+            Store s = storeService.createStore("ADDRESS", 5,5);
+            return new ArrayList<Store>(Arrays.asList(s));
         });
         lenient().when(itemRepository.existsById(anyString())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(ITEM_KEY)) {
