@@ -48,6 +48,8 @@ public class TestDeliveryOrderService {
     private PurchasedItemService purchasedItemService;
     @InjectMocks
     private ItemService itemService;
+    @Mock
+    private UserService userService;
 
     @BeforeEach
     public void setMockOutput() {
@@ -77,7 +79,7 @@ public class TestDeliveryOrderService {
                 return Boolean.FALSE;
             }
         });
-
+        
         lenient().when(storeRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             Store s = storeService.createStore("ADDRESS", 5,5);
             return new ArrayList<Store>(Arrays.asList(s));

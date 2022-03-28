@@ -60,6 +60,8 @@ public class TestCustomerService {
     private StoreRepository storeRepository;
     @Mock
     private StoreService storeService;
+    @Mock
+    private UserService userService;
 
 
     @InjectMocks
@@ -454,10 +456,8 @@ public class TestCustomerService {
             });
             orderList = customerService.getCustomerOrders(USERNAME_KEY);
         } catch (Exception e) {
-            System.out.println("crash");
             fail();
         }
-        System.out.println(orderList == null);
         assertNotNull(orderList);
         assertEquals(orderList, Arrays.asList(deliveryOrder, pickupOrder));
     }

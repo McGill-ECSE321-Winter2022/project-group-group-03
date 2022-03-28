@@ -38,6 +38,8 @@ public class TestPickupOrderService {
     private StoreRepository storeRepository;
     @Mock
     private StoreService storeService;
+    @Mock
+    private UserService userService;
 
     @InjectMocks
     private PickupOrderService pickupOrderService;
@@ -45,6 +47,7 @@ public class TestPickupOrderService {
     private PurchasedItemService purchasedItemService;
     @InjectMocks
     private ItemService itemService;
+
 
     @BeforeEach
     public void setMockOutput() {
@@ -110,7 +113,7 @@ public class TestPickupOrderService {
         String error = null;
 
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
+            pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),confirmationNumber);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -125,7 +128,7 @@ public class TestPickupOrderService {
         String error = null;
         PickupOrder pickupOrder = null;
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
+            pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),confirmationNumber);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -142,7 +145,7 @@ public class TestPickupOrderService {
         String error = null;
         PickupOrder pickupOrder = null;
         try {
-            pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
+            pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),confirmationNumber);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
