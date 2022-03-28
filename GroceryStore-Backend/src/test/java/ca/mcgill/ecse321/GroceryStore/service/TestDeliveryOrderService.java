@@ -97,7 +97,7 @@ public class TestDeliveryOrderService {
         DeliveryOrder deliveryOrder = null;
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             fail();
         }
@@ -114,7 +114,7 @@ public class TestDeliveryOrderService {
         String error = null;
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -130,7 +130,7 @@ public class TestDeliveryOrderService {
         String error = null;
         DeliveryOrder deliveryOrder = null;
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -148,7 +148,7 @@ public class TestDeliveryOrderService {
         String error = null;
         DeliveryOrder deliveryOrder = null;
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,confirmationNumber, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -170,7 +170,7 @@ public class TestDeliveryOrderService {
         String error = null;
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -181,7 +181,7 @@ public class TestDeliveryOrderService {
     public void testUpdateDeliveryOrderNullShippingAddress() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         DeliveryOrder deliveryOrder = null;
-        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         String address = null;
         String error = null;
 
@@ -203,7 +203,7 @@ public class TestDeliveryOrderService {
         String error = null;
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -214,7 +214,7 @@ public class TestDeliveryOrderService {
     public void testUpdateDeliveryOrderEmptyShippingAddress() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         DeliveryOrder deliveryOrder = null;
-        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         String address = "";
         String error = null;
 
@@ -236,7 +236,7 @@ public class TestDeliveryOrderService {
         String error = null;
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(shippingAddress, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -247,7 +247,7 @@ public class TestDeliveryOrderService {
     public void testUpdateDeliveryOrderSingleSpaceShippingAddress() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         DeliveryOrder deliveryOrder = null;
-        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         String address = " ";
         String error = null;
 
@@ -260,64 +260,14 @@ public class TestDeliveryOrderService {
         assertEquals("Address can't be empty.", error);
     }
 
-    //SHIPPING STATUS
-    @Test
-    public void testCreateDeliveryOrderNullShippingStatus() {
-        assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
 
-        String shippingStatus = null;
-        DeliveryOrder deliveryOrder = null;
-        String error = null;
-
-        try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, shippingStatus, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNull(deliveryOrder);
-        assertEquals("Shipping status can't be empty.", error);
-    }
-
-    @Test
-    public void testCreateDeliveryOrderEmptyShippingStatus() {
-        assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
-
-        String shippingStatus = "";
-        DeliveryOrder deliveryOrder = null;
-        String error = null;
-
-        try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, shippingStatus, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNull(deliveryOrder);
-        assertEquals("Shipping status can't be empty.", error);
-    }
-
-    @Test
-    public void testCreateDeliveryOrderSingleSpaceShippingStatus() {
-        assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
-
-        String shippingStatus = " ";
-        DeliveryOrder deliveryOrder = null;
-        String error = null;
-
-        try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, shippingStatus, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertNull(deliveryOrder);
-        assertEquals("Shipping status can't be empty.", error);
-    }
     @Test
     public void testUpdateDeliveryOrderAddressWRONGID() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         String address = "lol";
         String error = null;
         DeliveryOrder deliveryOrder = null;
-        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+        deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         try {
             deliveryOrderService.setShippingAddress(10000, address);
         } catch (IllegalArgumentException e) {
@@ -341,9 +291,9 @@ public class TestDeliveryOrderService {
         when(deliveryOrderRepository.findAll()).thenReturn(DOs);
 
         try {
-            deliveryOrder1 = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, IS_IN_TOWN);
+            deliveryOrder1 = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
             DOs.add(deliveryOrder1);
-            deliveryOrder2 = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, IS_IN_TOWN);
+            deliveryOrder2 = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
 
     } catch(
     IllegalArgumentException e){
@@ -362,7 +312,7 @@ public class TestDeliveryOrderService {
         when(deliveryOrderRepository.findAll()).thenReturn(deliveryOrders);
 
         try {
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), confirmationNumber, IS_IN_TOWN);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS,confirmationNumber, IS_IN_TOWN);
             deliveryOrders.add(deliveryOrder);
             deliveryOrders = deliveryOrderService.getAllDeliveryOrders();
         } catch (IllegalArgumentException e) {
@@ -375,7 +325,7 @@ public class TestDeliveryOrderService {
 
     @Test
     public void testDeleteDeliveryOrder() {
-        deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, SHIPPING_STATUS.name(), CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
+        deliveryOrderService.createDeliveryOrder(SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         String error = null;
 
         try {

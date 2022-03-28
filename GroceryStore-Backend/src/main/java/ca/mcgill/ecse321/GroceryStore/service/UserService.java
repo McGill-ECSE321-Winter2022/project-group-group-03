@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
-import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
+
 import ca.mcgill.ecse321.GroceryStore.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -24,15 +24,12 @@ public class DeliveryOrderService {
     StoreService storeService;
 
     @Transactional
-    public DeliveryOrder createDeliveryOrder(String shippingAddress, String shippingStatus, Integer confirmationNumber, boolean isOutOfTown){
+    public DeliveryOrder createDeliveryOrder(String shippingAddress, Integer confirmationNumber, boolean isOutOfTown){
         DeliveryOrder newDeliveryOrder = new DeliveryOrder();
         List<DeliveryOrder> deliveryOrders = this.getAllDeliveryOrders();
 
         if(shippingAddress == null || shippingAddress.equals("") || shippingAddress.equals(" ")) {
             throw new IllegalArgumentException("Shipping address can't be empty.");
-        }
-        else if(shippingStatus == null || shippingStatus.equals("") || shippingStatus.equals(" ")){
-            throw new IllegalArgumentException("Shipping status can't be empty.");
         }
         else if(confirmationNumber == null){
             throw new IllegalArgumentException("Confirmation number can't be empty.");
@@ -52,13 +49,8 @@ public class DeliveryOrderService {
         newDeliveryOrder.setConfirmationNumber(confirmationNumber);
         newDeliveryOrder.setIsOutOfTown(isOutOfTown);
         newDeliveryOrder.setTotalCost(0);
-        switch(shippingStatus){
-            case "InCart" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.InCart);
-            case "Ordered" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Ordered);
-            case "Prepared" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Prepared);
-            case "Delivered" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Delivered);
-            default -> throw new IllegalArgumentException("Invalid shipping status");
-        }
+        newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.InCart);
+
         newDeliveryOrder.setStore(storeService.getStore());
         //TODO: to be uncommented later
         //employeeService.addOrder(username, newDeliveryOrder);
@@ -129,7 +121,9 @@ public class DeliveryOrderService {
             case "Delivered" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Delivered);
             default -> throw new IllegalArgumentException("Invalid shipping status");
         }
-        return deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(confirmationNumber);
+        if (newDeliveryOrder.getShippingStatus().name().equals("Ordered")) storeService.incrementActiveDelivery();
+        if (newDeliveryOrder.getShippingStatus().name().equals("Delivered")) storeService.decrementActiveDelivery();
+        return newDeliveryOrder;
     }
 
     @Transactional
