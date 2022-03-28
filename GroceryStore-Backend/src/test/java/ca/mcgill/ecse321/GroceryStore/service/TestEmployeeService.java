@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Time;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -60,6 +61,10 @@ public class TestEmployeeService {
 
     @InjectMocks
     private PickupOrderService pickupOrderService;
+    @Mock
+    private StoreRepository storeRepository;
+    @Mock
+    private StoreService storeService;
 
     @BeforeEach
     public void setMockOutput() {
@@ -72,6 +77,11 @@ public class TestEmployeeService {
                 return null;
             }
         });
+        lenient().when(storeRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+            Store s = storeService.createStore("ADDRESS", 5,5);
+            return new ArrayList<Store>(Arrays.asList(s));
+        });
+
         lenient().when(ownerRepository.existsById(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(OWNER_USERNAME)){
                 return true;

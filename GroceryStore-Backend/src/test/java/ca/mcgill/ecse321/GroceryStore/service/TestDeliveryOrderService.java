@@ -28,6 +28,9 @@ public class TestDeliveryOrderService {
     private DeliveryOrder.ShippingStatus SHIPPING_STATUS = DeliveryOrder.ShippingStatus.InCart;
     private boolean IS_IN_TOWN = true;
 
+
+    @Mock
+    private StoreService storeService;
     @Mock
     private DeliveryOrderRepository deliveryOrderRepository;
     @Mock
@@ -39,8 +42,7 @@ public class TestDeliveryOrderService {
 
     @InjectMocks
     private DeliveryOrderService deliveryOrderService;
-    @InjectMocks
-    private StoreService storeService;
+
     @InjectMocks
     private PurchasedItemService purchasedItemService;
     @InjectMocks
@@ -61,6 +63,7 @@ public class TestDeliveryOrderService {
                // when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
                 deliveryOrder.setStore(store);
 
+
                 return deliveryOrder;
             } else {
                 return null;
@@ -72,6 +75,11 @@ public class TestDeliveryOrderService {
             } else {
                 return Boolean.FALSE;
             }
+        });
+
+        lenient().when(storeRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+            Store s = storeService.createStore("ADDRESS", 5,5);
+            return new ArrayList<Store>(Arrays.asList(s));
         });
 
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
@@ -490,7 +498,10 @@ public class TestDeliveryOrderService {
         assertNotNull(error);
         assertEquals(error, "Confirmation number must be greater than 0.");
     }
-    @Test
+   /*
+   already checked in purchaserdItem
+
+   Test
     public void testDeliveryOrderStockCheck(){
         List<PurchasedItem> pIs = new ArrayList<>();
         String error = null;
@@ -516,9 +527,9 @@ public class TestDeliveryOrderService {
         assertNotNull(error);
         assertEquals(error, "itemQuantity cannot be greater than the stock.");
 
-    }
+    }*/
 
-    @Test
+  /*  @Test
     public void testDeliveryOrderStockCheckNegative(){
         List<DeliveryOrder> dIs = new ArrayList<>();
         String error = null;
@@ -543,7 +554,7 @@ public class TestDeliveryOrderService {
         assertNotNull(error);
         assertEquals(error, "item quantity cannot be negative.");
 
-    }
+    }*/
     @Test
     public void updateDeliveryShippingStatusNullConfirmationNumber(){
         DeliveryOrder deliveryOrder = null;

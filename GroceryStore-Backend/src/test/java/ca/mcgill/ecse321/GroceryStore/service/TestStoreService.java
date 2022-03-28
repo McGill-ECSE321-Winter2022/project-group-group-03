@@ -59,8 +59,8 @@ public class TestStoreService {
     @BeforeEach
     public void setMockOutput() {
         lenient().when(storeRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
-                ArrayList<Store> storeArrayList = new ArrayList<>();
-                return storeArrayList;
+            ArrayList<Store> storeArrayList = new ArrayList<>();
+            return storeArrayList;
         });
         lenient().when(storeRepository.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(STORE_ID_KEY)) {
@@ -118,7 +118,7 @@ public class TestStoreService {
         assertEquals("Active delivery can't be empty.", error);
     }
 
-    
+
 
     @Test
     public void testStoreCurrentActiveDeliveryNegative(){
@@ -270,7 +270,7 @@ public class TestStoreService {
     }
     @Test
     public void testGetEmployee(){
-        when(customerRepository.findAll()).thenReturn(new ArrayList<>());
+        lenient().when(customerRepository.findAll()).thenReturn(new ArrayList<>());
         Store store = new Store();
         store.setAddress(ADDRESS);
         store.setCurrentActiveDelivery(CURRENT_ACTIVE_DELIVERY);
@@ -282,11 +282,27 @@ public class TestStoreService {
 
 
         try{
-            employee1 = employeeService.createEmployee("Joe", "emp1@gmail.com", "1234", "add1");
-            employee2 = employeeService.createEmployee("Monco", "emp2@gmail.com", "12345", "add2");
+            employee1 = new Employee();
+            employee1.setUsername("Joe");
+            employee1.setEmail("emp1@mail.com");
+            employee1.setPassword("1234");
+            employee1.setAddress("Street");
+            employee1.setOrder(new ArrayList<>());
+            employee1.setWorkShift(new ArrayList<>());
+            employee1.setWorkingStatus(Employee.WorkingStatus.Hired);
+
+            employee1 = new Employee();
+            employee1.setUsername("Monco");
+            employee1.setEmail("emp2@mail.com");
+            employee1.setPassword("1234");
+            employee1.setAddress("Street2");
+            employee1.setOrder(new ArrayList<>());
+            employee1.setWorkShift(new ArrayList<>());
+            employee1.setWorkingStatus(Employee.WorkingStatus.Hired);
+
             store.setEmployee(Arrays.asList(employee1,employee2));
             //test stub
-            when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
+            lenient().when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
             Store myS = storeService.getStore();
             employeeList = myS.getEmployee();
         } catch (Exception e){
@@ -312,7 +328,11 @@ public class TestStoreService {
             Time startTime = java.sql.Time.valueOf(LocalTime.of(8, 35));
             Time endTime = java.sql.Time.valueOf(LocalTime.of(18, 55));
             BusinessHour.DayOfWeek day = BusinessHour.DayOfWeek.Monday;
-            businessHour = businessHourService.createBusinessHour(startTime, endTime, day.name());
+            businessHour = new BusinessHour();
+            businessHour.setHoursID(69420);
+            businessHour.setDay(day);
+            businessHour.setStartTime(startTime);
+            businessHour.setEndTime(endTime);
             store.setBusinessHour(Arrays.asList(businessHour));
             //test stub
             when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
@@ -335,8 +355,19 @@ public class TestStoreService {
         List<Item> itemList = new ArrayList<>();
 
         try{
-            item1 = itemService.createItem("apple1", true, 10, "juicy", 2);
-            item2 = itemService.createItem("apple2", true, 12, "crunchy", 3);
+            item1 = new Item();
+            item1.setPrice(10);
+            item1.setStock(2);
+            item1.setPurchasable(true);
+            item1.setName("apple1");
+            item1.setDescription("juicy");
+
+            item2 = new Item();
+            item2.setPrice(10);
+            item2.setStock(2);
+            item2.setPurchasable(true);
+            item2.setName("apple2");
+            item2.setDescription("tasty");
             store.setItem(Arrays.asList(item1,item2));
             //test stub
             when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
@@ -363,7 +394,10 @@ public class TestStoreService {
             LocalDate LEDATE = LocalDate.of(2015, Month.AUGUST, 31);
             Date START_DATE = Date.valueOf(LSDATE);
             Date END_DATE = Date.valueOf(LEDATE);
-            holiday = holidayService.createHoliday(name, START_DATE, END_DATE);
+            holiday = new Holiday();
+            holiday.setEndDate(END_DATE);
+            holiday.setName(name);
+            holiday.setStartDate(START_DATE);
             store.setHoliday(Arrays.asList(holiday));
             //test stub
             when(storeRepository.findAll()).thenReturn(Arrays.asList(store));
