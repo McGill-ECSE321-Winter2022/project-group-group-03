@@ -2,10 +2,10 @@
   <div>
     <div class="signup">
       <div>
-        <b-dropdown id="dropDown" variant="outline-light" text="Create">
-          <b-dropdown-item>Customer Account</b-dropdown-item>
-          <b-dropdown-item>Employee Account</b-dropdown-item>
-          <b-dropdown-item>Owner Account</b-dropdown-item>
+        <b-dropdown id="dropDown" variant="outline-light" text="Please Choose Account type to Create">
+          <b-dropdown-item>Customer</b-dropdown-item>
+          <b-dropdown-item>Employee</b-dropdown-item>
+          <b-dropdown-item>Owner</b-dropdown-item>
         </b-dropdown>
       </div>
       <h3>Username</h3>
@@ -57,7 +57,7 @@ h1{
 #dropDown {
   background-color: red;
   border-color: red;
-  margin-left: -675px;
+  margin-left: -490px;
   margin-bottom: 20px;
 }
 

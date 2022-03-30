@@ -4,7 +4,7 @@
     <h1>{{ msg }}</h1>
     <h4>New Here? <a href="" target="_blank" id="bold">Create Account</a></h4>
     <div>
-      <b-dropdown id="dropDown" variant="outline-light" text="Login as">
+      <b-dropdown id="dropDown" variant="outline-light" text="Please Choose Account type to Login as">
         <b-dropdown-item>Customer</b-dropdown-item>
         <b-dropdown-item>Employee</b-dropdown-item>
         <b-dropdown-item>Owner</b-dropdown-item>
@@ -58,7 +58,7 @@ h1{
 #dropDown {
   background-color: red;
   border-color: red;
-  margin-left: -675px;
+  margin-left: -460px;
   margin-bottom: 20px;
 }
 
