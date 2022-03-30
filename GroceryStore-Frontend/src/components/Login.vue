@@ -27,7 +27,6 @@ export default {
   data () {
     return {
       msg: "Welcome to Dr. Kanaan's Online Grocery Store"
-
     }
   }
 }
@@ -38,17 +37,14 @@ export default {
 h1, h2 {
   font-weight: normal;
 }
-
 ul {
   list-style-type: none;
   padding: 0;
 }
-
 li {
   display: inline-block;
   margin: 0 10px;
 }
-
 a {
   color: red;
 }
