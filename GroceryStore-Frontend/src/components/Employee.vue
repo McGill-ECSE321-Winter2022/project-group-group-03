@@ -1,7 +1,12 @@
 <template>
     <div>
+<<<<<<< HEAD
       <h1>Update personal info</h1>
     <b-form inline @submit="onSubmit" @reset="onReset" >
+=======
+      <Header />
+    <b-form @submit="onSubmit" @reset="onReset" >
+>>>>>>> 4649f523fc58cbb1c619ee1b89b47e810b112f61
       <b-form-group id="input-group-1" label="Change password:" label-for="input-1">
         <b-form-input id="input-1" v-model="form.password" type="password" placeholder="Enter password"></b-form-input>
         <b-button type="submit" variant="primary">Confirm</b-button>
@@ -61,6 +66,7 @@
 
 
 <script>
+import Header from "../components/Header.vue"
 export default {
   data() {
     return {
@@ -70,6 +76,9 @@ export default {
       },
       show: true
     }
+  },
+  components: {
+    Header
   },
   methods: {
     onSubmit(event) {

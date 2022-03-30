@@ -1,7 +1,8 @@
 <template>
-  <div class="hello">
+  <div class="login">
+    <b-navbar v-if="!$route.meta.hideNavigation"/>
     <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
+    <h4>New Here? <a href="add link later" target="_blank">Create Account</a></h4>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
       <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
@@ -22,10 +23,11 @@
 
 <script>
 export default {
-  name: 'hello',
+  name: 'login',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: "Welcome to Dr. Kanaan's Online Grocery Store"
+
     }
   }
 }
@@ -48,6 +50,6 @@ li {
 }
 
 a {
-  color: #42b983;
+  color: red;
 }
 </style>
