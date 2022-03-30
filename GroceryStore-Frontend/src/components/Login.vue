@@ -1,23 +1,25 @@
 <template>
+  <div>
   <div class="login">
-    <b-navbar v-if="!$route.meta.hideNavigation"/>
     <h1>{{ msg }}</h1>
-    <h4>New Here? <a href="add link later" target="_blank">Create Account</a></h4>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <h4>New Here? <a href="" target="_blank" id="bold">Create Account</a></h4>
+    <div>
+      <b-dropdown id="dropDown" variant="outline-light" text="Login as">
+        <b-dropdown-item>Customer</b-dropdown-item>
+        <b-dropdown-item>Employee</b-dropdown-item>
+        <b-dropdown-item>Owner</b-dropdown-item>
+      </b-dropdown>
+      </div>
+    <h3>Username</h3>
+    <input size="50" type="text" placeholder="Enter username" class="text_stuff">
+    <h3>Password</h3>
+    <input size="50" type="password" placeholder="Enter Password" class="text_stuff">
+    <br>
+    <a href="" target="_blank" id="left">Forget Password?</a>
+    <br>
+    <br>
+    <b-button type="submit" id="buttonColor">Sign in</b-button>
+  </div>
   </div>
 </template>
 
@@ -35,21 +37,58 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+h1{
+  font-weight: lighter;
+  text-align: center;
+
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.text_stuff {
+  margin-left: -380px;
+  margin-bottom: 20px;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
+#buttonColor {
+  background-color: red;
+  border-color: red;
+  text-align: left;
+  margin-left: -720px;
 }
 
+#dropDown {
+  background-color: red;
+  border-color: red;
+  margin-left: -675px;
+  margin-bottom: 20px;
+}
+
+h4{
+  text-align: left;
+  margin-left: 30px;
+  margin-bottom: 50px;
+}
+
+h3 {
+  text-align: left;
+  margin-left: 30px;
+}
+
+#bold {
+  font-weight: 900;
+}
+#left {
+  margin-left: -660px;
+}
 a {
   color: red;
+}
+.login {
+  position:absolute;
+  width:840px;
+  height:700px;
+  left:50%;
+  top:50%;
+  margin-left:-420px;
+  margin-top:-250px;
 }
 </style>
