@@ -1,5 +1,6 @@
 <template>
     <div>
+      <Header />
     <b-form @submit="onSubmit" @reset="onReset" >
       <b-form-group id="input-group-1" label="Change password:" label-for="input-1">
         <b-form-input id="input-1" v-model="form.email" type="password" placeholder="Enter password" ></b-form-input>
@@ -18,6 +19,7 @@
 
 
 <script>
+import Header from "../components/Header.vue"
 export default {
   data() {
     return {
@@ -30,6 +32,9 @@ export default {
       foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
       show: true
     }
+  },
+  components: {
+    Header
   },
   methods: {
     onSubmit(event) {
