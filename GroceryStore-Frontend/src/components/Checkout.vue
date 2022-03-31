@@ -5,28 +5,23 @@
        <td><b>Cart</b></td>
      </tr>
    </div>
+
    <div class="col-12" id = "col1">
      <tr>
        <td>Meat</td>
-       <button type="button">-</button>
        <td>&nbsp 3 &nbsp</td>
-       <button type="button">+</button>
      </tr>
-     <tr>
+   <tr>
        <td>Fruit</td>
-       <button type="button">-</button>
        <td>1</td>
-       <button type="button">+</button>
      </tr>
+   </div>
      <tr>
        <td>Vegetables &nbsp </td>
-       <button type="button">-</button>
        <td>9</td>
-       <button type="button">+</button>
      </tr>
 
    </div>
- </div>
 </template>
 
 <script>
@@ -37,6 +32,7 @@ export default {
 
 <style scoped>
 #col1 {
+  margin-bottom: 200px;
   margin-left: 550px;
   color: red;
   //font-family: courier;
@@ -49,4 +45,3 @@ export default {
     font-size: 160%;
   }
 </style>
-
