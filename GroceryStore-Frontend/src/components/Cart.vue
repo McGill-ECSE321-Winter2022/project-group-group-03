@@ -5,15 +5,9 @@
       &nbsp
       &nbsp
       &nbsp
-      &nbsp
-      &nbsp
-      &nbsp
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="text-center">
           <b-nav-item class = "itemNav">Home</b-nav-item>
-          &nbsp
-          &nbsp
-          &nbsp
           &nbsp
           &nbsp
           &nbsp
@@ -21,6 +15,7 @@
           &nbsp
           &nbsp
           &nbsp
+          <b-nav-item class = "itemNav">Workshift</b-nav-item>
           &nbsp
           &nbsp
           &nbsp

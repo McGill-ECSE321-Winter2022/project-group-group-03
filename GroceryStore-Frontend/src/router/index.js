@@ -5,6 +5,7 @@ import Employee from '@/components/Employee'
 import Bottom from '@/components/Bottom'
 import Checkout from "../components/Checkout";
 import Cart from "../components/Cart";
+import Owner from "../components/Owner";
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/Cart',
       name: 'Cart',
       component: Cart
+    },
+    {
+      path: '/Owner',
+      name: 'Owner',
+      component: Owner
     },
 
 
