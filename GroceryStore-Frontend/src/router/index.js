@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import Employee from '@/components/Employee'
 import SignUp from "@/components/SignUp";
+import OwnerBH from "@/components/OwnerBH";
 
 
 Vue.use(Router)
@@ -23,6 +24,11 @@ export default new Router({
       path: '/signup',
       name: 'SignUp',
       component: SignUp
+    },
+    {
+      path: '/OwnerBH',
+      name: 'OwnerBH',
+      component: OwnerBH
     }
   ]
 })
