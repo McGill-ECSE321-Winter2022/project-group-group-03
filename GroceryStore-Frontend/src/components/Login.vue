@@ -2,7 +2,7 @@
   <div>
   <div class="login">
     <h1>{{ msg }}</h1>
-    <h4>New Here? <a href="" target="_blank" id="bold">Create Account</a></h4>
+    <h4>New Here? <a href="http://127.0.0.1:8087/#/signup" target="_blank" id="bold">Create Account</a></h4>
     <div>
       <b-dropdown id="dropDown" variant="outline-light" text="Please Choose Account type to Login as">
         <b-dropdown-item>Customer</b-dropdown-item>
@@ -15,7 +15,6 @@
     <h3>Password</h3>
     <input size="50" type="password" placeholder="Enter Password" class="text_stuff">
     <br>
-    <a href="" target="_blank" id="left">Forget Password?</a>
     <br>
     <br>
     <b-button type="submit" id="buttonColor">Sign in</b-button>
@@ -76,9 +75,7 @@ h3 {
 #bold {
   font-weight: 900;
 }
-#left {
-  margin-left: -660px;
-}
+
 a {
   color: red;
 }
