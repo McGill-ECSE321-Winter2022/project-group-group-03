@@ -19,7 +19,7 @@
 
 
 <script>
-import Header from "../components/Header.vue"
+import Header from "./EmployeeNav.vue"
 export default {
   data() {
     return {
