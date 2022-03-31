@@ -6,6 +6,7 @@ function BusinessHourDTO(hoursID, startTime, endTime, day){
   this.endTime = endTime;
   this.day = day;
 }
+
 export default {
   name: 'Hours',
   data () {
@@ -14,11 +15,21 @@ export default {
       startTime: '',
       endTime: '',
       day: '',
-      hours: []
+      hours: [],
+      dropDownMessage: "Change opening hour",
+      buttonMessage: "09:00"
     }
   },
   components: {
     Header
+  },
+  methods:{
+    changeOpeningHour: function(hour){
+      this.dropDownMessage = hour
+    },
+    changeButtonHour: function(hour){
+      this.buttonMessage = hour
+    }
   },
   created: function() {
 

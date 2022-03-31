@@ -6,31 +6,46 @@
         <table id="table">
           <tr>
               <td>Mon.</td>
-              <td><b-button id="hourbutton" v-b-modal.modal-1>{{hours[0].startTime}}</b-button></td>
+              <td><b-button id="hourbutton" v-b-modal.modal-1>{{this.buttonMessage}}</b-button></td>
               <b-modal id="modal-1" title="Update Hours">
                 <div align="center">
-                  <b-dropdown id="dropdown-left" text="Change opening hour" variant="primary" class="m-2">
-                    <b-dropdown-item href="#">01:00</b-dropdown-item>
-                    <b-dropdown-item href="#">02:00</b-dropdown-item>
-                    <b-dropdown-item href="#">03:00</b-dropdown-item>
-                    <b-dropdown-item href="#">04:00</b-dropdown-item>
-                    <b-dropdown-item href="#">05:00</b-dropdown-item>
-                    <b-dropdown-item href="#">06:00</b-dropdown-item>
-                    <b-dropdown-item href="#">07:00</b-dropdown-item>
-                    <b-dropdown-item href="#">08:00</b-dropdown-item>
-                    <b-dropdown-item href="#">09:00</b-dropdown-item>
-                    <b-dropdown-item href="#">10:00</b-dropdown-item>
-                    <b-dropdown-item href="#">11:00</b-dropdown-item>
-                    <b-dropdown-item href="#">12:00</b-dropdown-item>
+                  <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-2">
+                    <b-dropdown-item href="#" @click="changeOpeningHour('01:00'), changeButtonHour('01:00')">01:00</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="changeOpeningHour('02:00'), changeButtonHour('02:00')">02:00</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="changeOpeningHour('03:00'), changeButtonHour('03:00')">03:00</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="changeOpeningHour('04:00'), changeButtonHour('04:00')">04:00</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="changeOpeningHour('05:00'), changeButtonHour('05:00')">05:00</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="changeOpeningHour('06:00'), changeButtonHour('06:00')">06:00</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="changeOpeningHour('07:00'), changeButtonHour('07:00')">07:00</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="changeOpeningHour('08:00'), changeButtonHour('08:00')">08:00</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="changeOpeningHour('09:00'), changeButtonHour('09:00')">09:00</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="changeOpeningHour('10:00'), changeButtonHour('10:00')">10:00</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="changeOpeningHour('11:00'), changeButtonHour('11:00')">11:00</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="changeOpeningHour('12:00'), changeButtonHour('12:00')">12:00</b-dropdown-item>
                   </b-dropdown>
                 </div>
               </b-modal>
               <td id="am">a.m</td>
               <div id="topm">
                 <td>To</td>
-                <td><b-button id="hourbutton2" v-b-modal.modal-2>{{hours[0].startTime}}</b-button></td>
-                <b-modal id="modal-2" title="BootstrapVue">
-                <p class="my-4">Hello from !</p>
+                <td><b-button id="hourbutton2" v-b-modal.modal-2>{{this.buttonMessage}}</b-button></td>
+                <b-modal id="modal-2" title="Update Hours">
+                  <div align="center">
+                    <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-2">
+                      <b-dropdown-item href="#" @click="changeOpeningHour('01:00'), changeButtonHour('01:00')">01:00</b-dropdown-item>
+                      <b-dropdown-item href="#" @click="changeOpeningHour('02:00'), changeButtonHour('02:00')">02:00</b-dropdown-item>
+                      <b-dropdown-item href="#" @click="changeOpeningHour('03:00'), changeButtonHour('03:00')">03:00</b-dropdown-item>
+                      <b-dropdown-item href="#" @click="changeOpeningHour('04:00'), changeButtonHour('04:00')">04:00</b-dropdown-item>
+                      <b-dropdown-item href="#" @click="changeOpeningHour('05:00'), changeButtonHour('05:00')">05:00</b-dropdown-item>
+                      <b-dropdown-item href="#" @click="changeOpeningHour('06:00'), changeButtonHour('06:00')">06:00</b-dropdown-item>
+                      <b-dropdown-item href="#" @click="changeOpeningHour('07:00'), changeButtonHour('07:00')">07:00</b-dropdown-item>
+                      <b-dropdown-item href="#" @click="changeOpeningHour('08:00'), changeButtonHour('08:00')">08:00</b-dropdown-item>
+                      <b-dropdown-item href="#" @click="changeOpeningHour('09:00'), changeButtonHour('09:00')">09:00</b-dropdown-item>
+                      <b-dropdown-item href="#" @click="changeOpeningHour('10:00'), changeButtonHour('10:00')">10:00</b-dropdown-item>
+                      <b-dropdown-item href="#" @click="changeOpeningHour('11:00'), changeButtonHour('11:00')">11:00</b-dropdown-item>
+                      <b-dropdown-item href="#" @click="changeOpeningHour('12:00'), changeButtonHour('12:00')">12:00</b-dropdown-item>
+                    </b-dropdown>
+                  </div>
                 </b-modal>
                 <td id="pm">p.m</td>
               </div>
@@ -116,9 +131,9 @@ export default {
 <style>
   #col5{
     color: red;
-    margin-left: 330px;
+    margin-left: 20%;
     font-size: xxx-large;
-    margin-top: 60px;
+    margin-top: 5%;
   }
   #hourbutton{
     transition-duration: 0.4s;
