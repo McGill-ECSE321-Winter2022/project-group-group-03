@@ -2,10 +2,10 @@
   <div>
     <div class="signup">
       <div>
-        <b-dropdown id="dropDown" variant="outline-light" text="Please Choose Account type to Create">
-          <b-dropdown-item>Customer</b-dropdown-item>
-          <b-dropdown-item>Employee</b-dropdown-item>
-          <b-dropdown-item>Owner</b-dropdown-item>
+        <b-dropdown id="dropDown" variant="danger" :text="account_msg">
+          <b-dropdown-item @click="changeMessage('Customer')">Customer</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Employee')">Employee</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Owner')">Owner</b-dropdown-item>
         </b-dropdown>
       </div>
       <h3>Username</h3>
@@ -23,12 +23,11 @@
   </div>
 </template>
 
-<script>
+<script src="./SignUp.js">
 export default {
   name: 'signup',
   data () {
     return {
-      msg: "Welcome to Dr. Kanaan's Online Grocery Store"
 
     }
   }
@@ -48,17 +47,18 @@ h1{
 }
 
 #buttonColor {
-  background-color: red;
-  border-color: red;
+  background-color: #e03444;
+  border-color: #e03444;
   text-align: left;
   margin-left: -720px;
 }
 
 #dropDown {
-  background-color: red;
-  border-color: red;
+  background-color: #e03444;
+  border-color: #e03444;
   margin-left: -490px;
   margin-bottom: 20px;
+  min-width: 23vw;
 }
 
 h4{
@@ -73,7 +73,7 @@ h3 {
 }
 
 a {
-  color: red;
+  color: #e03444;
 }
 .signup {
   position:absolute;

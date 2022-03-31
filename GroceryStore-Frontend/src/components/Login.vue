@@ -4,10 +4,10 @@
     <h1>{{ msg }}</h1>
     <h4>New Here? <a href="http://127.0.0.1:8087/#/signup" target="_blank" id="bold">Create Account</a></h4>
     <div>
-      <b-dropdown id="dropDown" variant="outline-light" text="Please Choose Account type to Login as">
-        <b-dropdown-item>Customer</b-dropdown-item>
-        <b-dropdown-item>Employee</b-dropdown-item>
-        <b-dropdown-item>Owner</b-dropdown-item>
+      <b-dropdown size="50%" id="dropDown" variant="danger" :text="login_msg">
+        <b-dropdown-item @click="changeMessage('Customer')">Customer</b-dropdown-item>
+        <b-dropdown-item @click="changeMessage('Employee')">Employee</b-dropdown-item>
+        <b-dropdown-item @click="changeMessage('Owner')">Owner</b-dropdown-item>
       </b-dropdown>
       </div>
     <h3>Username</h3>
@@ -22,12 +22,11 @@
   </div>
 </template>
 
-<script>
+<script src="./Login.js">
 export default {
   name: 'login',
   data () {
     return {
-      msg: "Welcome to Dr. Kanaan's Online Grocery Store"
 
     }
   }
@@ -48,17 +47,18 @@ h1{
 }
 
 #buttonColor {
-  background-color: red;
-  border-color: red;
+  background-color: #e03444;
+  border-color: #e03444;
   text-align: left;
   margin-left: -720px;
 }
 
 #dropDown {
-  background-color: red;
-  border-color: red;
+  background-color: #e03444;
+  border-color: #e03444;
   margin-left: -460px;
   margin-bottom: 20px;
+  min-width: 23vw;
 }
 
 h4{
@@ -77,7 +77,7 @@ h3 {
 }
 
 a {
-  color: red;
+  color: #e03444;
 }
 .login {
   position:absolute;
