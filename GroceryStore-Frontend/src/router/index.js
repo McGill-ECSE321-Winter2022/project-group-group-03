@@ -4,6 +4,7 @@ import Login from '@/components/Login'
 import Employee from '@/components/Employee'
 import SignUp from "@/components/SignUp";
 import OwnerBH from "@/components/OwnerBH";
+import OwnerItem from "../components/OwnerItem";
 
 
 Vue.use(Router)
@@ -29,6 +30,12 @@ export default new Router({
       path: '/OwnerBH',
       name: 'OwnerBH',
       component: OwnerBH
+    },
+    {
+      path: '/OwnerItem',
+      name: 'OwnerItem',
+      component: OwnerItem
     }
+
   ]
 })
