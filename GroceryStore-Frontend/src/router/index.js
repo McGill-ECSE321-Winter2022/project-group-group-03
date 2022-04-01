@@ -1,14 +1,11 @@
-import Vue from "vue";
-import Router from "vue-router";
-import Login from "../components/Login";
-import Schedule from "../components/Schedule";
-import UpdateEmployee from "../components/UpdateEmployee";
-import UpdateCustomer from "../components/UpdateCustomer";
-import UpdateOwner from "../components/UpdateOwner";
+import Vue from 'vue'
+import Router from 'vue-router'
+import Login from '@/components/Login'
+import Employee from '@/components/Employee'
+import Items from "@/components/Items";
 
 
 Vue.use(Router)
-
 
 export default new Router({
   routes: [
@@ -18,24 +15,14 @@ export default new Router({
       component: Login,
     },
     {
-      path: '/Schedule',
-      name: 'Schedule',
-      component: Schedule,
+      path: '/Employee',
+      name: 'Employee',
+      component: Employee
     },
     {
-      path: '/UpdateEmployee',
-      name: 'UpdateEmployee',
-      component: UpdateEmployee,
-    },
-    {
-      path: '/UpdateCustomer',
-      name: 'UpdateCustomer',
-      component: UpdateCustomer,
-    },
-    {
-      path: '/UpdateOwner',
-      name: 'UpdateOwner',
-      component: UpdateOwner,
+      path: '/Items',
+      name: 'Items',
+      component: Items
     }
 
   ]
