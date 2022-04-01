@@ -2,10 +2,10 @@
   <div>
     <div class="signup">
       <div>
-        <b-dropdown id="dropDown" variant="danger" text="Please Choose Account type to Create">
-          <b-dropdown-item>Customer</b-dropdown-item>
-          <b-dropdown-item>Employee</b-dropdown-item>
-          <b-dropdown-item>Owner</b-dropdown-item>
+        <b-dropdown id="dropDown" variant="danger" :text="account_msg">
+          <b-dropdown-item @click="changeMessage('Customer')">Customer</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Employee')">Employee</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Owner')">Owner</b-dropdown-item>
         </b-dropdown>
       </div>
       <h3>Username</h3>
@@ -66,6 +66,7 @@ h1{
   border-color: #e03444;
   margin-left: -490px;
   margin-bottom: 20px;
+  min-width: 23vw;
 }
 
 h4{
