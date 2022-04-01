@@ -1,4 +1,4 @@
-import Header from "../components/Header"
+import Header from "./Header"
 import axios from 'axios'
 var config = require('../../config')
 
@@ -30,37 +30,53 @@ export default {
       newDescription:'',
       newImage: '',
       errorItem: '',
-      response: [],
+      response: '',
       out: []
     }
   },
   components: {
     Header
   },
-  methods: {
-    createItem: function (itemName, itemPrice, description, image) {
-      // Create a new person and add it to the list of people
-      console.log('/item?'.concat("itemName=",itemName,"&purchasable=true&price=",itemPrice,"&description=", description,"&stock=5"))
-      AXIOS.post('/item?'.concat("itemName=",itemName,"&purchasable=true&price=",itemPrice,"&description=", description,"&stock=5"),{},{})
-        .catch(function (error) {
-        this.errorItem = error.data();
+  created() {
+    console.log("if this is mounted ill see this");
+    AXIOS.get('/store',{})
+      .then(response => {
+        console.log(response.data)
       })
+    this.getItems();
+    this.sleep(5000);
+  },
+  methods: {
+    getItems: function(){
+      console.log("getting items");
+      this.items.length = 0;
+      AXIOS.get('/item', {responseType: "json"})
+        .then((response) =>{
+          this.response = response.data;
+          for (const item in this.response) {
+            let i = new ItemDto(this.response[item].name, this.response[item].purchasable, this.response[item].price,
+              this.response[item].stock, this.response[item].description, this.response[item].image, 0);
+            this.items.push(i);
+            console.log(i);
+          }
+        });
+    },
+    createItem: function (itemName, itemPrice, description) {
+      // Create a new person and add it to the list of people
+      console.log('/item?'.concat("itemName=", itemName, "&purchasable=true&price=", itemPrice, "&description=", description, "&stock=5"))
+      AXIOS.post('/item?'.concat("itemName=", itemName, "&purchasable=true&price=", itemPrice, "&description=", description, "&stock=5"), {}, {})
+        .catch(function (error) {
+          this.errorItem = error.data();
+        })
       this.sleep(500);
       this.items.length = 0;
-      AXIOS.get('/item',{}).then(response => {
-        // console.log(response.data);
-        out = response.data;
-      })
-      console.log(out);
+      this.getItems();
 
-
-      // let i = new ItemDto(itemName, false, itemPrice, 5, description, image, 0)
-      // this.items.push(i)
-      // // Reset the name field for new people
-      // this.newItem = ''
-      // this.newPrice = ''
-      // this.newImage = ''
-      // this.newDescription = ''
+      // Reset the name field for new people
+      this.newItem = '';
+      this.newPrice = '';
+      this.newImage = '';
+      this.newDescription = '';
     },
     sleep: function (milliseconds) {
       const date = Date.now();
@@ -70,17 +86,7 @@ export default {
       }
       while (currentDate - date < milliseconds);
     },
-    created: function () {
-      AXIOS.get('/store',{})
-        .then(response => {
-        console.log(response.data)
-      })
-      // AXIOS.get('/item')
-      //   .then(response => {
-      //     // JSON responses are automatically parsed.
-      //     console.log(response.data)
-      //   })
-    },
+
     createStore: function (){
       AXIOS.post("./store?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",{},{})
         .then(response => {

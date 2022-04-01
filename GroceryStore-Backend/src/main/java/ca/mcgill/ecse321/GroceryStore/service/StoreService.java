@@ -124,10 +124,6 @@ public class StoreService {
     public void addItem(Item item) {
         if (item==null) throw new IllegalArgumentException("An Employee parameter is needed");
         List<Item> items = getStore().getItem();
-        System.out.println("hi");
-        System.out.println(getStore());
-        System.out.println(getStore().getItem());
-        System.out.println("hi "+item);
         items.add(item);
         storeRepository.save(getStore());
     }

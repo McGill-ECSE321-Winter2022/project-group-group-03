@@ -1,4 +1,4 @@
-<template xmlns:text-transform="http://www.w3.org/1999/xhtml">
+<template xmlns:text-transform="http://www.w3.org/1999/xhtml" >
   <div style="overflow-x:hidden">
     <Header />
     <div class="input-group rounded" style="width: 50%; margin-left: auto; margin-right: auto">
@@ -6,11 +6,6 @@
       <button type="button" class="btn btn-outline-primary" @click="createStore()">search</button>
     </div>
     <table>
-      <tr v-for="item in items" :key=item.name>
-        <td>{{item.name}}</td>
-        <td>{{item.price}}</td>
-        <td>{{item.description}}</td>
-      </tr>
       <tr>
         <td>
           <input type="text" v-model="newItem" placeholder="Item Name">
@@ -27,6 +22,9 @@
 
         <td>
           <button v-bind:disabled="!newItem" @click="createItem(newItem, newPrice, newDescription, newImage)">Create Item</button>
+        </td>
+        <td>
+          <button @click="getItems()">Get Items</button>
         </td>
       </tr>
     </table>
@@ -55,7 +53,7 @@
   </div>
 </template>
 
-<script src="src/components/item_script.js">
+<script src="./item_script.js">
 </script>
 
 <style scoped>
