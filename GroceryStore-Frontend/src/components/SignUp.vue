@@ -2,7 +2,7 @@
   <div>
     <div class="signup">
       <div>
-        <b-dropdown id="dropDown" variant="outline-light" text="Please Choose Account type to Create">
+        <b-dropdown id="dropDown" variant="danger" text="Please Choose Account type to Create">
           <b-dropdown-item>Customer</b-dropdown-item>
           <b-dropdown-item>Employee</b-dropdown-item>
           <b-dropdown-item>Owner</b-dropdown-item>
@@ -25,11 +25,18 @@
 
 <script>
 export default {
-  name: 'signup',
-  data () {
+  name: 'SignUp',
+  data() {
     return {
-      msg: "Welcome to Dr. Kanaan's Online Grocery Store"
-
+      account_msg: "Please Choose Account Type to Create"
+    }
+  },
+  methods: {
+    changeMessage: function (accountType) {
+      if (this.account_msg===accountType){
+        this.account_msg="Please Choose Account Type to Create"
+      }
+      else{this.account_msg = accountType}
     }
   }
 }
@@ -48,15 +55,15 @@ h1{
 }
 
 #buttonColor {
-  background-color: red;
-  border-color: red;
+  background-color: #e03444;
+  border-color: #e03444;
   text-align: left;
   margin-left: -720px;
 }
 
 #dropDown {
-  background-color: red;
-  border-color: red;
+  background-color: #e03444;
+  border-color: #e03444;
   margin-left: -490px;
   margin-bottom: 20px;
 }
@@ -73,7 +80,7 @@ h3 {
 }
 
 a {
-  color: red;
+  color: #e03444;
 }
 .signup {
   position:absolute;

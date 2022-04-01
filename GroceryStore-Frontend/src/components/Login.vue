@@ -22,7 +22,26 @@
   </div>
 </template>
 
-<script src="./Login.js">
+<script>
+export default {
+  name: "Login",
+  data() {
+    return {
+      msg: "Welcome to Dr. Kanaan's Online Grocery Store",
+      login_msg: "Please Choose Account Type to Login as"
+    }
+  },
+  methods: {
+    changeMessage: function (accountType) {
+      if (this.login_msg===accountType) {
+        this.login_msg = "Please Choose Account Type to Login as"
+      }
+      else {
+        this.login_msg = accountType
+      }
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
