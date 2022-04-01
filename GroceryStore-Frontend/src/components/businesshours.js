@@ -17,7 +17,20 @@ export default {
       day: '',
       hours: [],
       dropDownMessage: "Change opening hour",
-      buttonMessage: "09:00"
+      buttonMessage1: "09:00",
+      buttonMessage2: "11:00",
+      buttonMessage3: "09:00",
+      buttonMessage4: "11:00",
+      buttonMessage5: "09:00",
+      buttonMessage6: "11:00",
+      buttonMessage7: "09:00",
+      buttonMessage8: "11:00",
+      buttonMessage9: "09:00",
+      buttonMessage10: "11:00",
+      buttonMessage11: "09:00",
+      buttonMessage12: "11:00",
+      buttonMessage13: "09:00",
+      buttonMessage14: "11:00",
     }
   },
   components: {
@@ -27,8 +40,47 @@ export default {
     changeOpeningHour: function(hour){
       this.dropDownMessage = hour
     },
-    changeButtonHour: function(hour){
-      this.buttonMessage = hour
+    changeButtonHour1: function(hour){
+      this.buttonMessage1 = hour
+    },
+    changeButtonHour2: function(hour){
+      this.buttonMessage2 = hour
+    },
+    changeButtonHour3: function(hour){
+      this.buttonMessage3 = hour
+    },
+    changeButtonHour4: function(hour){
+      this.buttonMessage4 = hour
+    },
+    changeButtonHour5: function(hour){
+      this.buttonMessage5 = hour
+    },
+    changeButtonHour6: function(hour){
+      this.buttonMessage6 = hour
+    },
+    changeButtonHour7: function(hour){
+      this.buttonMessage7 = hour
+    },
+    changeButtonHour8: function(hour){
+      this.buttonMessage8 = hour
+    },
+    changeButtonHour9: function(hour){
+      this.buttonMessage9 = hour
+    },
+    changeButtonHour10: function(hour){
+      this.buttonMessage10 = hour
+    },
+    changeButtonHour11: function(hour){
+      this.buttonMessage11 = hour
+    },
+    changeButtonHour12: function(hour){
+      this.buttonMessage12 = hour
+    },
+    changeButtonHour13: function(hour){
+      this.buttonMessage13 = hour
+    },
+    changeButtonHour14: function(hour){
+      this.buttonMessage14 = hour
     }
   },
   created: function() {
