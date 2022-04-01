@@ -23,125 +23,166 @@
           <div id="StartDateOptions" class="container">
             <div class="row">
               <div class="col-sm">
-                <input type="text" id="StartDateText" class="form-control" placeholder="Start Date" aria-label="Start Date">
+                <b-form-input id="startDateText" placeholder="Start Date" v-model="startDateMessage"></b-form-input>
               </div>
               <div>
-                <button type="button" id="startDateButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                  Select
-                </button>
+                <div>
+                  <b-button id="startDateButton" v-b-modal.modal-1>Select</b-button>
+                  <b-modal id="modal-1" title="Update Date">
+                    <b-dropdown id="dropdown-Year" :text="dropDownMessageYear1" class="m-md-2">
+                      <b-dropdown-item @click="changeDropdownYear1('2022')">2022</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownYear1('2023')">2023</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownYear1('2024')">2024</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownYear1('2025')">2025</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownYear1('2026')">2026</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownYear1('2027')">2027</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownYear1('2028')">2028</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownYear1('2029')">2029</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownYear1('2030')">2030</b-dropdown-item>
+                    </b-dropdown>
 
+                    <b-dropdown id="dropdown-Month" :text="dropDownMessageMonth1" class="m-md-2">
+                      <b-dropdown-item @click="changeDropdownMonth1('January')">January</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownMonth1('February')">February</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownMonth1('March')">March</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownMonth1('April')">April</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownMonth1('May')">May</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownMonth1('June')">June</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownMonth1('July')">July</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownMonth1('August')">August</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownMonth1('September')">September</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownMonth1('October')">October</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownMonth1('November')">November</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownMonth1('December')">December</b-dropdown-item>
+                    </b-dropdown>
+
+                    <b-dropdown id="dropdown-Day" :text="dropDownMessageDay1" class="m-md-3">
+                      <b-dropdown-item @click="changeDropdownDay1('1')">1</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('2')">2</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('3')">3</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('4')">4</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('5')">5</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('6')">6</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('7')">7</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('8')">8</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('9')">9</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('10')">10</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('11')">11</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('12')">12</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('13')">13</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('14')">14</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('15')">15</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('16')">16</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('17')">17</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('18')">18</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('19')">19</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('20')">20</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('21')">21</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('22')">22</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('23')">23</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('24')">24</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('25')">25</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('26')">26</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('27')">27</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('28')">28</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('29')">29</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('30')">30</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('31')">31</b-dropdown-item>
+                    </b-dropdown>
+                    <div slot="modal-footer" class="modal-footer">
+                      <button id="cancelStart" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-1')">Cancel</button>
+                      <button id="saveStart" type="button" class="btn btn-default" data-dismiss="modal" @click="changeStartDate(dropDownMessageYear1, monthMessage1, dropDownMessageDay1),$bvModal.hide('modal-1')">Save</button>
+                    </div>
+                  </b-modal>
+                </div>
                 </div>
             </div>
           </div>
           <div id="EndDateOptions" class="container">
             <div class="row">
               <div class="col-sm">
-                <input type="text" id="EndDateText" class="form-control" placeholder="End Date" aria-label="End Date">
+                <b-form-input id="endDateText" placeholder="End Date" v-model="endDateMessage"></b-form-input>
               </div>
               <div>
-                <button type="button" id="endDateButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                  Select
-                </button>
+                <b-button id="endDateButton" v-b-modal.modal-2>Select</b-button>
+                <b-modal id="modal-2" title="Update Date">
+                  <b-dropdown id="dropdown-Year" :text="dropDownMessageYear2" class="m-md-2">
+                    <b-dropdown-item @click="changeDropdownYear2('2022')">2022</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownYear2('2023')">2023</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownYear2('2024')">2024</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownYear2('2025')">2025</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownYear2('2026')">2026</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownYear2('2027')">2027</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownYear2('2028')">2028</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownYear2('2029')">2029</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownYear2('2030')">2030</b-dropdown-item>
+                  </b-dropdown>
+
+                  <b-dropdown id="dropdown-Month" :text="dropDownMessageMonth2" class="m-md-2">
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">January</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">February</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">March</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">April</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">May</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">June</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">July</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">August</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">September</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">October</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">November</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('January')">December</b-dropdown-item>
+                  </b-dropdown>
+
+                  <b-dropdown id="dropdown-Day" :text="dropdownMessageDay2" class="m-md-3">
+                    <b-dropdown-item @click="changeDropdownDay2('1')">1</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('2')">2</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('3')">3</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('4')">4</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('5')">5</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('6')">6</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('7')">7</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('8')">8</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('9')">9</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('10')">10</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('11')">11</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('12')">12</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('13')">13</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('14')">14</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('15')">15</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('16')">16</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('17')">17</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('18')">18</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('19')">19</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('20')">20</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('21')">21</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('22')">22</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('23')">23</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('24')">24</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('25')">25</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('26')">26</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('27')">27</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('28')">28</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('29')">29</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('30')">30</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('31')">31</b-dropdown-item>
+                  </b-dropdown>
+                  <div slot="modal-footer" class="modal-footer">
+                    <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-2')">Cancel</button>
+                    <button id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="changeEndDate(dropDownMessageYear2, monthMessage2, dropdownMessageDay2),$bvModal.hide('modal-2')">Save</button>
+                  </div>
+                </b-modal>
               </div>
             </div>
           </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Select Date</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div>
-              <b-dropdown id="dropdown-Year" text="Year" class="m-md-2">
-                <b-dropdown-item>2022</b-dropdown-item>
-                <b-dropdown-item>2023</b-dropdown-item>
-                <b-dropdown-item>2024</b-dropdown-item>
-                <b-dropdown-item>2025</b-dropdown-item>
-                <b-dropdown-item>2026</b-dropdown-item>
-                <b-dropdown-item>2027</b-dropdown-item>
-                <b-dropdown-item>2028</b-dropdown-item>
-                <b-dropdown-item>2029</b-dropdown-item>
-                <b-dropdown-item>2030</b-dropdown-item>
-                <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item active>Active action</b-dropdown-item>
-                <b-dropdown-item disabled>Disabled action</b-dropdown-item>
-              </b-dropdown>
-
-              <b-dropdown id="dropdown-Month" text="Month" class="m-md-2">
-                <b-dropdown-item>January</b-dropdown-item>
-                <b-dropdown-item>February</b-dropdown-item>
-                <b-dropdown-item>March</b-dropdown-item>
-                <b-dropdown-item>April</b-dropdown-item>
-                <b-dropdown-item>May</b-dropdown-item>
-                <b-dropdown-item>June</b-dropdown-item>
-                <b-dropdown-item>July</b-dropdown-item>
-                <b-dropdown-item>August</b-dropdown-item>
-                <b-dropdown-item>September</b-dropdown-item>
-                <b-dropdown-item>October</b-dropdown-item>
-                <b-dropdown-item>November</b-dropdown-item>
-                <b-dropdown-item>December</b-dropdown-item>
-                <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item active>Active action</b-dropdown-item>
-                <b-dropdown-item disabled>Disabled action</b-dropdown-item>
-              </b-dropdown>
-
-              <b-dropdown id="dropdown-Day" text="Day" class="m-md-3">
-                <b-dropdown-item>1</b-dropdown-item>
-                <b-dropdown-item>2</b-dropdown-item>
-                <b-dropdown-item>3</b-dropdown-item>
-                <b-dropdown-item>4</b-dropdown-item>
-                <b-dropdown-item>5</b-dropdown-item>
-                <b-dropdown-item>6</b-dropdown-item>
-                <b-dropdown-item>7</b-dropdown-item>
-                <b-dropdown-item>8</b-dropdown-item>
-                <b-dropdown-item>9</b-dropdown-item>
-                <b-dropdown-item>10</b-dropdown-item>
-                <b-dropdown-item>11</b-dropdown-item>
-                <b-dropdown-item>12</b-dropdown-item>
-                <b-dropdown-item>13</b-dropdown-item>
-                <b-dropdown-item>14</b-dropdown-item>
-                <b-dropdown-item>15</b-dropdown-item>
-                <b-dropdown-item>16</b-dropdown-item>
-                <b-dropdown-item>17</b-dropdown-item>
-                <b-dropdown-item>18</b-dropdown-item>
-                <b-dropdown-item>19</b-dropdown-item>
-                <b-dropdown-item>20</b-dropdown-item>
-                <b-dropdown-item>21</b-dropdown-item>
-                <b-dropdown-item>22</b-dropdown-item>
-                <b-dropdown-item>23</b-dropdown-item>
-                <b-dropdown-item>24</b-dropdown-item>
-                <b-dropdown-item>25</b-dropdown-item>
-                <b-dropdown-item>26</b-dropdown-item>
-                <b-dropdown-item>27</b-dropdown-item>
-                <b-dropdown-item>28</b-dropdown-item>
-                <b-dropdown-item>29</b-dropdown-item>
-                <b-dropdown-item>30</b-dropdown-item>
-                <b-dropdown-item>31</b-dropdown-item>
-                <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item active>Active action</b-dropdown-item>
-                <b-dropdown-item disabled>Disabled action</b-dropdown-item>
-              </b-dropdown>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Select</button>
-          </div>
         </div>
       </div>
     </div>
   </div>
 
+  </div>
 </template>
 
-<script>
+<script src="./holiday.js">
 import Header from "../components/Header.vue"
 export default {
   components: {
@@ -166,11 +207,11 @@ export default {
   margin-bottom: 20px;
   width: 27%;
 }
-#StartDateText {
+#startDateText {
   margin-bottom: 20px;
   width: 60%;
 }
-#EndDateText {
+#endDateText {
   margin-bottom: 20px;
   width: 60%;
 }
@@ -193,4 +234,34 @@ export default {
     max-height:300px;
     overflow-y:auto;
 }
+#startDateButton{
+  background-color: red;
+}
+
+#endDateButton{
+  background-color: red;
+}
+#saveStart{
+  background-color: red;
+  color: white;
+}
+
+#cancelStart{
+  background-color: red;
+  color: white;
+}
+
+#saveEnd{
+  background-color: red;
+  color: white;
+}
+
+#cancelEnd{
+  background-color: red;
+  color: white;
+}
+
+
+
+
 </style>
