@@ -1,10 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Login from "../components/Login";
-import UpdateProfile from "../components/UpdateProfile";
 import Schedule from "../components/Schedule";
-import Profile from "../components/Profile";
-import EmployeeProfile from "../components/EmployeeProfile";
+import UpdateEmployee from "../components/UpdateEmployee";
+import UpdateCustomer from "../components/UpdateCustomer";
+import UpdateOwner from "../components/UpdateOwner";
 
 
 Vue.use(Router)
@@ -18,24 +18,24 @@ export default new Router({
       component: Login,
     },
     {
-      path: '/UpdateProfile',
-      name: 'UpdateProfile',
-      component: UpdateProfile
-    },
-    {
       path: '/Schedule',
       name: 'Schedule',
       component: Schedule,
     },
     {
-      path: '/Profile',
-      name: 'Profile',
-      component: Profile,
+      path: '/UpdateEmployee',
+      name: 'UpdateEmployee',
+      component: UpdateEmployee,
     },
     {
-      path: '/EmployeeProfile',
-      name: 'EmployeeProfile',
-      component: EmployeeProfile,
+      path: '/UpdateCustomer',
+      name: 'UpdateCustomer',
+      component: UpdateCustomer,
+    },
+    {
+      path: '/UpdateOwner',
+      name: 'UpdateOwner',
+      component: UpdateOwner,
     }
 
   ]
