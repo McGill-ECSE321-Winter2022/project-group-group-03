@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header/>
-
     <h1 id="title">My Profile</h1>
     <p class="form">Username: {{this.username}}</p>
     <p class="form">Email: {{this.email}}</p>

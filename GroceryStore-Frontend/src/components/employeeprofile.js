@@ -9,17 +9,23 @@ function EmployeeDTO(username,password,email,address,workingStatus){
 }
 
 export default {
-  name: "Profile",
+  name: "EmployeeProfile",
   data() {
     return {
       username: '',
       password: '',
       email: '',
       address: '',
-      workingStatus: ''
+      workingStatus: '',
+      newPassword: '',
+      newAddress: '',
+      oldPassword: this.password,
+      oldAddress: this.address
+
     }
   },
-  components: {
+
+  components:{
     Header
   },
   created: function () {
@@ -30,26 +36,27 @@ export default {
     this.workingStatus = 'Hired'
   },
   methods: {
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity()
-      this.nameState = valid
-      return valid
-    },
-    resetModal() {
-      this.name = ''
-      this.nameState = null
-    },
     handleOk(bvModalEvt) {
       // Prevent modal from closing
       bvModalEvt.preventDefault()
       // Trigger submit handler
       this.handleSubmit()
     },
+    handleOk2(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault()
+      // Trigger submit handler
+      this.handleSubmitAddress()
+    },
     handleSubmit() {
-      // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return
-      }
+      this.password=this.newPassword
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide('modal-prevent-closing')
+      })
+    },
+    handleSubmitAddress(){
+      this.address=this.newAddress
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing')

@@ -4,6 +4,7 @@ import Login from "../components/Login";
 import UpdateProfile from "../components/UpdateProfile";
 import Schedule from "../components/Schedule";
 import Profile from "../components/Profile";
+import EmployeeProfile from "../components/EmployeeProfile";
 
 
 Vue.use(Router)
@@ -31,5 +32,11 @@ export default new Router({
       name: 'Profile',
       component: Profile,
     },
+    {
+      path: '/EmployeeProfile',
+      name: 'EmployeeProfile',
+      component: EmployeeProfile,
+    }
+
   ]
 })
