@@ -4,7 +4,7 @@
       <h1>{{ msg }}</h1>
       <h4>New Here? <a href="http://127.0.0.1:8087/#/signup" target="_blank" id="bold">Create Account</a></h4>
       <div>
-        <b-dropdown size="50%" id="dropDown" variant="danger" :text="login_msg">
+        <b-dropdown id="dropDown" variant="danger" :text="login_msg">
           <b-dropdown-item @click="changeMessage('Customer')">Customer</b-dropdown-item>
           <b-dropdown-item @click="changeMessage('Employee')">Employee</b-dropdown-item>
           <b-dropdown-item @click="changeMessage('Owner')">Owner</b-dropdown-item>
@@ -23,14 +23,6 @@
 </template>
 
 <script src="./Login.js">
-export default {
-  name: 'login',
-  data () {
-    return {
-
-    }
-  }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
