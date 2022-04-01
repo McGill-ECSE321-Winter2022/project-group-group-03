@@ -1,13 +1,15 @@
-<template>
-  <div>
+<template xmlns:text-transform="http://www.w3.org/1999/xhtml">
+  <div style="overflow-x:hidden">
     <Header />
-    <h2>Items</h2>
+    <div class="input-group rounded" style="width: 50%; margin-left: auto; margin-right: auto">
+      <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+      <button type="button" class="btn btn-outline-primary" @click="createStore()">search</button>
+    </div>
     <table>
       <tr v-for="item in items" :key=item.name>
-        <td>{{ item.name }}</td>
+        <td>{{item.name}}</td>
         <td>{{item.price}}</td>
         <td>{{item.description}}</td>
-        <td>{{item.image}}</td>
       </tr>
       <tr>
         <td>
@@ -29,37 +31,40 @@
       </tr>
     </table>
 
-    <div class="w3-card-4 w3-dark-grey" style="width:30%; height:40%; background: darkgray" v-for="item in items" :key=item.name>
+    <div class="card-deck" style="padding: 5%">
+      <div class="card" id="card" v-for="item in items" :key=item.name>
 
-      <div class="w3-container w3-center">
-        <h3>{{item.name}}</h3>
-        <img :src=item.image alt={{item.name}} style="width:80%">
-        <h5>{{item.price}}</h5>
+        <h5 class="w3-container w3-center" style="color:white">
+          <h2>{{item.name.toUpperCase()}}</h2>
+          <img :src="item.image" :alt="item.name" style="width:80%; height: 15vw; object-fit: cover;border-radius: 4%">
+          <h5 >{{item.description}}</h5>
+          <h5>{{item.price}} $</h5>
 
-        <button class="w3-button" style="background: green">buy</button>
-        <button class="w3-button" style="background:red">don't buy</button>
+          <h5 class="w3-container w3-center">
+            <button class="w3-button" @click="down(item.name)" style="background: white; margin-right: 5%">-</button>
+            {{item.counter}}
+            <button class="w3-button" @click="up(item.name)" style="background:white; margin-left: 5%">+</button>
+          </h5>
+          <button class="button" v-bind:disabled="!item.purchasable" style="background:white">Add to Cart</button>
+        </h5>
       </div>
-
     </div>
+
     <button @click="deleteItem()">Delete Item</button>
     <span v-if="errorItem" style="color:red">Error: {{errorItem}} </span>
   </div>
 </template>
 
-<script src="./thing.js">
-import Header from "./Header.vue"
-// import items from "./items";
-export default {
-  components: {
-    Header
-  }
-}
+<script src="src/components/item_script.js">
 </script>
 
 <style scoped>
-#item {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  color: #2c3e50;
-  background: #f2ece8;
+#card{
+  background: #e03444;
+  min-width: 30%;
+  max-width: 30%;
+  border-radius: 10%;
+  margin-bottom: 2%;
 }
+
 </style>

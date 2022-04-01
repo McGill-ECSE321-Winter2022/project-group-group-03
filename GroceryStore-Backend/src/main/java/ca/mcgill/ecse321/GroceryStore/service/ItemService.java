@@ -50,8 +50,8 @@ public class ItemService {
         item.setDescription(description);
         item.setStock(stock);
         item.setTotalPurchased(0);
-        storeService.addItem(item);
         itemRepository.save(item);
+        storeService.addItem(item);
         return item;
     }
 
