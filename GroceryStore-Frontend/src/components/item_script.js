@@ -31,6 +31,7 @@ export default {
       newImage: '',
       errorItem: '',
       response: '',
+      search: '',
       out: []
     }
   },
@@ -38,14 +39,19 @@ export default {
     Header
   },
   created() {
-    console.log("if this is mounted ill see this");
-    AXIOS.get('/store',{})
-      .then(response => {
-        console.log(response.data)
-      })
     this.getItems();
-    this.sleep(5000);
   },
+  computed: {
+    filteredItems() {
+      return this.items.filter(p => {
+        // return true if the product should be visible
+
+        // in this example we just check if the search string
+        // is a substring of the product name (case insensitive)
+        return p.name.toLowerCase().indexOf(this.search.toLowerCase()) != -1;
+      });
+    }
+    },
   methods: {
     getItems: function(){
       console.log("getting items");
@@ -56,7 +62,7 @@ export default {
           for (const item in this.response) {
             let i = new ItemDto(this.response[item].name, this.response[item].purchasable, this.response[item].price,
               this.response[item].stock, this.response[item].description, this.response[item].image, 0);
-            this.items.push(i);
+            this.items.push( { name: this.response[item].name, item: i} );
             console.log(i);
           }
         });

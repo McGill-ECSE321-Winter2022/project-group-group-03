@@ -1,9 +1,8 @@
 <template xmlns:text-transform="http://www.w3.org/1999/xhtml" >
   <div style="overflow-x:hidden">
     <Header />
-    <div class="input-group rounded" style="width: 50%; margin-left: auto; margin-right: auto">
-      <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-      <button type="button" class="btn btn-outline-primary" @click="createStore()">search</button>
+    <div class="search-wrapper panel-heading col-sm-12">
+      <input type="text" v-model="search" placeholder="Search" /> <br> <br>
     </div>
     <table>
       <tr>
@@ -30,20 +29,20 @@
     </table>
 
     <div class="card-deck" style="padding: 5%">
-      <div class="card" id="card" v-for="item in items" :key=item.name>
+      <div class="card" id="card" v-for="item in filteredItems" :key=item.name>
 
         <h5 class="w3-container w3-center" style="color:white">
-          <h2>{{item.name.toUpperCase()}}</h2>
-          <img :src="item.image" :alt="item.name" style="width:80%; height: 15vw; object-fit: cover;border-radius: 4%">
-          <h5 >{{item.description}}</h5>
-          <h5>{{item.price}} $</h5>
+          <h2>{{item.item.name.toUpperCase()}}</h2>
+          <img :src="item.item.image" :alt="item.name" style="width:80%; height: 15vw; object-fit: cover;border-radius: 4%">
+          <h5 >{{item.item.description}}</h5>
+          <h5>{{item.item.price}} $</h5>
 
           <h5 class="w3-container w3-center">
-            <button class="w3-button" @click="down(item.name)" style="background: white; margin-right: 5%">-</button>
-            {{item.counter}}
-            <button class="w3-button" @click="up(item.name)" style="background:white; margin-left: 5%">+</button>
+            <button class="w3-button" @click="down(item.item.name)" style="background: white; margin-right: 5%">-</button>
+            {{item.item.counter}}
+            <button class="w3-button" @click="up(item.item.name)" style="background:white; margin-left: 5%">+</button>
           </h5>
-          <button class="button" v-bind:disabled="!item.purchasable" style="background:white">Add to Cart</button>
+          <button class="button" v-bind:disabled="!item.item.purchasable" style="background:white">Add to Cart</button>
         </h5>
       </div>
     </div>
