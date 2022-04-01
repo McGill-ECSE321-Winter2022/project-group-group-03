@@ -9,17 +9,27 @@
    <div class="col-12" id = "col1">
      <tr>
        <td>Meat</td>
+       <td>&nbsp 1 &nbsp</td>
+     </tr>
+     <tr>
+       <td>Fruit</td>
        <td>&nbsp 3 &nbsp</td>
      </tr>
-   <tr>
+     <tr>
        <td>Fruit</td>
-       <td>1</td>
+       <td>&nbsp 2 &nbsp</td>
+     </tr>
+     <tr>
      </tr>
    </div>
+
+   <div class="col-12" id = "col2">
      <tr>
-       <td>Vegetables &nbsp </td>
-       <td>9</td>
+       <button id="newbutton" style=background-color:#e03444 type="button">
+         Buy Now
+       </button>
      </tr>
+   </div>
 
    </div>
 </template>
@@ -32,13 +42,24 @@ export default {
 
 <style scoped>
 #col1 {
-  margin-bottom: 200px;
-  margin-left: 550px;
+  margin-top: 30px;
+  margin-left: 680px;
   color: red;
   //font-family: courier;
   font-size: 160%;
 }
+#col2 {
+  margin-bottom: 300px;
+  margin-top: 20px;
+  margin-left: 665px;
+  font-size: 160%;
+}
+#newbutton {
+  color: white;
+}
+
 #col {
+  margin-top: 20px;
     margin-left: 700px;
     color: red;
   //font-family: courier;

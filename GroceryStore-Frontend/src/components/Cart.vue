@@ -1,3 +1,9 @@
+<b-navbar>
+</b-navbar>
+
+<b-navbar sticky>
+</b-navbar>
+
 <template>
   <header>
     <b-navbar toggleable="lg" type="dark" variant="danger">
@@ -57,7 +63,7 @@
                   <button style=background-color:#e03444  type="button">+</button>
                   &nbsp
                   <button style=background-color:#e03444 type="button">x</button>
-        </div>
+                </div>
                 <div id="vegetables" class="container">
                   <div class="row">
                     <div id="x2" class="col-sm">
@@ -86,8 +92,8 @@
                           &nbsp
                           <button style=background-color:#e03444  type="button">x</button>
                         </div>
-      </div>
-    </div>
+                  </div>
+                 </div>
                   </div>
                   </div>
                   </div>
