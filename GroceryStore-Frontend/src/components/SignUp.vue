@@ -12,7 +12,7 @@
       <input size="100" type="text" placeholder="Enter username" class="text_stuff">
       <h3>Email</h3>
       <input size="100" type="email" placeholder="Enter email" class="text_stuff">
-        <h3>Address</h3>
+      <h3>Address</h3>
       <input size="100" type="text" placeholder="Enter address" class="text_stuff">
       <h3>Password</h3>
       <input size="100" type="password" placeholder="Enter Password" class="text_stuff">
