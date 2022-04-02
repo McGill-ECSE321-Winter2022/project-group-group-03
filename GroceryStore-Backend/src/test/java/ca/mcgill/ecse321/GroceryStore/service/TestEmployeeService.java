@@ -292,27 +292,6 @@ public class TestEmployeeService {
         assertEquals(employeeArrayList, Arrays.asList(employee1,employee2,employee3));
     }
 
-    @Test
-    public void testGetWorkShift(){
-        Employee employee = null;
-        WorkShift workShift1 = null;
-        WorkShift workShift2 = null;
-        List<WorkShift> workShiftList = null;
-
-        try{
-            employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
-            workShift1 = workShiftService.createWorkShift(Time.valueOf(LocalTime.of(10,10)), Time.valueOf(LocalTime.of(11,10)), "Monday");
-            workShift2 = workShiftService.createWorkShift(Time.valueOf(LocalTime.of(11,10)), Time.valueOf(LocalTime.of(12,10)), "Tuesday");
-            employee.setWorkShift(Arrays.asList(workShift1,workShift2));
-            //test stub
-            when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
-            workShiftList = employeeService.getEmployeeWorkShifts(EMPLOYEE_USERNAME);
-        } catch (Exception e){
-            fail();
-        }
-        assertNotNull(workShiftList);
-        assertEquals(workShiftList, Arrays.asList(workShift1, workShift2));
-    }
 
     @Test
     public void getEmployeeOrders(){
@@ -324,8 +303,8 @@ public class TestEmployeeService {
 
         try{
             employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
-            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house",  69,  true);
-            pickupOrder = pickupOrderService.createPickupOrder("Cash",420);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house",  "sherbooke",  true);
+            pickupOrder = pickupOrderService.createPickupOrder("Cash","cash");
             employee.setOrder(Arrays.asList(deliveryOrder, pickupOrder));
             when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
             orderList = employeeService.getEmployeeOrders(EMPLOYEE_USERNAME);

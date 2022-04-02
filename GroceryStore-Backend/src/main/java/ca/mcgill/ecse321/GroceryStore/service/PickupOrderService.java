@@ -164,4 +164,28 @@ public class PickupOrderService {
         }
         return resultList;
     }
+    private static int curID = 200000;
+
+    @Transactional
+    public PickupOrder createPickupOrder(String username, String paymentMethod){
+        PickupOrder newPickupOrder = new PickupOrder();
+        List<PickupOrder> pickupOrders = this.getAllPickupOrders();
+        if(paymentMethod == null ||  paymentMethod.equals("") || paymentMethod.equals(" ")) {
+            throw new IllegalArgumentException("Payment method can't be empty.");
+        }
+        while(pickupOrderRepository.existsById(curID)){
+            curID++;
+        }
+        newPickupOrder.setConfirmationNumber(curID);
+        newPickupOrder.setTotalCost(0);
+        switch(paymentMethod) {
+            case "Cash" -> newPickupOrder.setPaymentMethod(PickupOrder.PaymentMethod.Cash);
+            case "CreditCard" -> newPickupOrder.setPaymentMethod(PickupOrder.PaymentMethod.CreditCard);
+        }
+        newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.InCart);
+        newPickupOrder.setStore(storeService.getStore());
+        userService.addOrder(username, newPickupOrder);
+        pickupOrderRepository.save(newPickupOrder);
+        return newPickupOrder;
+    }
 }
