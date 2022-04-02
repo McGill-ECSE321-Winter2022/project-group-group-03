@@ -42,6 +42,7 @@
         </b-form-group>
       </form>
     </b-modal>
+    <span v-if="error" style="color:red">Error: {{error}} </span>
   </div>
 
 </template>
@@ -71,11 +72,11 @@ export default {
   data() {
     return {
       employee: {
-      username: 'Jeet',
-      password: '',
-      email: '',
-      address: '',
-      workingStatus: '',
+        username: 'Jeet',
+        password: '',
+        email: '',
+        address: '',
+        workingStatus: '',
       },
       newPassword: '',
       newAddress: '',
@@ -107,25 +108,34 @@ export default {
       this.handleSubmitAddress()
     },
     handleSubmit() {
-      this.employee.password=this.newPassword
       // Hide the modal manually
-      // this.$nextTick(() => {
-      //   this.$bvModal.hide('modal-prevent-closing')
-      // })
-    },
-    handleSubmitAddress(){
-      this.employee.address=this.newAddress
-      // Hide the modal manually
+      AXIOS.put('/update_employee_password?username='.concat(this.employee.username,"&password=", this.newPassword))
+        .then((response) =>{
+          this.employee = response.data
+        }).catch(e => {
+        this.error = "Cant be empty Password" /* <-- this */
+      });
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing')
       })
     },
+    handleSubmitAddress(){
+      AXIOS.put('/update_employee_address?username='.concat(this.employee.username,"&address=", this.newAddress))
+        .then((response) =>{
+          this.employee = response.data
+        })
+        .catch(e => {
+        this.error = "Cant be empty Address" /* <-- this */
+      });
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide('modal-prevent-closing2')
+      })
+    },
     getEmployee: function(){
-      this.items.length = 0;
-      AXIOS.get('/employee?username=Jeet')
+      AXIOS.get('/employee?username='.concat(this.employee.username))
         .then((response) =>{
           this.employee= response.data
-        .catch(error => {this.error = error /* <-- this */ });
         });
     }
     // ,
