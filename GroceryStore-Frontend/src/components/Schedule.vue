@@ -4,11 +4,13 @@
     <h1 id="title"> My Work Shift Schedule</h1>
     <table class="tablestyle" align="center">
       <tr class="trstyle">
+        <td> Shift ID </td>
         <td> Day </td>
         <td> Start Time </td>
         <td> End Time </td>
       </tr>
       <tr class="trstyle" v-for="shift in shifts">
+        <td>{{shift.shiftID}}</td>
         <td>{{ shift.day }}</td>
         <td>{{ shift.startTime }}</td>
         <td>{{ shift.endTime }}</td>

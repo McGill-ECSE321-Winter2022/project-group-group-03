@@ -130,8 +130,8 @@ public class WorkShiftService {
         workShift.setShiftID(curID++);
 
         //TODO: add workshift to employee
-        employeeService.addWorkShift(username, workShift);
         workShiftRepository.save(workShift);
+        employeeService.addWorkShift(username, workShift);
         return workShift;
     }
 

@@ -110,7 +110,7 @@ export default {
         .then((response) =>{
           this.customer = response.data
         }).catch(e => {
-        this.error = "Cant be empty Password" /* <-- this */
+        this.error = e.response.data /* <-- this */
       });
       // Hide the modal manually
       this.$nextTick(() => {

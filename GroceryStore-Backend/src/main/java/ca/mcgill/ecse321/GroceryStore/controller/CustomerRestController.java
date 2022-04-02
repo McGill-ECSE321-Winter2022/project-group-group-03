@@ -6,6 +6,7 @@ import ca.mcgill.ecse321.GroceryStore.model.Customer;
 import ca.mcgill.ecse321.GroceryStore.model.Order;
 import ca.mcgill.ecse321.GroceryStore.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -29,8 +30,13 @@ public class CustomerRestController {
         return convertToDto(customer);
     }
     @GetMapping(value = { "/customer/{username}", "/customer/{username}/" })
-    public CustomerDTO getCustomerByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
-        return convertToDto(service.getCustomer(username));
+    public ResponseEntity<Object> getCustomerByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
+        try {
+            return ResponseEntity.ok(convertToDto(service.getCustomer(username)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
+
     }
     @GetMapping(value = {"/customer_login", "/customer_login/"})
     public CustomerDTO loginCustomer(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{

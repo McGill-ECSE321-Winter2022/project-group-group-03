@@ -68,12 +68,11 @@ public class WorkShift
 
   }
 
-  public boolean setShiftID(int aShiftID)
+  public void setShiftID(int aShiftID)
   {
-    boolean wasSet = false;
+
     shiftID = aShiftID;
-    wasSet = true;
-    return wasSet;
+
   }
 
   public DayOfWeek getDay() {

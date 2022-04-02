@@ -125,6 +125,8 @@ public class EmployeeService {
     public void addWorkShift(String username, WorkShift workShift){
         Employee e = getEmployee(username);
         e.getWorkShift().add(workShift);
+        employeeRepository.save(e);
+
     }
 
     @Transactional
