@@ -1,4 +1,4 @@
-import Header from "./Header";
+import Header from "./EmployeeNav"
 
 function WorkShiftDTO (startTime,endTime,day) {
   this.startTime = startTime

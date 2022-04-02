@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import Header from "./Header";
+import Header from "./EmployeeNav"
 
 function EmployeeDTO(username,password,email,address,workingStatus){
   this.username = username

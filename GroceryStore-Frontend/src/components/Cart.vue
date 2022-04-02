@@ -1,9 +1,3 @@
-<b-navbar>
-</b-navbar>
-
-<b-navbar sticky>
-</b-navbar>
-
 <template>
   <header>
     <b-navbar toggleable="lg" type="dark" variant="danger">

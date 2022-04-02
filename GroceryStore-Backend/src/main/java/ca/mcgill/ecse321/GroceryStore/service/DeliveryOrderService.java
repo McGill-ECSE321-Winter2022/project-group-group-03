@@ -16,6 +16,10 @@ public class DeliveryOrderService {
     @Autowired
     DeliveryOrderRepository deliveryOrderRepository;
 
+    //TODO: uncomment this code when create function is updated to add to employee
+    //@Autowired
+    //UserService userService;
+
     @Autowired
     StoreService storeService;
 

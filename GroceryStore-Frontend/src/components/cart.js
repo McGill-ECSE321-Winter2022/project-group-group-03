@@ -1,9 +1,9 @@
-import Header from "./Header"
-// import Login from "./login_script"
+/*
+import Header from "./EmployeeNav"
+import Nav from "./OwnerNav"
+import Login from "./Login_Script"
 
 import axios from 'axios'
-import Login from "./Login";
-import {response} from "express";
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -93,3 +93,4 @@ var AXIOS = axios.create({
 
       }
 }
+*/
