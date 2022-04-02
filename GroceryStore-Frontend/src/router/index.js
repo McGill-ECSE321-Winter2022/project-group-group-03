@@ -5,8 +5,6 @@ import Schedule from "../components/Schedule";
 import UpdateEmployee from "../components/UpdateEmployee";
 import UpdateCustomer from "../components/UpdateCustomer";
 import UpdateOwner from "../components/UpdateOwner";
-import Login from '@/components/Login';
-import Employee from '@/components/Employee';
 import Items from "@/components/Items";
 
 
@@ -19,11 +17,6 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login,
-    },
-    {
-      path: '/Employee',
-      name: 'Employee',
-      component: Employee
     },
    {
 	      path: '/Items',

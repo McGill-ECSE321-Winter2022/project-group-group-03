@@ -2,11 +2,11 @@
   <div>
     <Header/>
     <h1 id="title">My Employee Profile</h1>
-    <p class="form">Username: {{this.username}}</p>
-    <p class="form">Email: {{this.email}}</p>
-    <p class="form">Address: {{this.address}} </p>
-    <p class="form">Password: {{this.password}}</p>
-    <p class="form">Working Status:{{this.workingStatus}}</p>
+    <p class="form">Username: {{this.employee.username}}</p>
+    <p class="form">Email: {{this.employee.email}}</p>
+    <p class="form">Address: {{this.employee.address}} </p>
+    <p class="form">Password: {{this.employee.password}}</p>
+    <p class="form">Working Status:{{this.employee.workingStatus}}</p>
     <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
     <b-button v-b-modal.modal-prevent-closing2 class="btn">Update Address</b-button>
     <b-modal
@@ -48,6 +48,16 @@
 
 <script>
 import Header from "./Header";
+import axios from 'axios'
+var config = require('../../config')
+
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+
+var AXIOS = axios.create({
+  baseURL: backendUrl,
+  headers: { 'Access-Control-Allow-Origin': frontendUrl }
+})
 
 function EmployeeDTO(username,password,email,address,workingStatus){
   this.username = username
@@ -60,24 +70,28 @@ export default {
   name: "UpdateEmployee",
   data() {
     return {
-      username: '',
+      employee: {
+      username: 'Jeet',
       password: '',
       email: '',
       address: '',
       workingStatus: '',
+      },
       newPassword: '',
-      newAddress: ''
+      newAddress: '',
+      error:''
     }
   },
   components: {
     Header
   },
-  created: function () {
-    this.username = 'Mark'
-    this.password = 'password'
-    this.email = 'email'
-    this.address = '998 rue Address'
-    this.workingStatus = 'Hired'
+  mounted: function () {
+    this.getEmployee()
+    // this.username = 'Mark'
+    // this.password = 'password'
+    // this.email = 'email'
+    // this.address = '998 rue Address'
+    // this.workingStatus = 'Hired'
   },
   methods: {
     handleOk(bvModalEvt) {
@@ -93,19 +107,34 @@ export default {
       this.handleSubmitAddress()
     },
     handleSubmit() {
-      this.password=this.newPassword
+      this.employee.password=this.newPassword
+      // Hide the modal manually
+      // this.$nextTick(() => {
+      //   this.$bvModal.hide('modal-prevent-closing')
+      // })
+    },
+    handleSubmitAddress(){
+      this.employee.address=this.newAddress
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing')
       })
     },
-    handleSubmitAddress(){
-      this.address=this.newAddress
-      // Hide the modal manually
-      this.$nextTick(() => {
-        this.$bvModal.hide('modal-prevent-closing')
-      })
+    getEmployee: function(){
+      this.items.length = 0;
+      AXIOS.get('/employee?username=Jeet')
+        .then((response) =>{
+          this.employee= response.data
+        .catch(error => {this.error = error /* <-- this */ });
+        });
     }
+    // ,
+    // createEmployee: function (){
+    //   AXIOS.post("/employee?username=Jeet&email=jeetjeet@mail.com&password=1aq2w3&address=69420 jeet street",{},{})
+    //     .then(response => {
+    //       console.log(response.data)
+    //     })
+    // }
   }
 }
 </script>
