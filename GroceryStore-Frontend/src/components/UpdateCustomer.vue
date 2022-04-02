@@ -2,12 +2,13 @@
   <div>
     <Header/>
     <h1 id="title">My Customer Profile</h1>
-    <p class="form">Username: {{this.username}}</p>
-    <p class="form">Email: {{this.email}}</p>
-    <p class="form">Address: {{this.address}} </p>
-    <p class="form">Password: {{this.password}}</p>
+    <p class="form">Username: {{this.customer.username}}</p>
+    <p class="form">Email: {{this.customer.email}}</p>
+    <p class="form">Address: {{this.customer.address}} </p>
+    <p class="form">Password: {{this.customer.password}}</p>
     <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
     <b-button v-b-modal.modal-prevent-closing2 class="btn">Update Address</b-button>
+    <span v-if="error" style="color:red">Error: {{error}} </span>
     <b-modal
       id="modal-prevent-closing"
       ref="modal"
@@ -46,6 +47,16 @@
 
 <script>
 import Header from "./Header";
+import axios from 'axios'
+var config = require('../../config')
+
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+
+var AXIOS = axios.create({
+  baseURL: backendUrl,
+  headers: { 'Access-Control-Allow-Origin': frontendUrl }
+})
 
 function CustomerDTO(username,password,email,address){
   this.username = username
@@ -57,22 +68,27 @@ export default {
   name: "UpdateCustomer",
   data() {
     return {
-      username: '',
-      password: '',
-      email: '',
-      address: '',
+      customer:{
+        username: 'Seb',
+        password: '',
+        email: '',
+        address: '',
+      },
       newPassword: '',
-      newAddress: ''
+      newAddress: '',
+      error:''
     }
   },
   components: {
     Header
   },
-  created: function () {
-    this.username = 'Mark'
-    this.password = 'password'
-    this.email = 'email'
-    this.address = '998 rue Address'
+  mounted: function () {
+    // this.username = 'Mark'
+    // this.password = 'password'
+    // this.email = 'email'
+    // this.address = '998 rue Address'
+    this.getCustomer()
+
   },
   methods: {
     handleOk(bvModalEvt) {
@@ -88,19 +104,42 @@ export default {
       this.handleSubmitAddress()
     },
     handleSubmit() {
-      this.password=this.newPassword
+      AXIOS.put('/editPassword/'.concat(this.customer.username,"?password=", this.newPassword))
+        .then((response) =>{
+          this.customer = response.data
+        }).catch(e => {
+        this.error = "Cant be empty Password" /* <-- this */
+      });
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing')
       })
     },
     handleSubmitAddress(){
-      this.address=this.newAddress
-      // Hide the modal manually
+      AXIOS.put('/editAddress/'.concat(this.customer.username,"?address=", this.newAddress))
+        .then((response) =>{
+          this.customer = response.data
+        })
+        .catch(e => {
+          this.error = "Cant be empty Address" /* <-- this */
+        });
       this.$nextTick(() => {
-        this.$bvModal.hide('modal-prevent-closing')
+        this.$bvModal.hide('modal-prevent-closing2')
       })
+    },
+    getCustomer:function(){
+      AXIOS.get('/customer/'.concat(this.customer.username))
+        .then((response) =>{
+          this.customer= response.data
+        });
     }
+    // ,
+    // createCustomer: function (){
+    //   AXIOS.post("/customer?username=Seb&password=jeetisnice&email=Lmao@mmks.ca&address=Bobsville",{},{})
+    //     .then(response => {
+    //       console.log(response.data)
+    //     })
+    // }
   }
 }
 </script>

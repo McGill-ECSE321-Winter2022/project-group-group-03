@@ -9,6 +9,7 @@
     <p class="form">Working Status:{{this.employee.workingStatus}}</p>
     <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
     <b-button v-b-modal.modal-prevent-closing2 class="btn">Update Address</b-button>
+    <span v-if="error" style="color:red">Error: {{error}} </span>
     <b-modal
       id="modal-prevent-closing"
       ref="modal"
@@ -42,7 +43,7 @@
         </b-form-group>
       </form>
     </b-modal>
-    <span v-if="error" style="color:red">Error: {{error}} </span>
+
   </div>
 
 </template>
