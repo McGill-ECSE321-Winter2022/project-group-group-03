@@ -33,7 +33,6 @@ public class OrderService {
         return orders;
     }
 
-
     @Transactional
     public void addPurchasedItemToOrder(int confirmationNumber, PurchasedItem purchasedItem){
         int count = 0;
@@ -59,13 +58,11 @@ public class OrderService {
             DeliveryOrder d = deliveryOrderService.getDeliveryOrder(confirmationNumber);
             s = d.getShippingStatusFullName();
         }catch(Exception e){
-
         }
         try{
             PickupOrder p = pickupOrderService.getPickupOrder(confirmationNumber);
             s = p.getPickupStatusFullName();
         }catch (Exception e){
-
         }
         return s;
     }

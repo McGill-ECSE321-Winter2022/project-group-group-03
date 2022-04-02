@@ -21,7 +21,7 @@ public class CustomerRestController {
     private CustomerService service;
 
 
-    @GetMapping(value = {"/employee_order/{username}", "employee_order/{username}/"})
+    @GetMapping(value = {"/customer_order/{username}", "employee_order/{username}/"})
     private OrderDTO getCustomerOrder(@PathVariable String username){
         return convertToDto(service.getCustomerOrder(username));
     }

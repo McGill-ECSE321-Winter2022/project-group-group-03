@@ -27,11 +27,7 @@ public class EmployeeService {
     @Autowired
     StoreService storeService;
 
-    @Autowired
-    OrderService orderService;
 
-    @Autowired
-    PickupOrderService pickupOrderService;
 
     @Transactional
     public Employee createEmployee(String aUsername, String aEmail, String aPassword, String aAddress){
@@ -74,8 +70,13 @@ public class EmployeeService {
     public Order getEmployeeOrder(String username){
         List<Order> o = getEmployeeOrders(username);
         for (Order order : o){
-            int confirmationNumber = order.getConfirmationNumber();
-            String s = orderService.getOrderStatus(confirmationNumber);
+            String s = "";
+            if (order instanceof PickupOrder){
+                s =  ((PickupOrder) order).getPickupStatusFullName();
+            }
+            else if (order instanceof DeliveryOrder){
+                s= ((DeliveryOrder) order).getShippingStatusFullName();
+            }
             if (s.equals("InCart")) return order;
         }
         throw new IllegalArgumentException("This Employee has no Orders in cart");
