@@ -72,6 +72,7 @@ public class BusinessHourService {
         newBusinessHour.setHoursID(curID++);
         storeService.addBusinessHour(newBusinessHour);
         businessHourRepository.save(newBusinessHour);
+        //System.out.println(newBusinessHour);
         return newBusinessHour;
     }
 
@@ -83,7 +84,10 @@ public class BusinessHourService {
     }
 
     @Transactional
-    public List<BusinessHour> getAllBusinessHours() {return toList(businessHourRepository.findAll());}
+    public List<BusinessHour> getAllBusinessHours() {
+        System.out.println(toList(businessHourRepository.findAll()));
+        return toList(businessHourRepository.findAll());
+    }
 
     @Transactional
     public void deleteBusinessHour(int hoursID) {
@@ -99,6 +103,7 @@ public class BusinessHourService {
         if (time == null) throw new IllegalArgumentException("A time parameter is needed.");
         if (time.after(businessHour.getEndTime())) throw new IllegalArgumentException("Start Time cannot be after End Time.");
         businessHour.setStartTime(time);
+        System.out.println(businessHour);
         return  businessHour;
     }
 

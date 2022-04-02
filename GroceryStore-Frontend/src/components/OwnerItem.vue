@@ -66,6 +66,8 @@ export default {
    }
    #Name{
      margin-bottom: 20px;
+     margin-right: 100px;
+     width: 50%;
    }
    #Description{
      margin-bottom: 20px;

@@ -9,6 +9,7 @@
           </div>
           <div class="col">
             <button type="button" id=search class="btn btn-danger">Search</button>
+            <button type="button" id=create class="btn btn-danger">Create</button>
             <button type="button" id=update class="btn btn-danger">Update</button>
             <button type="button" id=viewAll class="btn btn-danger">View All</button>
           </div>
@@ -23,7 +24,7 @@
           <div id="StartDateOptions" class="container">
             <div class="row">
               <div class="col-sm">
-                <b-form-input id="startDateText" placeholder="Start Date" v-model="startDateMessage"></b-form-input>
+                <b-form-input id="startDateText" placeholder="Start Date" v-model="startDateMessage" readonly="readonly"></b-form-input>
               </div>
               <div>
                 <div>
@@ -101,7 +102,7 @@
           <div id="EndDateOptions" class="container">
             <div class="row">
               <div class="col-sm">
-                <b-form-input id="endDateText" placeholder="End Date" v-model="endDateMessage"></b-form-input>
+                <b-form-input id="endDateText" placeholder="End Date" v-model="endDateMessage" readonly="readonly"></b-form-input>
               </div>
               <div>
                 <b-button id="endDateButton" v-b-modal.modal-2>Select</b-button>
@@ -120,17 +121,17 @@
 
                   <b-dropdown id="dropdown-Month" :text="dropDownMessageMonth2" class="m-md-2">
                     <b-dropdown-item @click="changeDropdownMonth2('January')">January</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownMonth2('January')">February</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownMonth2('January')">March</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownMonth2('January')">April</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownMonth2('January')">May</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownMonth2('January')">June</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownMonth2('January')">July</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownMonth2('January')">August</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownMonth2('January')">September</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownMonth2('January')">October</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownMonth2('January')">November</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownMonth2('January')">December</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('February')">February</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('March')">March</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('April')">April</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('May')">May</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('June')">June</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('July')">July</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('August')">August</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('September')">September</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('October')">October</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('November')">November</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownMonth2('December')">December</b-dropdown-item>
                   </b-dropdown>
 
                   <b-dropdown id="dropdown-Day" :text="dropdownMessageDay2" class="m-md-3">
@@ -200,6 +201,10 @@ export default {
 #search{
   margin-right: 20px;
 }
+#create{
+  margin-right: 20px;
+}
+
 #update{
   margin-right: 20px;
 }
@@ -260,8 +265,4 @@ export default {
   background-color: red;
   color: white;
 }
-
-
-
-
 </style>

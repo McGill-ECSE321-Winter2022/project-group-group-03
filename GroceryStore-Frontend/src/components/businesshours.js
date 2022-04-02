@@ -48,7 +48,7 @@ export default {
   },
   created: function () {
     //this.createBusinessHours()
-    //this.sleep(1000);
+    //this.sleep(1000)
     this.getBusinessHours()
   },
   methods:{
@@ -58,19 +58,29 @@ export default {
       AXIOS.get('/businessHour', {responseType: "json"})
         .then((response) => {
           this.response = response.data
+
           for (const hour in this.response){
             let i = new BusinessHourDTO(this.response[hour].hoursID, this.response[hour].startTime, this.response[hour].endTime, this.response[hour].day)
-            this.hours.push(i)
+            if(i.day === "Monday") this.hours.splice(0, 0, i)
+            if(i.day === "Tuesday") this.hours.splice(1, 0, i)
+            if(i.day === "Wednesday") this.hours.splice(2,0, i)
+            if(i.day === "Thursday") this.hours.splice(3,0, i)
+            if(i.day === "Friday") this.hours.splice(4,0, i)
+            if(i.day === "Saturday") this.hours.splice(5,0, i)
+            if(i.day === "Sunday") this.hours.splice(6,0, i)
             console.log(i)
+
           }
           this.updateButtonHours()
         })
     },
-    createBusinessHours: function(){
+
+       createBusinessHours: function(){
       // AXIOS.post("./store?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",{},{})
       //   .then(response => {
       //     console.log(response.data)
       //   })
+       //  this.sleep(1000);
       console.log("creating business hours")
       AXIOS.post('businessHour?startTime=02:35&endTime=04:24&day=Sunday')
         .then((response) => {
@@ -103,7 +113,7 @@ export default {
     },
     setBusinessHours: function(){
       console.log(this.hours[0].hoursID)
-      AXIOS.put('/editBusinessHourStartTime/10001?startTime='.concat(this.buttonMessage1))
+      AXIOS.put('/editBusinessHourStartTime/10002?startTime='.concat(this.buttonMessage1))
         .then((response) => {
           console.log(response)
         })
@@ -117,7 +127,7 @@ export default {
       while (currentDate - date < milliseconds);
     },
     updateButtonHours: function(){
-        //console.log(this.hours[0].startTime)
+        console.log(this.hours)
         this.buttonMessage1 = this.parseHour(this.hours[0].startTime)
         this.buttonMessage2 = this.parseHour(this.hours[0].endTime)
         this.buttonMessage3 = this.parseHour(this.hours[1].startTime)

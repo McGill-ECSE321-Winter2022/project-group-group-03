@@ -1,5 +1,16 @@
 import Header from "./Header";
 
+import axios from 'axios'
+var config = require('../../config')
+
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+
+var AXIOS = axios.create({
+  baseURL: backendUrl,
+  headers: { 'Access-Control-Allow-Origin': frontendUrl }
+})
+
 function HolidayDTO(name, startDate, endDate){
   this.name = name;
   this.startDate = startDate;
@@ -13,9 +24,11 @@ export default{
       name: '',
       startDate: '',
       endDate: '',
+      holidays: [],
       years: [],
       months: [],
       days: [],
+
       dropDownMessageYear1: "Year",
       dropDownMessageMonth1: "Month",
       dropDownMessageDay1: "Day",
@@ -31,13 +44,63 @@ export default{
       dayMessage1: "1",
       dayMessage2: "1",
 
-      endDateMessage: "End Date"
+      endDateMessage: "End Date",
+      errorHoliday: '',
+      response: []
     }
   },
   components:{
     Header
   },
+
   methods:{
+
+
+    getHolidays: function(){
+      console.log("getting holidays")
+      this.holidays.length = 0
+      AXIOS.get('/holiday', {responseType: "json"})
+        .then((response) =>{
+          this.response = response.data;
+        for(const holiday in this.response){
+          let h = new HolidayDTO(this.response[holiday].name, this.response[holiday].startDate, this.response[holiday].endDate)
+          this.holidays.push({ name: this.response[holiday].name, holiday: h})
+          console.log(h);
+        }
+
+      });
+    },
+
+    sleep: function (milliseconds) {
+      const date = Date.now();
+      let currentDate = null;
+      do {
+        currentDate = Date.now();
+      }
+      while (currentDate - date < milliseconds);
+    },
+
+    createHoliday: function (holidayName, startDate, endDate){
+      console.log('/holiday?'.concat("holidayName=",holidayName, "startDate=",startDate, "endDate=",endDate))
+      AXIOS.post('/holiday?'.concat("holidayName=",holidayName, "startDate=",startDate, "endDate=",endDate))
+        .catch(function (error){
+          this.errorHoliday = error.data()
+        })
+      this.sleep(500)
+      this.holidays.length = 0
+      this.getHolidays()
+
+      //Reset fields for new holiday
+      this.name = ''
+      this.startDate = ''
+      this.endDate = ''
+
+    },
+
+    deleteHoliday: function (){
+      this.holidays.pop()
+    },
+
     changeStartDate: function(year, month, day){
       let message2Display = year
       message2Display+= '-'
@@ -148,11 +211,5 @@ export default{
     changeDropdownDay2: function(day){
       this.dropdownMessageDay2 = day
     },
-
-
   },
-  created: function(){
-    const h1 = new HolidayDTO("Christmas", 24)
-  }
-
 }
