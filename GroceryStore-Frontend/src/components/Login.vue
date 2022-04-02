@@ -5,19 +5,25 @@
       <h4>New Here? <a href="http://127.0.0.1:8087/#/signup" target="_blank" id="bold">Create Account</a></h4>
       <div>
         <b-dropdown id="dropDown" variant="danger" :text="login_msg">
-          <b-dropdown-item @click="changeMessage('Customer')">Customer</b-dropdown-item>
-          <b-dropdown-item @click="changeMessage('Employee')">Employee</b-dropdown-item>
-          <b-dropdown-item @click="changeMessage('Owner')">Owner</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Customer'); setAccountType('Customer'); setErrorEmpty()">Customer</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Employee'); setAccountType('Employee'); setErrorEmpty()">Employee</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Owner'); setAccountType('Owner'); setErrorEmpty()">Owner</b-dropdown-item>
         </b-dropdown>
       </div>
       <h3>Username</h3>
-      <input size="50" type="text" placeholder="Enter username" class="text_stuff">
+      <input size="50" type="text" placeholder="Enter username" class="text_stuff" v-model="login_username_entered">
       <h3>Password</h3>
-      <input size="50" type="password" placeholder="Enter Password" class="text_stuff">
+      <input size="50" type="password" placeholder="Enter Password" class="text_stuff" v-model="login_password_entered">
       <br>
       <br>
       <br>
-      <b-button type="submit" id="buttonColor">Sign in</b-button>
+      <b-button type="submit" id="buttonColor" @click="login();">Sign in</b-button>
+      <br>
+      <br>
+      <br>
+      <b-alert :show="setAlert()" dismissible variant="danger">
+        {{login_error}}
+      </b-alert>
     </div>
   </div>
 </template>

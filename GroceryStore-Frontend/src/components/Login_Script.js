@@ -24,6 +24,7 @@ function CustomerDTO (username, password) {
   this.password = password
 }
 
+
 export default {
   name: 'Login',
   data() {
@@ -42,44 +43,56 @@ export default {
   methods: {
     login: function (){
       //customer login
+      console.log("here")
+      console.log(this.login_accountType_entered)
+      console.log(this.login_username_entered)
+      console.log(this.login_password_entered)
       if (this.login_accountType_entered==="Customer"){
-        AXIOS.get('/customer_login?username='.concat(this.login_username_entered,"&password=", this.login_password_entered), {responseType: "json"})
+        AXIOS.get('/customer_login?username='.concat(this.login_username_entered,"&password=", this.login_password_entered))
             .then((response) => {
               this.login_accountType = "Customer"
               this.login_username = this.login_username_entered
               this.logged_in = true
             })
-            .catch(function (error) {
-              this.login_error = error.data();
-            })
+          .catch(e => {
+            this.login_error = e.response.data;
+          })
       }
       //employee login
-      else if (this.login_accountType==="Employee"){
+      if (this.login_accountType_entered==="Employee"){
         AXIOS.get('/employee_login?username='.concat(this.login_username_entered,"&password=", this.login_password_entered), {responseType: "json"})
             .then((response) => {
               this.login_accountType = "Employee"
               this.login_username = this.login_username_entered
               this.logged_in = true
             })
-            .catch(function (error) {
-              this.login_error = error.data();
-            })
+
+          .catch(e => {
+            console.log(e)
+            this.login_error = e /* <-- this */
+            console.log(this.login_error)
+          });
       }
       //owner login
-      else{
+      if (this.login_accountType_entered==="Owner"){
         AXIOS.get('/owner_login?username='.concat(this.login_username_entered,"&password=", this.login_password_entered), {responseType: "json"})
             .then((response) => {
               this.login_accountType = "Owner"
               this.login_username = this.login_username_entered
               this.logged_in = true
             })
-            .catch(function (error) {
-              this.login_error = error.data();
-            })
+          .catch(e => {
+            console.log(e)
+            this.login_error = e /* <-- this */
+            console.log(this.login_error)
+          });
+
+
       }
       this.login_username_entered = ''
       this.login_password_entered = ''
       this.login_accountType_entered = ''
+      console.log(this.login_error==="")
     },
     changeMessage: function (accountType) {
       if (this.login_msg===accountType) {
@@ -88,6 +101,15 @@ export default {
       else {
         this.login_msg = accountType
       }
+    },
+    setAccountType: function (accountType) {
+      this.login_accountType_entered = accountType
+    },
+    setAlert: function () {
+      return this.login_error !== ""
+    },
+    setErrorEmpty: function() {
+      this.login_error = ""
     }
   }
 }

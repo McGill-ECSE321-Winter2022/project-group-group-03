@@ -3,43 +3,27 @@
     <div class="signup">
       <div>
         <b-dropdown id="dropDown" variant="danger" :text="account_msg">
-          <b-dropdown-item @click="changeMessage('Customer')">Customer</b-dropdown-item>
-          <b-dropdown-item @click="changeMessage('Employee')">Employee</b-dropdown-item>
-          <b-dropdown-item @click="changeMessage('Owner')">Owner</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Customer'); setAccountType('Customer')">Customer</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Employee'); setAccountType('Employee')">Employee</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Owner'); setAccountType('Owner')">Owner</b-dropdown-item>
         </b-dropdown>
       </div>
       <h3>Username</h3>
-      <input size="100" type="text" placeholder="Enter username" class="text_stuff">
+      <input size="100" type="text" placeholder="Enter username" class="text_stuff" v-model="create_username_entered">
       <h3>Email</h3>
-      <input size="100" type="email" placeholder="Enter email" class="text_stuff">
+      <input size="100" type="email" placeholder="Enter email" class="text_stuff" v-model="create_email_entered">
       <h3>Address</h3>
-      <input size="100" type="text" placeholder="Enter address" class="text_stuff">
+      <input size="100" type="text" placeholder="Enter address" class="text_stuff" v-model="create_address_entered">
       <h3>Password</h3>
-      <input size="100" type="password" placeholder="Enter Password" class="text_stuff">
+      <input size="100" type="password" placeholder="Enter Password" class="text_stuff" v-model="create_password_entered">
       <br>
       <br>
-      <b-button type="submit" id="buttonColor">Sign up</b-button>
+      <b-button type="submit" id="buttonColor" @click="create()">Sign up</b-button>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'SignUp',
-  data() {
-    return {
-      account_msg: "Please Choose Account Type to Create"
-    }
-  },
-  methods: {
-    changeMessage: function (accountType) {
-      if (this.account_msg===accountType){
-        this.account_msg="Please Choose Account Type to Create"
-      }
-      else{this.account_msg = accountType}
-    }
-  }
-}
+<script src = "./signup_script.js">
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
