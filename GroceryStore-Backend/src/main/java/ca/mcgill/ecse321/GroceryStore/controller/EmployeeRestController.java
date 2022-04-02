@@ -29,6 +29,11 @@ public class EmployeeRestController {
         return service.getAllEmployees().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
+    @GetMapping(value = {"/employee_order/{username}", "employee_order/{username}/"})
+    private OrderDTO getEmployeeOrder(@PathVariable String username){
+        return convertToDto(service.getEmployeeOrder(username));
+    }
+
     @PostMapping(value = { "/employee", "/employee/" })
     public ResponseEntity<?> createEmployee(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
         try {

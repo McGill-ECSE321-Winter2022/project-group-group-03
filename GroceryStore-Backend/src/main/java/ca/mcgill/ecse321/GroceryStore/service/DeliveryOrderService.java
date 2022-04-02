@@ -163,4 +163,31 @@ public class DeliveryOrderService {
         deliveryOrder.setTotalCost(totalCost);
         return deliveryOrder;
     }
+
+    private static int curID = 100000;
+
+    @Transactional
+    public DeliveryOrder createDeliveryOrder(String username, String shippingAddress, boolean isOutOfTown){
+        DeliveryOrder newDeliveryOrder = new DeliveryOrder();
+        List<DeliveryOrder> deliveryOrders = this.getAllDeliveryOrders();
+
+        if(shippingAddress == null || shippingAddress.equals("") || shippingAddress.equals(" ")) {
+            throw new IllegalArgumentException("Shipping address can't be empty.");
+        }
+        while(deliveryOrderRepository.existsById(curID)){
+            curID++;
+        }
+        newDeliveryOrder.setShippingAddress(shippingAddress);
+        newDeliveryOrder.setConfirmationNumber(curID);
+        newDeliveryOrder.setIsOutOfTown(isOutOfTown);
+        newDeliveryOrder.setTotalCost(0);
+        newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.InCart);
+
+        newDeliveryOrder.setStore(storeService.getStore());
+        userService.addOrder(username, newDeliveryOrder);
+        deliveryOrderRepository.save(newDeliveryOrder);
+        return newDeliveryOrder;
+    }
+
+
 }

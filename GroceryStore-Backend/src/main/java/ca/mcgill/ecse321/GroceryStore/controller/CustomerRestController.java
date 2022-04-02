@@ -20,6 +20,13 @@ public class CustomerRestController {
     @Autowired
     private CustomerService service;
 
+
+    @GetMapping(value = {"/employee_order/{username}", "employee_order/{username}/"})
+    private OrderDTO getCustomerOrder(@PathVariable String username){
+        return convertToDto(service.getCustomerOrder(username));
+    }
+
+
     @GetMapping(value = {"/customer", "/customer/"})
     public List<CustomerDTO> getAllCustomers(){
         return service.getAllCustomers().stream().map(this::convertToDto).collect(Collectors.toList());
