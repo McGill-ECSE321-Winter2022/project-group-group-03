@@ -25,9 +25,12 @@ public class CustomerRestController {
         return service.getAllCustomers().stream().map(this::convertToDto).collect(Collectors.toList());
     }
     @PostMapping(value = { "/customer", "/customer/" })
-    public CustomerDTO createCustomer(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
-        Customer customer = service.createCustomer(username, password, email, address);
-        return convertToDto(customer);
+    public ResponseEntity<?> createCustomer(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
+        try {
+            return ResponseEntity.ok(convertToDto(service.createCustomer(username, password,email,address)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
     @GetMapping(value = { "/customer/{username}", "/customer/{username}/" })
     public CustomerDTO getCustomerByUsername(@PathVariable("username") String username) throws IllegalArgumentException {

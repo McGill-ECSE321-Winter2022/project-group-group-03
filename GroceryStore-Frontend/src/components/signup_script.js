@@ -46,24 +46,24 @@ export default {
       console.log(this.create_username_entered)
       console.log(this.create_password_entered)
       if (this.create_accountType_entered==="Customer"){
-        AXIOS.post('/customer?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"address=",this.create_address_entered))
+        AXIOS.post('/customer?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"&address=",this.create_address_entered))
           .then((response) => {
           })
-          .catch((error) => {this.create_error = "Invalid Username, Password, Email or Address"/* <-- this */ });
+          .catch((error) => {this.create_error = error.response.data/* <-- this */ });
       }
       //employee login
       if (this.login_accountType_entered==="Employee"){
-        AXIOS.post('/employee?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"address=",this.create_address_entered))
+        AXIOS.post('/employee?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"&address=",this.create_address_entered))
           .then((response) => {
           })
-          .catch(e => {this.create_error = "Invalid Username, Password, Email or Address" /* <-- this */ });
+          .catch(e => {this.create_error = error.response.data /* <-- this */ });
       }
       //owner login
       if (this.login_accountType_entered==="Owner"){
-        AXIOS.post('/owner?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"address=",this.create_address_entered))
+        AXIOS.post('/owner?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"&address=",this.create_address_entered))
           .then((response) => {
           })
-          .catch(e => {this.create_error = "Invalid Username, Password, Email or Address" /* <-- this */ });
+          .catch(e => {this.create_error = error.response.data /* <-- this */ });
       }
       console.log(this.login_error)
     },
@@ -75,6 +75,12 @@ export default {
     },
     setAccountType: function (accountType) {
       this.create_accountType_entered = accountType
+    },
+    setAlert: function () {
+      return this.create_error !== ""
+    },
+    setErrorEmpty: function() {
+      this.create_error = ""
     }
   }
 }

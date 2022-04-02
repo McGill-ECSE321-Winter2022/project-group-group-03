@@ -69,7 +69,7 @@ export default {
 
           .catch(e => {
             console.log(e)
-            this.login_error = e /* <-- this */
+            this.login_error = e.response.data /* <-- this */
             console.log(this.login_error)
           });
       }
@@ -83,7 +83,7 @@ export default {
             })
           .catch(e => {
             console.log(e)
-            this.login_error = e /* <-- this */
+            this.login_error = e.response.data /* <-- this */
             console.log(this.login_error)
           });
 
@@ -108,8 +108,8 @@ export default {
     setAlert: function () {
       return this.login_error !== ""
     },
-    setErrorEmpty: function() {
-      this.login_error = ""
+    setError: function(message) {
+      this.login_error = message
     }
   }
 }

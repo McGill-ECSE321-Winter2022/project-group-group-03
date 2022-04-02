@@ -3,9 +3,9 @@
     <div class="signup">
       <div>
         <b-dropdown id="dropDown" variant="danger" :text="account_msg">
-          <b-dropdown-item @click="changeMessage('Customer'); setAccountType('Customer')">Customer</b-dropdown-item>
-          <b-dropdown-item @click="changeMessage('Employee'); setAccountType('Employee')">Employee</b-dropdown-item>
-          <b-dropdown-item @click="changeMessage('Owner'); setAccountType('Owner')">Owner</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Customer'); setAccountType('Customer'); setErrorEmpty()">Customer</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Employee'); setAccountType('Employee'); setErrorEmpty()">Employee</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Owner'); setAccountType('Owner'); setErrorEmpty()">Owner</b-dropdown-item>
         </b-dropdown>
       </div>
       <h3>Username</h3>
@@ -19,6 +19,12 @@
       <br>
       <br>
       <b-button type="submit" id="buttonColor" @click="create()">Sign up</b-button>
+      <br>
+      <br>
+      <br>
+      <b-alert  :show="setAlert()" dismissible variant="danger" @dismissed="changeMessage(account_msg)">
+        {{create_error}}
+      </b-alert>
     </div>
   </div>
 </template>
