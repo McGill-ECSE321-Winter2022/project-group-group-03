@@ -74,6 +74,12 @@ public class ItemRestController {
         return convertToDto(service.updateItemPrice(itemName,newPrice));
     }
 
+    @PutMapping(value = {"/editItemImage/{itemName}"})
+    public ItemDTO updateItemImage(@PathVariable("itemName") String itemName,
+                                   @RequestParam String image) throws IllegalArgumentException {
+        return convertToDto(service.updateItemImage(itemName, image));
+    }
+
     @GetMapping(value = {"/item/{itemName}", "/item/{itemName}/"})
     public ItemDTO getItem(@PathVariable("itemName") String itemName) throws IllegalArgumentException {
         return convertToDto(service.getItem(itemName));
@@ -81,7 +87,7 @@ public class ItemRestController {
 
     private ItemDTO convertToDto(Item item) {
         if (item == null) throw new IllegalArgumentException("There is no such Item!");
-        return new ItemDTO(item.getName(), item.getPurchasable(), item.getPrice(),item.getDescription(), item.getStock(), item.getTotalPurchased());
+        return new ItemDTO(item.getName(), item.getPurchasable(), item.getPrice(),item.getDescription(), item.getStock(), item.getTotalPurchased(), item.getImage());
     }
 
 }

@@ -140,7 +140,7 @@ public class Store
 
   public List<Item> getItem()
   {
-    List<Item> newItem = Collections.unmodifiableList(item);
+    List<Item> newItem = item;
     return newItem;
   }
 
