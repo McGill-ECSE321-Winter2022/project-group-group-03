@@ -21,7 +21,7 @@
       <br>
       <br>
       <br>
-      <b-alert :show="setAlert()" dismissible variant="danger">
+      <b-alert  :show="setAlert()" dismissible variant="danger" @dismissed="changeMessage(login_msg)">
         {{login_error}}
       </b-alert>
     </div>
