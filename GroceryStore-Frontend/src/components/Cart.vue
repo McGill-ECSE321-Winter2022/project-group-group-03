@@ -61,19 +61,19 @@
                       &nbsp
                       <button style=background-color:#e03444 type="button">x</button>
                     </div>
-                    <div id="fruit" class="container">
+                    <div class="container" v-for="Item in purchasedItemList" :key=purchasedItem.aPurchasedItemID>
                       <div class="row">
                         <div id="x1" class="col-sm">
-                          fruit
+                          {{Item.aItem.name}}
                         </div>
                         <div id="itemFormat2" class="col-sm">
-                          <button style=background-color:#e03444 type="button">-</button>
+                          <button @click="down()" style=background-color:#e03444 type="button">-</button>
                           &nbsp
-                          4
+                          {{Item.aItemQuantity}}
                           &nbsp
-                          <button style=background-color:#e03444  type="button">+</button>
+                          <button @click="up(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">+</button>
                           &nbsp
-                          <button style=background-color:#e03444  type="button">x</button>
+                          <button @click="deleteItem(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">x</button>
                         </div>
                   </div>
                  </div>
@@ -113,24 +113,8 @@
 }
 </style>
 
-<script>
-import Header from "./EmployeeNav.vue"
+<script src="./cart_script.js">
 export default {
-  data() {
-    return {
-      form: {
-        email: '',
-        name: '',
-        food: null,
-        checked: []
-      },
-      foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
-      show: true
-    }
-  },
-  components: {
-    Header
-  },
   methods: {
     onSubmit(event) {
       event.preventDefault()

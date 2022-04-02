@@ -1,4 +1,4 @@
-/*
+
 import Header from "./EmployeeNav"
 import Nav from "./OwnerNav"
 import Login from "./Login_Script"
@@ -74,7 +74,7 @@ var AXIOS = axios.create({
               this.response = response.data;
               let list = this.response.purchasedItem
               for (const purchasedItem in list) {
-                this.purchasedItemList.add(new PurchasedItemDTO(purchasedItem.item, purchasedItem.aItemQuantity, purchasedItem.aPurchasedItemID))
+                this.purchasedItemList.push(new PurchasedItemDTO(purchasedItem.item, purchasedItem.aItemQuantity, purchasedItem.aPurchasedItemID))
               }
               this.price = this.response.totalCost
               }
@@ -93,4 +93,3 @@ var AXIOS = axios.create({
 
       }
 }
-*/
