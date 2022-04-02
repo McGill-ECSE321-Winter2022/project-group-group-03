@@ -50,8 +50,9 @@ public class ItemService {
         item.setDescription(description);
         item.setStock(stock);
         item.setTotalPurchased(0);
-        storeService.addItem(item);
+        item.setImage("https://i.postimg.cc/XqtwLFCL/red-Square.png");
         itemRepository.save(item);
+        storeService.addItem(item);
         return item;
     }
 
@@ -135,6 +136,14 @@ public class ItemService {
        if (newPrice < 0) throw new IllegalArgumentException("Price can't be negative.");
        item.setPrice(newPrice);
        return item;
+   }
+
+   @Transactional
+   public Item updateItemImage(String name, String image){
+        Item item = getItem(name);
+        if (image == null || image.trim().length() == 0) throw new IllegalArgumentException("An image parameter is needed.");
+        item.setImage(image);
+        return item;
    }
 
    @Transactional

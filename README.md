@@ -78,11 +78,11 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 ### Tasks and Time Spent
 | Name| Tasks|Time Spent (hrs)|
 | :--- |--- |:---: |
-|Abhijeet Praveen |<ul>Started README.md for Deliverable 3</ul>|| 
+|Abhijeet Praveen |<ul><li>Started README.md for Deliverable 3<li>Helped formulate Software Architecture</li></li><li>Setup Frontend with Vue.js</li><li>Completed login and signup pages on frontend</li></ul>|| 
 |Ari Arabian |<ul></ul>||
 |Edward Habelrih| <ul></ul>||
 |Neel Faucher |<ul></ul>| |
-|Rooshnie Velautham|<ul></ul>| |
+|Rooshnie Velautham|<ul><li>Completed most of Software Architecture </li><li>Implemented Profile page in frontend</li></ul>| |
 |Sébastien Cantin|<ul></ul>| |
 
 ### The deliverable 3 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-3-Report)

@@ -29,6 +29,7 @@
   </div>
 </template>
 
+
 <script src="./login_script.js">
 </script>
 
@@ -44,6 +45,7 @@ h1{
   margin-left: -380px;
   margin-bottom: 20px;
 }
+
 
 #left {
   margin-left: -660px;
@@ -83,8 +85,8 @@ h3 {
 
 #bold {
   font-weight: 900;
-}
 
+}
 a {
   color: #e03444;
 }
