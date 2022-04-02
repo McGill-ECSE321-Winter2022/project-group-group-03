@@ -6,6 +6,7 @@ import UpdateEmployee from "../components/UpdateEmployee";
 import UpdateCustomer from "../components/UpdateCustomer";
 import UpdateOwner from "../components/UpdateOwner";
 import Items from "@/components/Items";
+import SignUp from "@/components/SignUp";
 
 
 Vue.use(Router)
@@ -23,7 +24,6 @@ export default new Router({
 	      name: 'Items',
 	      component: Items
 	    },
-
     {
       path: '/Schedule',
       name: 'Schedule',
@@ -37,8 +37,9 @@ export default new Router({
     {
       path: '/signup',
       name: 'SignUp',
-      component: SignUp
-
+      component: SignUp,
+    },
+    {
       path: '/UpdateCustomer',
       name: 'UpdateCustomer',
       component: UpdateCustomer,
