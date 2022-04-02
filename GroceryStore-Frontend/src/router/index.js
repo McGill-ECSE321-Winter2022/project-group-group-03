@@ -1,5 +1,14 @@
+
 import Vue from "vue";
 import Router from "vue-router";
+
+import Footer from '@/components/Footer'
+import Checkout from "../components/Checkout";
+import Cart from "../components/Cart";
+import OwnerNav from "../components/OwnerNav";
+import EmployeeNav from "../components/EmployeeNav";
+
+
 import Login from "../components/Login";
 import Schedule from "../components/Schedule";
 import UpdateEmployee from "../components/UpdateEmployee";
@@ -14,16 +23,41 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-     {
+    {
       path: '/',
       name: 'Login',
       component: Login,
     },
-   {
-	      path: '/Items',
-	      name: 'Items',
-	      component: Items
-	    },
+    {
+      path: '/Items',
+      name: 'Items',
+      component: Items
+    },
+    {
+      path: '/Footer',
+      name: 'Footer',
+      component: Footer
+    },
+    {
+      path: '/Checkout',
+      name: 'Checkout',
+      component: Checkout
+    },
+    {
+      path: '/Cart',
+      name: 'Cart',
+      component: Cart
+    },
+    {
+      path: '/OwnerNav',
+      name: 'OwnerNav',
+      component: OwnerNav
+    },
+    {
+      path: '/EmployeeNav',
+      name: 'EmployeeNav',
+      component: EmployeeNav
+    },
     {
       path: '/Schedule',
       name: 'Schedule',
