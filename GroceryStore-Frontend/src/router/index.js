@@ -35,6 +35,10 @@ export default new Router({
       component: UpdateEmployee,
     },
     {
+      path: '/signup',
+      name: 'SignUp',
+      component: SignUp
+
       path: '/UpdateCustomer',
       name: 'UpdateCustomer',
       component: UpdateCustomer,
@@ -43,6 +47,7 @@ export default new Router({
       path: '/UpdateOwner',
       name: 'UpdateOwner',
       component: UpdateOwner,
+
     }
 
   ]

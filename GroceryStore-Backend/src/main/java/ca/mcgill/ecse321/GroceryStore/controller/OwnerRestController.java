@@ -7,6 +7,7 @@ import ca.mcgill.ecse321.GroceryStore.model.Store;
 import ca.mcgill.ecse321.GroceryStore.service.OwnerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,17 +21,23 @@ public class OwnerRestController {
     private OwnerService service;
 
     @PostMapping(value = { "/owner", "/owner/" })
-    public OwnerDTO createOwner(@RequestParam String username, @RequestParam String email,
+    public ResponseEntity<?> createOwner(@RequestParam String username, @RequestParam String email,
                                 @RequestParam String password)
             throws IllegalArgumentException {
-        Owner owner = service.createOwner(username, email, password);
-        return convertToDto(owner);
+        try {
+            return ResponseEntity.ok(convertToDto(service.createOwner(username, email,password)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @GetMapping(value = {"/owner_login", "/owner_login/"})
-    public OwnerDTO loginOwner(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
-        Owner owner = service.loginOwner(username, password);
-        return convertToDto(owner);
+    public ResponseEntity<?> loginOwner(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
+        try {
+            return ResponseEntity.ok(convertToDto(service.loginOwner(username, password)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @GetMapping(value = { "/owner", "/owner/" })
