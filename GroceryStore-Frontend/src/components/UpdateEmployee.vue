@@ -9,7 +9,9 @@
     <p class="form">Working Status:{{this.employee.workingStatus}}</p>
     <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
     <b-button v-b-modal.modal-prevent-closing2 class="btn">Update Address</b-button>
-    <span v-if="error" style="color:red">Error: {{error}} </span>
+    <br>
+    <br>
+    <b-alert :show="setAlert()" dismissible variant="danger">{{error}}</b-alert>
     <b-modal
       id="modal-prevent-closing"
       ref="modal"
@@ -138,6 +140,9 @@ export default {
         .then((response) =>{
           this.employee= response.data
         });
+    },
+    setAlert: function () {
+      return this.error !== ""
     }
     // ,
     // createEmployee: function (){
