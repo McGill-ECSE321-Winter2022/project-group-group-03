@@ -6,7 +6,6 @@ import ca.mcgill.ecse321.GroceryStore.dao.OwnerRepository;
 import ca.mcgill.ecse321.GroceryStore.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +21,8 @@ public class CustomerService {
     OwnerRepository ownerRepository;
     @Autowired
     EmployeeRepository employeeRepository;
+
+
 
     @Transactional
     public Customer createCustomer(String aUsername, String aPassword, String aEmail, String aAddress) {
@@ -83,6 +84,22 @@ public class CustomerService {
         }
 
         return customers;
+    }
+
+    @Transactional
+    public Order getCustomerOrder(String username){
+        List<Order> o = getCustomerOrders(username);
+        for (Order order : o){
+            String s = "";
+            if (order instanceof PickupOrder){
+                s =  ((PickupOrder) order).getPickupStatusFullName();
+            }
+            else if (order instanceof DeliveryOrder){
+                s= ((DeliveryOrder) order).getShippingStatusFullName();
+            }
+            if (s.equals("InCart")) return order;
+        }
+        throw new IllegalArgumentException("This Employee has no Orders in cart");
     }
 
     @Transactional

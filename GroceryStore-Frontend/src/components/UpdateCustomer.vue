@@ -60,6 +60,7 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
+
 function CustomerDTO(username,password,email,address){
   this.username = username
   this.password = password

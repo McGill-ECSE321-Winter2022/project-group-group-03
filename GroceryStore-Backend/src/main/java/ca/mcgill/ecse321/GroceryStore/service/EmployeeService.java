@@ -27,6 +27,8 @@ public class EmployeeService {
     @Autowired
     StoreService storeService;
 
+
+
     @Transactional
     public Employee createEmployee(String aUsername, String aEmail, String aPassword, String aAddress){
 
@@ -62,6 +64,22 @@ public class EmployeeService {
         storeService.addEmployee(newEmployee);
         employeeRepository.save(newEmployee);
         return newEmployee;
+    }
+
+    @Transactional
+    public Order getEmployeeOrder(String username){
+        List<Order> o = getEmployeeOrders(username);
+        for (Order order : o){
+            String s = "";
+            if (order instanceof PickupOrder){
+                s =  ((PickupOrder) order).getPickupStatusFullName();
+            }
+            else if (order instanceof DeliveryOrder){
+                s= ((DeliveryOrder) order).getShippingStatusFullName();
+            }
+            if (s.equals("InCart")) return order;
+        }
+        throw new IllegalArgumentException("This Employee has no Orders in cart");
     }
 
     @Transactional

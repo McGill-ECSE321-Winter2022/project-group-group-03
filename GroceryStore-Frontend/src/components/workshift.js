@@ -1,6 +1,7 @@
-import Header from "./Header";
 import axios from 'axios'
 var config = require('../../config')
+import Header from "./EmployeeNav"
+
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort

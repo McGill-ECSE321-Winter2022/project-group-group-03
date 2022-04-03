@@ -30,8 +30,10 @@
 
 <script>
 import Header from "./EmployeeNav"
+
 import axios from 'axios'
 var config = require('../../config')
+
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort

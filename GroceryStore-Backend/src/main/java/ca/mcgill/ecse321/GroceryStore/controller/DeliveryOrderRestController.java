@@ -17,7 +17,7 @@ public class DeliveryOrderRestController {
 
     @PostMapping(value = { "/deliveryOrder", "/deliveryOrder/" })
     public DeliveryOrderDTO createDeliveryOrder(@RequestParam String username, @RequestParam String shippingAddress,
-                                               @RequestParam int confirmationNumber, @RequestParam boolean isOutOfTown) throws IllegalArgumentException {
+                                                @RequestParam int confirmationNumber, @RequestParam boolean isOutOfTown) throws IllegalArgumentException {
         return convertToDto(service.createDeliveryOrder(username, shippingAddress, confirmationNumber, isOutOfTown));
     }
 
