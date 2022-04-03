@@ -40,6 +40,7 @@ export default {
       logged_in: false
     }
   },
+
   methods: {
     login: function (){
       //customer login

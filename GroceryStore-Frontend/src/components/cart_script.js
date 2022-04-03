@@ -23,11 +23,6 @@ var AXIOS = axios.create({
       name: 'purchasedItem',
 
       data() {
-        return {
-          price: 0,
-          purchasedItemList: [],
-          confirmationNumber: 0
-        }
       },
       components: {
         Header
@@ -36,14 +31,14 @@ var AXIOS = axios.create({
       methods: {
         getItems: function () {
           console.log("getting items");
-          this.items.length = 0;
+          sessionStorage.items.length = 0;
           if (Login.login_accountType === "Customer") {
             AXIOS.get('/item'.concat(), {responseType: "json"})
               .then((response) => {
                 this.response = response.data;
                 for (const item in this.response) {
                   let i = new PurchasedItemDTO(this.response[purchasedItem].aItem, this.response[purchasedItem].aItemQuantity, this.response[purchasedItem].aPurchasedItemID);
-                  this.items.push({name: this.response[item].name, item: i});
+                  sessionStorage.items.push({name: this.response[item].name, item: i});
                   console.log(i);
                 }
 
@@ -56,18 +51,17 @@ var AXIOS = axios.create({
                 this.response = response.data;
                 for (const item in this.response) {
                   let i = new PurchasedItemDTO(this.response[purchasedItem].aItem, this.response[purchasedItem].aItemQuantity, this.response[purchasedItem].aPurchasedItemID);
-                  this.items.push({name: this.response[item].name, item: i});
+                  sessionStorage.items.push({name: this.response[item].name, item: i});
                   console.log(i);
                 }
               });
           }
-        },
 
-        //TODO: else throws error
+        },
         deleteItem: function (purchasedItemID){
-          let index = this.purchasedItemList.purchasedItemID.indexOf(purchasedItemID)
+          let index = sessionStorage.purchasedItemList.purchasedItemID.indexOf(purchasedItemID)
           if (index > -1) {
-            this.purchasedItemList.splice(index, 1); // 2nd parameter means remove one item only
+            sessionStorage.purchasedItemList.splice(index, 1); // 2nd parameter means remove one item only
           }
         },
 
@@ -79,23 +73,25 @@ var AXIOS = axios.create({
               this.response = response.data;
               let list = this.response.purchasedItem
               for (const purchasedItem in list) {
-                this.purchasedItemList.push(new PurchasedItemDTO(purchasedItem.item, purchasedItem.aItemQuantity, purchasedItem.aPurchasedItemID))
+                sessionStorage.purchasedItemList.push(new PurchasedItemDTO(purchasedItem.item, purchasedItem.aItemQuantity, purchasedItem.aPurchasedItemID))
               }
-              this.price = this.response.totalCost
-              this.confirmationNumber = this.response.confirmationNumber
+              sessionStorage.price = this.response.totalCost
+              sessionStorage.confirmationNumber = this.response.confirmationNumber
               }
             )
         },
 
         up: function (purchasedItemID){
-          let objIndex = this.items.findIndex((purchasedItem => purchasedItem.aPurchasedItemID === purchasedItemID));
-            this.items[objIndex].counter += 1
+          let objIndex = sessionStorage.items.findIndex((purchasedItem => purchasedItem.aPurchasedItemID === purchasedItemID));
+          sessionStorage.items[objIndex].counter += 1
         },
 
         down: function (purchasedItemID){
-          let objIndex = this.purchasedItemList.findIndex(purchasedItem => purchasedItem.aPurchasedItemID === purchasedItemID);
-            this.items[objIndex].counter -= 1
-          }
 
+          let objIndex = sessionStorage.purchasedItemList.findIndex(purchasedItem => purchasedItem.aPurchasedItemID === purchasedItemID);
+          if (sessionStorage.items[objIndex].item.counter > 0){
+            sessionStorage.items[objIndex].counter -= 1
+          }
+        }
       }
 }

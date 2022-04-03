@@ -76,7 +76,7 @@
                           <button @click="deleteItem(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">x</button>
                         </div>
                   </div>
-                 </div>
+                  </div>
                   </div>
                   </div>
                   </div>
