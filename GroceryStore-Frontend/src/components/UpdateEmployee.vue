@@ -2,11 +2,11 @@
   <div>
     <Header/>
     <h1 id="title">My Employee Profile</h1>
-    <p class="form">Username: {{this.employee.username}}</p>
-    <p class="form">Email: {{this.employee.email}}</p>
-    <p class="form">Address: {{this.employee.address}} </p>
-    <p class="form">Password: {{this.employee.password}}</p>
-    <p class="form">Working Status:{{this.employee.workingStatus}}</p>
+    <p id="username" class="form">Username: {{this.employee.username}}</p>
+    <p id="email" class="form">Email: {{this.employee.email}}</p>
+    <p id="address" class="form">Address: {{this.employee.address}} </p>
+    <p id="password" class="form">Password: {{this.employee.password}}</p>
+    <p id="work" class="form">Working Status:{{this.employee.workingStatus}}</p>
     <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
     <b-button v-b-modal.modal-prevent-closing2 class="btn">Update Address</b-button>
     <br>
@@ -169,6 +169,21 @@ export default {
 }
 .btn{
   margin-top: 60px;
+}
+#username{
+  margin-right: 9%;
+}
+#email{
+  margin-right: 17%;
+}
+#address{
+  margin-right: 15%;
+}
+#password{
+  margin-right: 14%;
+}
+#work{
+  margin-right: 9%;
 }
 
 </style>

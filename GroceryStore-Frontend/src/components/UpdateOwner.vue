@@ -2,9 +2,9 @@
   <div>
   <Header/>
   <h1 id="title">My Owner Profile</h1>
-  <p class="form">Username: {{this.owner.username}}</p>
-  <p class="form">Email: {{this.owner.email}}</p>
-  <p class="form">Password: {{this.owner.password}}</p>
+  <p id="username" class="form">Username: {{this.owner.username}}</p>
+  <p id="email" class="form">Email: {{this.owner.email}}</p>
+  <p id="password" class="form">Password: {{this.owner.password}}</p>
   <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
     <br>
     <br>
@@ -121,5 +121,13 @@ export default {
 .btn{
   margin-top: 60px;
 }
-
+#username{
+  margin-right: 7%;
+}
+#email{
+  margin-right: 17%;
+}
+#password{
+  margin-right: 14%;
+}
 </style>

@@ -2,10 +2,10 @@
   <div>
     <Header/>
     <h1 id="title">My Customer Profile</h1>
-    <p class="form">Username: {{this.customer.username}}</p>
-    <p class="form">Email: {{this.customer.email}}</p>
-    <p class="form">Address: {{this.customer.address}} </p>
-    <p class="form">Password: {{this.customer.password}}</p>
+    <p id="username" class="form">Username: {{this.customer.username}}</p>
+    <p id="email" class="form">Email: {{this.customer.email}}</p>
+    <p id="address" class="form">Address: {{this.customer.address}} </p>
+    <p id="password" class="form">Password: {{this.customer.password}}</p>
     <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
     <b-button v-b-modal.modal-prevent-closing2 class="btn">Update Address</b-button>
     <br>
@@ -151,10 +151,22 @@ export default {
 
 <style scoped>
 #title{
-  margin-top: 50px;
+  margin-top: 4%;
   color: #e03444;
   font-weight: bold;
 
+}
+#username{
+  margin-right: 9%;
+}
+#email{
+  margin-right: 17%;
+}
+#address{
+  margin-right: 15%;
+}
+#password{
+  margin-right: 14%;
 }
 #inline{display:inline;}
 
@@ -162,7 +174,7 @@ export default {
   font-size: xx-large;
 }
 .btn{
-  margin-top: 60px;
+  margin-top: 4%;
 }
 
 </style>
