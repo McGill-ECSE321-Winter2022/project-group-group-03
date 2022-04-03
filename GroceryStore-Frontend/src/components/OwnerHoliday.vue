@@ -12,7 +12,7 @@
             <button type="button" id=create class="btn btn-danger" @click="createHoliday(name,startDateMessage,endDateMessage)">Create</button>
             <button type="button" id=update class="btn btn-danger" @click="updateHoliday(name, startDateMessage, endDateMessage)">Update</button>
             <button type="button" id=delete class="btn btn-danger" @click="deleteHoliday(searchName)">Delete</button>
-            <button type="button" id=viewAll class="btn btn-danger">View All</button>
+            <button type="button" id=viewAll class="btn btn-danger"@click="viewAll">View All</button>
           </div>
         </div>
       </div>
@@ -181,8 +181,7 @@
     </div>
   </div>
   <div>
-    <h1 id="title"> All holidays</h1>
-    <table class="tablestyle" align="center">
+    <table id="holidayTable" class="tablestyle" align="center" v-show="visibleViewAll">
       <tr class="trstyle">
         <td> Name </td>
         <td> Start Date </td>
@@ -194,7 +193,8 @@
         <td>{{ holiday.endDate }}</td>
       </tr>
     </table>
-  </div>
+    <button type="button" id=hideAll class="btn btn-danger" aligncenter="holidayTable"  v-show="visibleViewAll" @click="hideAll">Hide</button>
+      </div>
   </div>
 </template>
 
@@ -225,7 +225,7 @@ export default {
 }
 #delete{
   margin-right: 20px;
-  
+
 }
 #Name{
   margin-bottom: 20px;
@@ -283,5 +283,23 @@ export default {
 #cancelEnd{
   background-color: red;
   color: white;
+}
+
+#viewAll{
+  margin-top: 30px;
+  margin-right: 305px;
+  width: 20%;
+}
+#hideAll{
+  margin-top:20px;
+  margin-right: 195px;
+  alignment: center;
+}
+
+.tablestyle {
+  margin-top: 100px;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 70%;
 }
 </style>

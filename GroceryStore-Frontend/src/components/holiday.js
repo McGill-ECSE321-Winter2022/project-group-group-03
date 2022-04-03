@@ -29,6 +29,7 @@ export default{
       months: [],
       days: [],
       searchName: '',
+      visibleViewAll: false,
 
       dropDownMessageYear1: "Year",
       dropDownMessageMonth1: "Month",
@@ -105,6 +106,14 @@ export default{
       this.getHolidays()
       this.sleep(500)
 
+    },
+
+    viewAll: function(){
+      this.visibleViewAll = true
+    },
+
+    hideAll: function(){
+      this.visibleViewAll = false
     },
 
     deleteHoliday: function(holidayName){
