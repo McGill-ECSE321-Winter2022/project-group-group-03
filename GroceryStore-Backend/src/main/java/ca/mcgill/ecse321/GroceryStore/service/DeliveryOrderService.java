@@ -16,15 +16,14 @@ public class DeliveryOrderService {
     @Autowired
     DeliveryOrderRepository deliveryOrderRepository;
 
-    //TODO: uncomment this code when create function is updated to add to employee
-    //@Autowired
-    //UserService userService;
-
     @Autowired
     StoreService storeService;
 
     @Autowired
-    UserService userService;
+    EmployeeService employeeService;
+
+    @Autowired
+    CustomerService customerService;
 
     @Transactional
     public DeliveryOrder createDeliveryOrder(String username, String shippingAddress, Integer confirmationNumber, boolean isOutOfTown){
@@ -55,7 +54,6 @@ public class DeliveryOrderService {
         newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.InCart);
 
         newDeliveryOrder.setStore(storeService.getStore());
-        userService.addOrder(username, newDeliveryOrder);
         deliveryOrderRepository.save(newDeliveryOrder);
         return newDeliveryOrder;
     }
@@ -167,9 +165,8 @@ public class DeliveryOrderService {
     private static int curID = 100000;
 
     @Transactional
-    public DeliveryOrder createDeliveryOrder(String username, String shippingAddress, boolean isOutOfTown){
+    public DeliveryOrder createDeliveryOrder(String username, String shippingAddress, String accountType, boolean isOutOfTown){
         DeliveryOrder newDeliveryOrder = new DeliveryOrder();
-        List<DeliveryOrder> deliveryOrders = this.getAllDeliveryOrders();
 
         if(shippingAddress == null || shippingAddress.equals("") || shippingAddress.equals(" ")) {
             throw new IllegalArgumentException("Shipping address can't be empty.");
@@ -184,7 +181,8 @@ public class DeliveryOrderService {
         newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.InCart);
 
         newDeliveryOrder.setStore(storeService.getStore());
-        userService.addOrder(username, newDeliveryOrder);
+        if (accountType.equals("Customer")) customerService.addOrder(username, newDeliveryOrder);
+        else if (accountType.equals("Employee")) employeeService.addOrder(username, newDeliveryOrder);
         deliveryOrderRepository.save(newDeliveryOrder);
         return newDeliveryOrder;
     }

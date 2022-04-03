@@ -16,7 +16,10 @@ public class PickupOrderService {
     PickupOrderRepository pickupOrderRepository;
 
     @Autowired
-    UserService userService;
+    CustomerService customerService;
+
+    @Autowired
+    EmployeeService employeeService;
 
 
     @Autowired
@@ -50,7 +53,7 @@ public class PickupOrderService {
         }
         newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.InCart);
         newPickupOrder.setStore(storeService.getStore());
-        userService.addOrder(username, newPickupOrder);
+
         pickupOrderRepository.save(newPickupOrder);
         return newPickupOrder;
     }
@@ -167,9 +170,8 @@ public class PickupOrderService {
     private static int curID = 200000;
 
     @Transactional
-    public PickupOrder createPickupOrder(String username, String paymentMethod){
+    public PickupOrder createPickupOrder(String username, String paymentMethod, String accountType){
         PickupOrder newPickupOrder = new PickupOrder();
-        List<PickupOrder> pickupOrders = this.getAllPickupOrders();
         if(paymentMethod == null ||  paymentMethod.equals("") || paymentMethod.equals(" ")) {
             throw new IllegalArgumentException("Payment method can't be empty.");
         }
@@ -184,7 +186,8 @@ public class PickupOrderService {
         }
         newPickupOrder.setPickupStatus(PickupOrder.PickupStatus.InCart);
         newPickupOrder.setStore(storeService.getStore());
-        userService.addOrder(username, newPickupOrder);
+        if (accountType.equals("Customer")) customerService.addOrder(username, newPickupOrder);
+        else if (accountType.equals("Employee")) employeeService.addOrder(username, newPickupOrder);
         pickupOrderRepository.save(newPickupOrder);
         return newPickupOrder;
     }

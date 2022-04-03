@@ -303,8 +303,8 @@ public class TestEmployeeService {
 
         try{
             employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
-            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house",  "sherbooke",  true);
-            pickupOrder = pickupOrderService.createPickupOrder("Cash","cash");
+            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house",  "sherbooke", "Customer",  true);
+            pickupOrder = pickupOrderService.createPickupOrder("Cash","cash", "Customer");
             employee.setOrder(Arrays.asList(deliveryOrder, pickupOrder));
             when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
             orderList = employeeService.getEmployeeOrders(EMPLOYEE_USERNAME);
