@@ -72,9 +72,9 @@ var AXIOS = axios.create({
         },
 
         getOrder: function () {
-          console.log(Login)
-          console.log('/'.concat(Login.data.login_accountType, "_order/", Login.data.login_username))
-          AXIOS.get('/'.concat(Login.data.login_accountType, "_order/", Login.data.login_username), {responseType: "json"})
+          console.log(sessionStorage)
+          console.log('/'.concat(sessionStorage.accountType.toLowerCase(), "_order/", sessionStorage.username))
+          AXIOS.get('/'.concat(sessionStorage.accountType.toLowerCase(), "_order/", sessionStorage.username), {responseType: "json"})
             .then((response) => {
               this.response = response.data;
               let list = this.response.purchasedItem
