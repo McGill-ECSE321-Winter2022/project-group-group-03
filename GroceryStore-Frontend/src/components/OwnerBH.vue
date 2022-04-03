@@ -356,6 +356,7 @@ export default {
     font-size: xx-large;
     margin-left: 300px;
     margin-right: 5px;
+    width: 10vw;
   }
   #hourbutton:hover{
     color:white;
@@ -366,6 +367,7 @@ export default {
     margin-right: 5px;
     font-size: xx-large;
     transition-duration: 0.4s;
+    width: 10vw;
   }
   #hourbutton2:hover{
     color:white;
