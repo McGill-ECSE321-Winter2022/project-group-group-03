@@ -259,29 +259,29 @@ export default {
     overflow-y:auto;
 }
 #startDateButton{
-  background-color: red;
+  background-color: #e03444;
 }
 
 #endDateButton{
-  background-color: red;
+  background-color: #e03444;
 }
 #saveStart{
-  background-color: red;
+  background-color: #e03444;
   color: white;
 }
 
 #cancelStart{
-  background-color: red;
+  background-color: #e03444;
   color: white;
 }
 
 #saveEnd{
-  background-color: red;
+  background-color: #e03444;
   color: white;
 }
 
 #cancelEnd{
-  background-color: red;
+  background-color: #e03444;
   color: white;
 }
 

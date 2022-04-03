@@ -78,14 +78,15 @@ export default{
       });
     },
 
-    searchHoliday: function(holidayName){
-      for(let i = 0; i < this.holidays.length; i++){
-          if(this.holidays[i].name === holidayName){
-            this.name = this.holidays[i].name
-            this.startDateMessage = this.holidays[i].startDate
-            this.endDateMessage = this.holidays[i].endDate
-          }
-      }
+    searchHoliday: function(holidayName) {
+      this.getHolidays()
+      AXIOS.get('/holiday/'.concat(holidayName), {responseType: "json"})
+        .then((response) => {
+          this.response = response.data;
+          this.name = this.response.name
+          this.startDateMessage = this.response.startDate
+          this.endDateMessage = this.response.endDate
+        });
     },
 
     updateHoliday: function(holidayName, newStartDate, newEndDate){
@@ -110,6 +111,7 @@ export default{
 
     viewAll: function(){
       this.visibleViewAll = true
+      this.getHolidays()
     },
 
     hideAll: function(){
@@ -117,12 +119,11 @@ export default{
     },
 
     deleteHoliday: function(holidayName){
+      this.getHolidays()
       AXIOS.delete('/holiday/'.concat(holidayName))
         .then((response) => {
           console.log(response)
         })
-      this.getHolidays()
-      this.sleep(500)
     },
 
     sleep: function (milliseconds) {
