@@ -11,7 +11,7 @@ public class EmployeeDTO {
     private String workingStatus;
 
     private List<WorkShiftDTO> workShifts;
-    private List<OrderDTO> orders;
+    private List<OrderDTO> commissions;
 
 
 
@@ -48,15 +48,15 @@ public class EmployeeDTO {
     }
 
     public List<OrderDTO> getOrders() {
-        return orders;
+        return commissions;
     }
 
     public void setWorkShifts(List<WorkShiftDTO> workShifts) {
         this.workShifts = workShifts;
     }
 
-    public void setOrders(List<OrderDTO> orders) {
-        this.orders = orders;
+    public void setOrders(List<OrderDTO> commissions) {
+        this.commissions = commissions;
     }
 
     public void setWorkingStatus(String workingStatus) {

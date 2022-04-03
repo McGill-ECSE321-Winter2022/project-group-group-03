@@ -21,12 +21,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 @ExtendWith(MockitoExtension.class)
-public class TestDeliveryOrderService {
+public class TestDeliveryCommissionService {
     private int CONFIRMATION_NUMBER_KEY = 123;
     private String ITEM_NAME_KEY = "Cheesy Balls";
     private String SHIPPING_ADDRESS = "3064 rue edmond rostand";
     private String USERNAME = "bob";
-    private DeliveryOrder.ShippingStatus SHIPPING_STATUS = DeliveryOrder.ShippingStatus.InCart;
+    private DeliveryCommission.ShippingStatus SHIPPING_STATUS = DeliveryCommission.ShippingStatus.InCart;
     private boolean IS_IN_TOWN = true;
 
 
@@ -48,16 +48,14 @@ public class TestDeliveryOrderService {
     private PurchasedItemService purchasedItemService;
     @InjectMocks
     private ItemService itemService;
-    @Mock
-    private UserService userService;
 
     @BeforeEach
     public void setMockOutput() {
 
         lenient().when(deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(any(int.class))).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(CONFIRMATION_NUMBER_KEY)) {
-                ArrayList<DeliveryOrder> deliveryOrders = new ArrayList<DeliveryOrder>();
-                DeliveryOrder deliveryOrder = new DeliveryOrder();
+                ArrayList<DeliveryCommission> deliveryOrders = new ArrayList<DeliveryCommission>();
+                DeliveryCommission deliveryOrder = new DeliveryCommission();
                 deliveryOrder.setConfirmationNumber(CONFIRMATION_NUMBER_KEY);
                 deliveryOrder.setShippingStatus(SHIPPING_STATUS);
                 deliveryOrder.setShippingAddress(SHIPPING_ADDRESS);
@@ -88,7 +86,7 @@ public class TestDeliveryOrderService {
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
-        lenient().when(deliveryOrderRepository.save(any(DeliveryOrder.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(deliveryOrderRepository.save(any(DeliveryCommission.class))).thenAnswer(returnParameterAsAnswer);
     }
 
     //CREATE
@@ -97,7 +95,7 @@ public class TestDeliveryOrderService {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
 
         int confirmationNumber = 70;
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
 
         try {
             deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
@@ -113,7 +111,7 @@ public class TestDeliveryOrderService {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
 
         Integer confirmationNumber = null;
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
 
         try {
@@ -131,7 +129,7 @@ public class TestDeliveryOrderService {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         int confirmationNumber = 0;
         String error = null;
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         try {
             deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, confirmationNumber, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
@@ -149,7 +147,7 @@ public class TestDeliveryOrderService {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         int confirmationNumber = -5;
         String error = null;
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         try {
             deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS,confirmationNumber, IS_IN_TOWN);
         } catch (IllegalArgumentException e) {
@@ -169,7 +167,7 @@ public class TestDeliveryOrderService {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
 
         String shippingAddress = null;
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
 
         try {
@@ -183,7 +181,7 @@ public class TestDeliveryOrderService {
     @Test
     public void testUpdateDeliveryOrderNullShippingAddress() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS,CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         String address = null;
         String error = null;
@@ -202,7 +200,7 @@ public class TestDeliveryOrderService {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
 
         String shippingAddress = "";
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
 
         try {
@@ -216,7 +214,7 @@ public class TestDeliveryOrderService {
     @Test
     public void testUpdateDeliveryOrderEmptyShippingAddress() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         String address = "";
         String error = null;
@@ -235,7 +233,7 @@ public class TestDeliveryOrderService {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
 
         String shippingAddress = " ";
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
 
         try {
@@ -249,7 +247,7 @@ public class TestDeliveryOrderService {
     @Test
     public void testUpdateDeliveryOrderSingleSpaceShippingAddress() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         String address = " ";
         String error = null;
@@ -269,7 +267,7 @@ public class TestDeliveryOrderService {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         String address = "lol";
         String error = null;
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         deliveryOrder = deliveryOrderService.createDeliveryOrder(USERNAME, SHIPPING_ADDRESS, CONFIRMATION_NUMBER_KEY, IS_IN_TOWN);
         try {
             deliveryOrderService.setShippingAddress(10000, address);
@@ -287,10 +285,10 @@ public class TestDeliveryOrderService {
     public void testCreateDuplicateDeliveryOrderID() {
         assertEquals(0, deliveryOrderService.getAllDeliveryOrders().size());
         int confirmationNumber = 42;
-        DeliveryOrder deliveryOrder1 = null;
-        DeliveryOrder deliveryOrder2 = null;
+        DeliveryCommission deliveryOrder1 = null;
+        DeliveryCommission deliveryOrder2 = null;
         String error = null;
-        ArrayList<DeliveryOrder> DOs = new ArrayList<>();
+        ArrayList<DeliveryCommission> DOs = new ArrayList<>();
         when(deliveryOrderRepository.findAll()).thenReturn(DOs);
 
         try {
@@ -309,8 +307,8 @@ public class TestDeliveryOrderService {
     @Test
     public void testGetAllDeliveryOrder(){
         String error = null;
-        List<DeliveryOrder> deliveryOrders = new ArrayList<>();
-        DeliveryOrder deliveryOrder = null;
+        List<DeliveryCommission> deliveryOrders = new ArrayList<>();
+        DeliveryCommission deliveryOrder = null;
         int confirmationNumber = 100;
         when(deliveryOrderRepository.findAll()).thenReturn(deliveryOrders);
 
@@ -342,7 +340,7 @@ public class TestDeliveryOrderService {
 
     @Test
     public void testDeleteDeliveryOrderInvalidID() {
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
         try {
             deliveryOrderService.deleteDeliveryOrder(4933);
@@ -355,7 +353,7 @@ public class TestDeliveryOrderService {
 
     @Test
     public void testDeleteDeliveryOrderIDZero() {
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
         try {
             deliveryOrderService.deleteDeliveryOrder(0);
@@ -368,7 +366,7 @@ public class TestDeliveryOrderService {
 
     @Test
     public void testDeleteDeliveryOrderIDNegative() {
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
         try {
             deliveryOrderService.deleteDeliveryOrder(-10);
@@ -380,7 +378,7 @@ public class TestDeliveryOrderService {
     }
     @Test
     public void testGetDeliveryOrderByConfirmationNumber() {
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
 
         try {
@@ -396,7 +394,7 @@ public class TestDeliveryOrderService {
     //GET
     @Test
     public void testGetDeliveryOrderDoesNotExist() {
-        DeliveryOrder deliveryOrder2 = null;
+        DeliveryCommission deliveryOrder2 = null;
         String error = null;
 
         try{
@@ -409,7 +407,7 @@ public class TestDeliveryOrderService {
     }
     @Test
     public void testGetDeliveryOrderNullInteger() {
-        DeliveryOrder deliveryOrder2 = null;
+        DeliveryCommission deliveryOrder2 = null;
         String error = null;
 
         try{
@@ -424,7 +422,7 @@ public class TestDeliveryOrderService {
 
     @Test
     public void testGetDeliveryOrderZEROInteger() {
-        DeliveryOrder deliveryOrder2 = null;
+        DeliveryCommission deliveryOrder2 = null;
         String error = null;
 
         try{
@@ -439,7 +437,7 @@ public class TestDeliveryOrderService {
 
     @Test
     public void testGetDeliveryOrderNegativeInteger() {
-        DeliveryOrder deliveryOrder2 = null;
+        DeliveryCommission deliveryOrder2 = null;
         String error = null;
 
         try{
@@ -510,7 +508,7 @@ public class TestDeliveryOrderService {
     }*/
     @Test
     public void updateDeliveryShippingStatusNullConfirmationNumber(){
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
         Integer confirmationNumber = null;
 
@@ -525,7 +523,7 @@ public class TestDeliveryOrderService {
     }
     @Test
     public void updateDeliveryShippingStatusConfirmationNumberZero(){
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
 
         try{
@@ -539,7 +537,7 @@ public class TestDeliveryOrderService {
     }
     @Test
     public void updateDeliveryShippingStatusConfirmationNumberNegative(){
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
 
         try{
@@ -553,7 +551,7 @@ public class TestDeliveryOrderService {
     }
     @Test
     public void updateDeliveryShippingStatusInvalidShippingStatus(){
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
 
         try{
@@ -567,7 +565,7 @@ public class TestDeliveryOrderService {
     }
     @Test
     public void updateDeliveryTotalCostNull(){
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
         Integer OrderID = null;
 
@@ -582,7 +580,7 @@ public class TestDeliveryOrderService {
     }
     @Test
     public void updateDeliveryTotalCostZero(){
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
 
         try{
@@ -596,7 +594,7 @@ public class TestDeliveryOrderService {
     }
     @Test
     public void updateDeliveryTotalCostNegative(){
-        DeliveryOrder deliveryOrder = null;
+        DeliveryCommission deliveryOrder = null;
         String error = null;
 
         try{

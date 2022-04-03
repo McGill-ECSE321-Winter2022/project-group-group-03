@@ -60,8 +60,7 @@ public class TestCustomerService {
     private StoreRepository storeRepository;
     @Mock
     private StoreService storeService;
-    @Mock
-    private UserService userService;
+
 
 
     @InjectMocks
@@ -428,9 +427,9 @@ public class TestCustomerService {
     public void getCustomerOrders() {
 
         Customer customer = null;
-        DeliveryOrder deliveryOrder = null;
-        PickupOrder pickupOrder = null;
-        List<Order> orderList = null;
+        DeliveryCommission deliveryOrder = null;
+        PickupCommission pickupOrder = null;
+        List<Commission> commissionList = null;
         String error = null;
 
         try {
@@ -438,8 +437,8 @@ public class TestCustomerService {
             deliveryOrder = deliveryOrderService.createDeliveryOrder("bob", "my house", 69,  true);
             pickupOrder = pickupOrderService.createPickupOrder(USERNAME_KEY,"Cash", 70);
             customer.setOrder(Arrays.asList(deliveryOrder, pickupOrder));
-            DeliveryOrder finalDeliveryOrder = deliveryOrder;
-            PickupOrder finalPickupOrder = pickupOrder;
+            DeliveryCommission finalDeliveryOrder = deliveryOrder;
+            PickupCommission finalPickupOrder = pickupOrder;
             lenient().when(customerRepository.findCustomerByUsername(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
                 if (invocation.getArgument(0).equals(USERNAME_KEY)) {
                     ArrayList<Customer> customers = new ArrayList<Customer>();
@@ -454,12 +453,12 @@ public class TestCustomerService {
                     return null;
                 }
             });
-            orderList = customerService.getCustomerOrders(USERNAME_KEY);
+            commissionList = customerService.getCustomerOrders(USERNAME_KEY);
         } catch (Exception e) {
             fail();
         }
-        assertNotNull(orderList);
-        assertEquals(orderList, Arrays.asList(deliveryOrder, pickupOrder));
+        assertNotNull(commissionList);
+        assertEquals(commissionList, Arrays.asList(deliveryOrder, pickupOrder));
     }
 
 
@@ -778,9 +777,9 @@ public class TestCustomerService {
         Customer customer = null;
         customer = customerService.createCustomer(USERNAME_KEY, PASSWORD, EMAIL, ADDRESS);
         String error = null;
-        List<Order> order = new ArrayList<>();
+        List<Commission> commission = new ArrayList<>();
         try {
-            customerService.setCustomerOrders("ASKALFA", order);
+            customerService.setCustomerOrders("ASKALFA", commission);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }

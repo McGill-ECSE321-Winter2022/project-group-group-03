@@ -2,8 +2,9 @@ package ca.mcgill.ecse321.GroceryStore.controller;
 
 import ca.mcgill.ecse321.GroceryStore.dto.CustomerDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.OrderDTO;
+import ca.mcgill.ecse321.GroceryStore.model.Commission;
 import ca.mcgill.ecse321.GroceryStore.model.Customer;
-import ca.mcgill.ecse321.GroceryStore.model.Order;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import ca.mcgill.ecse321.GroceryStore.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -58,8 +59,8 @@ public class CustomerRestController {
     }
     @GetMapping(value = { "/delivery_order/customer/{username}", "/delivery_order/customer/{username}/" })
     public List<OrderDTO> getDeliveryOrdersOfCustomer(@PathVariable("username") String username) {
-        List<Order> customerOrders = service.getCustomerOrders(username);
-        return customerOrders.stream().map(this::convertToDto).collect(Collectors.toList());
+        List<Commission> customerCommissions = service.getCustomerOrders(username);
+        return customerCommissions.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @PutMapping(value = {"/editPassword/{username}"})
@@ -81,11 +82,14 @@ public class CustomerRestController {
         }
         return new CustomerDTO(c.getUsername(),c.getPassword(),c.getEmail(),c.getAddress());
     }
-    private OrderDTO convertToDto(Order o) {
+    private OrderDTO convertToDto(Commission o) {
         if (o == null) {
             throw new IllegalArgumentException("There is no such Order!");
         }
-        return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem());
+        String orderType;
+        if (o instanceof DeliveryCommission)  orderType = "Delivery";
+        else orderType = "Pickup";
+        return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem(), orderType);
     }
 
 }

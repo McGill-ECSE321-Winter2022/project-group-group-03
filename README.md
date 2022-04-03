@@ -28,7 +28,7 @@ grocerystore-backend-ise2022w
 
 ##### How to run this project
 To run the project, clone this repository and run the java file `GroceryStoreBackendApplication.java`  \
-locally as a  `Spring Boot Application`. In order to choose which database the application runs on, open `application.properties` and set `spring.profiles.default` =test or =prod depending on which one you want to use.
+locally as a  `Spring Boot Application`. In commission to choose which database the application runs on, open `application.properties` and set `spring.profiles.default` =test or =prod depending on which one you want to use.
 
 This will deploy the backend [here](http://localhost:8080/) locally.
 

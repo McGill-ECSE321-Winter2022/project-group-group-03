@@ -1,7 +1,6 @@
 
 import Header from "./EmployeeNav"
 import Nav from "./OwnerNav"
-import Login from "./login_script"
 
 import axios from 'axios'
 var config = require('../../config')
@@ -23,11 +22,6 @@ var AXIOS = axios.create({
       name: 'purchasedItem',
 
       data() {
-        return {
-          price: 0,
-          purchasedItemList: [],
-          confirmationNumber: 0
-        }
       },
       components: {
         Header
@@ -36,66 +30,97 @@ var AXIOS = axios.create({
       methods: {
         getItems: function () {
           console.log("getting items");
-          this.items.length = 0;
-          if (Login.login_accountType === "Customer") {
+          let array = [];
+          array.push({name: "hi", item: "bye"})
+          array.push({name: "h2", item: "bye2"})
+          sessionStorage.setItem("items", JSON.stringify(array))
+          console.log(sessionStorage)
+          let str = sessionStorage.getItem("items")
+          str.push({name: "h3", item: "bye3"})
+          console.log(str)
+          sessionStorage.setItem("items", JSON.stringify(str))
+          console.log(sessionStorage)
+          if (sessionStorage.accountType === "Customer") {
             AXIOS.get('/item'.concat(), {responseType: "json"})
               .then((response) => {
                 this.response = response.data;
                 for (const item in this.response) {
-                  let i = new PurchasedItemDTO(this.response[purchasedItem].aItem, this.response[purchasedItem].aItemQuantity, this.response[purchasedItem].aPurchasedItemID);
-                  this.items.push({name: this.response[item].name, item: i});
+                  let i = new PurchasedItemDTO(this.response[item].aItem, this.response[item].aItemQuantity, this.response[item].aPurchasedItemID);
+                  sessionStorage.items.concat({name: this.response[item].name, item: i});
                   console.log(i);
                 }
 
               });
           }
           //TODO: add to concat
-          if (Login.login_accountType === "Employee") {
+          if (sessionStorage.accountType === "Employee") {
             AXIOS.get('/item'.concat(), {responseType: "json"})
               .then((response) => {
                 this.response = response.data;
                 for (const item in this.response) {
                   let i = new PurchasedItemDTO(this.response[purchasedItem].aItem, this.response[purchasedItem].aItemQuantity, this.response[purchasedItem].aPurchasedItemID);
-                  this.items.push({name: this.response[item].name, item: i});
+                  sessionStorage.items.push({name: this.response[item].name, item: i});
                   console.log(i);
                 }
               });
           }
-        },
 
-        //TODO: else throws error
+        },
         deleteItem: function (purchasedItemID){
-          let index = this.purchasedItemList.purchasedItemID.indexOf(purchasedItemID)
+          let index = sessionStorage.purchasedItemList.purchasedItemID.indexOf(purchasedItemID)
           if (index > -1) {
-            this.purchasedItemList.splice(index, 1); // 2nd parameter means remove one item only
+            sessionStorage.purchasedItemList.splice(index, 1); // 2nd parameter means remove one item only
           }
         },
 
-        getOrder: function () {
-          console.log(Login)
-          console.log('/'.concat(Login.data.login_accountType, "_order/", Login.data.login_username))
-          AXIOS.get('/'.concat(Login.data.login_accountType, "_order/", Login.data.login_username), {responseType: "json"})
+        getOrder: async function () {
+          console.log('/'.concat(sessionStorage.accountType.toLowerCase(), "_order/", sessionStorage.username))
+          let bool = true
+          await AXIOS.get('/'.concat(sessionStorage.accountType.toLowerCase(), "_order/", sessionStorage.username), {responseType: "json"})
             .then((response) => {
               this.response = response.data;
+              console.log(this.response)
               let list = this.response.purchasedItem
               for (const purchasedItem in list) {
-                this.purchasedItemList.push(new PurchasedItemDTO(purchasedItem.item, purchasedItem.aItemQuantity, purchasedItem.aPurchasedItemID))
+                sessionStorage.purchasedItemList.push(new PurchasedItemDTO(purchasedItem.item, purchasedItem.aItemQuantity, purchasedItem.aPurchasedItemID))
               }
-              this.price = this.response.totalCost
-              this.confirmationNumber = this.response.confirmationNumber
-              }
-            )
+              sessionStorage.price = this.response.totalCost
+              sessionStorage.confirmationNumber = this.response.confirmationNumber
+              sessionStorage.orderType = this.response.orderType
+              console.log(sessionStorage)
+              console.log('guac')
+            })
+            .catch(e => {
+              bool = false
+              console.log("ERROR")
+            })
+
+          if (bool === false) {
+            await AXIOS.post("pickupOrder?username=".concat(sessionStorage.username,"&paymentMethod=Cash&accountType=",sessionStorage.accountType), {})
+              .then((response) => {
+                this.response = response.data;
+                console.log(this.response)
+                sessionStorage.price = this.response.totalCost
+                sessionStorage.confirmationNumber = this.response.confirmationNumber
+                sessionStorage.purchasedItemsList = [69]
+                sessionStorage.orderType = "Pickup"
+                console.log("hyiallo")
+                console.log(sessionStorage)
+              })
+          }
         },
 
         up: function (purchasedItemID){
-          let objIndex = this.items.findIndex((purchasedItem => purchasedItem.aPurchasedItemID === purchasedItemID));
-            this.items[objIndex].counter += 1
+          let objIndex = sessionStorage.items.findIndex((purchasedItem => purchasedItem.aPurchasedItemID === purchasedItemID));
+          sessionStorage.items[objIndex].counter += 1
         },
 
         down: function (purchasedItemID){
-          let objIndex = this.purchasedItemList.findIndex(purchasedItem => purchasedItem.aPurchasedItemID === purchasedItemID);
-            this.items[objIndex].counter -= 1
-          }
 
+          let objIndex = sessionStorage.purchasedItemList.findIndex(purchasedItem => purchasedItem.aPurchasedItemID === purchasedItemID);
+          if (sessionStorage.items[objIndex].item.counter > 0){
+            sessionStorage.items[objIndex].counter -= 1
+          }
+        }
       }
 }

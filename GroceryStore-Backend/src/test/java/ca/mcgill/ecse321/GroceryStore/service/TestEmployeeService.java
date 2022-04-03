@@ -11,9 +11,6 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
-
-import java.sql.Time;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -296,23 +293,23 @@ public class TestEmployeeService {
     @Test
     public void getEmployeeOrders(){
         Employee employee = null;
-        DeliveryOrder deliveryOrder = null;
-        PickupOrder pickupOrder = null;
-        List<Order> orderList = null;
+        DeliveryCommission deliveryOrder = null;
+        PickupCommission pickupOrder = null;
+        List<Commission> commissionList = null;
         String error = null;
 
         try{
             employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
-            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house",  "sherbooke",  true);
-            pickupOrder = pickupOrderService.createPickupOrder("Cash","cash");
+            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house",  "sherbooke", "Customer",  true);
+            pickupOrder = pickupOrderService.createPickupOrder("Cash","cash", "Customer");
             employee.setOrder(Arrays.asList(deliveryOrder, pickupOrder));
             when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
-            orderList = employeeService.getEmployeeOrders(EMPLOYEE_USERNAME);
+            commissionList = employeeService.getEmployeeOrders(EMPLOYEE_USERNAME);
         }catch (Exception e){
             fail();
         }
-        assertNotNull(orderList);
-        assertEquals(orderList, Arrays.asList(deliveryOrder, pickupOrder));
+        assertNotNull(commissionList);
+        assertEquals(commissionList, Arrays.asList(deliveryOrder, pickupOrder));
     }
 
     @Test
