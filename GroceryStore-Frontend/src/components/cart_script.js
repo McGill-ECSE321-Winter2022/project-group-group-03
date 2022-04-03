@@ -65,10 +65,10 @@ var AXIOS = axios.create({
           }
         },
 
-        getOrder: function () {
-          console.log(sessionStorage)
+        getOrder: async function () {
           console.log('/'.concat(sessionStorage.accountType.toLowerCase(), "_order/", sessionStorage.username))
-          AXIOS.get('/'.concat(sessionStorage.accountType.toLowerCase(), "_order/", sessionStorage.username), {responseType: "json"})
+          let bool = true
+          await AXIOS.get('/'.concat(sessionStorage.accountType.toLowerCase(), "_order/", sessionStorage.username), {responseType: "json"})
             .then((response) => {
               this.response = response.data;
               let list = this.response.purchasedItem
@@ -77,8 +77,31 @@ var AXIOS = axios.create({
               }
               sessionStorage.price = this.response.totalCost
               sessionStorage.confirmationNumber = this.response.confirmationNumber
-              }
-            )
+              console.log(sessionStorage)
+            })
+            .catch(e => {
+              bool = false
+              console.log("ERROR")
+
+              // let list = this.response.purchasedItem
+              // for (const purchasedItem in list) {
+              //   sessionStorage.purchasedItemList.push(new PurchasedItemDTO(purchasedItem.item, purchasedItem.aItemQuantity, purchasedItem.aPurchasedItemID))
+              // }
+              // sessionStorage.price = this.response.totalCost
+              // sessionStorage.confirmationNumber = this.response.confirmationNumber
+              // console.log(sessionStorage)
+
+
+            })
+
+          if (bool === false) {
+            console.log(sessionStorage)
+            AXIOS.post("pickupOrder?username=".concat(sessionStorage.username,"&paymentMethod=Cash"), {},{})
+              .then((response) => {
+                this.response = response.data;
+                console.log(this.response)
+              })
+          }
         },
 
         up: function (purchasedItemID){

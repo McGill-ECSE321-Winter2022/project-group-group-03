@@ -23,7 +23,7 @@
           <button v-bind:disabled="!newItem" @click="createItem(newItem, newPrice, newDescription, newImage)">Create Item</button>
         </td>
         <td>
-          <button @click="getItems()">Get Items</button>
+          <button @click="createStore()">Get Items</button>
         </td>
       </tr>
     </table>

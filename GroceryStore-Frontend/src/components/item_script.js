@@ -56,12 +56,18 @@ export default {
     },
   methods: {
     addToCart: function(itemName){
-      console.log(Cart_script)
       Cart_script.methods.getOrder()
-      let objIndex = this.items.findIndex((item => item.name == itemName));
-      console.log('/purchased_item?item='.concat(this.items[objIndex].item.name,"&aItemQuantity=",this.items[objIndex].item.counter,"&confirmationNumber=", Cart_script.confirmationNumber))
-      AXIOS.post('/purchased_item?item='.concat(this.items[objIndex].item.name,"&aItemQuantity=",this.items[objIndex].item.counter,"&confirmationNumber=", Cart_script.confirmationNumber))
+      // console.log(sessionStorage)
+      // let objIndex = this.items.findIndex((item => item.name == itemName));
+      // console.log('/purchased_item?item='.concat(this.items[objIndex].item.name,"&aItemQuantity=",this.items[objIndex].item.counter,"&confirmationNumber=", sessionStorage.confirmationNumber))
+      // AXIOS.post('/purchased_item?item='.concat(this.items[objIndex].item.name,"&aItemQuantity=",this.items[objIndex].item.counter,"&confirmationNumber=", sessionStorage.confirmationNumber))
       // Cart_script.getItems()
+    },
+    getStore: function (){
+      AXIOS.get('/store', {responseType: "json"})
+        .then((response) =>{
+          console.log(response)
+          })
     },
     getItems: function(){
       console.log("getting items");
