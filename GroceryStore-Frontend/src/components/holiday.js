@@ -100,7 +100,7 @@ export default{
           .then((response) => {
             console.log(response)
           })
-        this.sleep(500)
+      this.sleep(500)
       this.startDateMessage = newStartDate
       this.endDateMessage = newEndDate
       this.sleep(1000)
