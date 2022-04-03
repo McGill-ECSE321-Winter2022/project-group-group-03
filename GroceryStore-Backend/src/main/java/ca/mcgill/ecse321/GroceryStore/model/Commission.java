@@ -27,7 +27,7 @@ public abstract class Commission
   //Order Associations
 
   @ManyToOne
-  @JoinColumn(name = "order_storeID", unique = true)
+  @JoinColumn(name = "order_storeID")
   private Store store;
 
   @OneToMany

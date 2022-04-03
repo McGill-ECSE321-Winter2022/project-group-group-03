@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.GroceryStore.dto.EmployeeDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.OrderDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.WorkShiftDTO;
 import ca.mcgill.ecse321.GroceryStore.model.Commission;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import ca.mcgill.ecse321.GroceryStore.model.Employee;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
@@ -117,7 +118,10 @@ public class EmployeeRestController {
         if (o == null) {
             throw new IllegalArgumentException("There is no such Order!");
         }
-        return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem());
+        String orderType = "";
+        if (o instanceof DeliveryCommission)  orderType = "Delivery";
+        else orderType = "Pickup";
+        return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem(), orderType);
     }
 
     private WorkShiftDTO convertToDto(WorkShift w) {

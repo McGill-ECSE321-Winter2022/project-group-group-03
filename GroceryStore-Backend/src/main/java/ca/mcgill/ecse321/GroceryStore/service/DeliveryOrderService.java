@@ -99,7 +99,9 @@ public class DeliveryOrderService {
     @Transactional
     public void addPurchasedItemToDeliveryOrder(Integer confirmationNumber, PurchasedItem purchasedItem){
         DeliveryCommission d = getDeliveryOrder(confirmationNumber);
-        d.getPurchasedItem().add(purchasedItem);
+        List<PurchasedItem> p = d.getPurchasedItem();
+        p.add(purchasedItem);
+        d.setPurchasedItem(p);
     }
 
     @Transactional

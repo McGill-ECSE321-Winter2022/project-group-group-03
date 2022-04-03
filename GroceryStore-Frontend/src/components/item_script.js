@@ -55,13 +55,14 @@ export default {
     }
     },
   methods: {
-    addToCart: function(itemName){
-      Cart_script.methods.getOrder()
-      // console.log(sessionStorage)
-      // let objIndex = this.items.findIndex((item => item.name == itemName));
-      // console.log('/purchased_item?item='.concat(this.items[objIndex].item.name,"&aItemQuantity=",this.items[objIndex].item.counter,"&confirmationNumber=", sessionStorage.confirmationNumber))
-      // AXIOS.post('/purchased_item?item='.concat(this.items[objIndex].item.name,"&aItemQuantity=",this.items[objIndex].item.counter,"&confirmationNumber=", sessionStorage.confirmationNumber))
-      // Cart_script.getItems()
+    addToCart: async function (itemName) {
+      await Cart_script.methods.getOrder()
+      console.log(sessionStorage)
+      let objIndex = this.items.findIndex((item => item.name == itemName));
+      console.log('/purchased_item?item='.concat(this.items[objIndex].item.name, "&aItemQuantity=", this.items[objIndex].item.counter, "&confirmationNumber=", sessionStorage.confirmationNumber))
+      await AXIOS.post('/purchased_item?item='.concat(this.items[objIndex].item.name, "&aItemQuantity=", this.items[objIndex].item.counter, "&confirmationNumber=", sessionStorage.confirmationNumber,"&orderType=", sessionStorage.orderType))
+      await Cart_script.methods.getItems()
+      console.log(sessionStorage)
     },
     getStore: function (){
       AXIOS.get('/store', {responseType: "json"})
@@ -91,7 +92,6 @@ export default {
           this.errorItem = error.data();
         })
       this.sleep(500);
-      this.items.length = 0;
       this.getItems();
 
       // Reset the name field for new people
