@@ -10,11 +10,11 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function WorkShiftDTO (startTime,endTime,day, id) {
+function WorkShiftDTO (startTime,endTime,day, shiftID) {
   this.startTime = startTime
   this.endTime = endTime
   this.day=day
-  this.id = id
+  this.shiftID = shiftID
 }
 
 function EmployeeDTO (username, password, email, address,workingStatus) {
@@ -31,13 +31,13 @@ export default {
       startTime: '',
       endTime: '',
       day: '',
-      shifts: [],
+      shifts: [null, null, null, null, null, null, null],
       Searchusername:"",
       username: "",
       address:"",
       email:"",
       employees:"",
-      id: "",
+      shiftID: "",
       response:"",
       EMPdropDownMessage1: "change start shift",
       EMPdropDownMessage2: "change end shift",
@@ -76,6 +76,12 @@ export default {
     //       this.email = this.response.email
     //
     //     })
+
+    // AXIOS.post("./store?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",{},{})
+    //   .then(response => {
+    //     console.log(response.data)
+    //   })
+
     //this.sleep(1000)
     //this.getWorkShiftsOfEmployee()
   },
@@ -83,13 +89,97 @@ export default {
     searchUsername: function (username) {
       AXIOS.get('/employee?username='.concat(username), {responseType: "json"})
         .then((response) => {
-          this.response = response.data;
+          this.response = response.data
           console.log(response)
           this.username = this.response.username
           this.address = this.response.address
           this.email = this.response.email
           this.getWorkShiftsOfEmployee()
         })
+    },
+    sleep: function (milliseconds) {
+      const date = Date.now();
+      let currentDate = null;
+      do {
+        currentDate = Date.now();
+      }
+      while (currentDate - date < milliseconds);
+    },
+    fireEmployee: function(){
+      AXIOS.put('/fire_employee?username='.concat(this.username),{responseType: "json"})
+        .then((response) => {
+          this.response = response.data
+
+        })
+    },
+    hireEmployee: function(){
+      AXIOS.put('/hire_employee?username='.concat(this.username),{responseType: "json"})
+        .then((response) => {
+          this.response = response.data
+
+        })
+    },
+    deleteWorkshift1: function(){
+      AXIOS.delete('/workShift/'.concat(this.mondayWS),{responseType: "json"})
+        .then((response) => {
+          console.log(this.mondayWS)
+          this.response = response.data
+        })
+        this.EMPbuttonMessage1 = "Add"
+        this.EMPbuttonMessage2 = "Add"
+    },
+    deleteWorkshift2: function(){
+      AXIOS.delete('/workShift/'.concat(this.tuesdayWS),{responseType: "json"})
+        .then((response) => {
+          this.response = response.data
+
+        })
+        this.EMPbuttonMessage3 = "Add"
+        this.EMPbuttonMessage4 = "Add"
+    },
+    deleteWorkshift3: function(){
+      AXIOS.delete('/workShift/'.concat(this.wednesdayWS),{responseType: "json"})
+        .then((response) => {
+          console.log(this.wednesdayWS)
+          this.response = response.data
+        })
+      this.EMPbuttonMessage5 = "Add"
+      this.EMPbuttonMessage6 = "Add"
+    },
+    deleteWorkshift4: function(){
+      AXIOS.delete('/workShift/'.concat(this.thursdayWS),{responseType: "json"})
+        .then((response) => {
+          this.response = response.data
+        })
+      this.EMPbuttonMessage7 = "Add"
+      this.EMPbuttonMessage8 = "Add"
+    },
+    deleteWorkshift5: function(){
+      AXIOS.delete('/workShift/'.concat(this.fridayWS),{responseType: "json"})
+        .then((response) => {
+          this.response = response.data
+
+        })
+      this.EMPbuttonMessage9 = "Add"
+      this.EMPbuttonMessage10 = "Add"
+    },
+    deleteWorkshift6: function(){
+      AXIOS.delete('/workShift/'.concat(this.saturdayWS),{responseType: "json"})
+        .then((response) => {
+          this.response = response.data
+
+        })
+      this.EMPbuttonMessage11 = "Add"
+      this.EMPbuttonMessage12 = "Add"
+    },
+    deleteWorkshift7: function(){
+      AXIOS.delete('/workShift/'.concat(this.sundayWS),{responseType: "json"})
+        .then((response) => {
+          this.response = response.data
+
+        })
+      this.EMPbuttonMessage13 = "Add"
+      this.EMPbuttonMessage14 = "Add"
     },
     createWorkshift1: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage1, '&aEndTime=',this.EMPbuttonMessage2, '&aDay=Monday&username=',username))
@@ -134,7 +224,7 @@ export default {
         })
     },
     createWorkshift7: function (username){
-      AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage12, '&aEndTime=',this.EMPbuttonMessage14, '&aDay=Sunday&username=',username))
+      AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage13, '&aEndTime=',this.EMPbuttonMessage14, '&aDay=Sunday&username=',username))
         .then(response => {
           console.log(response.data)
           this.getWorkShiftsOfEmployee()
@@ -147,195 +237,135 @@ export default {
     EMPchangeOpeningHour2: function (hour) {
       this.EMPdropDownMessage2 = hour
     },
-    EMPchangeButtonHour1: function (hour) {
-      this.EMPbuttonMessage1 = hour
+    EMPchangeButtonHour1: function (hour1, hour2) {
+
+      this.EMPbuttonMessage1 = hour1
+      this.EMPbuttonMessage2 = hour2
       this.setWorkShiftHours1()
     },
-    EMPchangeButtonHour2: function (hour) {
-      this.EMPbuttonMessage2 = hour
+    EMPchangeButtonHour2: function (hour1, hour2) {
+
+      this.EMPbuttonMessage3 = hour1
+      this.EMPbuttonMessage4 = hour2
       this.setWorkShiftHours2()
     },
-    EMPchangeButtonHour3: function (hour) {
-      this.EMPbuttonMessage3 = hour
+    EMPchangeButtonHour3: function (hour1, hour2) {
+
+      this.EMPbuttonMessage5 = hour1
+      this.EMPbuttonMessage6 = hour2
       this.setWorkShiftHours3()
     },
-    EMPchangeButtonHour4: function (hour) {
-      this.EMPbuttonMessage4 = hour
+    EMPchangeButtonHour4: function (hour1, hour2) {
+
+      this.EMPbuttonMessage7 = hour1
+      this.EMPbuttonMessage8 = hour2
       this.setWorkShiftHours4()
     },
-    EMPchangeButtonHour5: function (hour) {
-      this.EMPbuttonMessage5 = hour
+    EMPchangeButtonHour5: function (hour1, hour2) {
+
+      this.EMPbuttonMessage9 = hour1
+      this.EMPbuttonMessage10 = hour2
       this.setWorkShiftHours5()
     },
-    EMPchangeButtonHour6: function (hour) {
-      this.EMPbuttonMessage6 = hour
+    EMPchangeButtonHour6: function (hour1, hour2) {
+
+      this.EMPbuttonMessage11 = hour1
+      this.EMPbuttonMessage12 = hour2
       this.setWorkShiftHours6()
     },
-    EMPchangeButtonHour7: function (hour) {
-      this.EMPbuttonMessage7 = hour
+    EMPchangeButtonHour7: function (hour1, hour2) {
+
+      this.EMPbuttonMessage13 = hour1
+      this.EMPbuttonMessage14 = hour2
       this.setWorkShiftHours7()
-    },
-    EMPchangeButtonHour8: function (hour) {
-      this.EMPbuttonMessage8 = hour
-      this.setWorkShiftHours8()
-    },
-    EMPchangeButtonHour9: function (hour) {
-      this.EMPbuttonMessage9 = hour
-      this.setWorkShiftHours9()
-    },
-    EMPchangeButtonHour10: function (hour) {
-      this.EMPbuttonMessage10 = hour
-      this.setWorkShiftHours10()
-    },
-    EMPchangeButtonHour11: function (hour) {
-      this.EMPbuttonMessage11 = hour
-      this.setWorkShiftHours11()
-    },
-    EMPchangeButtonHour12: function (hour) {
-      this.EMPbuttonMessage12 = hour
-      this.setWorkShiftHours12()
-    },
-    EMPchangeButtonHour13: function (hour) {
-      this.EMPbuttonMessage13 = hour
-      this.setWorkShiftHours13()
-    },
-    EMPchangeButtonHour14: function (hour) {
-      this.EMPbuttonMessage14 = hour
-      this.setWorkShiftHours14()
     },
     getWorkShiftsOfEmployee: function(){
       AXIOS.get('/workshift/employee?username='.concat(this.username), {responseType: "json"})
         .then((response) => {
           this.response = response.data
+          console.log(this.shifts)
           for (const shift in this.response) {
-            let i = new WorkShiftDTO(this.response[shift].startTime, this.response[shift].endTime, this.response[shift].day, this.response[shift].id)
-            if(i.day == "Monday"){
-              this.shifts.splice(0, 0, i)
-              this.mondayWS = i.id
+            let i = new WorkShiftDTO(this.response[shift].startTime, this.response[shift].endTime, this.response[shift].day, this.response[shift].shiftID)
+            if(i.day === "Monday"){
+              this.shifts.splice(0, 1, i)
+              this.mondayWS = i.shiftID
             }
-            if(i.day == "Tuesday") {
-              this.shifts.splice(1, 0, i)
-              this.tuesdayWS = i.id
+            if(i.day === "Tuesday") {
+              this.shifts.splice(1, 1, i)
+              this.tuesdayWS = i.shiftID
             }
-            if(i.day == "Wednesday"){
-              this.shifts.splice(2,0, i)
-              this.wednesdayWS = i.id
+            if(i.day === "Wednesday"){
+              this.shifts.splice(2,1, i)
+              this.wednesdayWS = i.shiftID
             }
-            if(i.day == "Thursday"){
-              this.shifts.splice(3,0, i)
-              this.thursdayWS = i.id
+            if(i.day === "Thursday"){
+              this.shifts.splice(3,1, i)
+              this.thursdayWS = i.shiftID
             }
-            if(i.day == "Friday"){
-              this.shifts.splice(4,0, i)
-              this.fridayWS = i.id
+            if(i.day === "Friday"){
+              this.shifts.splice(4,1, i)
+              this.fridayWS = i.shiftID
             }
-            if(i.day == "Saturday"){
-              this.shifts.splice(5,0, i)
-              this.saturdayWS = i.id
+            if(i.day === "Saturday"){
+              this.shifts.splice(5,1, i)
+              this.saturdayWS = i.shiftID
             }
-            if(i.day == "Sunday"){
-              this.shifts.splice(6,0, i)
-              this.sundayWS = i.id
+            if(i.day === "Sunday"){
+              this.shifts.splice(6,1, i)
+              this.sundayWS = i.shiftID
             }
           }
+          console.log(this.shifts)
           this.updateButtonShifts()
         })
     },
 
     setWorkShiftHours1: function() {
       //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_startTime/'.concat(this.mondayWS, '?startTime=',  this.EMPbuttonMessage1))
+      AXIOS.put('/edit_workShift_hours/'.concat(this.mondayWS, '?startTime=',  this.EMPbuttonMessage1, '&endTime=', this.EMPbuttonMessage2))
         .then((response) => {
           console.log(response)
         })
     },
     setWorkShiftHours2: function() {
       //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_endTime/'.concat(this.mondayWS,'?endTime=', this.EMPbuttonMessage2))
+      AXIOS.put('/edit_workShift_hours/'.concat(this.tuesdayWS, '?startTime=',  this.EMPbuttonMessage3, '&endTime=', this.EMPbuttonMessage4))
         .then((response) => {
           console.log(response)
         })
     },
     setWorkShiftHours3: function() {
 
-      AXIOS.put('/edit_workShift_startTime/'.concat(this.tuesdayWS,'?startTime=', this.EMPbuttonMessage3))
+      AXIOS.put('/edit_workShift_hours/'.concat(this.wednesdayWS, '?startTime=',  this.EMPbuttonMessage5, '&endTime=', this.EMPbuttonMessage6))
         .then((response) => {
           console.log(response)
         })
     },
     setWorkShiftHours4: function() {
       //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_endTime/'.concat(this.tuesdayWS,'?endTime=', this.EMPbuttonMessage4))
+      AXIOS.put('/edit_workShift_hours/'.concat(this.thursdayWS, '?startTime=',  this.EMPbuttonMessage7, '&endTime=', this.EMPbuttonMessage8))
         .then((response) => {
           console.log(response)
         })
     },
     setWorkShiftHours5: function() {
       //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_startTime/'.concat(this.wednesdayWS,'?startTime=', this.EMPbuttonMessage5))
+      console.log(this.EMPbuttonMessage5)
+      AXIOS.put('/edit_workShift_hours/'.concat(this.fridayWS, '?startTime=',  this.EMPbuttonMessage9, '&endTime=', this.EMPbuttonMessage10))
         .then((response) => {
           console.log(response)
         })
     },
     setWorkShiftHours6: function() {
       //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_endTime/'.concat(this.wednesdayWS,'?endTime=', this.EMPbuttonMessage6))
+      AXIOS.put('/edit_workShift_hours/'.concat(this.saturdayWS, '?startTime=',  this.EMPbuttonMessage11, '&endTime=', this.EMPbuttonMessage12))
         .then((response) => {
           console.log(response)
         })
     },
     setWorkShiftHours7: function() {
       //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_startTime/'.concat(this.thursdayWS,'?startTime=', this.EMPbuttonMessage7))
-        .then((response) => {
-          console.log(response)
-        })
-    },
-    setWorkShiftHours8: function() {
-      //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_endTime/'.concat(this.thursdayWS,'?endTime=', this.EMPbuttonMessage8))
-        .then((response) => {
-          console.log(response)
-        })
-    },
-    setWorkShiftHours9: function() {
-      //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_startTime/'.concat(this.fridayWS,'?startTime=', this.EMPbuttonMessage9))
-        .then((response) => {
-          console.log(response)
-        })
-    },
-    setWorkShiftHours10: function() {
-      //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_endTime/'.concat(this.fridayWS,'?endTime=', this.EMPbuttonMessage10))
-        .then((response) => {
-          console.log(response)
-        })
-    },
-    setWorkShiftHours11: function() {
-      //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_startTime/'.concat(this.saturdayWS,'?startTime=', this.EMPbuttonMessage11))
-        .then((response) => {
-          console.log(response)
-        })
-    },
-    setWorkShiftHours12: function() {
-      //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_endTime/'.concat(this.saturdayWS,'?endTime=', this.EMPbuttonMessage12))
-        .then((response) => {
-          console.log(response)
-        })
-    },
-    setWorkShiftHours13: function() {
-      //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_startTime/'.concat(this.sundayWS,'?startTime=', this.EMPbuttonMessage13))
-        .then((response) => {
-          console.log(response)
-        })
-    },
-    setWorkShiftHours14: function() {
-      //console.log(this.hours[0].hoursID)
-      AXIOS.put('/edit_workShift_endTime/'.concat(this.sundayWS,'?endTime=', this.EMPbuttonMessage14))
+      AXIOS.put('/edit_workShift_hours/'.concat(this.sundayWS, '?startTime=',  this.EMPbuttonMessage13, '&endTime=', this.EMPbuttonMessage14))
         .then((response) => {
           console.log(response)
         })
@@ -348,21 +378,34 @@ export default {
       return x
     },
     updateButtonShifts: function(){
-
-      this.EMPbuttonMessage1 = this.parseHour(this.shifts[0].startTime)
-      this.EMPbuttonMessage2 = this.parseHour(this.shifts[0].endTime)
-      this.EMPbuttonMessage3 = this.parseHour(this.shifts[1].startTime)
-      this.EMPbuttonMessage4 = this.parseHour(this.shifts[1].endTime)
-      this.EMPbuttonMessage5 = this.parseHour(this.shifts[2].startTime)
-      this.EMPbuttonMessage6 = this.parseHour(this.shifts[2].endTime)
-      this.EMPbuttonMessage7 = this.parseHour(this.shifts[3].startTime)
-      this.EMPbuttonMessage8 = this.parseHour(this.shifts[3].endTime)
-      this.EMPbuttonMessage9 = this.parseHour(this.shifts[4].startTime)
-      this.EMPbuttonMessage10 = this.parseHour(this.shifts[4].endTime)
-      this.EMPbuttonMessage11 = this.parseHour(this.shifts[5].startTime)
-      this.EMPbuttonMessage12 = this.parseHour(this.shifts[5].endTime)
-      this.EMPbuttonMessage13 = this.parseHour(this.shifts[6].startTime)
-      this.EMPbuttonMessage14 = this.parseHour(this.shifts[6].endTime)
+      if(this.shifts[0] !== null){
+        this.EMPbuttonMessage1 = this.parseHour(this.shifts[0].startTime)
+        this.EMPbuttonMessage2 = this.parseHour(this.shifts[0].endTime)
+      }
+      if(this.shifts[1] !== null){
+        this.EMPbuttonMessage3 = this.parseHour(this.shifts[1].startTime)
+        this.EMPbuttonMessage4 = this.parseHour(this.shifts[1].endTime)
+      }
+      if(this.shifts[2] !== null){
+        this.EMPbuttonMessage5 = this.parseHour(this.shifts[2].startTime)
+        this.EMPbuttonMessage6 = this.parseHour(this.shifts[2].endTime)
+      }
+      if(this.shifts[3] !== null){
+        this.EMPbuttonMessage7 = this.parseHour(this.shifts[3].startTime)
+        this.EMPbuttonMessage8 = this.parseHour(this.shifts[3].endTime)
+      }
+      if(this.shifts[4] !== null){
+        this.EMPbuttonMessage9 = this.parseHour(this.shifts[4].startTime)
+        this.EMPbuttonMessage10 = this.parseHour(this.shifts[4].endTime)
+      }
+      if(this.shifts[5] !== null){
+        this.EMPbuttonMessage11 = this.parseHour(this.shifts[5].startTime)
+        this.EMPbuttonMessage12 = this.parseHour(this.shifts[5].endTime)
+      }
+      if(this.shifts[6] !== null){
+        this.EMPbuttonMessage13 = this.parseHour(this.shifts[6].startTime)
+        this.EMPbuttonMessage14 = this.parseHour(this.shifts[6].endTime)
+      }
     },
   }
 }

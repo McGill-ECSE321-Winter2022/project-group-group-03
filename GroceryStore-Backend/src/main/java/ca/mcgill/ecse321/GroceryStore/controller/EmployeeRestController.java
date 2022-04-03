@@ -10,6 +10,7 @@ import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,20 +25,31 @@ public class EmployeeRestController {
     private EmployeeService service;
 
     @GetMapping(value = { "/all_employees", "/all_employees/" })
-    public List<EmployeeDTO> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() throws IllegalArgumentException {
         return service.getAllEmployees().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
+    @GetMapping(value = {"/employee_order/{username}", "employee_order/{username}/"})
+    private OrderDTO getEmployeeOrder(@PathVariable String username) throws IllegalArgumentException {
+        return convertToDto(service.getEmployeeOrder(username));
+    }
+
     @PostMapping(value = { "/employee", "/employee/" })
-    public EmployeeDTO createEmployee(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
-        Employee employee = service.createEmployee(username, email, password, address);
-        return convertToDto(employee);
+    public ResponseEntity<?> createEmployee(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
+        try {
+            return ResponseEntity.ok(convertToDto(service.createEmployee(username, email,password,address)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @GetMapping(value = {"/employee_login", "/employee_login/"})
-    public EmployeeDTO loginEmployee(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
-        Employee employee = service.loginEmployee(username, password);
-        return convertToDto(employee);
+    public ResponseEntity<?> loginEmployee(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
+        try {
+            return ResponseEntity.ok(convertToDto(service.loginEmployee(username, password)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @GetMapping(value = { "/employee", "/employee/" })
@@ -47,12 +59,12 @@ public class EmployeeRestController {
     }
 
     @GetMapping(value = { "/workshift/employee", "/workshift/employee/" })
-    public List<WorkShiftDTO> getWorkShiftsOfEmployee(@RequestParam String username) {
+    public List<WorkShiftDTO> getWorkShiftsOfEmployee(@RequestParam String username) throws IllegalArgumentException {
         return createWorkShiftDtosForEmployee(convertToDomainObject(getEmployeeByUsername(username)));
     }
 
     @GetMapping(value = { "/delivery_order/employee", "/delivery_order/employee/" })
-    public List<OrderDTO> getOrdersOfEmployee(@RequestParam String username) {
+    public List<OrderDTO> getOrdersOfEmployee(@RequestParam String username) throws IllegalArgumentException{
         return createOrderDtosForEmployee(convertToDomainObject(getEmployeeByUsername(username)));
     }
 
@@ -62,22 +74,27 @@ public class EmployeeRestController {
     }
 
     @PutMapping(value = { "/update_employee_password", "/update_employee_password/"})
-    public EmployeeDTO updateEmployeePassword(@RequestParam String username, @RequestParam String password){
+    public EmployeeDTO updateEmployeePassword(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
         return convertToDto(service.updateEmployeePassword(username, password));
     }
 
     @PutMapping(value = { "/update_employee_address", "/update_employee_address/"})
-    public EmployeeDTO updateEmployeeAddress(@RequestParam String username,  @RequestParam String address){
+    public EmployeeDTO updateEmployeeAddress(@RequestParam String username,  @RequestParam String address) throws IllegalArgumentException{
         return convertToDto(service.updateEmployeeAddress(username, address));
     }
 
     @PutMapping(value = {"/fire_employee", "/fire_employee/"})
-    public EmployeeDTO fireEmployee(@RequestParam String username){
+    public EmployeeDTO fireEmployee(@RequestParam String username) throws IllegalArgumentException {
         return convertToDto(service.fireEmployee(username));
     }
 
+    @PutMapping(value = {"/hire_employee", "/hire_employee/"})
+    public EmployeeDTO hireEmployee(@RequestParam String username) throws IllegalArgumentException {
+        return convertToDto(service.hireEmployee(username));
+    }
+
     @DeleteMapping(value = {"/employee", "/employee/"})
-    public void deleteEmployee(@RequestParam String username){
+    public void deleteEmployee(@RequestParam String username) throws IllegalArgumentException {
         service.deleteEmployee(username);
     }
 

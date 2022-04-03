@@ -27,6 +27,8 @@ public class EmployeeService {
     @Autowired
     StoreService storeService;
 
+
+
     @Transactional
     public Employee createEmployee(String aUsername, String aEmail, String aPassword, String aAddress){
 
@@ -65,6 +67,22 @@ public class EmployeeService {
     }
 
     @Transactional
+    public Order getEmployeeOrder(String username){
+        List<Order> o = getEmployeeOrders(username);
+        for (Order order : o){
+            String s = "";
+            if (order instanceof PickupOrder){
+                s =  ((PickupOrder) order).getPickupStatusFullName();
+            }
+            else if (order instanceof DeliveryOrder){
+                s= ((DeliveryOrder) order).getShippingStatusFullName();
+            }
+            if (s.equals("InCart")) return order;
+        }
+        throw new IllegalArgumentException("This Employee has no Orders in cart");
+    }
+
+    @Transactional
     public Employee getEmployee(String aUsername) {
         if (aUsername == null || aUsername.equals("")) throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
         for(Employee employee : employeeRepository.findAll()){
@@ -95,6 +113,14 @@ public class EmployeeService {
         Employee e = getEmployee(username);
         if (e.getWorkingStatusFullName().equals("Fired")) throw new IllegalArgumentException("Employee has already been fired");
         e.fireEmployee();
+        return e;
+    }
+
+    @Transactional
+    public Employee hireEmployee(String username){
+        Employee e = getEmployee(username);
+        if (e.getWorkingStatusFullName().equals("Hired")) throw new IllegalArgumentException("Employee has already been hired");
+        e.setWorkingStatus(Employee.WorkingStatus.Hired);
         return e;
     }
 
@@ -141,12 +167,12 @@ public class EmployeeService {
     @Transactional
     public void deleteEmployee(String aUsername){
         if (aUsername == null || aUsername.equals("")) throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
-            for(Employee employee : employeeRepository.findAll()){
-                if (employee.getUsername().equals(aUsername)) {
-                    employeeRepository.deleteById(aUsername);
-                    return;
-                }
+        for(Employee employee : employeeRepository.findAll()){
+            if (employee.getUsername().equals(aUsername)) {
+                employeeRepository.deleteById(aUsername);
+                return;
             }
+        }
         throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
     }
 
