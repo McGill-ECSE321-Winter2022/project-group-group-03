@@ -40,7 +40,6 @@ export default {
       logged_in: false
     }
   },
-
   methods: {
     login: function (){
       //customer login
@@ -57,7 +56,7 @@ export default {
               sessionStorage.logged_in = true
               sessionStorage.username = response.data.username
               sessionStorage.accountType="Customer"
-              console.log(this)
+              this.$router.push({ name: "Items" })
             })
           .catch(e => {
             this.login_error = e.response.data;
@@ -70,6 +69,10 @@ export default {
               this.login_accountType = "Employee"
               this.login_username = this.login_username_entered
               this.logged_in = true
+              sessionStorage.logged_in = true
+              sessionStorage.username = response.data.username
+              sessionStorage.accountType="Employee"
+              this.$router.push({ name: "Items" })
             })
 
           .catch(e => {
@@ -77,7 +80,6 @@ export default {
             this.login_error = e.response.data /* <-- this */
             console.log(this.login_error)
           });
-
       }
       //owner login
       if (this.login_accountType_entered==="Owner"){
@@ -86,6 +88,10 @@ export default {
               this.login_accountType = "Owner"
               this.login_username = this.login_username_entered
               this.logged_in = true
+              sessionStorage.logged_in = true
+              sessionStorage.username = response.data.username
+              sessionStorage.accountType="Owner"
+              this.$router.push({ name: "Items" })//TODO: change the owner page
             })
           .catch(e => {
             console.log(e)

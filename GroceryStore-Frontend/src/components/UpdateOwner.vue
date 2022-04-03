@@ -2,10 +2,13 @@
   <div>
   <Header/>
   <h1 id="title">My Owner Profile</h1>
-  <p class="form">Username: {{this.username}}</p>
-  <p class="form">Email: {{this.email}}</p>
-  <p class="form">Password: {{this.password}}</p>
+  <p id="username" class="form">Username: {{this.owner.username}}</p>
+  <p id="email" class="form">Email: {{this.owner.email}}</p>
+  <p id="password" class="form">Password: {{this.owner.password}}</p>
   <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
+    <br>
+    <br>
+    <b-alert :show="setAlert()" dismissible variant="danger">{{error}}</b-alert>
   <b-modal
     id="modal-prevent-closing"
     ref="modal"
@@ -28,6 +31,17 @@
 <script>
 import Header from "./EmployeeNav"
 
+import axios from 'axios'
+var config = require('../../config')
+
+
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+
+var AXIOS = axios.create({
+  baseURL: backendUrl,
+  headers: { 'Access-Control-Allow-Origin': frontendUrl }
+})
 function OwnerDTO(username,password,email,address){
   this.username = username
   this.password = password
@@ -37,21 +51,23 @@ export default {
   name: "UpdateOwner",
   data() {
     return {
-      username: '',
-      password: '',
-      email: '',
-      address: '',
-      workingStatus: '',
-      newPassword: ''
+      owner:{
+        username: 'Roosh',
+        password: '',
+        email: ''
+      },
+      newPassword: '',
+      error:''
     }
   },
   components: {
     Header
   },
-  created: function () {
-    this.username = 'Mark'
-    this.password = 'password'
-    this.email = 'email'
+  mounted: function () {
+    // this.username = 'Mark'
+    // this.password = 'password'
+    // this.email = 'email'
+    this.getOwner()
   },
   methods: {
     handleOk(bvModalEvt) {
@@ -61,12 +77,33 @@ export default {
       this.handleSubmit()
     },
     handleSubmit() {
-      this.password=this.newPassword
+      AXIOS.put('/update_owner?username='.concat(this.owner.username,"&password=", this.newPassword))
+        .then((response) =>{
+          this.owner = response.data
+        }).catch(e => {
+        this.error = "Cant be empty Password" /* <-- this */
+      });
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing')
       })
+    },
+    getOwner: function(){
+      AXIOS.get('/owner?username='.concat(this.owner.username))
+        .then((response) =>{
+          this.owner= response.data
+        });
+    },
+    setAlert: function () {
+      return this.error !== ""
     }
+    // ,
+    // createOwner: function (){
+    //   AXIOS.post("/owner?username=Roosh&email=roosh@mail.com&password=1aq2w3",{},{})
+    //     .then(response => {
+    //       console.log(response.data)
+    //     })
+    // }
   }
 }
 </script>
@@ -86,5 +123,13 @@ export default {
 .btn{
   margin-top: 60px;
 }
-
+#username{
+  margin-right: 7%;
+}
+#email{
+  margin-right: 17%;
+}
+#password{
+  margin-right: 14%;
+}
 </style>

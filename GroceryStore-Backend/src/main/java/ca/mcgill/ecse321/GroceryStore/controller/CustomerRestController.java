@@ -40,8 +40,13 @@ public class CustomerRestController {
         }
     }
     @GetMapping(value = { "/customer/{username}", "/customer/{username}/" })
-    public CustomerDTO getCustomerByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
-        return convertToDto(service.getCustomer(username));
+    public ResponseEntity<Object> getCustomerByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
+        try {
+            return ResponseEntity.ok(convertToDto(service.getCustomer(username)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
+
     }
     @GetMapping(value = {"/customer_login", "/customer_login/"})
     public ResponseEntity<Object> loginCustomer(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
