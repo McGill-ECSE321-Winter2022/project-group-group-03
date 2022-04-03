@@ -210,33 +210,35 @@ export default {
 
 <style>
 #HolidaySearchTextButton{
-  margin-top: 100px;
-  margin-left: 500px;
+  margin-top: 7%;
+  /*margin-top: 100px;*/
+  margin-left: 32.5%;
+  width: 105%
 }
 #search{
-  margin-right: 20px;
+  margin-right: 5%;
 }
 #create{
-  margin-right: 20px;
+  margin-right: 5%;
 }
 
 #update{
-  margin-right: 20px;
+  margin-right: 5%;
 }
 #delete{
-  margin-right: 20px;
+  margin-right: 5%;
 
 }
 #Name{
-  margin-bottom: 20px;
+  margin-bottom: 5%;
   width: 27%;
 }
 #startDateText {
-  margin-bottom: 20px;
+  margin-bottom: 5%;
   width: 60%;
 }
 #endDateText {
-  margin-bottom: 20px;
+  margin-bottom: 5%;
   width: 60%;
 }
 #startDateButton{
@@ -247,11 +249,11 @@ export default {
 }
 
 #holidayInfo{
-  margin-top: 100px;
-  margin-left: 485px;
+  margin-top: 8%;
+  margin-left: 31.6%;
 }
 #Name{
-  margin-left: 15px;
+  margin-left: 1%;
   width: 38%;
 }
 .m-md-3 .dropdown-menu{
@@ -286,18 +288,18 @@ export default {
 }
 
 #viewAll{
-  margin-top: 30px;
-  margin-right: 305px;
+  margin-top: 6%;
+  margin-right: 73%;
   width: 20%;
 }
 #hideAll{
-  margin-top:20px;
-  margin-right: 195px;
+  margin-top:4%;
+  margin-right: 5%;
   alignment: center;
 }
 
 .tablestyle {
-  margin-top: 100px;
+  margin-top: 7%;
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 70%;
