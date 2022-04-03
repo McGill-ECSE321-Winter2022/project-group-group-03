@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     create: function (){
-      //customer login
+      //customer create
       console.log("here")
       console.log(this.create_accountType_entered)
       console.log(this.create_username_entered)
@@ -51,15 +51,15 @@ export default {
           })
           .catch((error) => {this.create_error = error.response.data/* <-- this */ });
       }
-      //employee login
-      if (this.login_accountType_entered==="Employee"){
+      //employee create
+      if (this.create_accountType_entered==="Employee"){
         AXIOS.post('/employee?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"&address=",this.create_address_entered))
           .then((response) => {
           })
           .catch(e => {this.create_error = error.response.data /* <-- this */ });
       }
-      //owner login
-      if (this.login_accountType_entered==="Owner"){
+      //owner create
+      if (this.create_accountType_entered==="Owner"){
         AXIOS.post('/owner?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"&address=",this.create_address_entered))
           .then((response) => {
           })
