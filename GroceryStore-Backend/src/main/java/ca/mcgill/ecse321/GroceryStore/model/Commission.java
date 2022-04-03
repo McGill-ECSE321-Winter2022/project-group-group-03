@@ -11,7 +11,7 @@ import java.util.*;
 //@MappedSuperclass
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Order
+public abstract class Commission
 {
 
   //------------------------
@@ -40,7 +40,7 @@ public abstract class Order
   //------------------------
 
 
-  public Order() {
+  public Commission() {
 
   }
 

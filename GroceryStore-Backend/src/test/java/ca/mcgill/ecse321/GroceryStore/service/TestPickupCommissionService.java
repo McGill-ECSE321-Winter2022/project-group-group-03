@@ -20,11 +20,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 @ExtendWith(MockitoExtension.class)
-public class TestPickupOrderService {
+public class TestPickupCommissionService {
     private int CONFIRMATION_NUMBER_KEY = 123;
     private String ITEM_NAME_KEY = "Cheesy Balls";
-    private PickupOrder.PaymentMethod PAYMENT_METHOD = PickupOrder.PaymentMethod.Cash;
-    private PickupOrder.PickupStatus PICKUP_STATUS = PickupOrder.PickupStatus.PickedUp;
+    private PickupCommission.PaymentMethod PAYMENT_METHOD = PickupCommission.PaymentMethod.Cash;
+    private PickupCommission.PickupStatus PICKUP_STATUS = PickupCommission.PickupStatus.PickedUp;
     private String USERNAME = "Seb";
     private int TOTAL_COST = 68;
 
@@ -38,8 +38,7 @@ public class TestPickupOrderService {
     private StoreRepository storeRepository;
     @Mock
     private StoreService storeService;
-    @Mock
-    private UserService userService;
+
 
     @InjectMocks
     private PickupOrderService pickupOrderService;
@@ -54,8 +53,8 @@ public class TestPickupOrderService {
 
         lenient().when(pickupOrderRepository.findByConfirmationNumber(any(int.class))).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(CONFIRMATION_NUMBER_KEY)) {
-                ArrayList<PickupOrder> pickupOrders = new ArrayList<PickupOrder>();
-                PickupOrder pickupOrder = new PickupOrder();
+                ArrayList<PickupCommission> pickupOrders = new ArrayList<PickupCommission>();
+                PickupCommission pickupOrder = new PickupCommission();
                 pickupOrder.setConfirmationNumber(CONFIRMATION_NUMBER_KEY);
                 pickupOrder.setPickupStatus(PICKUP_STATUS);
                 pickupOrder.setPaymentMethod(PAYMENT_METHOD);
@@ -84,7 +83,7 @@ public class TestPickupOrderService {
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
-        lenient().when(pickupOrderRepository.save(any(PickupOrder.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(pickupOrderRepository.save(any(PickupCommission.class))).thenAnswer(returnParameterAsAnswer);
     }
 
     //CREATE
@@ -93,7 +92,7 @@ public class TestPickupOrderService {
         assertEquals(0, pickupOrderService.getAllPickupOrders().size());
 
         int confirmationNumber = 70;
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
 
         try {
             pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),CONFIRMATION_NUMBER_KEY);
@@ -109,7 +108,7 @@ public class TestPickupOrderService {
         assertEquals(0, pickupOrderService.getAllPickupOrders().size());
 
         Integer confirmationNumber = null;
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
         try {
@@ -126,7 +125,7 @@ public class TestPickupOrderService {
         assertEquals(0, pickupOrderService.getAllPickupOrders().size());
         int confirmationNumber = 0;
         String error = null;
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         try {
             pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),confirmationNumber);
         } catch (IllegalArgumentException e) {
@@ -143,7 +142,7 @@ public class TestPickupOrderService {
         assertEquals(0, pickupOrderService.getAllPickupOrders().size());
         int confirmationNumber = -5;
         String error = null;
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         try {
             pickupOrder = pickupOrderService.createPickupOrder(USERNAME,PAYMENT_METHOD.name(),confirmationNumber);
         } catch (IllegalArgumentException e) {
@@ -159,10 +158,10 @@ public class TestPickupOrderService {
     public void testCreateDuplicatePickupOrderID() {
         assertEquals(0, pickupOrderService.getAllPickupOrders().size());
         int confirmationNumber = 42;
-        PickupOrder pickupOrder1 = null;
-        PickupOrder pickupOrder2 = null;
+        PickupCommission pickupOrder1 = null;
+        PickupCommission pickupOrder2 = null;
         String error = null;
-        ArrayList<PickupOrder> POs = new ArrayList<>();
+        ArrayList<PickupCommission> POs = new ArrayList<>();
         when(pickupOrderRepository.findAll()).thenReturn(POs);
 
         try {
@@ -181,8 +180,8 @@ public class TestPickupOrderService {
     @Test
     public void testGetAllPickupOrder(){
         String error = null;
-        List<PickupOrder> pickupOrders = new ArrayList<>();
-        PickupOrder pickupOrder = null;
+        List<PickupCommission> pickupOrders = new ArrayList<>();
+        PickupCommission pickupOrder = null;
         int confirmationNumber = 100;
         when(pickupOrderRepository.findAll()).thenReturn(pickupOrders);
 
@@ -213,7 +212,7 @@ public class TestPickupOrderService {
 
     @Test
     public void testDeletePickupOrderInvalidID() {
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
         try {
             pickupOrderService.deletePickupOrder(4933);
@@ -226,7 +225,7 @@ public class TestPickupOrderService {
 
     @Test
     public void testDeletePickupOrderIDZero() {
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
         try {
             pickupOrderService.deletePickupOrder(0);
@@ -239,7 +238,7 @@ public class TestPickupOrderService {
 
     @Test
     public void testDeletePickupOrderIDNegative() {
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
         try {
             pickupOrderService.deletePickupOrder(-10);
@@ -251,7 +250,7 @@ public class TestPickupOrderService {
     }
     @Test
     public void testGetPickupOrderByConfirmationNumber() {
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
         try {
@@ -267,7 +266,7 @@ public class TestPickupOrderService {
     //GET
     @Test
     public void testGetPickupOrderDoesNotExist() {
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
         try{
@@ -280,7 +279,7 @@ public class TestPickupOrderService {
     }
     @Test
     public void testGetPickupOrderNullInteger() {
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
         try{
@@ -295,7 +294,7 @@ public class TestPickupOrderService {
 
     @Test
     public void testGetPickupOrderZEROInteger() {
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
         try{
@@ -310,7 +309,7 @@ public class TestPickupOrderService {
 
     @Test
     public void testGetPickupOrderNegativeInteger() {
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
         try{
@@ -325,7 +324,7 @@ public class TestPickupOrderService {
 
     @Test
     public void updatePickupStatusNullConfirmationNumber(){
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
         Integer confirmationNumber = null;
 
@@ -340,7 +339,7 @@ public class TestPickupOrderService {
     }
     @Test
     public void updatePickupStatusConfirmationNumberZero(){
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
 
@@ -355,7 +354,7 @@ public class TestPickupOrderService {
     }
     @Test
     public void updatePickupStatusConfirmationNumberNegative(){
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
 
@@ -370,7 +369,7 @@ public class TestPickupOrderService {
     }
     @Test
     public void updatePickupStatusInvalidStatus(){
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
         try{
@@ -384,7 +383,7 @@ public class TestPickupOrderService {
     }
     @Test
     public void updatePickupPaymentNullConfirmationNumber(){
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
         Integer confirmationNumber = null;
 
@@ -399,7 +398,7 @@ public class TestPickupOrderService {
     }
     @Test
     public void updatePickupPaymentConfirmationNumberZero(){
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
         try{
@@ -413,7 +412,7 @@ public class TestPickupOrderService {
     }
     @Test
     public void updatePickupPaymentConfirmationNumberNegative(){
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
 
@@ -428,7 +427,7 @@ public class TestPickupOrderService {
     }
     @Test
     public void updatePickupPaymentInvalidPaymentMethod(){
-        PickupOrder pickupOrder = null;
+        PickupCommission pickupOrder = null;
         String error = null;
 
         try{

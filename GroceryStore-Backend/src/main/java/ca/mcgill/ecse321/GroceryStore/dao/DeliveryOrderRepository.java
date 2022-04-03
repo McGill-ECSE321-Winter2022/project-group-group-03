@@ -1,11 +1,10 @@
 package ca.mcgill.ecse321.GroceryStore.dao;
 
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import org.springframework.data.repository.CrudRepository;
 
-import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
+public interface DeliveryOrderRepository extends CrudRepository<DeliveryCommission, Integer>{
 
-public interface DeliveryOrderRepository extends CrudRepository<DeliveryOrder, Integer>{
-
-    DeliveryOrder findDeliveryOrderByConfirmationNumber(Integer confirmationNumber);
+    DeliveryCommission findDeliveryOrderByConfirmationNumber(Integer confirmationNumber);
 
 }

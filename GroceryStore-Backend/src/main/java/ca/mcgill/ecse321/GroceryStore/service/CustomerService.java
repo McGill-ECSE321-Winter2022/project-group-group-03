@@ -87,17 +87,17 @@ public class CustomerService {
     }
 
     @Transactional
-    public Order getCustomerOrder(String username){
-        List<Order> o = getCustomerOrders(username);
-        for (Order order : o){
+    public Commission getCustomerOrder(String username){
+        List<Commission> o = getCustomerOrders(username);
+        for (Commission commission : o){
             String s = "";
-            if (order instanceof PickupOrder){
-                s =  ((PickupOrder) order).getPickupStatusFullName();
+            if (commission instanceof PickupCommission){
+                s =  ((PickupCommission) commission).getPickupStatusFullName();
             }
-            else if (order instanceof DeliveryOrder){
-                s= ((DeliveryOrder) order).getShippingStatusFullName();
+            else if (commission instanceof DeliveryCommission){
+                s= ((DeliveryCommission) commission).getShippingStatusFullName();
             }
-            if (s.equals("InCart")) return order;
+            if (s.equals("InCart")) return commission;
         }
         throw new IllegalArgumentException("This Employee has no Orders in cart");
     }
@@ -114,9 +114,9 @@ public class CustomerService {
     }
 
     @Transactional
-    public void addOrder(String username, Order order){
+    public void addOrder(String username, Commission commission){
         Customer c = getCustomer(username);
-        c.getOrder().add(order);
+        c.getOrder().add(commission);
     }
 
     @Transactional
@@ -144,16 +144,16 @@ public class CustomerService {
         return customer;
     }
     @Transactional
-    public List<Order> getCustomerOrders(String aUsername){
+    public List<Commission> getCustomerOrders(String aUsername){
         if(!customerRepository.existsById(aUsername))
             throw new IllegalArgumentException("Customer does not currently exist in system.");
         return customerRepository.findCustomerByUsername(aUsername).getOrder();
     }
     @Transactional
-    public Customer setCustomerOrders(String aUsername, List<Order> orders){
+    public Customer setCustomerOrders(String aUsername, List<Commission> commissions){
         if(!customerRepository.existsById(aUsername))
             throw new IllegalArgumentException("Customer does not currently exist in system.");
-        customerRepository.findCustomerByUsername(aUsername).setOrder(orders);
+        customerRepository.findCustomerByUsername(aUsername).setOrder(commissions);
         return customerRepository.findCustomerByUsername(aUsername);
     }
 

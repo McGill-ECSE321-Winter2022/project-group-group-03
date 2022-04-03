@@ -2,7 +2,7 @@ package ca.mcgill.ecse321.GroceryStore.controller;
 
 
 import ca.mcgill.ecse321.GroceryStore.dto.OrderDTO;
-import ca.mcgill.ecse321.GroceryStore.model.Order;
+import ca.mcgill.ecse321.GroceryStore.model.Commission;
 import ca.mcgill.ecse321.GroceryStore.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,11 +22,11 @@ public class OrderRestController {
     @GetMapping(value = {"/order", "/order/"})
     public List<OrderDTO> getHolidays() throws IllegalArgumentException {
         List<OrderDTO> orderDTOS = new ArrayList<>();
-        for (Order order : orderService.getAllOrders()) orderDTOS.add(convertToDto(order));
+        for (Commission commission : orderService.getAllOrders()) orderDTOS.add(convertToDto(commission));
         return orderDTOS;
     }
 
-    private OrderDTO convertToDto(Order o) {
+    private OrderDTO convertToDto(Commission o) {
         if (o == null) {
             throw new IllegalArgumentException("There is no such Order!");
         }

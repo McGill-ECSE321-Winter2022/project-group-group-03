@@ -3,8 +3,8 @@ package ca.mcgill.ecse321.GroceryStore.controller;
 import ca.mcgill.ecse321.GroceryStore.dto.EmployeeDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.OrderDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.WorkShiftDTO;
+import ca.mcgill.ecse321.GroceryStore.model.Commission;
 import ca.mcgill.ecse321.GroceryStore.model.Employee;
-import ca.mcgill.ecse321.GroceryStore.model.Order;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
 
@@ -101,7 +101,7 @@ public class EmployeeRestController {
         if (e.getOrder() == null) employeeDTO.setOrders(null);
         else {
             List<OrderDTO> orderDTOS = new ArrayList<>();
-            for (Order o : e.getOrder()) orderDTOS.add(convertToDto(o));
+            for (Commission o : e.getOrder()) orderDTOS.add(convertToDto(o));
             employeeDTO.setOrders(orderDTOS);
         }
         if (e.getWorkShift()==null)employeeDTO.setWorkShifts(null);
@@ -113,7 +113,7 @@ public class EmployeeRestController {
         return employeeDTO;
     }
 
-    private OrderDTO convertToDto(Order o) {
+    private OrderDTO convertToDto(Commission o) {
         if (o == null) {
             throw new IllegalArgumentException("There is no such Order!");
         }
@@ -149,11 +149,11 @@ public class EmployeeRestController {
 
     private List<OrderDTO> createOrderDtosForEmployee(Employee e) {
         if (e == null) throw new IllegalArgumentException("There is no such Employee.");
-        List<Order> ordersForEmployee = service.getEmployeeOrders(e.getUsername());
-        List<OrderDTO> orders = new ArrayList<>();
-        for (Order order : ordersForEmployee) {
-            orders.add(convertToDto(order));
+        List<Commission> ordersForEmployee = service.getEmployeeOrders(e.getUsername());
+        List<OrderDTO> commissions = new ArrayList<>();
+        for (Commission commission : ordersForEmployee) {
+            commissions.add(convertToDto(commission));
         }
-        return orders;
+        return commissions;
     }
 }

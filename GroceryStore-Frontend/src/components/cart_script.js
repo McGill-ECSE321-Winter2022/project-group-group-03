@@ -96,7 +96,7 @@ var AXIOS = axios.create({
 
           if (bool === false) {
             console.log(sessionStorage)
-            AXIOS.post("pickupOrder?username=".concat(sessionStorage.username,"&paymentMethod=Cash"), {},{})
+            AXIOS.post("pickupOrder?username=".concat(sessionStorage.username,"&paymentMethod=Cash&accountType=",sessionStorage.accountType), {},{})
               .then((response) => {
                 this.response = response.data;
                 console.log(this.response)

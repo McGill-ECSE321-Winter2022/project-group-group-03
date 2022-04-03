@@ -1,7 +1,7 @@
 package ca.mcgill.ecse321.GroceryStore.controller;
 
 import ca.mcgill.ecse321.GroceryStore.dto.PickupOrderDTO;
-import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
+import ca.mcgill.ecse321.GroceryStore.model.PickupCommission;
 import ca.mcgill.ecse321.GroceryStore.service.PickupOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +17,8 @@ public class PickupOrderRestController {
 
     @PostMapping(value = { "/pickupOrder", "/pickupOrder/" })
     public PickupOrderDTO createPickupOrder(@RequestParam String username, @RequestParam String paymentMethod,
-                                                @RequestParam int confirmationNumber) throws IllegalArgumentException {
-        return convertToDto(service.createPickupOrder(username, paymentMethod, confirmationNumber));
+                                                @RequestParam String accountType) throws IllegalArgumentException {
+        return convertToDto(service.createPickupOrder(username, paymentMethod, accountType));
     }
 
     @GetMapping(value = {"/pickupOrder","/pickupOrder/"})
@@ -48,7 +48,7 @@ public class PickupOrderRestController {
     public void deletePickupOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {
         service.deletePickupOrder(confirmationNumber);
     }
-    private PickupOrderDTO convertToDto(PickupOrder aPickupOrder) {
+    private PickupOrderDTO convertToDto(PickupCommission aPickupOrder) {
         if (aPickupOrder == null) throw new IllegalArgumentException("There is no such Pickup Order!");
         return new PickupOrderDTO(aPickupOrder.getPaymentMethod().name(), aPickupOrder.getPickupStatus().name(), aPickupOrder.getConfirmationNumber(),aPickupOrder.getTotalCost());
     }

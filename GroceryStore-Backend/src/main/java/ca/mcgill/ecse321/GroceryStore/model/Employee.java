@@ -2,7 +2,6 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.GroceryStore.model;
-import ca.mcgill.ecse321.GroceryStore.model.Employee;
 
 import javax.persistence.*;
 import java.util.*;
@@ -45,7 +44,7 @@ public class Employee
 
   @OneToMany
   @JoinColumn(name = "employee_confirmationNumber", unique = true)
-  private List<Order> order;
+  private List<Commission> commission;
 
 
 //------------------------
@@ -81,8 +80,8 @@ public class Employee
     address = aAddress;
   }
 
-  public void setOrder(List<Order> order) {
-    this.order = order;
+  public void setOrder(List<Commission> commission) {
+    this.commission = commission;
   }
 
   public String getUsername()
@@ -148,8 +147,8 @@ public class Employee
     this.workShift = workShift;
   }
 
-  public List<Order> getOrder() {
-    return order;
+  public List<Commission> getOrder() {
+    return commission;
   }
 
   public String toString()

@@ -35,7 +35,7 @@ public class Customer
 
   @OneToMany
   @JoinColumn(name = "customer_confirmationNumber")
-  private List<Order> order;
+  private List<Commission> commission;
 
   //------------------------
   // CONSTRUCTOR
@@ -59,8 +59,8 @@ public class Customer
     this.password=aPassword;
   }
 
-  public void setOrder(List<Order> order) {
-    this.order = order;
+  public void setOrder(List<Commission> commission) {
+    this.commission = commission;
   }
 
   public void setEmail(String aEmail)
@@ -94,8 +94,8 @@ public class Customer
     return address;
   }
 
-  public List<Order> getOrder() {
-    return order;
+  public List<Commission> getOrder() {
+    return commission;
   }
 
   public String toString()

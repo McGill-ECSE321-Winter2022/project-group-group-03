@@ -1,7 +1,7 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
-import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,9 +26,9 @@ public class DeliveryOrderService {
     CustomerService customerService;
 
     @Transactional
-    public DeliveryOrder createDeliveryOrder(String username, String shippingAddress, Integer confirmationNumber, boolean isOutOfTown){
-        DeliveryOrder newDeliveryOrder = new DeliveryOrder();
-        List<DeliveryOrder> deliveryOrders = this.getAllDeliveryOrders();
+    public DeliveryCommission createDeliveryOrder(String username, String shippingAddress, Integer confirmationNumber, boolean isOutOfTown){
+        DeliveryCommission newDeliveryOrder = new DeliveryCommission();
+        List<DeliveryCommission> deliveryOrders = this.getAllDeliveryOrders();
 
         if(shippingAddress == null || shippingAddress.equals("") || shippingAddress.equals(" ")) {
             throw new IllegalArgumentException("Shipping address can't be empty.");
@@ -41,7 +41,7 @@ public class DeliveryOrderService {
         }
 
         else if (deliveryOrders != null && deliveryOrders.size() != 0) {
-            for (DeliveryOrder d : deliveryOrders) {
+            for (DeliveryCommission d : deliveryOrders) {
                 if (d.getConfirmationNumber() == (confirmationNumber)) {
                     throw  new IllegalArgumentException("An identical delivery order with the same confirmation number already exists.");
                 }
@@ -51,14 +51,14 @@ public class DeliveryOrderService {
         newDeliveryOrder.setConfirmationNumber(confirmationNumber);
         newDeliveryOrder.setIsOutOfTown(isOutOfTown);
         newDeliveryOrder.setTotalCost(0);
-        newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.InCart);
+        newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.InCart);
 
         newDeliveryOrder.setStore(storeService.getStore());
         deliveryOrderRepository.save(newDeliveryOrder);
         return newDeliveryOrder;
     }
     @Transactional
-    public DeliveryOrder getDeliveryOrder(Integer confirmationNumber) {
+    public DeliveryCommission getDeliveryOrder(Integer confirmationNumber) {
         if (confirmationNumber == null) {
             throw new IllegalArgumentException("Confirmation number can't be empty.");
         }
@@ -72,9 +72,9 @@ public class DeliveryOrderService {
     }
 
     @Transactional
-    public List<DeliveryOrder> getAllDeliveryOrders() {
-        List<DeliveryOrder> deliveryOrders = new ArrayList<>();
-        for (DeliveryOrder deliveryOrder:deliveryOrderRepository.findAll() ) {
+    public List<DeliveryCommission> getAllDeliveryOrders() {
+        List<DeliveryCommission> deliveryOrders = new ArrayList<>();
+        for (DeliveryCommission deliveryOrder:deliveryOrderRepository.findAll() ) {
             deliveryOrders.add(deliveryOrder);
         }
 
@@ -98,12 +98,12 @@ public class DeliveryOrderService {
 
     @Transactional
     public void addPurchasedItemToDeliveryOrder(Integer confirmationNumber, PurchasedItem purchasedItem){
-        DeliveryOrder d = getDeliveryOrder(confirmationNumber);
+        DeliveryCommission d = getDeliveryOrder(confirmationNumber);
         d.getPurchasedItem().add(purchasedItem);
     }
 
     @Transactional
-    public DeliveryOrder setShippingStatus(Integer confirmationNumber, String shippingStatus) {
+    public DeliveryCommission setShippingStatus(Integer confirmationNumber, String shippingStatus) {
         if (confirmationNumber == null) {
             throw new IllegalArgumentException("Confirmation number can't be empty.");
         }
@@ -113,12 +113,12 @@ public class DeliveryOrderService {
         if(!deliveryOrderRepository.existsById(confirmationNumber)){
             throw new IllegalArgumentException("Delivery order doesn't exist.");
         }
-        DeliveryOrder newDeliveryOrder = deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(confirmationNumber);
+        DeliveryCommission newDeliveryOrder = deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(confirmationNumber);
         switch(shippingStatus){
-            case "InCart" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.InCart);
-            case "Ordered" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Ordered);
-            case "Prepared" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Prepared);
-            case "Delivered" -> newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.Delivered);
+            case "InCart" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.InCart);
+            case "Ordered" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.Ordered);
+            case "Prepared" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.Prepared);
+            case "Delivered" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.Delivered);
             default -> throw new IllegalArgumentException("Invalid shipping status");
         }
         if (newDeliveryOrder.getShippingStatus().name().equals("Ordered")) storeService.incrementActiveDelivery();
@@ -127,21 +127,21 @@ public class DeliveryOrderService {
     }
 
     @Transactional
-    public DeliveryOrder setShippingAddress(Integer current, String address){
+    public DeliveryCommission setShippingAddress(Integer current, String address){
         if (address == null || address.equals("") || address.equals(" ")) {
             throw new IllegalArgumentException("Address can't be empty.");
         }
         if(!deliveryOrderRepository.existsById(current)){
             throw new IllegalArgumentException("Delivery order doesn't exist.");
         }
-        DeliveryOrder order = getDeliveryOrder(current);
+        DeliveryCommission order = getDeliveryOrder(current);
         order.setShippingAddress(address);
         return order;
     }
 
 
     @Transactional
-    public DeliveryOrder updateTotalCost(Integer OrderId){
+    public DeliveryCommission updateTotalCost(Integer OrderId){
         if (OrderId == null) {
             throw new IllegalArgumentException("Confirmation number can't be empty.");
         }
@@ -156,8 +156,8 @@ public class DeliveryOrderService {
             totalCost += purchasedItem.getItemQuantity()*purchasedItem.getItem().getPrice();
         }
         if(deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId).isOutOfTown())
-            totalCost += DeliveryOrder.SHIPPINGFEE;
-        DeliveryOrder deliveryOrder = deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId);
+            totalCost += DeliveryCommission.SHIPPINGFEE;
+        DeliveryCommission deliveryOrder = deliveryOrderRepository.findDeliveryOrderByConfirmationNumber(OrderId);
         deliveryOrder.setTotalCost(totalCost);
         return deliveryOrder;
     }
@@ -165,8 +165,8 @@ public class DeliveryOrderService {
     private static int curID = 100000;
 
     @Transactional
-    public DeliveryOrder createDeliveryOrder(String username, String shippingAddress, String accountType, boolean isOutOfTown){
-        DeliveryOrder newDeliveryOrder = new DeliveryOrder();
+    public DeliveryCommission createDeliveryOrder(String username, String shippingAddress, String accountType, boolean isOutOfTown){
+        DeliveryCommission newDeliveryOrder = new DeliveryCommission();
 
         if(shippingAddress == null || shippingAddress.equals("") || shippingAddress.equals(" ")) {
             throw new IllegalArgumentException("Shipping address can't be empty.");
@@ -178,7 +178,7 @@ public class DeliveryOrderService {
         newDeliveryOrder.setConfirmationNumber(curID);
         newDeliveryOrder.setIsOutOfTown(isOutOfTown);
         newDeliveryOrder.setTotalCost(0);
-        newDeliveryOrder.setShippingStatus(DeliveryOrder.ShippingStatus.InCart);
+        newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.InCart);
 
         newDeliveryOrder.setStore(storeService.getStore());
         if (accountType.equals("Customer")) customerService.addOrder(username, newDeliveryOrder);

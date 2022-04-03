@@ -67,17 +67,17 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Order getEmployeeOrder(String username){
-        List<Order> o = getEmployeeOrders(username);
-        for (Order order : o){
+    public Commission getEmployeeOrder(String username){
+        List<Commission> o = getEmployeeOrders(username);
+        for (Commission commission : o){
             String s = "";
-            if (order instanceof PickupOrder){
-                s =  ((PickupOrder) order).getPickupStatusFullName();
+            if (commission instanceof PickupCommission){
+                s =  ((PickupCommission) commission).getPickupStatusFullName();
             }
-            else if (order instanceof DeliveryOrder){
-                s= ((DeliveryOrder) order).getShippingStatusFullName();
+            else if (commission instanceof DeliveryCommission){
+                s= ((DeliveryCommission) commission).getShippingStatusFullName();
             }
-            if (s.equals("InCart")) return order;
+            if (s.equals("InCart")) return commission;
         }
         throw new IllegalArgumentException("This Employee has no Orders in cart");
     }
@@ -146,13 +146,13 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void addOrder(String username, Order order){
+    public void addOrder(String username, Commission commission){
         Employee e = getEmployee(username);
-        e.getOrder().add(order);
+        e.getOrder().add(commission);
     }
 
     @Transactional
-    public List<Order> getEmployeeOrders(String aUsername){
+    public List<Commission> getEmployeeOrders(String aUsername){
         return getEmployee(aUsername).getOrder();
     }
 
