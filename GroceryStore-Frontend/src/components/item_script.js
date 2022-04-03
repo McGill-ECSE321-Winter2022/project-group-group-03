@@ -1,5 +1,6 @@
 import Header from "./EmployeeNav"
 import axios from 'axios'
+import Cart_script from "./cart_script"
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -36,7 +37,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    Cart_script
   },
   created() {
     this.getItems();
@@ -53,6 +55,14 @@ export default {
     }
     },
   methods: {
+    addToCart: function(itemName){
+      console.log(Cart_script)
+      Cart_script.methods.getOrder()
+      let objIndex = this.items.findIndex((item => item.name == itemName));
+      console.log('/purchased_item?item='.concat(this.items[objIndex].item.name,"&aItemQuantity=",this.items[objIndex].item.counter,"&confirmationNumber=", Cart_script.confirmationNumber))
+      AXIOS.post('/purchased_item?item='.concat(this.items[objIndex].item.name,"&aItemQuantity=",this.items[objIndex].item.counter,"&confirmationNumber=", Cart_script.confirmationNumber))
+      // Cart_script.getItems()
+    },
     getItems: function(){
       console.log("getting items");
       this.items.length = 0;
@@ -105,14 +115,14 @@ export default {
     },
     up: function (itemName){
       let objIndex = this.items.findIndex((item => item.name == itemName));
-      if (this.items[objIndex].counter < this.items[objIndex].stock){
-        this.items[objIndex].counter += 1
+      if (this.items[objIndex].item.counter < this.items[objIndex].item.stock){
+        this.items[objIndex].item.counter += 1
       }
     },
     down: function (itemName){
       let objIndex = this.items.findIndex((item => item.name == itemName));
-      if (this.items[objIndex].counter > 0){
-        this.items[objIndex].counter -= 1
+      if (this.items[objIndex].item.counter > 0){
+        this.items[objIndex].item.counter -= 1
       }
     }
   }

@@ -42,7 +42,7 @@
             {{item.item.counter}}
             <button class="w3-button" @click="up(item.item.name)" style="background:white; margin-left: 5%">+</button>
           </h5>
-          <button class="button" v-bind:disabled="!item.item.purchasable" style="background:white">Add to Cart</button>
+          <button class="button" v-bind:disabled="!item.item.purchasable" @click="addToCart(item.item.name)" style="background:white">Add to Cart</button>
         </h5>
       </div>
     </div>

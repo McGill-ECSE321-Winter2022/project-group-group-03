@@ -1,7 +1,7 @@
 
 import Header from "./EmployeeNav"
 import Nav from "./OwnerNav"
-import Login from "./Login_Script"
+import Login from "./login_script"
 
 import axios from 'axios'
 var config = require('../../config')
@@ -26,6 +26,7 @@ var AXIOS = axios.create({
         return {
           price: 0,
           purchasedItemList: [],
+          confirmationNumber: 0
         }
       },
       components: {
@@ -45,8 +46,10 @@ var AXIOS = axios.create({
                   this.items.push({name: this.response[item].name, item: i});
                   console.log(i);
                 }
+
               });
           }
+          //TODO: add to concat
           if (Login.login_accountType === "Employee") {
             AXIOS.get('/item'.concat(), {responseType: "json"})
               .then((response) => {
@@ -69,7 +72,9 @@ var AXIOS = axios.create({
         },
 
         getOrder: function () {
-          AXIOS.get('/'.concat(Login.login_accountType, "_order/", Login.login_username), {responseType: "json"})
+          console.log(Login)
+          console.log('/'.concat(Login.data.login_accountType, "_order/", Login.data.login_username))
+          AXIOS.get('/'.concat(Login.data.login_accountType, "_order/", Login.data.login_username), {responseType: "json"})
             .then((response) => {
               this.response = response.data;
               let list = this.response.purchasedItem
@@ -77,6 +82,7 @@ var AXIOS = axios.create({
                 this.purchasedItemList.push(new PurchasedItemDTO(purchasedItem.item, purchasedItem.aItemQuantity, purchasedItem.aPurchasedItemID))
               }
               this.price = this.response.totalCost
+              this.confirmationNumber = this.response.confirmationNumber
               }
             )
         },
