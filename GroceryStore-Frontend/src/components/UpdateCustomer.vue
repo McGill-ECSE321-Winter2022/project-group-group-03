@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import Header from "./Header";
+import Header from "./EmployeeNav"
 import axios from 'axios'
 var config = require('../../config')
 
