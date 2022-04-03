@@ -289,7 +289,7 @@ export default {
 
 #viewAll{
   margin-top: 6%;
-  margin-right: 73%;
+  margin-right: 26%;
   width: 20%;
 }
 #hideAll{
