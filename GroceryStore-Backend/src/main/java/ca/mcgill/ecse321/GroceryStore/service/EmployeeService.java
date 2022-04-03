@@ -61,6 +61,8 @@ public class EmployeeService {
         newEmployee.setPassword(aPassword);
         newEmployee.setAddress(aAddress);
         newEmployee.setWorkingStatus(Employee.WorkingStatus.Hired);
+        newEmployee.setOrder(new ArrayList<>());
+        newEmployee.setWorkShift(new ArrayList<>());
         storeService.addEmployee(newEmployee);
         employeeRepository.save(newEmployee);
         return newEmployee;
@@ -148,7 +150,9 @@ public class EmployeeService {
     @Transactional
     public void addOrder(String username, Commission commission){
         Employee e = getEmployee(username);
-        e.getOrder().add(commission);
+        List<Commission> s = e.getOrder();
+        s.add(commission);
+        e.setOrder(s);
     }
 
     @Transactional

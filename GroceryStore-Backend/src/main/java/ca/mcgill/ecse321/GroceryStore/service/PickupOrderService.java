@@ -186,8 +186,8 @@ public class PickupOrderService {
         }
         newPickupOrder.setPickupStatus(PickupCommission.PickupStatus.InCart);
         newPickupOrder.setStore(storeService.getStore());
-        if (accountType.equals("Customer")) customerService.addOrder(username, newPickupOrder);
-        else if (accountType.equals("Employee")) employeeService.addOrder(username, newPickupOrder);
+//        if (accountType.equals("Customer")) customerService.addOrder(username, newPickupOrder);
+//        else if (accountType.equals("Employee")) employeeService.addOrder(username, newPickupOrder);
         pickupOrderRepository.save(newPickupOrder);
         return newPickupOrder;
     }

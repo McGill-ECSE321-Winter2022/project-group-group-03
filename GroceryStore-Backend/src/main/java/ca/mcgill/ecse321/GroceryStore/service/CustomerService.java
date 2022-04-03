@@ -6,6 +6,8 @@ import ca.mcgill.ecse321.GroceryStore.dao.OwnerRepository;
 import ca.mcgill.ecse321.GroceryStore.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.ArrayUtils;
+
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,7 @@ public class CustomerService {
         newCustomer.setEmail(aEmail);
         newCustomer.setPassword(aPassword);
         newCustomer.setUsername(aUsername);
+        newCustomer.setOrder(new ArrayList<>());
         customerRepository.save(newCustomer);
         return newCustomer;
     }
@@ -116,7 +119,15 @@ public class CustomerService {
     @Transactional
     public void addOrder(String username, Commission commission){
         Customer c = getCustomer(username);
-        c.getOrder().add(commission);
+        System.out.println("4");
+        List<Commission> s = c.getOrder();
+        System.out.println("5");
+        s.add(commission);
+        System.out.println("6");
+        c.setOrder(s);
+        System.out.println("7");
+        customerRepository.save(c);
+        System.out.println("8");
     }
 
     @Transactional

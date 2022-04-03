@@ -1,7 +1,6 @@
 
 import Header from "./EmployeeNav"
 import Nav from "./OwnerNav"
-import Login from "./login_script"
 
 import axios from 'axios'
 var config = require('../../config')
@@ -32,7 +31,7 @@ var AXIOS = axios.create({
         getItems: function () {
           console.log("getting items");
           sessionStorage.items.length = 0;
-          if (Login.login_accountType === "Customer") {
+          if (sessionStorage.accountType === "Customer") {
             AXIOS.get('/item'.concat(), {responseType: "json"})
               .then((response) => {
                 this.response = response.data;
@@ -45,7 +44,7 @@ var AXIOS = axios.create({
               });
           }
           //TODO: add to concat
-          if (Login.login_accountType === "Employee") {
+          if (sessionStorage.accountType === "Employee") {
             AXIOS.get('/item'.concat(), {responseType: "json"})
               .then((response) => {
                 this.response = response.data;

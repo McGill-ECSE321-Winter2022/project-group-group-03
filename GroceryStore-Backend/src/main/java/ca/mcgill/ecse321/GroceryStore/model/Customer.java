@@ -34,7 +34,7 @@ public class Customer
   //Customer Associations
 
   @OneToMany
-  @JoinColumn(name = "customer_confirmationNumber")
+  @JoinColumn
   private List<Commission> commission;
 
   //------------------------

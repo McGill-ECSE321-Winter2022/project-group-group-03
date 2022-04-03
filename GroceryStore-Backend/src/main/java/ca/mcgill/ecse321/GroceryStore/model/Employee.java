@@ -39,11 +39,11 @@ public class Employee
   //Employee Associations
 
   @OneToMany
-  @JoinColumn(name ="employee_shiftID")
+  @JoinColumn
   private List<WorkShift> workShift;
 
   @OneToMany
-  @JoinColumn(name = "employee_confirmationNumber", unique = true)
+  @JoinColumn
   private List<Commission> commission;
 
 

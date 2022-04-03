@@ -1,7 +1,10 @@
 package ca.mcgill.ecse321.GroceryStore.controller;
 
 import ca.mcgill.ecse321.GroceryStore.dto.PickupOrderDTO;
+import ca.mcgill.ecse321.GroceryStore.model.Employee;
 import ca.mcgill.ecse321.GroceryStore.model.PickupCommission;
+import ca.mcgill.ecse321.GroceryStore.service.CustomerService;
+import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
 import ca.mcgill.ecse321.GroceryStore.service.PickupOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +17,22 @@ import java.util.stream.Collectors;
 public class PickupOrderRestController {
     @Autowired
     private PickupOrderService service;
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private EmployeeService employeeService;
 
     @PostMapping(value = { "/pickupOrder", "/pickupOrder/" })
     public PickupOrderDTO createPickupOrder(@RequestParam String username, @RequestParam String paymentMethod,
                                                 @RequestParam String accountType) throws IllegalArgumentException {
-        return convertToDto(service.createPickupOrder(username, paymentMethod, accountType));
+        System.out.println("1");
+        PickupCommission p = service.createPickupOrder(username, paymentMethod, accountType);
+        System.out.println("2");
+        System.out.println(customerService.getCustomerOrders(username));
+        System.out.println("3");
+        if (accountType.equals("Customer")) customerService.addOrder(username ,p);
+        System.out.println("4");
+        return convertToDto(p);
     }
 
     @GetMapping(value = {"/pickupOrder","/pickupOrder/"})
