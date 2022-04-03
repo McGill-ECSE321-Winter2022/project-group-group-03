@@ -25,14 +25,7 @@ public class PickupOrderRestController {
     @PostMapping(value = { "/pickupOrder", "/pickupOrder/" })
     public PickupOrderDTO createPickupOrder(@RequestParam String username, @RequestParam String paymentMethod,
                                                 @RequestParam String accountType) throws IllegalArgumentException {
-        System.out.println("1");
-        PickupCommission p = service.createPickupOrder(username, paymentMethod, accountType);
-        System.out.println("2");
-        System.out.println(customerService.getCustomerOrders(username));
-        System.out.println("3");
-        if (accountType.equals("Customer")) customerService.addOrder(username ,p);
-        System.out.println("4");
-        return convertToDto(p);
+        return convertToDto(service.createPickupOrder(username, paymentMethod, accountType));
     }
 
     @GetMapping(value = {"/pickupOrder","/pickupOrder/"})

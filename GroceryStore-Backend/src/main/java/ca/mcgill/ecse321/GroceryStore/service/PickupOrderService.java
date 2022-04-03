@@ -186,8 +186,15 @@ public class PickupOrderService {
         }
         newPickupOrder.setPickupStatus(PickupCommission.PickupStatus.InCart);
         newPickupOrder.setStore(storeService.getStore());
-//        if (accountType.equals("Customer")) customerService.addOrder(username, newPickupOrder);
-//        else if (accountType.equals("Employee")) employeeService.addOrder(username, newPickupOrder);
+        pickupOrderRepository.save(newPickupOrder);
+        if (accountType.equals("Customer")) {
+            customerService.addOrder(username, newPickupOrder);
+            newPickupOrder.setCustomer(customerService.getCustomer(username));
+        }
+        else if (accountType.equals("Employee")){
+            employeeService.addOrder(username, newPickupOrder);
+            newPickupOrder.setEmployee(employeeService.getEmployee(username));
+        }
         pickupOrderRepository.save(newPickupOrder);
         return newPickupOrder;
     }

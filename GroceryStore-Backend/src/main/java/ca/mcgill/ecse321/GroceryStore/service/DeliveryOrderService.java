@@ -181,8 +181,14 @@ public class DeliveryOrderService {
         newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.InCart);
 
         newDeliveryOrder.setStore(storeService.getStore());
-        if (accountType.equals("Customer")) customerService.addOrder(username, newDeliveryOrder);
-        else if (accountType.equals("Employee")) employeeService.addOrder(username, newDeliveryOrder);
+        if (accountType.equals("Customer")){
+            customerService.addOrder(username, newDeliveryOrder);
+            newDeliveryOrder.setCustomer(customerService.getCustomer(username));
+        }
+        else if (accountType.equals("Employee")) {
+            employeeService.addOrder(username, newDeliveryOrder);
+            newDeliveryOrder.setEmployee(employeeService.getEmployee(username));
+        }
         deliveryOrderRepository.save(newDeliveryOrder);
         return newDeliveryOrder;
     }

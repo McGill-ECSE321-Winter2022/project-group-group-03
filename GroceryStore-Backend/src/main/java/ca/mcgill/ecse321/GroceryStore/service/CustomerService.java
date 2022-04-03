@@ -119,15 +119,10 @@ public class CustomerService {
     @Transactional
     public void addOrder(String username, Commission commission){
         Customer c = getCustomer(username);
-        System.out.println("4");
         List<Commission> s = c.getOrder();
-        System.out.println("5");
         s.add(commission);
-        System.out.println("6");
         c.setOrder(s);
-        System.out.println("7");
         customerRepository.save(c);
-        System.out.println("8");
     }
 
     @Transactional

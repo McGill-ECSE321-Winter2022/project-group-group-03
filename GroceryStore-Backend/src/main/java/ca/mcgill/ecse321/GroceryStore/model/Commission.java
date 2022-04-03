@@ -21,7 +21,6 @@ public abstract class Commission
   //Order Attributes
 
   @Id
-  //@GeneratedValue(strategy = GenerationType.TABLE)
   private int confirmationNumber;
   private int totalCost;
 
@@ -34,6 +33,30 @@ public abstract class Commission
   @OneToMany
   @JoinColumn(name = "order_purchasedItemID")
   private List<PurchasedItem> purchasedItem;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "customer_username")
+  private Customer customer;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "employee_username")
+  private Employee employee;
+
+  public Employee getEmployee() {
+        return employee;
+  }
+
+  public void setEmployee(Employee employee) {
+        this.employee = employee;
+  }
+
+  public Customer getCustomer() {
+        return customer;
+  }
+
+  public void setCustomer(Customer customer) {
+        this.customer = customer;
+  }
 
 //------------------------
   // CONSTRUCTOR

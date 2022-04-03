@@ -42,10 +42,8 @@ public class Employee
   @JoinColumn
   private List<WorkShift> workShift;
 
-  @OneToMany
-  @JoinColumn
-  private List<Commission> commission;
-
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee")
+  private List<Commission> commissions = new ArrayList<>();
 
 //------------------------
   // CONSTRUCTOR
@@ -81,7 +79,7 @@ public class Employee
   }
 
   public void setOrder(List<Commission> commission) {
-    this.commission = commission;
+    this.commissions = commission;
   }
 
   public String getUsername()
@@ -148,7 +146,7 @@ public class Employee
   }
 
   public List<Commission> getOrder() {
-    return commission;
+    return commissions;
   }
 
   public String toString()
