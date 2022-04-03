@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import Header from "./EmployeeNav"
+import Header from "./OwnerNav"
 
 import axios from 'axios'
 var config = require('../../config')
