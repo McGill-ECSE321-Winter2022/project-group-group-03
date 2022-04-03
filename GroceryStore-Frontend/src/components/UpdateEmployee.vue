@@ -2,13 +2,16 @@
   <div>
     <Header/>
     <h1 id="title">My Employee Profile</h1>
-    <p class="form">Username: {{this.username}}</p>
-    <p class="form">Email: {{this.email}}</p>
-    <p class="form">Address: {{this.address}} </p>
-    <p class="form">Password: {{this.password}}</p>
-    <p class="form">Working Status:{{this.workingStatus}}</p>
+    <p id="username" class="form">Username: {{this.employee.username}}</p>
+    <p id="email" class="form">Email: {{this.employee.email}}</p>
+    <p id="address" class="form">Address: {{this.employee.address}} </p>
+    <p id="password" class="form">Password: {{this.employee.password}}</p>
+    <p id="work" class="form">Working Status:{{this.employee.workingStatus}}</p>
     <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
     <b-button v-b-modal.modal-prevent-closing2 class="btn">Update Address</b-button>
+    <br>
+    <br>
+    <b-alert :show="setAlert()" dismissible variant="danger">{{error}}</b-alert>
     <b-modal
       id="modal-prevent-closing"
       ref="modal"
@@ -42,12 +45,25 @@
         </b-form-group>
       </form>
     </b-modal>
+
   </div>
 
 </template>
 
 <script>
 import Header from "./EmployeeNav"
+
+import axios from 'axios'
+var config = require('../../config')
+
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+
+var AXIOS = axios.create({
+  baseURL: backendUrl,
+  headers: { 'Access-Control-Allow-Origin': frontendUrl }
+})
+
 
 function EmployeeDTO(username,password,email,address,workingStatus){
   this.username = username
@@ -60,24 +76,28 @@ export default {
   name: "UpdateEmployee",
   data() {
     return {
-      username: '',
-      password: '',
-      email: '',
-      address: '',
-      workingStatus: '',
+      employee: {
+        username: 'Jeet',
+        password: '',
+        email: '',
+        address: '',
+        workingStatus: '',
+      },
       newPassword: '',
-      newAddress: ''
+      newAddress: '',
+      error:''
     }
   },
   components: {
     Header
   },
-  created: function () {
-    this.username = 'Mark'
-    this.password = 'password'
-    this.email = 'email'
-    this.address = '998 rue Address'
-    this.workingStatus = 'Hired'
+  mounted: function () {
+    this.getEmployee()
+    // this.username = 'Mark'
+    // this.password = 'password'
+    // this.email = 'email'
+    // this.address = '998 rue Address'
+    // this.workingStatus = 'Hired'
   },
   methods: {
     handleOk(bvModalEvt) {
@@ -93,19 +113,46 @@ export default {
       this.handleSubmitAddress()
     },
     handleSubmit() {
-      this.password=this.newPassword
       // Hide the modal manually
+      AXIOS.put('/update_employee_password?username='.concat(this.employee.username,"&password=", this.newPassword))
+        .then((response) =>{
+          this.employee = response.data
+        }).catch(e => {
+        this.error = "Cant be empty Password" /* <-- this */
+      });
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing')
       })
     },
     handleSubmitAddress(){
-      this.address=this.newAddress
+      AXIOS.put('/update_employee_address?username='.concat(this.employee.username,"&address=", this.newAddress))
+        .then((response) =>{
+          this.employee = response.data
+        })
+        .catch(e => {
+        this.error = "Cant be empty Address" /* <-- this */
+      });
       // Hide the modal manually
       this.$nextTick(() => {
-        this.$bvModal.hide('modal-prevent-closing')
+        this.$bvModal.hide('modal-prevent-closing2')
       })
+    },
+    getEmployee: function(){
+      AXIOS.get('/employee?username='.concat(this.employee.username))
+        .then((response) =>{
+          this.employee= response.data
+        });
+    },
+    setAlert: function () {
+      return this.error !== ""
     }
+    // ,
+    // createEmployee: function (){
+    //   AXIOS.post("/employee?username=Jeet&email=jeetjeet@mail.com&password=1aq2w3&address=69420 jeet street",{},{})
+    //     .then(response => {
+    //       console.log(response.data)
+    //     })
+    // }
   }
 }
 </script>
@@ -124,6 +171,21 @@ export default {
 }
 .btn{
   margin-top: 60px;
+}
+#username{
+  margin-right: 9%;
+}
+#email{
+  margin-right: 17%;
+}
+#address{
+  margin-right: 15%;
+}
+#password{
+  margin-right: 14%;
+}
+#work{
+  margin-right: 9%;
 }
 
 </style>

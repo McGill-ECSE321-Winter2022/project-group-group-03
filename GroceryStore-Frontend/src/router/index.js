@@ -28,6 +28,11 @@ export default new Router({
       name: 'Login',
       component: Login,
     },
+   {
+	      path: '/Items',
+	      name: 'Items',
+	      component: Items
+	    },
     {
       path: '/Items',
       name: 'Items',
