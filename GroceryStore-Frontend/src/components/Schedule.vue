@@ -26,7 +26,7 @@
 <style>
 
 #title{
-  margin-top: 50px;
+  margin-top: 5%;
 }
 .tablestyle {
   margin-top: 100px;
