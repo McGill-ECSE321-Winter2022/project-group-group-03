@@ -6,7 +6,8 @@ import SignUp from "@/components/SignUp";
 import OwnerBH from "@/components/OwnerBH";
 import OwnerItem from "../components/OwnerItem";
 import OwnerHoliday from "../components/OwnerHoliday";
-import OwnerEmployee from "@/components/OwnerEmployee";
+import OwnerEmployee from "../components/OwnerEmployee.vue";
+
 
 
 Vue.use(Router)

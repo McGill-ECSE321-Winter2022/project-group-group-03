@@ -25,7 +25,7 @@ function EmployeeDTO (username, password, email, address,workingStatus) {
   this.workingStatus = workingStatus
 }
 export default {
-  name: 'Schedule',
+  name: 'OwnerEmployee',
   data() {
     return {
       startTime: '',
