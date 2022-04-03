@@ -5,12 +5,13 @@
       <div id="searchRow" class="row-12">
         <div class="row g-3">
           <div class="col">
-            <input type="text" class="form-control" placeholder="Search Holiday" aria-label="Search Holiday">
+            <input type="text" class="form-control" placeholder="Search Holiday" v-model="searchName" aria-label="Search Holiday">
           </div>
           <div class="col">
-            <button type="button" id=search class="btn btn-danger">Search</button>
-            <button type="button" id=create class="btn btn-danger">Create</button>
-            <button type="button" id=update class="btn btn-danger">Update</button>
+            <button type="button" id=search class="btn btn-danger" @click="searchHoliday(searchName)">Search</button>
+            <button type="button" id=create class="btn btn-danger" @click="createHoliday(name,startDateMessage,endDateMessage)">Create</button>
+            <button type="button" id=update class="btn btn-danger" @click="updateHoliday(name, startDateMessage, endDateMessage)">Update</button>
+            <button type="button" id=delete class="btn btn-danger" @click="deleteHoliday(searchName)">Delete</button>
             <button type="button" id=viewAll class="btn btn-danger">View All</button>
           </div>
         </div>
@@ -20,7 +21,7 @@
     <div id="holidayInfo"  class="container">
       <div class="row">
         <div class="col-sm">
-          <input type="text" id="Name" class="form-control" placeholder="Name" aria-label="Name">
+          <input type="text" id="Name" class="form-control" placeholder="Name" v-model="name" aria-label="Name">
           <div id="StartDateOptions" class="container">
             <div class="row">
               <div class="col-sm">
@@ -58,15 +59,15 @@
                     </b-dropdown>
 
                     <b-dropdown id="dropdown-Day" :text="dropDownMessageDay1" class="m-md-3">
-                      <b-dropdown-item @click="changeDropdownDay1('1')">1</b-dropdown-item>
-                      <b-dropdown-item @click="changeDropdownDay1('2')">2</b-dropdown-item>
-                      <b-dropdown-item @click="changeDropdownDay1('3')">3</b-dropdown-item>
-                      <b-dropdown-item @click="changeDropdownDay1('4')">4</b-dropdown-item>
-                      <b-dropdown-item @click="changeDropdownDay1('5')">5</b-dropdown-item>
-                      <b-dropdown-item @click="changeDropdownDay1('6')">6</b-dropdown-item>
-                      <b-dropdown-item @click="changeDropdownDay1('7')">7</b-dropdown-item>
-                      <b-dropdown-item @click="changeDropdownDay1('8')">8</b-dropdown-item>
-                      <b-dropdown-item @click="changeDropdownDay1('9')">9</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('01')">1</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('02')">2</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('03')">3</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('04')">4</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('05')">5</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('06')">6</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('07')">7</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('08')">8</b-dropdown-item>
+                      <b-dropdown-item @click="changeDropdownDay1('09')">9</b-dropdown-item>
                       <b-dropdown-item @click="changeDropdownDay1('10')">10</b-dropdown-item>
                       <b-dropdown-item @click="changeDropdownDay1('11')">11</b-dropdown-item>
                       <b-dropdown-item @click="changeDropdownDay1('12')">12</b-dropdown-item>
@@ -135,15 +136,15 @@
                   </b-dropdown>
 
                   <b-dropdown id="dropdown-Day" :text="dropdownMessageDay2" class="m-md-3">
-                    <b-dropdown-item @click="changeDropdownDay2('1')">1</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownDay2('2')">2</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownDay2('3')">3</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownDay2('4')">4</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownDay2('5')">5</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownDay2('6')">6</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownDay2('7')">7</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownDay2('8')">8</b-dropdown-item>
-                    <b-dropdown-item @click="changeDropdownDay2('9')">9</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('01')">1</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('02')">2</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('03')">3</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('04')">4</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('05')">5</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('06')">6</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('07')">7</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('08')">8</b-dropdown-item>
+                    <b-dropdown-item @click="changeDropdownDay2('09')">9</b-dropdown-item>
                     <b-dropdown-item @click="changeDropdownDay2('10')">10</b-dropdown-item>
                     <b-dropdown-item @click="changeDropdownDay2('11')">11</b-dropdown-item>
                     <b-dropdown-item @click="changeDropdownDay2('12')">12</b-dropdown-item>
@@ -179,7 +180,21 @@
       </div>
     </div>
   </div>
-
+  <div>
+    <h1 id="title"> All holidays</h1>
+    <table class="tablestyle" align="center">
+      <tr class="trstyle">
+        <td> Name </td>
+        <td> Start Date </td>
+        <td> End Date </td>
+      </tr>
+      <tr class="trstyle" v-for="holiday in this.holidays">
+        <td>{{ holiday.name }}</td>
+        <td>{{ holiday.startDate }}</td>
+        <td>{{ holiday.endDate }}</td>
+      </tr>
+    </table>
+  </div>
   </div>
 </template>
 
@@ -207,6 +222,10 @@ export default {
 
 #update{
   margin-right: 20px;
+}
+#delete{
+  margin-right: 20px;
+  
 }
 #Name{
   margin-bottom: 20px;

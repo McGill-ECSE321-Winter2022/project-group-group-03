@@ -28,6 +28,7 @@ export default{
       years: [],
       months: [],
       days: [],
+      searchName: '',
 
       dropDownMessageYear1: "Year",
       dropDownMessageMonth1: "Month",
@@ -37,12 +38,12 @@ export default{
       dropdownMessageDay2: "Day",
       startDateMessage: "Start Date",
 
-      yearMessage1: "1",
-      yearMessage2: "1",
-      monthMessage1: "1",
-      monthMessage2: "1",
-      dayMessage1: "1",
-      dayMessage2: "1",
+      yearMessage1: "",
+      yearMessage2: "",
+      monthMessage1: "",
+      monthMessage2: "",
+      dayMessage1: "",
+      dayMessage2: "",
 
       endDateMessage: "End Date",
       errorHoliday: '',
@@ -53,8 +54,14 @@ export default{
     Header
   },
 
-  methods:{
+  created: function (){
+    //this.createStore()
+    // this.createHoliday()
+     this.getHolidays()
 
+  },
+
+  methods:{
 
     getHolidays: function(){
       console.log("getting holidays")
@@ -64,11 +71,49 @@ export default{
           this.response = response.data;
         for(const holiday in this.response){
           let h = new HolidayDTO(this.response[holiday].name, this.response[holiday].startDate, this.response[holiday].endDate)
-          this.holidays.push({ name: this.response[holiday].name, holiday: h})
-          console.log(h);
+          this.holidays.push(h)
         }
-
+          console.log(this.holidays)
       });
+    },
+
+    searchHoliday: function(holidayName){
+      for(let i = 0; i < this.holidays.length; i++){
+          if(this.holidays[i].name === holidayName){
+            this.name = this.holidays[i].name
+            this.startDateMessage = this.holidays[i].startDate
+            this.endDateMessage = this.holidays[i].endDate
+          }
+      }
+    },
+
+    updateHoliday: function(holidayName, newStartDate, newEndDate){
+      //Check what changed
+        AXIOS.put('/edit_holiday_startDate/'.concat(holidayName,'/?startDate=',newStartDate))
+          .then((response) => {
+            console.log(response)
+          })
+        this.sleep(500)
+        AXIOS.put('/edit_holiday_endDate/'.concat(holidayName,'/?endDate=',newEndDate))
+          .then((response) => {
+            console.log(response)
+          })
+        this.sleep(500)
+      this.startDateMessage = newStartDate
+      this.endDateMessage = newEndDate
+      this.sleep(1000)
+      this.getHolidays()
+      this.sleep(500)
+
+    },
+
+    deleteHoliday: function(holidayName){
+      AXIOS.delete('/holiday/'.concat(holidayName))
+        .then((response) => {
+          console.log(response)
+        })
+      this.getHolidays()
+      this.sleep(500)
     },
 
     sleep: function (milliseconds) {
@@ -80,25 +125,27 @@ export default{
       while (currentDate - date < milliseconds);
     },
 
-    createHoliday: function (holidayName, startDate, endDate){
-      console.log('/holiday?'.concat("holidayName=",holidayName, "startDate=",startDate, "endDate=",endDate))
-      AXIOS.post('/holiday?'.concat("holidayName=",holidayName, "startDate=",startDate, "endDate=",endDate))
-        .catch(function (error){
-          this.errorHoliday = error.data()
+    createStore: function(){
+      AXIOS.post("./store?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",{},{})
+        .then(response => {
+          console.log(response.data)
         })
-      this.sleep(500)
-      this.holidays.length = 0
-      this.getHolidays()
-
-      //Reset fields for new holiday
-      this.name = ''
-      this.startDate = ''
-      this.endDate = ''
-
+      this.sleep(1000)
     },
 
-    deleteHoliday: function (){
-      this.holidays.pop()
+    createHoliday: function (holidayName, startDate, endDate){
+      console.log("creating holidays")
+      console.log('/holiday?'.concat('name=',holidayName, "&startDate=",startDate, "&endDate=",endDate))
+      AXIOS.post('/holiday?'.concat('name=',holidayName, "&startDate=",startDate, "&endDate=",endDate))
+        .catch(function (error){
+          this.errorHoliday = error.data
+        })
+      this.sleep(500)
+      this.getHolidays()
+      //Reset fields for new holiday
+      this.name = ''
+      this.startDateMessage = ''
+      this.endDateMessage = ''
     },
 
     changeStartDate: function(year, month, day){
