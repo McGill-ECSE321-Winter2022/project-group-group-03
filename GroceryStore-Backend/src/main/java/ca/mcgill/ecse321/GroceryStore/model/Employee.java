@@ -40,7 +40,7 @@ public class Employee
   //Employee Associations
 
   @OneToMany
-  @JoinColumn(name ="employee_shiftID", unique = true)
+  @JoinColumn(name ="employee_shiftID")
   private List<WorkShift> workShift;
 
   @OneToMany
