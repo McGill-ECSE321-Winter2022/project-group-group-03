@@ -35,7 +35,7 @@ public class PickupOrderRestController {
         return convertToDto(service.getPickupOrder(confirmationNumber));
     }
 
-    @PutMapping(value = { "/transformPickup", "/transformPickUp/" })
+    @PutMapping(value = { "/convertToDelivery", "/convertToDelivery/" })
     public DeliveryOrderDTO convertToDeliveryOrder(@RequestParam String username, @RequestParam String shippingAddress,
                                                    @RequestParam String accountType, @RequestParam boolean isOutOfTown) {
 
