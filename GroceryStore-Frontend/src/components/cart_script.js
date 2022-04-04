@@ -31,15 +31,19 @@ var AXIOS = axios.create({
         Header
       },
 
-      created() {
+      async created() {
+        await this.getOrder()
         let list1 = JSON.parse(sessionStorage.purchasedItemList)
         let list2 = []
         for (let index in list1) {
           list2.push(JSON.parse(list1[index]))
         }
-        list2.sort(function(a,b){
-          if (a.aItem.name < b.aItem.name) {return -1}
-          else if (a.aItem.name > b.aItem.name) {return 1}
+        list2.sort(function (a, b) {
+          if (a.aItem.name < b.aItem.name) {
+            return -1
+          } else if (a.aItem.name > b.aItem.name) {
+            return 1
+          }
           return 0
         })
         console.log(list2)

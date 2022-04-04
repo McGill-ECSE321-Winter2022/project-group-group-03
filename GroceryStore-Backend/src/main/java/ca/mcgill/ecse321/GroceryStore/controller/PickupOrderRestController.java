@@ -42,6 +42,16 @@ public class PickupOrderRestController {
         return convertToDto(service.convertPickupToDelivery(username,shippingAddress,accountType,isOutOfTown));
     }
 
+    @PutMapping(value = {"/payPickup", "/payPickup/"})
+    public PickupOrderDTO payPickup(@RequestParam int confirmationNumber) throws IllegalArgumentException{
+        return convertToDto(service.pay(confirmationNumber));
+    }
+
+    @PutMapping(value = {"/orderPickup", "/orderPickup/"})
+    public PickupOrderDTO orderPickup(@RequestParam int confirmationNumber) throws IllegalArgumentException{
+        return convertToDto(service.order(confirmationNumber));
+    }
+
     @PutMapping(value = {"/editPickupOrderStatus/{confirmationNumber}/"})
     public PickupOrderDTO updatePickupStatus(@PathVariable("confirmationNumber") int confirmationNumber, @RequestParam String newPickupStatus) throws IllegalArgumentException {
         return convertToDto(service.updatePickupStatus(confirmationNumber, newPickupStatus));

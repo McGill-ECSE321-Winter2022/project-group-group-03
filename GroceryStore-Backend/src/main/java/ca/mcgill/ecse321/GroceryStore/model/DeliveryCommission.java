@@ -32,7 +32,7 @@ public class DeliveryCommission extends Commission
   }
 
   //DeliveryOrder State Machines
-  public enum ShippingStatus { InCart, Ordered, Prepared, Delivered }
+  public enum ShippingStatus { InCart, Ordered, Delivered }
   @Enumerated
   @Column(nullable = false)
   private ShippingStatus shippingStatus;
@@ -78,7 +78,7 @@ public class DeliveryCommission extends Commission
     return shippingStatus;
   }
 
-  public boolean order()
+  public boolean pay()
   {
     boolean wasEventProcessed = false;
     
@@ -96,24 +96,6 @@ public class DeliveryCommission extends Commission
     return wasEventProcessed;
   }
 
-  public boolean pay()
-  {
-    boolean wasEventProcessed = false;
-    
-    ShippingStatus aShippingStatus = shippingStatus;
-    switch (aShippingStatus)
-    {
-      case Ordered:
-        setShippingStatus(ShippingStatus.Prepared);
-        wasEventProcessed = true;
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
-
   public boolean deliver()
   {
     boolean wasEventProcessed = false;
@@ -121,7 +103,7 @@ public class DeliveryCommission extends Commission
     ShippingStatus aShippingStatus = shippingStatus;
     switch (aShippingStatus)
     {
-      case Prepared:
+      case Ordered:
         setShippingStatus(ShippingStatus.Delivered);
         wasEventProcessed = true;
         break;
