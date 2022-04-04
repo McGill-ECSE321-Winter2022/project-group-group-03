@@ -84,11 +84,63 @@ export default{
       this.getItems();
 
       // Reset the name field for new people
+      this.itemNameO = ''
       this.description = ''
       this.price = ''
       this.purchasable = false
       this.stock = ''
-      this.image = ''
+      this.imageUrl = ''
+    },
+
+    updateItem: function(name, price, description, purchasable, stock, URL){
+      //Description
+      if(this.description !== description) {
+        AXIOS.put('/editItemDescription/'.concat(name, '?newDescription=', description))
+          .then((response) => {
+            console.log(response)
+            this.response = response.data
+          })
+      }
+      //Price
+      if(this.price != price){
+        AXIOS.put('/editItemPrice/'.concat(name,'?newPrice=', price))
+          .then((response) => {
+            console.log(response)
+            this.response = response.data
+          })
+      }
+      //Stock
+      if(this.stock != stock){
+        AXIOS.put('/editItemStock/'.concat(name, '?newStock=', stock))
+          .then((response) => {
+            console.log(response)
+            this.response = response.data
+          })
+      }
+      //Purchasable
+      if(this.purchasable != purchasable){
+        AXIOS.put('/editItemPurchasable/'.concat(name, '?newPurchasable=', purchasable))
+          .then((response) => {
+            console.log(response)
+            this.response = response.data
+          })
+      }
+      //URL
+      if(this.imageUrl !== URL){
+        AXIOS.put('/editItemImage/'.concat(name, '?image=', URL))
+          .then((response) => {
+            console.log(response)
+          })
+      }
+
+      this.getItems()
+      this.sleep(500)
+      // this.itemNameO = ''
+      // this.description = ''
+      // this.price = ''
+      // this.purchasable = false
+      // this.stock = ''
+      // this.imageUrl = ''
     },
 
     putImage: function(name, image){

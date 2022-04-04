@@ -9,6 +9,7 @@
           </div>
           <div class="col">
             <button type="button" id=search class="btn btn-danger" @click="searchForItem(searchItemName)">Search</button>
+            <button type="button" id=search class="btn btn-danger" @click="updateItem(itemNameO, price, description, purchasable, stock, imageUrl)">Update</button>
             <button type="button" id=create class="btn btn-danger" @click="createItemOwner(itemNameO, price, description, purchasable, stock)">Create</button>
           </div>
         </div>
