@@ -60,7 +60,10 @@ export default{
             this.items.push(i);
             console.log(i);
           }
-        });
+        })
+        .catch(e => {
+          this.errorHoliday = e.response.data;
+        })
     },
     viewAll: function(){
       this.getItems()
@@ -83,6 +86,9 @@ export default{
           this.imageUrl = this.response.image
           this.image2Load = this.response.image
         })
+        .catch(e => {
+          this.errorHoliday = e.response.data;
+        })
     },
 
     createItemOwner: function(name, price, description, purchasable, stock){
@@ -90,6 +96,9 @@ export default{
       AXIOS.post('/item?itemName='.concat(name, '&purchasable=', purchasable ,'&price=', price, '&description=', description,'&stock=', stock))
         .catch(function (error) {
           this.errorItemOwner = error.data();
+        })
+        .catch(e => {
+          this.errorHoliday = e.response.data;
         })
       this.sleep(500);
       this.items.length = 0;
@@ -109,6 +118,9 @@ export default{
       AXIOS.put('/editItem/'.concat(name,'?newImage=',URL,'&newPrice=',price,'&newStock=',stock,'&newDescription=',description,'&newPurchasable=',purchasable))
         .catch(function (error) {
           this.errorItemOwner = error.data();
+        })
+        .catch(e => {
+          this.errorHoliday = e.response.data;
         })
       this.itemNameO = ''
       this.description = ''
@@ -134,6 +146,9 @@ export default{
           this.purchasable = ''
           this.image2Load = ''
         })
+        .catch(e => {
+          this.errorHoliday = e.response.data;
+        })
       this.sleep(500)
       this.image = image
       this.getItems()
@@ -152,6 +167,9 @@ export default{
       AXIOS.post("./store?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",{},{})
         .then(response => {
           console.log(response.data)
+        })
+        .catch(e => {
+          this.errorHoliday = e.response.data;
         })
     },
     },

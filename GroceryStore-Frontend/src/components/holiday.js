@@ -75,7 +75,10 @@ export default{
           this.holidays.push(h)
         }
           console.log(this.holidays)
-      });
+      })
+        .catch(e => {
+          this.errorHoliday = e.response.data;
+        })
     },
 
     searchHoliday: function(holidayName) {
@@ -86,7 +89,10 @@ export default{
           this.name = this.response.name
           this.startDateMessage = this.response.startDate
           this.endDateMessage = this.response.endDate
-        });
+        })
+        .catch(e => {
+          this.errorHoliday = e.response.data;
+        })
     },
 
     updateHoliday: function(holidayName, newStartDate, newEndDate){
@@ -99,6 +105,9 @@ export default{
         AXIOS.put('/edit_holiday_endDate/'.concat(holidayName,'/?endDate=',newEndDate))
           .then((response) => {
             console.log(response)
+          })
+          .catch(e => {
+            this.errorHoliday = e.response.data;
           })
       this.sleep(500)
       this.startDateMessage = newStartDate
@@ -140,6 +149,9 @@ export default{
         .then(response => {
           console.log(response.data)
         })
+        .catch(e => {
+          this.errorHoliday = e.response.data;
+        })
       this.sleep(1000)
     },
 
@@ -149,6 +161,9 @@ export default{
       AXIOS.post('/holiday?'.concat('name=',holidayName, "&startDate=",startDate, "&endDate=",endDate))
         .catch(function (error){
           this.errorHoliday = error.data
+        })
+        .catch(e => {
+          this.errorHoliday = e.response.data;
         })
       this.sleep(500)
       this.getHolidays()
@@ -268,5 +283,19 @@ export default{
     changeDropdownDay2: function(day){
       this.dropdownMessageDay2 = day
     },
-  },
+    setAlert: function () {
+      return this.errorHoliday !== ""
+    },
+    setError: function(message) {
+      this.errorHoliday = message
+    },
+    // changeMessage: function (accountType) {
+    //   if (this.login_msg===accountType) {
+    //     this.login_msg = "Please Choose Account Type to Login as"
+    //   }
+    //   else {
+    //     this.login_msg = accountType
+    //   }
+    // }
+  }
 }
