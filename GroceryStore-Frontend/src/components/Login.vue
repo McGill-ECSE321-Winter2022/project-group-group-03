@@ -30,7 +30,7 @@
 </template>
 
 
-<script src="./Login_Script.js">
+<script src="./login_script.js">
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
