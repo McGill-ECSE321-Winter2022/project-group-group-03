@@ -1,6 +1,9 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PickupCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +19,22 @@ public class PickupOrderService {
     PickupOrderRepository pickupOrderRepository;
 
     @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
+
+    @Autowired
+    DeliveryOrderService deliveryOrderService;
+
+    @Autowired
     CustomerService customerService;
 
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    ItemService itemService;
 
 
     @Autowired
@@ -57,6 +72,30 @@ public class PickupOrderService {
         pickupOrderRepository.save(newPickupOrder);
         return newPickupOrder;
     }
+
+    @Transactional
+    public DeliveryCommission convertPickupToDelivery(String username, String shippingAddress, String accountType, boolean isOutOfTown) {
+        PickupCommission commission = null;
+
+        if (employeeRepository.existsById(username)) {
+            commission =  (PickupCommission) employeeService.getEmployeeOrder(username);
+        }
+
+        if (customerRepository.existsById(username)) {
+            commission =  (PickupCommission) customerService.getCustomerOrder(username);
+        }
+
+        DeliveryCommission deliveryCommission = deliveryOrderService.createDeliveryOrder(username,shippingAddress,accountType,isOutOfTown);
+
+        for (PurchasedItem purchasedItem : commission.getPurchasedItem()) {
+            deliveryOrderService.addPurchasedItemToDeliveryOrder(username,purchasedItem);
+        }
+
+        pickupOrderRepository.deleteById(commission.getConfirmationNumber());
+
+        return deliveryCommission;
+    }
+
     @Transactional
     public PickupCommission getPickupOrder(Integer confirmationNumber){
         if (confirmationNumber == null) {
@@ -99,6 +138,28 @@ public class PickupOrderService {
     public void addPurchasedItemToPickupOrder(Integer confirmationNumber, PurchasedItem purchasedItem){
         PickupCommission p = getPickupOrder(confirmationNumber);
         p.getPurchasedItem().add(purchasedItem);
+        String itemName = purchasedItem.getItem().getName();
+        itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
+        this.updateTotalCost(confirmationNumber);
+    }
+
+    @Transactional
+    public void addPurchasedItemToPickupOrder(String username, PurchasedItem purchasedItem){
+        PickupCommission commission = null;
+
+        if (employeeRepository.existsById(username)) {
+            commission =  (PickupCommission) employeeService.getEmployeeOrder(username);
+        }
+
+        if (customerRepository.existsById(username)) {
+            commission =  (PickupCommission) customerService.getCustomerOrder(username);
+        }
+        List<PurchasedItem> p = commission.getPurchasedItem();
+        p.add(purchasedItem);
+        commission.setPurchasedItem(p);
+        String itemName = purchasedItem.getItem().getName();
+        itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
+        this.updateTotalCost(commission.getConfirmationNumber());
     }
 
     @Transactional
