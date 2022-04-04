@@ -10,6 +10,7 @@ import EmployeeNav from "../components/EmployeeNav";
 
 
 import Login from "../components/Login";
+import Logout from "../components/Logout";
 import Schedule from "../components/Schedule";
 import UpdateEmployee from "../components/UpdateEmployee";
 import UpdateCustomer from "../components/UpdateCustomer";
@@ -33,6 +34,11 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login,
+    },
+    {
+      path: '/',
+      name: 'Logout',
+      component: Logout,
     },
     {
       path: '/Items',

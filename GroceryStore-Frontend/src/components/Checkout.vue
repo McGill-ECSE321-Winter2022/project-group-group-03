@@ -38,8 +38,8 @@
       <b-col>
         <div class="item-text">
           <b-dropdown id = dropdown-1 style="background-color: #e03444; border-color: #e03444;"  variant="danger" text="Delivery Options" class="m-md-2"> <b-dropdown-item>
-            <button id = newbutton1 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>In Town Delivery    </button>
-              <b-modal id="modal-1" title="BootstrapVue">
+            <button id = newbutton1 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>In town delivery    </button>
+              <b-modal id="modal-1" title="Shipping Address">
                 <p class="my-4">
                   <div id = text>
                 Warning! This action is irreversible!
@@ -53,8 +53,8 @@
               </b-dropdown-item>
             <b-dropdown-item>
               <div>
-                <button id = newbutton2 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>In Town Delivery    </button>
-                <b-modal id="modal-2" title="BootstrapVue">
+                <button id = newbutton2 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>Out of town delivery    </button>
+                <b-modal id="modal-2" title="Shipping Address">
                   <div id = text1>
                     Warning! This action is irreversible!
                   </div>
@@ -69,8 +69,8 @@
             </b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item>
-                <button id = newbutton3 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>In Town Delivery    </button>
-                <b-modal id="modal-3" title="BootstrapVue">
+                <button id = newbutton3 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1> Pick up in store    </button>
+                <b-modal id="modal-3" title="Shipping Address">
                   <p class="my-6">Hello from modal!</p>
                 </b-modal>
 
