@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.GroceryStore.service;
 import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.model.Commission;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
+import ca.mcgill.ecse321.GroceryStore.model.PickupCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,9 @@ public class DeliveryOrderService {
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    PickupOrderService pickupOrderService;
 
     @Transactional
     public DeliveryCommission createDeliveryOrder(String username, String shippingAddress, Integer confirmationNumber, boolean isOutOfTown){
@@ -121,6 +125,34 @@ public class DeliveryOrderService {
         itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
         d.setPurchasedItem(p);
         this.updateTotalCost(confirmationNumber);
+    }
+
+    @Transactional
+    public PickupCommission convertDeliveryToPickup(String username, String paymentMethod, String accountType){
+        DeliveryCommission commission = null;
+        String username1 = null;
+
+        if (employeeRepository.existsById(username)) {
+            commission =  (DeliveryCommission) employeeService.getEmployeeOrder(username);
+            username1 = username;
+        }
+
+        if (customerRepository.existsById(username)) {
+            commission =  (DeliveryCommission) customerService.getCustomerOrder(username);
+            username1 = username;
+        }
+
+        PickupCommission pickupCommission = pickupOrderService.createPickupOrder(username1,paymentMethod,accountType);
+
+        for (PurchasedItem purchasedItem : commission.getPurchasedItem()) {
+            String pItem=purchasedItem.getItem().getName();
+            itemService.addItemStock(pItem,purchasedItem.getItemQuantity());
+            pickupOrderService.addPurchasedItemToPickupOrder(pickupCommission.getConfirmationNumber(),purchasedItem);
+        }
+
+        deliveryOrderRepository.deleteById(commission.getConfirmationNumber());
+
+        return pickupCommission;
     }
 
     @Transactional
