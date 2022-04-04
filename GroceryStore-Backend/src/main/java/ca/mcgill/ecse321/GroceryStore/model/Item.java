@@ -5,6 +5,7 @@ package ca.mcgill.ecse321.GroceryStore.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -35,12 +36,17 @@ public class Item
   private int stock;
   private int totalPurchased;
 
+  @Column(name = "image")
+  private String image;
 
-  //------------------------
+
+
+
+//------------------------
   // CONSTRUCTOR
   //------------------------
 
-   public Item() {
+  public Item() {
 
   }
 
@@ -78,6 +84,10 @@ public class Item
   public void setTotalPurchased(int aTotalPurchased)
   {
     this.totalPurchased = aTotalPurchased;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
   }
 
   public String getName()
@@ -124,7 +134,9 @@ public class Item
   }
   /* Code from template attribute_IsBoolean */
 
-
+  public String getImage() {
+    return image;
+  }
 
   public String toString()
   {

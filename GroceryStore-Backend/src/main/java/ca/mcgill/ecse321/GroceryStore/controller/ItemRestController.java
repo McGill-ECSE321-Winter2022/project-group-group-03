@@ -20,8 +20,8 @@ public class ItemRestController {
 
     @PostMapping(value = { "/item", "/item/" })
     public ItemDTO createItem(@RequestParam String itemName ,@RequestParam boolean purchasable,
-                                      @RequestParam int price, @RequestParam String description,
-                                      @RequestParam int stock) throws IllegalArgumentException {
+                              @RequestParam int price, @RequestParam String description,
+                              @RequestParam int stock) throws IllegalArgumentException {
         return convertToDto(service.createItem(itemName,purchasable,price,description,stock));
     }
 
@@ -64,14 +64,20 @@ public class ItemRestController {
 
     @PutMapping(value = {"/addItemStock/{itemName}"})
     public ItemDTO addItemStock(@PathVariable("itemName") String itemName,
-                                   @RequestParam int addedStock) throws IllegalArgumentException {
+                                @RequestParam int addedStock) throws IllegalArgumentException {
         return convertToDto(service.addItemStock(itemName,addedStock));
     }
 
     @PutMapping(value = {"/editItemPrice/{itemName}"})
     public ItemDTO updateItemPrice(@PathVariable("itemName") String itemName,
-                                @RequestParam int newPrice) throws IllegalArgumentException {
+                                   @RequestParam int newPrice) throws IllegalArgumentException {
         return convertToDto(service.updateItemPrice(itemName,newPrice));
+    }
+
+    @PutMapping(value = {"/editItemImage/{itemName}"})
+    public ItemDTO updateItemImage(@PathVariable("itemName") String itemName,
+                                   @RequestParam String image) throws IllegalArgumentException {
+        return convertToDto(service.updateItemImage(itemName, image));
     }
 
     @GetMapping(value = {"/item/{itemName}", "/item/{itemName}/"})
@@ -81,7 +87,7 @@ public class ItemRestController {
 
     private ItemDTO convertToDto(Item item) {
         if (item == null) throw new IllegalArgumentException("There is no such Item!");
-        return new ItemDTO(item.getName(), item.getPurchasable(), item.getPrice(),item.getDescription(), item.getStock(), item.getTotalPurchased());
+        return new ItemDTO(item.getName(), item.getPurchasable(), item.getPrice(),item.getDescription(), item.getStock(), item.getTotalPurchased(), item.getImage());
     }
 
 }

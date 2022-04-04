@@ -72,7 +72,7 @@ public class StoreRestController {
         if (i == null) {
             throw new IllegalArgumentException("There is no such Item!");
         }
-        return new ItemDTO(i.getName(),i.getPurchasable(),i.getPrice(),i.getDescription(),i.getStock(),i.getTotalPurchased());
+        return new ItemDTO(i.getName(),i.getPurchasable(),i.getPrice(),i.getDescription(),i.getStock(),i.getTotalPurchased(), i.getImage());
     }
     private HolidayDTO convertToDto(Holiday h) {
         if (h == null) {

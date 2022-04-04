@@ -8,16 +8,18 @@ public class ItemDTO {
     private String description;
     private int stock;
     private int totalPurchased;
+    private String image;
 
 
 
-    public ItemDTO(String name, boolean purchasable, int price, String description, int stock, int totalPurchased) {
+    public ItemDTO(String name, boolean purchasable, int price, String description, int stock, int totalPurchased, String image) {
         this.name = name;
         this.purchasable = purchasable;
         this.price = price;
         this.description = description;
         this.stock = stock;
         this.totalPurchased = totalPurchased;
+        this.image = image;
     }
 
     public String getName() {return name;}
@@ -31,4 +33,6 @@ public class ItemDTO {
     public int getStock() {return stock;}
 
     public int getTotalPurchased() {return totalPurchased;}
+
+    public String getImage() {return image;}
 }
