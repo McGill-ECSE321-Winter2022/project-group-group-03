@@ -26,36 +26,47 @@ var AXIOS = axios.create({
           translatedPurchasedItems: []
       }
       },
+
       components: {
         Header
       },
-      created: {
-        TranslatedPurchasedItems() {
-          let list1 = JSON.parse(sessionStorage.purchasedItemList)
-          let list2 = []
-          for (let index in list1) {
-            list2.push(JSON.parse(list1[index]))
-          }
-          console.log(list2)
-          this.translatedPurchasedItems = list2
+
+      created() {
+        let list1 = JSON.parse(sessionStorage.purchasedItemList)
+        let list2 = []
+        for (let index in list1) {
+          list2.push(JSON.parse(list1[index]))
         }
+        list2.sort(function(a,b){
+          if (a.aItem.name < b.aItem.name) {return -1}
+          else if (a.aItem.name > b.aItem.name) {return 1}
+          return 0
+        })
+        console.log(list2)
+        this.translatedPurchasedItems = list2
       },
 
       methods: {
 
-        deleteItem: function (purchasedItemID){
-          let index = sessionStorage.purchasedItemList.purchasedItemID.indexOf(purchasedItemID)
-          if (index > -1) {
-            sessionStorage.purchasedItemList.splice(index, 1); // 2nd parameter means remove one item only
-          }
+        deleteItem: async function (purchasedItemID) {
+          console.log("Deleting purchased item")
+          await AXIOS.delete("./purchased_item/".concat(purchasedItemID))
+          await this.getOrder()
+          this.TranslatePurchasedItems()
         },
+
         TranslatePurchasedItems() {
+          console.log("translating JSON list")
           let list1 = JSON.parse(sessionStorage.purchasedItemList)
           let list2 = []
           for (let index in list1) {
             list2.push(JSON.parse(list1[index]))
           }
-          console.log(list2)
+          list2.sort(function(a,b){
+            if (a.aItem.name < b.aItem.name) {return -1}
+            else if (a.aItem.name > b.aItem.name) {return 1}
+            return 0
+          })
           this.translatedPurchasedItems = list2
         },
 
@@ -99,16 +110,22 @@ var AXIOS = axios.create({
           }
         },
 
-        up: function (purchasedItemID){
-          let objIndex = sessionStorage.items.findIndex((purchasedItem => purchasedItem.aPurchasedItemID === purchasedItemID));
-          sessionStorage.items[objIndex].counter += 1
+        up: async function (purchasedItemID, counter) {
+          console.log("increasing the count of a purchased item")
+          let newCount = counter + 1
+          let count2 = JSON.stringify(newCount)
+          await AXIOS.put("/edit_purchasedItem/".concat(purchasedItemID, "?itemQuantity=", count2))
+          await this.getOrder()
+          this.TranslatePurchasedItems()
         },
 
-        down: function (purchasedItemID){
-          let objIndex = sessionStorage.purchasedItemList.findIndex(purchasedItem => purchasedItem.aPurchasedItemID === purchasedItemID);
-          if (sessionStorage.items[objIndex].item.counter > 0){
-            sessionStorage.items[objIndex].counter -= 1
-          }
+        down: async function (purchasedItemID, counter) {
+          console.log("Decreasing the count of a purchased item")
+          let newCount = counter - 1
+          let count2 = JSON.stringify(newCount)
+          await AXIOS.put("/edit_purchasedItem/".concat(purchasedItemID, "?itemQuantity=", newCount))
+          await this.getOrder()
+          this.TranslatePurchasedItems()
         }
       }
 }

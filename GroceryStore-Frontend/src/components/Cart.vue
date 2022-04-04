@@ -31,57 +31,23 @@
               <h1 style="color:#e03444;font-size:28px;"> <b> Edit Cart</b> </h1>
             </div>
 
-            <div id="meat" class="container">
-              <div class="row">
-                <div id="x3" class="col-sm">
-                  meat
-                </div>
-                <div id="itemFormat" class="col-sm">
-                  <button style=background-color:#e03444 type="button">
-                    -
-                  </button>
-                  &nbsp
-                  2
-                  &nbsp
-                  <button style=background-color:#e03444  type="button">+</button>
-                  &nbsp
-                  <button style=background-color:#e03444 type="button">x</button>
-                </div>
-                <div id="vegetables" class="container">
-                  <div class="row">
-                    <div id="x2" class="col-sm">
-                      vegetables
-                    </div>
-                    <div id="itemFormat1" class="col-sm">
-                      <button style=background-color:#e03444 type="button">-</button>
-                      &nbsp
-                      3
-                      &nbsp
-                      <button style=background-color:#e03444 type="button">+</button>
-                      &nbsp
-                      <button style=background-color:#e03444 type="button">x</button>
-                    </div>
-                    <div class="container" v-for="Item in translatedPurchasedItems" >
+            <div class="container" v-for="Item in translatedPurchasedItems">
 
-                      <div class="row">
-                        <div id="x1" class="col-sm">
-                          {{Item.aItem.name}}
-                        </div>
-                        <div id="itemFormat2" class="col-sm">
-                          <button @click="down()" style=background-color:#e03444 type="button">-</button>
-                          &nbsp
-                          {{Item.aItemQuantity}}
-                          &nbsp
-                          <button @click="up(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">+</button>
-                          &nbsp
-                          <button @click="deleteItem(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">x</button>
-                        </div>
-                  </div>
-                  </div>
-                  </div>
-                  </div>
-                  </div>
-                  </div>
+              <div class="row">
+                <div id="x1" class="col-sm">
+                  {{Item.aItem.name}}
+                </div>
+                <div id="itemFormat2" class="col-sm">
+                  <button @click="down(Item.aPurchasedItemID, Item.aItemQuantity)" style=background-color:#e03444 type="button">-</button>
+                  &nbsp
+                  {{Item.aItemQuantity}}
+                  &nbsp
+                  <button @click="up(Item.aPurchasedItemID, Item.aItemQuantity)" style=background-color:#e03444  type="button">+</button>
+                  &nbsp
+                  <button @click="deleteItem(Item.aPurchasedItemID)" style=background-color:#e03444  type="button">x</button>
+                </div>
+              </div>
+            </div>
           </template>
         </div>
       </b-sidebar>
