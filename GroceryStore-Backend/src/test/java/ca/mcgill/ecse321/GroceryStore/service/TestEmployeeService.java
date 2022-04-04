@@ -11,9 +11,6 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
-
-import java.sql.Time;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,12 +50,13 @@ public class TestEmployeeService {
     @InjectMocks
     private EmployeeService employeeService;
 
-    @Mock
+    @InjectMocks
     private WorkShiftService workShiftService;
 
-    @Mock
+    @InjectMocks
     private DeliveryOrderService deliveryOrderService;
-    @Mock
+
+    @InjectMocks
     private PickupOrderService pickupOrderService;
     @Mock
     private StoreRepository storeRepository;
@@ -291,48 +289,27 @@ public class TestEmployeeService {
         assertEquals(employeeArrayList, Arrays.asList(employee1,employee2,employee3));
     }
 
-    @Test
-    public void testGetWorkShift(){
-        Employee employee = null;
-        WorkShift workShift1 = null;
-        WorkShift workShift2 = null;
-        List<WorkShift> workShiftList = null;
-
-        try{
-            employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
-            workShift1 = workShiftService.createWorkShift(Time.valueOf(LocalTime.of(10,10)), Time.valueOf(LocalTime.of(11,10)), "Monday",EMPLOYEE_USERNAME );
-            workShift2 = workShiftService.createWorkShift(Time.valueOf(LocalTime.of(11,10)), Time.valueOf(LocalTime.of(12,10)), "Tuesday",EMPLOYEE_USERNAME );
-            employee.setWorkShift(Arrays.asList(workShift1,workShift2));
-            //test stub
-            when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
-            workShiftList = employeeService.getEmployeeWorkShifts(EMPLOYEE_USERNAME);
-        } catch (Exception e){
-            fail();
-        }
-        assertNotNull(workShiftList);
-        assertEquals(workShiftList, Arrays.asList(workShift1, workShift2));
-    }
 
     @Test
     public void getEmployeeOrders(){
         Employee employee = null;
-        DeliveryOrder deliveryOrder = null;
-        PickupOrder pickupOrder = null;
-        List<Order> orderList = null;
+        DeliveryCommission deliveryOrder = null;
+        PickupCommission pickupOrder = null;
+        List<Commission> commissionList = null;
         String error = null;
 
         try{
             employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
-            deliveryOrder = deliveryOrderService.createDeliveryOrder(EMPLOYEE_USERNAME,"my house",  69,  true);
-            pickupOrder = pickupOrderService.createPickupOrder(EMPLOYEE_USERNAME,"Cash",420);
+            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house",  "sherbooke", "Customer",  true);
+            pickupOrder = pickupOrderService.createPickupOrder("Cash","cash", "Customer");
             employee.setOrder(Arrays.asList(deliveryOrder, pickupOrder));
             when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
-            orderList = employeeService.getEmployeeOrders(EMPLOYEE_USERNAME);
+            commissionList = employeeService.getEmployeeOrders(EMPLOYEE_USERNAME);
         }catch (Exception e){
             fail();
         }
-        assertNotNull(orderList);
-        assertEquals(orderList, Arrays.asList(deliveryOrder, pickupOrder));
+        assertNotNull(commissionList);
+        assertEquals(commissionList, Arrays.asList(deliveryOrder, pickupOrder));
     }
 
     @Test

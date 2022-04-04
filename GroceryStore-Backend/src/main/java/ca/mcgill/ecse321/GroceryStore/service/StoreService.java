@@ -13,13 +13,14 @@ import java.util.List;
 @Service
 public class StoreService {
     private static int presetStoreID = 123;
+
     @Autowired
     StoreRepository storeRepository;
 
 
     @Transactional
     public Store createStore(String aAddress, Integer aCurrentActiveDelivery, Integer aCurrentActivePickup){
-        Store store = new Store();
+        Store newStore = new Store();
 
         int count = 0;
         for (Store s : storeRepository.findAll()) count++;
@@ -48,8 +49,7 @@ public class StoreService {
         List<Employee> employees = new ArrayList<>();
         List<BusinessHour> businessHours = new ArrayList<>();
         List<Item> items = new ArrayList<>();
-        Store newStore = new Store();
-        store.setStoreID(presetStoreID);
+        newStore.setStoreID(presetStoreID);
         newStore.setAddress(aAddress);
         newStore.setCurrentActiveDelivery(aCurrentActiveDelivery);
         newStore.setCurrentActivePickup(aCurrentActivePickup);
@@ -95,6 +95,7 @@ public class StoreService {
             throw new IllegalArgumentException("Active delivery can't be negative.");
         Store store = getStore();
         store.setCurrentActiveDelivery(activeDelivery);
+        storeRepository.save(store);
         return store;
     }
 
@@ -109,6 +110,7 @@ public class StoreService {
         if (holiday==null) throw new IllegalArgumentException("A Holiday parameter is needed");
         List<Holiday> holidays = getStore().getHoliday();
         holidays.add(holiday);
+        storeRepository.save(getStore());
     }
 
     @Transactional
@@ -123,6 +125,7 @@ public class StoreService {
         if (item==null) throw new IllegalArgumentException("An Employee parameter is needed");
         List<Item> items = getStore().getItem();
         items.add(item);
+        storeRepository.save(getStore());
     }
 
     @Transactional

@@ -1,8 +1,8 @@
 class PickupOrder{
-  depend ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
+  depend ca.mcgill.ecse321.GroceryStore.model.PickupCommission;
   PickupStatus{
     InCart{
-      order() -> Ordered;
+      commission() -> Ordered;
     }
     Ordered{
       prepare() -> Prepared;
@@ -17,10 +17,10 @@ class PickupOrder{
 
 
 class DeliveryOrder{
-  depend ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
+  depend ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
   ShippingStatus{
     InCart{
-      order() -> Ordered;
+      commission() -> Ordered;
     }
     Ordered{
       pay() -> Prepared;

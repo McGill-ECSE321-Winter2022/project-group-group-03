@@ -24,9 +24,10 @@ public class PurchasedItemRestController {
     @PostMapping(value = {"/purchased_item", "/purchased_item"}) //we added the extra path variable to test something out
     public PurchasedItemDTO createPurchasedItem(@RequestParam String item,
                                                 @RequestParam("aItemQuantity") int aItemQuantity,
-                                                @RequestParam int confirmationNumber) throws IllegalArgumentException {
+                                                @RequestParam int confirmationNumber,
+                                                @RequestParam String orderType) throws IllegalArgumentException {
 
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, aItemQuantity, confirmationNumber);
+        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, aItemQuantity, confirmationNumber, orderType);
         return convertToDto(purchasedItem);
     }
 

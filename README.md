@@ -28,7 +28,7 @@ grocerystore-backend-ise2022w
 
 ##### How to run this project
 To run the project, clone this repository and run the java file `GroceryStoreBackendApplication.java`  \
-locally as a  `Spring Boot Application`. In order to choose which database the application runs on, open `application.properties` and set `spring.profiles.default` =test or =prod depending on which one you want to use.
+locally as a  `Spring Boot Application`. In commission to choose which database the application runs on, open `application.properties` and set `spring.profiles.default` =test or =prod depending on which one you want to use.
 
 This will deploy the backend [here](http://localhost:8080/) locally.
 
@@ -78,11 +78,11 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 ### Tasks and Time Spent
 | Name| Tasks|Time Spent (hrs)|
 | :--- |--- |:---: |
-|Abhijeet Praveen |<ul>Started README.md for Deliverable 3</ul>|| 
+|Abhijeet Praveen |<ul><li>Started README.md for Deliverable 3<li>Helped formulate Software Architecture</li></li><li>Setup Frontend with Vue.js</li><li>Completed login and signup pages on frontend</li></ul>|| 
 |Ari Arabian |<ul></ul>||
 |Edward Habelrih| <ul></ul>||
 |Neel Faucher |<ul></ul>| |
-|Rooshnie Velautham|<ul></ul>| |
+|Rooshnie Velautham|<ul><li>Completed most of Software Architecture </li><li>Implemented Profile page in frontend</li></ul>| |
 |Sébastien Cantin|<ul></ul>| |
 
 ### The deliverable 3 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-3-Report)

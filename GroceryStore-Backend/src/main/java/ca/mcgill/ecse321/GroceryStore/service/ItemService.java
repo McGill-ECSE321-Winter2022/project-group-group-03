@@ -138,16 +138,21 @@ public class ItemService {
         return item;
     }
 
+
     @Transactional
     public Item updateItemImage(String name, String image){
+
         Item item = getItem(name);
         if (image == null || image.trim().length() == 0) throw new IllegalArgumentException("An image parameter is needed.");
         item.setImage(image);
         return item;
+
     }
 
-    @Transactional
-    public Item updateItem(String name, int newPrice, int newStock, String newDescription, boolean newPurchasable) {
+
+   @Transactional
+   public Item updateItem(String name, String image, int newPrice, int newStock, String newDescription, boolean newPurchasable) {
+
         Item item = itemRepository.findByName(name);
         ArrayList<String> errorMessages = new ArrayList<>();
 
@@ -170,6 +175,7 @@ public class ItemService {
         item.setPrice(newPrice);
         item.setDescription(newDescription);
         item.setStock(newStock);
+        updateItemImage(name, image);
         return item;
     }
 

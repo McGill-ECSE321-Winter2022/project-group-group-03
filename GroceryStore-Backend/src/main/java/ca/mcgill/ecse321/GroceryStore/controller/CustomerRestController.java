@@ -2,10 +2,12 @@ package ca.mcgill.ecse321.GroceryStore.controller;
 
 import ca.mcgill.ecse321.GroceryStore.dto.CustomerDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.OrderDTO;
+import ca.mcgill.ecse321.GroceryStore.model.Commission;
 import ca.mcgill.ecse321.GroceryStore.model.Customer;
-import ca.mcgill.ecse321.GroceryStore.model.Order;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import ca.mcgill.ecse321.GroceryStore.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,28 +21,46 @@ public class CustomerRestController {
     @Autowired
     private CustomerService service;
 
+
+    @GetMapping(value = {"/customer_order/{username}", "employee_order/{username}/"})
+    private OrderDTO getCustomerOrder(@PathVariable String username){
+        return convertToDto(service.getCustomerOrder(username));
+    }
+
+
     @GetMapping(value = {"/customer", "/customer/"})
     public List<CustomerDTO> getAllCustomers(){
         return service.getAllCustomers().stream().map(this::convertToDto).collect(Collectors.toList());
     }
     @PostMapping(value = { "/customer", "/customer/" })
-    public CustomerDTO createCustomer(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
-        Customer customer = service.createCustomer(username, password, email, address);
-        return convertToDto(customer);
+    public ResponseEntity<?> createCustomer(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String address) throws IllegalArgumentException {
+        try {
+            return ResponseEntity.ok(convertToDto(service.createCustomer(username, password,email,address)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
     @GetMapping(value = { "/customer/{username}", "/customer/{username}/" })
-    public CustomerDTO getCustomerByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
-        return convertToDto(service.getCustomer(username));
+    public ResponseEntity<Object> getCustomerByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
+        try {
+            return ResponseEntity.ok(convertToDto(service.getCustomer(username)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
+
     }
     @GetMapping(value = {"/customer_login", "/customer_login/"})
-    public CustomerDTO loginCustomer(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
-        Customer customer= service.loginCustomer(username, password);
-        return convertToDto(customer);
+    public ResponseEntity<Object> loginCustomer(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
+        try {
+            return ResponseEntity.ok(convertToDto(service.loginCustomer(username, password)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
     @GetMapping(value = { "/delivery_order/customer/{username}", "/delivery_order/customer/{username}/" })
     public List<OrderDTO> getDeliveryOrdersOfCustomer(@PathVariable("username") String username) {
-        List<Order> customerOrders = service.getCustomerOrders(username);
-        return customerOrders.stream().map(this::convertToDto).collect(Collectors.toList());
+        List<Commission> customerCommissions = service.getCustomerOrders(username);
+        return customerCommissions.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @PutMapping(value = {"/editPassword/{username}"})
@@ -62,11 +82,14 @@ public class CustomerRestController {
         }
         return new CustomerDTO(c.getUsername(),c.getPassword(),c.getEmail(),c.getAddress());
     }
-    private OrderDTO convertToDto(Order o) {
+    private OrderDTO convertToDto(Commission o) {
         if (o == null) {
             throw new IllegalArgumentException("There is no such Order!");
         }
-        return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem());
+        String orderType;
+        if (o instanceof DeliveryCommission)  orderType = "Delivery";
+        else orderType = "Pickup";
+        return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem(), orderType);
     }
 
 }

@@ -49,9 +49,9 @@ public class TestGroceryStorePersistence {
     //Store
     Store defaultStore = new Store();
 
-    //Order -> A customer can have many orders therefore we use a list
-    PickupOrder defaultOrder = new PickupOrder();
-    List<PickupOrder> orderList = new ArrayList<>();
+    //Order -> A customer can have many commissions therefore we use a list
+    PickupCommission defaultOrder = new PickupCommission();
+    List<PickupCommission> orderList = new ArrayList<>();
 
     //Item -> A customer can have many items therefore we use a list
     Item defaultItem = new Item();
@@ -79,8 +79,8 @@ public class TestGroceryStorePersistence {
     //Assign attributes to the temporary PickupOrder object
     public void initializeDefaultOrder(){
         this.defaultOrder.setConfirmationNumber(123);
-        this.defaultOrder.setPaymentMethod(PickupOrder.PaymentMethod.Cash);
-        this.defaultOrder.setPickupStatus(PickupOrder.PickupStatus.Ordered);
+        this.defaultOrder.setPaymentMethod(PickupCommission.PaymentMethod.Cash);
+        this.defaultOrder.setPickupStatus(PickupCommission.PickupStatus.Ordered);
     }
     //Assign attributes to the temporary Item object
     public void initializeDefaultItem(){
@@ -102,7 +102,7 @@ public class TestGroceryStorePersistence {
         this.defaultHoliday.setEndDate(java.sql.Date.valueOf(LocalDate.of(2022, Month.JULY, 10)));
     }
     
-    public void delete1Order(PickupOrder order2Delete){
+    public void delete1Order(PickupCommission order2Delete){
         orderList.remove(order2Delete);
         pickupOrderRepository.deleteById(order2Delete.getConfirmationNumber());
     }
@@ -306,9 +306,9 @@ public class TestGroceryStorePersistence {
         int confirmationNumber = 123;
         int totalCost = 10;
         String shippingAddress = "3064 rue edmond rostand";
-        DeliveryOrder.ShippingStatus status = DeliveryOrder.ShippingStatus.Ordered;
+        DeliveryCommission.ShippingStatus status = DeliveryCommission.ShippingStatus.Ordered;
 
-        DeliveryOrder deliveryOrder = new DeliveryOrder();
+        DeliveryCommission deliveryOrder = new DeliveryCommission();
         deliveryOrder.setConfirmationNumber(confirmationNumber);
         deliveryOrder.setTotalCost(totalCost);
         deliveryOrder.setShippingAddress(shippingAddress);
@@ -386,10 +386,10 @@ public class TestGroceryStorePersistence {
     public void testPersistAndLoadPickupOrder(){
         int confirmationNumber = 321;
         int totalCost = 5;
-        PickupOrder.PaymentMethod paymentMethod = PickupOrder.PaymentMethod.Cash;
-        PickupOrder.PickupStatus status = PickupOrder.PickupStatus.InCart;
+        PickupCommission.PaymentMethod paymentMethod = PickupCommission.PaymentMethod.Cash;
+        PickupCommission.PickupStatus status = PickupCommission.PickupStatus.InCart;
 
-        PickupOrder pickupOrder = new PickupOrder();
+        PickupCommission pickupOrder = new PickupCommission();
         pickupOrder.setConfirmationNumber(confirmationNumber);
         pickupOrder.setTotalCost(totalCost);
         pickupOrder.setPaymentMethod(paymentMethod);

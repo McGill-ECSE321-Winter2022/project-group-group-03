@@ -1,38 +1,36 @@
 <template>
   <div>
-  <div class="login">
-    <h1>{{ msg }}</h1>
-    <h4>New Here? <a href="" target="_blank" id="bold">Create Account</a></h4>
-    <div>
-      <b-dropdown id="dropDown" variant="outline-light" text="Please Choose Account type to Login as">
-        <b-dropdown-item>Customer</b-dropdown-item>
-        <b-dropdown-item>Employee</b-dropdown-item>
-        <b-dropdown-item>Owner</b-dropdown-item>
-      </b-dropdown>
+    <div class="login">
+      <h1>{{ msg }}</h1>
+      <h4>New Here? <a href="http://127.0.0.1:8087/#/signup" target="_blank" id="bold">Create Account</a></h4>
+      <div>
+        <b-dropdown id="dropDown" variant="danger" :text="login_msg">
+          <b-dropdown-item @click="changeMessage('Customer'); setAccountType('Customer'); setError('')">Customer</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Employee'); setAccountType('Employee'); setError('')">Employee</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Owner'); setAccountType('Owner'); setError('')">Owner</b-dropdown-item>
+        </b-dropdown>
       </div>
-    <h3>Username</h3>
-    <input size="50" type="text" placeholder="Enter username" class="text_stuff">
-    <h3>Password</h3>
-    <input size="50" type="password" placeholder="Enter Password" class="text_stuff">
-    <br>
-    <a href="" target="_blank" id="left">Forget Password?</a>
-    <br>
-    <br>
-    <b-button type="submit" id="buttonColor">Sign in</b-button>
-  </div>
+      <h3>Username</h3>
+      <input size="50" type="text" placeholder="Enter username" class="text_stuff" v-model="login_username_entered">
+      <h3>Password</h3>
+      <input size="50" type="password" placeholder="Enter Password" class="text_stuff" v-model="login_password_entered">
+      <br>
+      <b-button variant="outline_light" @click="setError('Relax and try to remember your password')" target="_blank" id="left">Forget Password?</b-button>
+      <br>
+      <br>
+      <b-button type="submit" id="buttonColor" @click="login();">Sign in</b-button>
+      <br>
+      <br>
+      <br>
+      <b-alert  :show="setAlert()" dismissible variant="danger" @dismissed="changeMessage(login_msg)">
+        {{login_error}}
+      </b-alert>
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'login',
-  data () {
-    return {
-      msg: "Welcome to Dr. Kanaan's Online Grocery Store"
 
-    }
-  }
-}
+<script src="./Login_Script.js">
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -48,18 +46,30 @@ h1{
   margin-bottom: 20px;
 }
 
+
+#left {
+  margin-left: -660px;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  color: #e03444;
+}
+
 #buttonColor {
-  background-color: red;
-  border-color: red;
+  background-color: #e03444;
+  border-color: #e03444;
   text-align: left;
   margin-left: -720px;
 }
 
 #dropDown {
-  background-color: red;
-  border-color: red;
+  background-color: #e03444;
+  border-color: #e03444;
   margin-left: -460px;
   margin-bottom: 20px;
+  min-width: 23vw;
 }
 
 h4{
@@ -75,12 +85,10 @@ h3 {
 
 #bold {
   font-weight: 900;
-}
-#left {
-  margin-left: -660px;
+
 }
 a {
-  color: red;
+  color: #e03444;
 }
 .login {
   position:absolute;

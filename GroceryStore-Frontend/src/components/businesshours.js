@@ -54,7 +54,7 @@ export default {
     Header
   },
   created: function () {
-   //this.createBusinessHours()
+    //this.createBusinessHours()
     //this.sleep(1000)
     this.getBusinessHours()
   },
@@ -102,17 +102,17 @@ export default {
         })
     },
 
-       createBusinessHours: function(){
+    createBusinessHours: function(){
       // AXIOS.post("./store?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",{},{})
       //   .then(response => {
       //     console.log(response.data)
       //   })
-        this.sleep(1000);
+      this.sleep(1000);
       console.log("creating business hours")
       AXIOS.post('businessHour?startTime=02:35&endTime=04:24&day=Sunday')
         .then((response) => {
-        console.log(response)
-      })
+          console.log(response)
+        })
       AXIOS.post('businessHour?startTime=02:35&endTime=04:24&day=Monday')
         .then((response) => {
           console.log(response)
@@ -245,21 +245,21 @@ export default {
       while (currentDate - date < milliseconds);
     },
     updateButtonHours: function(){
-        console.log(this.hours)
-        this.buttonMessage1 = this.parseHour(this.hours[0].startTime)
-        this.buttonMessage2 = this.parseHour(this.hours[0].endTime)
-        this.buttonMessage3 = this.parseHour(this.hours[1].startTime)
-        this.buttonMessage4 = this.parseHour(this.hours[1].endTime)
-        this.buttonMessage5 = this.parseHour(this.hours[2].startTime)
-        this.buttonMessage6 = this.parseHour(this.hours[2].endTime)
-        this.buttonMessage7 = this.parseHour(this.hours[3].startTime)
-        this.buttonMessage8 = this.parseHour(this.hours[3].endTime)
-        this.buttonMessage9 = this.parseHour(this.hours[4].startTime)
-        this.buttonMessage10 = this.parseHour(this.hours[4].endTime)
-        this.buttonMessage11 = this.parseHour(this.hours[5].startTime)
-        this.buttonMessage12 = this.parseHour(this.hours[5].endTime)
-        this.buttonMessage13 = this.parseHour(this.hours[6].startTime)
-        this.buttonMessage14 = this.parseHour(this.hours[6].endTime)
+      console.log(this.hours)
+      this.buttonMessage1 = this.parseHour(this.hours[0].startTime)
+      this.buttonMessage2 = this.parseHour(this.hours[0].endTime)
+      this.buttonMessage3 = this.parseHour(this.hours[1].startTime)
+      this.buttonMessage4 = this.parseHour(this.hours[1].endTime)
+      this.buttonMessage5 = this.parseHour(this.hours[2].startTime)
+      this.buttonMessage6 = this.parseHour(this.hours[2].endTime)
+      this.buttonMessage7 = this.parseHour(this.hours[3].startTime)
+      this.buttonMessage8 = this.parseHour(this.hours[3].endTime)
+      this.buttonMessage9 = this.parseHour(this.hours[4].startTime)
+      this.buttonMessage10 = this.parseHour(this.hours[4].endTime)
+      this.buttonMessage11 = this.parseHour(this.hours[5].startTime)
+      this.buttonMessage12 = this.parseHour(this.hours[5].endTime)
+      this.buttonMessage13 = this.parseHour(this.hours[6].startTime)
+      this.buttonMessage14 = this.parseHour(this.hours[6].endTime)
     },
     parseHour: function(Time){
       let x = ""

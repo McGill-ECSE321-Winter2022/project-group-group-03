@@ -2,37 +2,34 @@
   <div>
     <div class="signup">
       <div>
-        <b-dropdown id="dropDown" variant="outline-light" text="Please Choose Account type to Create">
-          <b-dropdown-item>Customer</b-dropdown-item>
-          <b-dropdown-item>Employee</b-dropdown-item>
-          <b-dropdown-item>Owner</b-dropdown-item>
+        <b-dropdown id="dropDown" variant="danger" :text="account_msg">
+          <b-dropdown-item @click="changeMessage('Customer'); setAccountType('Customer'); setErrorEmpty()">Customer</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Employee'); setAccountType('Employee'); setErrorEmpty()">Employee</b-dropdown-item>
+          <b-dropdown-item @click="changeMessage('Owner'); setAccountType('Owner'); setErrorEmpty()">Owner</b-dropdown-item>
         </b-dropdown>
       </div>
       <h3>Username</h3>
-      <input size="100" type="text" placeholder="Enter username" class="text_stuff">
+      <input size="100" type="text" placeholder="Enter username" class="text_stuff" v-model="create_username_entered">
       <h3>Email</h3>
-      <input size="100" type="email" placeholder="Enter email" class="text_stuff">
-        <h3>Address</h3>
-      <input size="100" type="text" placeholder="Enter address" class="text_stuff">
+      <input size="100" type="email" placeholder="Enter email" class="text_stuff" v-model="create_email_entered">
+      <h3>Address</h3>
+      <input size="100" type="text" placeholder="Enter address" class="text_stuff" v-model="create_address_entered">
       <h3>Password</h3>
-      <input size="100" type="password" placeholder="Enter Password" class="text_stuff">
+      <input size="100" type="password" placeholder="Enter Password" class="text_stuff" v-model="create_password_entered">
       <br>
       <br>
-      <b-button type="submit" id="buttonColor">Sign up</b-button>
+      <b-button type="submit" id="buttonColor" @click="create()">Sign up</b-button>
+      <br>
+      <br>
+      <br>
+      <b-alert  :show="setAlert()" dismissible variant="danger" @dismissed="changeMessage(account_msg)">
+        {{create_error}}
+      </b-alert>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'signup',
-  data () {
-    return {
-      msg: "Welcome to Dr. Kanaan's Online Grocery Store"
-
-    }
-  }
-}
+<script src = "./signup_script.js">
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -48,17 +45,18 @@ h1{
 }
 
 #buttonColor {
-  background-color: red;
-  border-color: red;
+  background-color: #e03444;
+  border-color: #e03444;
   text-align: left;
   margin-left: -720px;
 }
 
 #dropDown {
-  background-color: red;
-  border-color: red;
+  background-color: #e03444;
+  border-color: #e03444;
   margin-left: -490px;
   margin-bottom: 20px;
+  min-width: 23vw;
 }
 
 h4{
@@ -73,7 +71,7 @@ h3 {
 }
 
 a {
-  color: red;
+  color: #e03444;
 }
 .signup {
   position:absolute;

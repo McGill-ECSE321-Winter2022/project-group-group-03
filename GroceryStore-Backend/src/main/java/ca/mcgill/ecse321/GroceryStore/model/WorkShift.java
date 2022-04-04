@@ -4,16 +4,17 @@
 package ca.mcgill.ecse321.GroceryStore.model;
 import java.sql.Time;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 // line 50 "../../../../../../model.ump"
 // line 223 "../../../../../../model.ump"
 @Entity
 public class WorkShift
 {
+
+  @ManyToOne
+  @JoinColumn(name = "employee_username")
+  private Employee employee;
 
 
   //------------------------
@@ -37,6 +38,13 @@ public class WorkShift
   @Column(nullable = false)
   private DayOfWeek day;
 
+  public Employee getEmployee() {
+    return employee;
+  }
+
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
+  }
 
 
   //------------------------
@@ -68,12 +76,11 @@ public class WorkShift
 
   }
 
-  public boolean setShiftID(int aShiftID)
+  public void setShiftID(int aShiftID)
   {
-    boolean wasSet = false;
+
     shiftID = aShiftID;
-    wasSet = true;
-    return wasSet;
+
   }
 
   public DayOfWeek getDay() {
