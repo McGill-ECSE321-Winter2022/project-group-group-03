@@ -61,22 +61,22 @@
                       &nbsp
                       <button style=background-color:#e03444 type="button">x</button>
                     </div>
-                    <div class="container" v-for="Item in sessionStorage.purchasedItemList" :key=Item.aPurchasedItemID>
-                      <h5>hi</h5>
-                      <!--                      <div class="row">-->
-<!--                        <div id="x1" class="col-sm">-->
-<!--                          {{Item.aItem.name}}-->
-<!--                        </div>-->
-<!--                        <div id="itemFormat2" class="col-sm">-->
-<!--                          <button @click="down()" style=background-color:#e03444 type="button">-</button>-->
-<!--                          &nbsp-->
-<!--                          {{Item.aItemQuantity}}-->
-<!--                          &nbsp-->
-<!--                          <button @click="up(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">+</button>-->
-<!--                          &nbsp-->
-<!--                          <button @click="deleteItem(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">x</button>-->
-<!--                        </div>-->
-<!--                  </div>-->
+                    <div class="container" v-for="Item in translatedPurchasedItems" >
+
+                      <div class="row">
+                        <div id="x1" class="col-sm">
+                          {{Item.aItem.name}}
+                        </div>
+                        <div id="itemFormat2" class="col-sm">
+                          <button @click="down()" style=background-color:#e03444 type="button">-</button>
+                          &nbsp
+                          {{Item.aItemQuantity}}
+                          &nbsp
+                          <button @click="up(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">+</button>
+                          &nbsp
+                          <button @click="deleteItem(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">x</button>
+                        </div>
+                  </div>
                   </div>
                   </div>
                   </div>
@@ -86,6 +86,7 @@
         </div>
       </b-sidebar>
     </div>
+    <button @click="TranslatePurchasedItems()">filter JSON</button>
   </header>
 </template>
 

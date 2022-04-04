@@ -1,6 +1,7 @@
 import Header from "./EmployeeNav"
 import axios from 'axios'
 import Cart_script from "./cart_script"
+import {type} from "mocha/lib/utils";
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -55,13 +56,18 @@ export default {
     }
     },
   methods: {
+    /**
+     * creates a purchased item and adds it to cart
+     * @param itemName the name of the item that is getting added to cart
+     * @returns {Promise<void>} in session storage, creates a double JSON encoded list with all the
+     * purchased items in cart, along with the new item in it
+     */
     addToCart: async function (itemName) {
       await Cart_script.methods.getOrder()
-      console.log(sessionStorage)
+      console.log("Creating purchased item")
       let objIndex = this.items.findIndex((item => item.name == itemName));
-      console.log('/purchased_item?item='.concat(this.items[objIndex].item.name, "&aItemQuantity=", this.items[objIndex].item.counter, "&confirmationNumber=", sessionStorage.confirmationNumber))
       await AXIOS.post('/purchased_item?item='.concat(this.items[objIndex].item.name, "&aItemQuantity=", this.items[objIndex].item.counter, "&confirmationNumber=", sessionStorage.confirmationNumber,"&orderType=", sessionStorage.orderType))
-      await Cart_script.methods.getItems()
+      await Cart_script.methods.getOrder()
       console.log(sessionStorage)
     },
     getStore: function (){
