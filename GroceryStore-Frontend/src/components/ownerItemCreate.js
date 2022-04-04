@@ -69,7 +69,7 @@ export default{
           this.price = this.response.price
           this.stock = this.response.stock
           this.purchasable = this.response.purchasable
-          this.image = this.response.image
+          this.imageUrl = this.response.image
         })
     },
 
@@ -95,6 +95,12 @@ export default{
       AXIOS.put('/editItemImage/'.concat(name, '?image=', image))
         .then((response) => {
           console.log(response)
+          this.imageUrl=''
+          this.itemNameO=''
+          this.description=''
+          this.stock=''
+          this.price=''
+          this.purchasable=''
         })
       this.sleep(500)
       this.image = image

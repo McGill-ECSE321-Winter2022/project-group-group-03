@@ -9,7 +9,6 @@
           </div>
           <div class="col">
             <button type="button" id=search class="btn btn-danger" @click="searchForItem(searchItemName)">Search</button>
-            <button type="button" id=update class="btn btn-danger"@click="createStore()">Update</button>
             <button type="button" id=create class="btn btn-danger" @click="createItemOwner(itemNameO, price, description, purchasable, stock)">Create</button>
           </div>
         </div>
@@ -32,7 +31,7 @@
             <input type="text" id="imageURLField" class="form-control" placeholder="URL" v-model="imageUrl" aria-label="URL">
             <button type="button" id=addItem class="btn btn-danger" @click="putImage(itemNameO, imageUrl)">Add Image</button>
           </div>
-          <img src="https://www.musicinminnesota.com/wp-content/uploads/2017/08/Photos-Coming-Soon.jpg" alt="https://mastermind.fims.uwo.ca/wp-content/uploads/2019/04/coming-soon-1.jpg" id="itemPic" class="img-thumbnail">
+          <img :src=imageUrl :alt=itemNameO id="itemPic" class="img-thumbnail">
         </div>
       </div>
     </div>
