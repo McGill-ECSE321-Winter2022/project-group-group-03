@@ -1,5 +1,6 @@
 import Header from "./EmployeeNav"
-import Nav from "./OwnerNav"
+import Cart from "./Cart"
+import Footer from "./Footer"
 
 import axios from 'axios'
 var config = require('../../config')
@@ -29,15 +30,25 @@ export default {
       deliveryType: null,
       paymentType: null,
       totalCost: 0,
-      error: false
+      error: false,
+      loggedIn_employee:'',
+      loggedIn_customer:''
     }
   },
 
   components: {
-    Header
+    Header,
+    Cart,
+    Footer
   },
 
   async created() {
+    if(sessionStorage.accountType==="Employee"){
+      this.loggedIn_employee=true
+      console.log(this.loggedIn_employee)
+    }else if(sessionStorage.accountType==="Customer"){
+      this.loggedIn_customer=true
+    }
     await this.getOrder()
     this.orderType = sessionStorage.orderType
     let list1 = JSON.parse(sessionStorage.purchasedItemList)

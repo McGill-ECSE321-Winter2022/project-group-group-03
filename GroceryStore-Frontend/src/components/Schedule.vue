@@ -16,7 +16,7 @@
         <td>{{ shift.endTime }}</td>
       </tr>
     </table>
-
+    <Footer/>
   </div>
 </template>
 

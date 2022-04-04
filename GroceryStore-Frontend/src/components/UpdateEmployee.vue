@@ -62,13 +62,14 @@
         </b-form-group>
       </form>
     </b-modal>
-
+    <Footer/>
   </div>
 
 </template>
 
 <script>
 import Header from "./EmployeeNav"
+import Footer from "./Footer"
 
 import axios from 'axios'
 var config = require('../../config')
@@ -107,7 +108,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    Footer
   },
   mounted: function () {
     this.getEmployee()

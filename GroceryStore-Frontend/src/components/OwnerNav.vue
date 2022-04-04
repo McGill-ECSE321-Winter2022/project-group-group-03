@@ -13,10 +13,7 @@
           <b-nav-item class="item" :to="{ name: 'OwnerItemCreate' }">Manage Items</b-nav-item>
           <b-nav-item class="item" :to="{ name: 'OwnerHoliday' }">Manage Holidays</b-nav-item>
           <b-nav-item class="item" :to="{ name: 'OwnerBH' }">Manage Business Hours</b-nav-item>
-          <b-nav-item-dropdown text="User" right>
-            <b-dropdown-item :to="{ name: 'UpdateOwner' }">Profile</b-dropdown-item>
-            <b-dropdown-item>Sign Out</b-dropdown-item>
-          </b-nav-item-dropdown>
+          <b-nav-item :to="{ name: 'Logout' }">Logout</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
 
@@ -26,3 +23,7 @@
 <style>
 
 </style>
+<script>export default {
+  components: {}
+}
+</script>
