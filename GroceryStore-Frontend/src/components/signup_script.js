@@ -63,7 +63,7 @@ export default {
       }
       //owner create
       if (this.create_accountType_entered==="Owner"){
-        AXIOS.post('/owner?username='.concat(this.create_username_entered,"&email=", this.create_email_entered,"&password=",this.create_email_entered))
+        AXIOS.post('/owner?username='.concat(this.create_username_entered,"&email=", this.create_email_entered,"&password=",this.create_password_entered))
           .then((response) => {
             this.$router.push({ name: "Login" })
           })
