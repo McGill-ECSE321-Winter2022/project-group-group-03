@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
+import ca.mcgill.ecse321.GroceryStore.model.Commission;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,36 +110,18 @@ public class DeliveryOrderService {
     @Transactional
     public void addPurchasedItemToDeliveryOrder(Integer confirmationNumber, PurchasedItem purchasedItem){
         DeliveryCommission d = getDeliveryOrder(confirmationNumber);
-        List<PurchasedItem> p = d.getPurchasedItem();
+        List<PurchasedItem> p;
+        if(d.getPurchasedItem()==null){
+            p=new ArrayList<>();
+        }else{
+            p=d.getPurchasedItem();
+        }
         p.add(purchasedItem);
         String itemName = purchasedItem.getItem().getName();
         itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
         d.setPurchasedItem(p);
         this.updateTotalCost(confirmationNumber);
     }
-
-    @Transactional
-    public void addPurchasedItemToDeliveryOrder(String username, PurchasedItem purchasedItem){
-        DeliveryCommission commission = null;
-
-        if (employeeRepository.existsById(username)) {
-            commission =  (DeliveryCommission) employeeService.getEmployeeOrder(username);
-        }
-
-        if (customerRepository.existsById(username)) {
-            commission =  (DeliveryCommission) customerService.getCustomerOrder(username);
-        }
-        List<PurchasedItem> p = commission.getPurchasedItem();
-        p.add(purchasedItem);
-        String itemName = purchasedItem.getItem().getName();
-        itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
-        commission.setPurchasedItem(p);
-        this.updateTotalCost(commission.getConfirmationNumber());
-
-    }
-
-
-
 
     @Transactional
     public DeliveryCommission setShippingStatus(Integer confirmationNumber, String shippingStatus) {
@@ -219,6 +202,7 @@ public class DeliveryOrderService {
         newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.InCart);
 
         newDeliveryOrder.setStore(storeService.getStore());
+        deliveryOrderRepository.save(newDeliveryOrder);
         if (accountType.equals("Customer")){
             customerService.addOrder(username, newDeliveryOrder);
             newDeliveryOrder.setCustomer(customerService.getCustomer(username));

@@ -76,19 +76,24 @@ public class PickupOrderService {
     @Transactional
     public DeliveryCommission convertPickupToDelivery(String username, String shippingAddress, String accountType, boolean isOutOfTown) {
         PickupCommission commission = null;
+        String username1 = null;
 
         if (employeeRepository.existsById(username)) {
             commission =  (PickupCommission) employeeService.getEmployeeOrder(username);
+            username1 = username;
         }
 
         if (customerRepository.existsById(username)) {
             commission =  (PickupCommission) customerService.getCustomerOrder(username);
+            username1 = username;
         }
 
-        DeliveryCommission deliveryCommission = deliveryOrderService.createDeliveryOrder(username,shippingAddress,accountType,isOutOfTown);
+        DeliveryCommission deliveryCommission = deliveryOrderService.createDeliveryOrder(username1,shippingAddress,accountType,isOutOfTown);
 
         for (PurchasedItem purchasedItem : commission.getPurchasedItem()) {
-            deliveryOrderService.addPurchasedItemToDeliveryOrder(username,purchasedItem);
+           String pItem=purchasedItem.getItem().getName();
+           itemService.addItemStock(pItem,purchasedItem.getItemQuantity());
+            deliveryOrderService.addPurchasedItemToDeliveryOrder(deliveryCommission.getConfirmationNumber(),purchasedItem);
         }
 
         pickupOrderRepository.deleteById(commission.getConfirmationNumber());
