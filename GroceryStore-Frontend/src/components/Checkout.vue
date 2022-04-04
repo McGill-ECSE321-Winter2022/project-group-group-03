@@ -19,26 +19,25 @@
         </b-card>
 
       </b-col>
-      <b-col>
-        <b-card
-          title="Fruit"
-          img-src="https://picsum.photos/600/300/?image=25"
-          img-alt="Image"
-          img-top
-          tag="article"
-          style="max-width: 20rem;"
-          class="mb-2"
-        >
-          <b-card-text>
-            fruity
-          </b-card-text>
+<!--      <b-col>-->
+<!--        <b-card-->
+<!--          title="Fruit"-->
+<!--          img-src="https://picsum.photos/600/300/?image=25"-->
+<!--          img-alt="Image"-->
+<!--          img-top-->
+<!--          tag="article"-->
+<!--          style="max-width: 20rem;"-->
+<!--          class="mb-2"-->
+<!--        >-->
+<!--          <b-card-text>-->
+<!--            fruity-->
+<!--          </b-card-text>-->
 
-        </b-card>
-      </b-col>
+<!--        </b-card>-->
+<!--      </b-col>-->
       <b-col>
-
         <div class="item-text">
-          <b-dropdown id = dropdown-1 variant="#e03444" text="Delivery Options" class="m-md-2"> <b-dropdown-item>
+          <b-dropdown id = dropdown-1 style="background-color: #e03444; border-color: #e03444;"  variant="danger" text="Delivery Options" class="m-md-2"> <b-dropdown-item>
             <button id = newbutton1 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>In Town Delivery    </button>
               <b-modal id="modal-1" title="BootstrapVue">
                 <p class="my-4">
@@ -102,22 +101,22 @@
         </b-card>
 
       </b-col>
-      <b-col>
-        <b-card
-          title="Fruit"
-          img-src="https://picsum.photos/600/300/?image=25"
-          img-alt="Image"
-          img-top
-          tag="article"
-          style="max-width: 20rem;"
-          class="mb-2"
-        >
-          <b-card-text>
-            fruity
-          </b-card-text>
+<!--      <b-col>-->
+<!--        <b-card-->
+<!--          title="Fruit"-->
+<!--          img-src="https://picsum.photos/600/300/?image=25"-->
+<!--          img-alt="Image"-->
+<!--          img-top-->
+<!--          tag="article"-->
+<!--          style="max-width: 20rem;"-->
+<!--          class="mb-2"-->
+<!--        >-->
+<!--          <b-card-text>-->
+<!--            fruity-->
+<!--          </b-card-text>-->
 
-        </b-card>
-      </b-col>
+<!--        </b-card>-->
+<!--      </b-col>-->
       <b-col>
       </b-col>
     </b-row>
@@ -140,30 +139,28 @@
         </b-card>
 
       </b-col>
-      <b-col>
-        <b-card
-          title="Fruit"
-          img-src="https://picsum.photos/600/300/?image=25"
-          img-alt="Image"
-          img-top
-          tag="article"
-          style="max-width: 20rem;"
-          class="mb-2"
-        >
-          <b-card-text>
-            fruity
-          </b-card-text>
+<!--      <b-col>-->
+<!--        <b-card-->
+<!--          title="Fruit"-->
+<!--          img-src="https://picsum.photos/600/300/?image=25"-->
+<!--          img-alt="Image"-->
+<!--          img-top-->
+<!--          tag="article"-->
+<!--          style="max-width: 20rem;"-->
+<!--          class="mb-2"-->
+<!--        >-->
+<!--          <b-card-text>-->
+<!--            fruity-->
+<!--          </b-card-text>-->
 
-        </b-card>
-      </b-col>
+<!--        </b-card>-->
+<!--      </b-col>-->
       <b-col>
         <div id="total" >
           Sub Total: $40
         </div>
 
-        <button id="newbutton" style=background-color:#e03444 type="button">
-                   Buy Now
-                 </button>
+        <b-button id="newbutton" style="color: white; background-color: #e03444; border-color: #e03444;">Buy Now</b-button>
 
       </b-col>
     </b-row>
