@@ -62,7 +62,7 @@ export default{
           }
         })
         .catch(e => {
-          this.errorHoliday = e.response.data;
+          this.errorItemOwner = e.response.data;
         })
     },
     viewAll: function(){
@@ -87,18 +87,15 @@ export default{
           this.image2Load = this.response.image
         })
         .catch(e => {
-          this.errorHoliday = e.response.data;
+          this.errorItemOwner = e.response.data;
         })
     },
 
     createItemOwner: function(name, price, description, purchasable, stock){
       console.log('/item?itemName='.concat(name, '&purchasable=', purchasable ,'&price=', price, '&description=', description,'&stock=', stock))
       AXIOS.post('/item?itemName='.concat(name, '&purchasable=', purchasable ,'&price=', price, '&description=', description,'&stock=', stock))
-        .catch(function (error) {
-          this.errorItemOwner = error.data();
-        })
         .catch(e => {
-          this.errorHoliday = e.response.data;
+          this.errorItemOwner = e.response.data;
         })
       this.sleep(500);
       this.items.length = 0;
@@ -120,7 +117,7 @@ export default{
           this.errorItemOwner = error.data();
         })
         .catch(e => {
-          this.errorHoliday = e.response.data;
+          this.errorItemOwner = e.response.data;
         })
       this.itemNameO = ''
       this.description = ''
@@ -147,7 +144,7 @@ export default{
           this.image2Load = ''
         })
         .catch(e => {
-          this.errorHoliday = e.response.data;
+          this.errorItemOwner = e.response.data;
         })
       this.sleep(500)
       this.image = image
@@ -169,8 +166,15 @@ export default{
           console.log(response.data)
         })
         .catch(e => {
-          this.errorHoliday = e.response.data;
+          this.errorItemOwner = e.response.data;
         })
     },
+    setAlert: function () {
+      return this.errorItemOwner !== ""
     },
+
+    setErrorEmpty(){
+      this.errorItemOwner = ""
+    }
+    }
 }

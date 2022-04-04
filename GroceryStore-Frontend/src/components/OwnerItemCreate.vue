@@ -54,6 +54,9 @@
     </div>
     <span v-if="errorItem" style="color:red">Error: {{errorItem}} </span>
     <button type="button" id=hideAll class="btn btn-danger" aligncenter="holidayTable"  v-show="visibleViewAll" @click="hideAll">Hide</button>
+    <b-alert id="alert" style="max-width: 100%" :show="setAlert()" dismissible variant="danger" @dismissed="setErrorEmpty()">
+      {{errorItemOwner}}
+    </b-alert>
   </div>
 </template>
 
@@ -120,6 +123,9 @@ export default {
     }
     #itemInfo{
       margin-top: 100px;
+    }
+    #alert{
+      margin-top: 5%;
     }
 
 </style>

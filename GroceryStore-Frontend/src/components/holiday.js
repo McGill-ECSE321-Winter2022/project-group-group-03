@@ -286,16 +286,10 @@ export default{
     setAlert: function () {
       return this.errorHoliday !== ""
     },
-    setError: function(message) {
-      this.errorHoliday = message
-    },
-    // changeMessage: function (accountType) {
-    //   if (this.login_msg===accountType) {
-    //     this.login_msg = "Please Choose Account Type to Login as"
-    //   }
-    //   else {
-    //     this.login_msg = accountType
-    //   }
-    // }
+
+    setErrorEmpty(){
+      this.errorHoliday = ""
+    }
+
   }
 }
