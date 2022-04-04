@@ -1,4 +1,5 @@
-import Header from "./EmployeeNav"
+import Header from "./EmployeeNav.vue"
+import Cart from "./Cart.vue"
 import axios from 'axios'
 import Cart_script from "./cart_script"
 import {type} from "mocha/lib/utils";
@@ -34,14 +35,23 @@ export default {
       errorItem: '',
       response: '',
       search: '',
-      out: []
+      out: [],
+      loggedIn_employee:'',
+      loggedIn_customer:''
     }
   },
   components: {
     Header,
-    Cart_script
+    Cart_script,
+    Cart
   },
   created() {
+    if(sessionStorage.accountType==="Employee"){
+      this.loggedIn_employee=true
+      console.log(this.loggedIn_employee)
+    }else if(sessionStorage.accountType==="Customer"){
+      this.loggedIn_customer=true
+    }
     this.getItems();
   },
   computed: {

@@ -8,17 +8,11 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
           <b-nav-item id="item" :to="{ name: 'UpdateOwner' }">Home</b-nav-item>
-          &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-          <b-nav-item class="item">Manage Employees</b-nav-item>
-          &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-          <b-nav-item class="item">Manage Items</b-nav-item>
-          &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-          <b-nav-item class="item">Manage Holidays</b-nav-item>
-          &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-          <b-nav-item class="item">Manage Business Hours</b-nav-item>
-          &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+          <b-nav-item class="item" :to="{ name: 'OwnerEmployee' }">Manage Employees</b-nav-item>
+          <b-nav-item class="item" :to="{ name: 'OwnerItemCreate' }">Manage Items</b-nav-item>
+          <b-nav-item class="item" :to="{ name: 'OwnerHoliday' }">Manage Holidays</b-nav-item>
+          <b-nav-item class="item" :to="{ name: 'OwnerBH' }">Manage Business Hours</b-nav-item>
           <b-nav-item-dropdown text="User" right>
             <b-dropdown-item :to="{ name: 'UpdateOwner' }">Profile</b-dropdown-item>
             <b-dropdown-item>Sign Out</b-dropdown-item>

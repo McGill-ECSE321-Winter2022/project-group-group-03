@@ -5,14 +5,9 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="text-center">
-          <b-nav-item class = "itemNav">Home</b-nav-item>
-
-          <b-nav-item class = "itemNav">Profile</b-nav-item>
-
-          <b-nav-item class = "itemNav">Workshift</b-nav-item>
-
-          <b-nav-item class = "itemNav">Checkout</b-nav-item>
-
+          <b-nav-item >Home</b-nav-item>
+          <b-nav-item>Profile</b-nav-item>
+          <b-nav-item>Checkout</b-nav-item>
         </b-navbar-nav>
 
       </b-collapse>
@@ -52,7 +47,6 @@
         </div>
       </b-sidebar>
     </div>
-    <button @click="TranslatePurchasedItems()">filter JSON</button>
   </header>
 </template>
 

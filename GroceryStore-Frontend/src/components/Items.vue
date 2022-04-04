@@ -1,33 +1,10 @@
 <template xmlns:text-transform="http://www.w3.org/1999/xhtml" >
   <div style="overflow-x:hidden">
-    <Header />
+    <Header v-if="this.loggedIn_employee"/>
+    <Cart v-if="this.loggedIn_customer"/>
     <div class="search-wrapper panel-heading col-sm-12">
       <input type="text" v-model="search" placeholder="Search" /> <br> <br>
     </div>
-    <table>
-      <tr>
-        <td>
-          <input type="text" v-model="newItem" placeholder="Item Name">
-        </td>
-        <td>
-          <input type="text" v-model="newPrice" placeholder="Item Price">
-        </td>
-        <td>
-          <input type="text" v-model="newDescription" placeholder="Item Description">
-        </td>
-        <td>
-          <input type="text" v-model="newImage" placeholder="Item image url">
-        </td>
-
-        <td>
-          <button v-bind:disabled="!newItem" @click="createItem(newItem, newPrice, newDescription, newImage)">Create Item</button>
-        </td>
-        <td>
-          <button @click="createStore()">Get Items</button>
-        </td>
-      </tr>
-    </table>
-
     <div class="card-deck" style="padding: 5%">
       <div class="card" id="card" v-for="item in filteredItems" :key=item.name>
 
@@ -47,7 +24,6 @@
       </div>
     </div>
 
-    <button @click="deleteItem()">Delete Item</button>
     <span v-if="errorItem" style="color:red">Error: {{errorItem}} </span>
   </div>
 </template>

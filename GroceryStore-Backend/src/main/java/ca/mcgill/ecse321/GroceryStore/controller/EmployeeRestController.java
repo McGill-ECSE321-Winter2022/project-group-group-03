@@ -136,7 +136,7 @@ public class EmployeeRestController {
         String orderType = "";
         if (o instanceof DeliveryCommission)  orderType = "Delivery";
         else orderType = "Pickup";
-        if(o.getCustomer().getUsername()== null)  return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem(), orderType,o.getEmployee().getUsername());
+        if(o.getCustomer()== null)  return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem(), orderType,o.getEmployee().getUsername());
         else return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem(), orderType,o.getCustomer().getUsername());
     }
 

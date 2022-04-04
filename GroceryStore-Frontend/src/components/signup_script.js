@@ -49,6 +49,7 @@ export default {
       if (this.create_accountType_entered==="Customer"){
         AXIOS.post('/customer?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"&address=",this.create_address_entered))
           .then((response) => {
+            this.$router.push({ name: "Login" })
           })
           .catch((error) => {this.create_error = error.response.data/* <-- this */ });
       }
@@ -56,6 +57,7 @@ export default {
       if (this.create_accountType_entered==="Employee"){
         AXIOS.post('/employee?username='.concat(this.create_username_entered,"&email=", this.create_email_entered,"&password=",this.create_password_entered,"&address=",this.create_address_entered))
           .then((response) => {
+            this.$router.push({ name: "Login" })
           })
           .catch((error) => {this.create_error = error.response.data/* <-- this */ });
       }
@@ -63,6 +65,7 @@ export default {
       if (this.create_accountType_entered==="Owner"){
         AXIOS.post('/owner?username='.concat(this.create_username_entered,"&email=", this.create_email_entered,"&password=",this.create_email_entered))
           .then((response) => {
+            this.$router.push({ name: "Login" })
           })
           .catch((error) => {this.create_error = error.response.data/* <-- this */ });
       }

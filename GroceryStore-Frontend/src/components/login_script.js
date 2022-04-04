@@ -57,6 +57,7 @@ export default {
               sessionStorage.logged_in = true
               sessionStorage.username = response.data.username
               sessionStorage.accountType="Customer"
+              console.log(sessionStorage.accountType)
               this.$router.push({ name: "Items" })
             })
           .catch(e => {
@@ -75,6 +76,7 @@ export default {
               sessionStorage.logged_in = true
               sessionStorage.username = response.data.username
               sessionStorage.accountType="Employee"
+              console.log(sessionStorage.accountType)
               this.$router.push({ name: "Items" })
             })
 
@@ -94,7 +96,8 @@ export default {
               sessionStorage.logged_in = true
               sessionStorage.username = response.data.username
               sessionStorage.accountType="Owner"
-              this.$router.push({ name: "Items" })//TODO: change the owner page
+              console.log(sessionStorage.accountType)
+              this.$router.push({ name: "UpdateOwner" })//TODO: change the owner page
             })
           .catch(e => {
             console.log(e)
