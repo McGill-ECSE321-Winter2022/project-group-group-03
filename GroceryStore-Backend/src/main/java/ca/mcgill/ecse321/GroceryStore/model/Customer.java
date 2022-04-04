@@ -31,11 +31,12 @@ public class Customer
   private String email;
   private String address;
 
-  //Customer Associations
 
-  @OneToMany
-  @JoinColumn(name = "customer_confirmationNumber")
-  private List<Order> order;
+
+//Customer Associations
+@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+private List<Commission> commissions = new ArrayList<>();
+
 
   //------------------------
   // CONSTRUCTOR
@@ -59,8 +60,8 @@ public class Customer
     this.password=aPassword;
   }
 
-  public void setOrder(List<Order> order) {
-    this.order = order;
+  public void setOrder(List<Commission> commission) {
+    this.commissions = commission;
   }
 
   public void setEmail(String aEmail)
@@ -94,8 +95,8 @@ public class Customer
     return address;
   }
 
-  public List<Order> getOrder() {
-    return order;
+  public List<Commission> getOrder() {
+    return commissions;
   }
 
   public String toString()

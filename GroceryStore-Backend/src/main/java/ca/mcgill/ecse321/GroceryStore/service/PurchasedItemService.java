@@ -26,6 +26,12 @@ public class PurchasedItemService {
     @Autowired
     OrderService orderService;
 
+    @Autowired
+    DeliveryOrderService deliveryOrderService;
+
+    @Autowired
+    PickupOrderService pickupOrderService;
+
     @Transactional
     public void deletePurchasedItem(int purchasedItemID) {
         PurchasedItem pItem = purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
@@ -76,6 +82,43 @@ public class PurchasedItemService {
         return purchasedItems;
     }
 
+    @Transactional
+    public PurchasedItem createPurchasedItem(String itemName, int itemQuantity, int confirmationNumber, String orderType) {
+        PurchasedItem purchasedItem = new PurchasedItem();
+        String error = null;
+        if (itemName== null || itemName.trim().length() == 0) {
+            throw new IllegalArgumentException("item cannot be null.");
+        }
+        Item item = itemService.getItem(itemName);
+
+        if (!item.getPurchasable()) {
+            error="item is not purchasable.";
+        }
+        else if (itemQuantity > item.getStock()) {
+            error="itemQuantity cannot be greater than the stock.";
+        }
+        if (itemQuantity == 0) {
+            error="item quantity cannot be zero.";
+        }
+        else if (itemQuantity < 0) {
+            error="item quantity cannot be negative.";
+        }
+        if (error != null) {
+            throw new IllegalArgumentException(error);
+        }
+
+        while(purchasedItemRepository.existsById(curID)){
+            curID++;
+        }
+
+        purchasedItem.setItem(item);
+        purchasedItem.setItemQuantity(itemQuantity);
+        purchasedItem.setPurchasedItemID(curID);
+        if (orderType.equals("Delivery")) deliveryOrderService.addPurchasedItemToDeliveryOrder(confirmationNumber, purchasedItem);
+        else if (orderType.equals("Pickup")) pickupOrderService.addPurchasedItemToPickupOrder(confirmationNumber,purchasedItem);
+        purchasedItemRepository.save(purchasedItem);
+        return purchasedItem;
+    }
 
     @Transactional
     public PurchasedItem createPurchasedItem(String itemName, int itemQuantity, int confirmationNumber) {

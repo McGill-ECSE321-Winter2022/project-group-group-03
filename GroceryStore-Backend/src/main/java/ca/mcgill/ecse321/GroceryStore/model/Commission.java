@@ -11,7 +11,7 @@ import java.util.*;
 //@MappedSuperclass
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Order
+public abstract class Commission
 {
 
   //------------------------
@@ -21,26 +21,49 @@ public abstract class Order
   //Order Attributes
 
   @Id
-  //@GeneratedValue(strategy = GenerationType.TABLE)
   private int confirmationNumber;
   private int totalCost;
 
   //Order Associations
 
   @ManyToOne
-  @JoinColumn(name = "order_storeID", unique = true)
+  @JoinColumn(name = "order_storeID")
   private Store store;
 
   @OneToMany
   @JoinColumn(name = "order_purchasedItemID")
   private List<PurchasedItem> purchasedItem;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "customer_username")
+  private Customer customer;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "employee_username")
+  private Employee employee;
+
+  public Employee getEmployee() {
+        return employee;
+  }
+
+  public void setEmployee(Employee employee) {
+        this.employee = employee;
+  }
+
+  public Customer getCustomer() {
+        return customer;
+  }
+
+  public void setCustomer(Customer customer) {
+        this.customer = customer;
+  }
+
 //------------------------
   // CONSTRUCTOR
   //------------------------
 
 
-  public Order() {
+  public Commission() {
 
   }
 
@@ -84,5 +107,15 @@ public abstract class Order
     return totalCost;
   }
 
-
+  @Override
+  public String toString() {
+    return "Commission{" +
+            "confirmationNumber=" + confirmationNumber +
+            ", totalCost=" + totalCost +
+            ", store=" + store +
+            ", purchasedItem=" + purchasedItem +
+            ", customer=" + customer +
+            ", employee=" + employee +
+            '}';
+  }
 }

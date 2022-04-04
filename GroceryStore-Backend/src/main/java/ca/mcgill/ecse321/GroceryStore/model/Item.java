@@ -46,7 +46,7 @@ public class Item
   // CONSTRUCTOR
   //------------------------
 
-   public Item() {
+  public Item() {
 
   }
 

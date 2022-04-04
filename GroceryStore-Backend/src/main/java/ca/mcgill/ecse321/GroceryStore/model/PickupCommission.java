@@ -15,9 +15,9 @@ import javax.persistence.InheritanceType;
 // line 188 "../../../../../../model.ump"
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
-public class PickupOrder extends Order
+public class PickupCommission extends Commission
 {
-  public PickupOrder() {
+  public PickupCommission() {
 
   }
 

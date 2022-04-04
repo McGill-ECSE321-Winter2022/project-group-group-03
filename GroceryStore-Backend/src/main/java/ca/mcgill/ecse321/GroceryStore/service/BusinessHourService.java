@@ -72,6 +72,7 @@ public class BusinessHourService {
         newBusinessHour.setHoursID(curID++);
         storeService.addBusinessHour(newBusinessHour);
         businessHourRepository.save(newBusinessHour);
+        //System.out.println(newBusinessHour);
         return newBusinessHour;
     }
 
@@ -83,7 +84,10 @@ public class BusinessHourService {
     }
 
     @Transactional
-    public List<BusinessHour> getAllBusinessHours() {return toList(businessHourRepository.findAll());}
+    public List<BusinessHour> getAllBusinessHours() {
+        System.out.println(toList(businessHourRepository.findAll()));
+        return toList(businessHourRepository.findAll());
+    }
 
     @Transactional
     public void deleteBusinessHour(int hoursID) {
@@ -97,8 +101,9 @@ public class BusinessHourService {
         BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
         if (businessHour == null) throw new IllegalArgumentException("The business hour with ID: " + hoursID + " does not exist.");
         if (time == null) throw new IllegalArgumentException("A time parameter is needed.");
-        if (time.after(businessHour.getEndTime())) throw new IllegalArgumentException("Start Time cannot be after End Time.");
+        //if (time.after(businessHour.getEndTime())) throw new IllegalArgumentException("Start Time cannot be after End Time.");
         businessHour.setStartTime(time);
+        System.out.println(businessHour);
         return  businessHour;
     }
 
@@ -108,15 +113,15 @@ public class BusinessHourService {
         if (businessHour == null) throw new IllegalArgumentException("The business hour with ID: " + hoursID + " does not exist.");
         if (newStartTime == null) throw new IllegalArgumentException("A Start Time parameter is needed.");
         if (newEndTime == null) throw new IllegalArgumentException("An End Time parameter is needed.");
-        if (newStartTime.after(newEndTime)) throw new IllegalArgumentException("Start Time cannot be after End Time.");
-        if (newStartTime.before(businessHour.getStartTime())) {
-            businessHour.setStartTime(newStartTime);
-            businessHour.setEndTime(newEndTime);
-        }
-        if (newEndTime.after(businessHour.getEndTime())) {
-            businessHour.setEndTime(newEndTime);
-            businessHour.setStartTime(newStartTime);
-        }
+//       if (newStartTime.after(newEndTime)) throw new IllegalArgumentException("Start Time cannot be after End Time.");
+//       if (newStartTime.before(businessHour.getStartTime())) {
+//            businessHour.setStartTime(newStartTime);
+//            businessHour.setEndTime(newEndTime);
+//        }
+//        if (newEndTime.after(businessHour.getEndTime())) {
+//            businessHour.setEndTime(newEndTime);
+//            businessHour.setStartTime(newStartTime);
+//        }
         return businessHour;
     }
 
@@ -125,7 +130,7 @@ public class BusinessHourService {
         BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
         if (businessHour == null) throw new IllegalArgumentException("The business hour with ID: " + hoursID + " does not exist.");
         if (time == null) throw new IllegalArgumentException("A time parameter is needed.");
-        if (time.before(businessHour.getStartTime())) throw new IllegalArgumentException("End Time cannot be before Start Time.");
+        //if (time.before(businessHour.getStartTime())) throw new IllegalArgumentException("End Time cannot be before Start Time.");
         businessHour.setEndTime(time);
         return businessHour;
     }

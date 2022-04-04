@@ -2,7 +2,6 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
 package ca.mcgill.ecse321.GroceryStore.model;
-import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
 
 import javax.persistence.*;
 
@@ -12,7 +11,7 @@ import javax.persistence.*;
 // line 183 "../../../../../../model.ump"
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
-public class DeliveryOrder extends Order
+public class DeliveryCommission extends Commission
 {
 
   //------------------------
@@ -28,7 +27,7 @@ public class DeliveryOrder extends Order
   //DeliveryOrder Attributes
   private String shippingAddress;
   private boolean outOfTown;
-  public DeliveryOrder() {
+  public DeliveryCommission() {
     super();
   }
 

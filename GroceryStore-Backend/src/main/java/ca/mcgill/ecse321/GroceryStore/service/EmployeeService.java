@@ -61,23 +61,27 @@ public class EmployeeService {
         newEmployee.setPassword(aPassword);
         newEmployee.setAddress(aAddress);
         newEmployee.setWorkingStatus(Employee.WorkingStatus.Hired);
+        newEmployee.setOrder(new ArrayList<>());
+        newEmployee.setWorkShift(new ArrayList<>());
         storeService.addEmployee(newEmployee);
         employeeRepository.save(newEmployee);
         return newEmployee;
     }
 
     @Transactional
-    public Order getEmployeeOrder(String username){
-        List<Order> o = getEmployeeOrders(username);
-        for (Order order : o){
+
+    public Commission getEmployeeOrder(String username){
+        List<Commission> o = getEmployeeOrders(username);
+        for (Commission commission : o){
             String s = "";
-            if (order instanceof PickupOrder){
-                s =  ((PickupOrder) order).getPickupStatusFullName();
+            if (commission instanceof PickupCommission){
+                s =  ((PickupCommission) commission).getPickupStatusFullName();
             }
-            else if (order instanceof DeliveryOrder){
-                s= ((DeliveryOrder) order).getShippingStatusFullName();
+            else if (commission instanceof DeliveryCommission){
+                s= ((DeliveryCommission) commission).getShippingStatusFullName();
             }
-            if (s.equals("InCart")) return order;
+            if (s.equals("InCart")) return commission;
+
         }
         throw new IllegalArgumentException("This Employee has no Orders in cart");
     }
@@ -117,6 +121,14 @@ public class EmployeeService {
     }
 
     @Transactional
+    public Employee hireEmployee(String username){
+        Employee e = getEmployee(username);
+        if (e.getWorkingStatusFullName().equals("Hired")) throw new IllegalArgumentException("Employee has already been hired");
+        e.setWorkingStatus(Employee.WorkingStatus.Hired);
+        return e;
+    }
+
+    @Transactional
     public Employee updateEmployee(String username, String password, String address){
         if (password==null || password.equals("")) throw new IllegalArgumentException("Password cannot be empty");
         if (address==null || address.equals("")) throw new IllegalArgumentException("Address cannot be empty");
@@ -146,25 +158,27 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void addOrder(String username, Order order){
+    public void addOrder(String username, Commission commission){
         Employee e = getEmployee(username);
-        e.getOrder().add(order);
+        List<Commission> s = e.getOrder();
+        s.add(commission);
+        e.setOrder(s);
     }
 
     @Transactional
-    public List<Order> getEmployeeOrders(String aUsername){
+    public List<Commission> getEmployeeOrders(String aUsername){
         return getEmployee(aUsername).getOrder();
     }
 
     @Transactional
     public void deleteEmployee(String aUsername){
         if (aUsername == null || aUsername.equals("")) throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
-            for(Employee employee : employeeRepository.findAll()){
-                if (employee.getUsername().equals(aUsername)) {
-                    employeeRepository.deleteById(aUsername);
-                    return;
-                }
+        for(Employee employee : employeeRepository.findAll()){
+            if (employee.getUsername().equals(aUsername)) {
+                employeeRepository.deleteById(aUsername);
+                return;
             }
+        }
         throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
     }
 

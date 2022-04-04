@@ -27,8 +27,7 @@ public class WorkShiftService {
         if (!workShiftRepository.existsById(shiftID)) {
             throw new IllegalArgumentException("The work shift does not exist.");
         }
-        workShiftRepository.findByShiftID(shiftID);
-
+        workShiftRepository.deleteById(shiftID);
     }
 
     @Transactional
@@ -72,6 +71,18 @@ public class WorkShiftService {
         return workShift;
     }
 
+    @Transactional
+    public WorkShift updateWorkshiftHours(int shiftID, Time aStartTime, Time aEndTime){
+        if(!workShiftRepository.existsById(shiftID)){
+            throw new IllegalArgumentException("Work shift doesn't exist.");
+        }
+        if (aStartTime == null) throw new IllegalArgumentException("Start Time can't be empty.");
+        if (aEndTime == null) throw new IllegalArgumentException("End Time can't be empty.");
+        WorkShift workShift = workShiftRepository.findByShiftID(shiftID);
+        workShift.setStartTime(aStartTime);
+        workShift.setEndTime(aEndTime);
+        return workShift;
+    }
 
     @Transactional
     public WorkShift updateWorkShiftTimeEnd(int shiftID,  Time aEndTime) {
@@ -132,6 +143,7 @@ public class WorkShiftService {
         //TODO: add workshift to employee
         employeeService.addWorkShift(username, workShift);
         workShiftRepository.save(workShift);
+        System.out.println(workShift);
         return workShift;
     }
 

@@ -10,12 +10,19 @@ import EmployeeNav from "../components/EmployeeNav";
 
 
 import Login from "../components/Login";
+import Logout from "../components/Logout";
 import Schedule from "../components/Schedule";
 import UpdateEmployee from "../components/UpdateEmployee";
 import UpdateCustomer from "../components/UpdateCustomer";
 import UpdateOwner from "../components/UpdateOwner";
 import Items from "@/components/Items";
 import SignUp from "@/components/SignUp";
+import OwnerBH from "@/components/OwnerBH";
+import OwnerHoliday from "../components/OwnerHoliday";
+import OwnerEmployee from "../components/OwnerEmployee.vue";
+import OwnerItemCreate from "../components/OwnerItemCreate.vue";
+
+
 
 
 Vue.use(Router)
@@ -27,6 +34,11 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login,
+    },
+    {
+      path: '/Logout',
+      name: 'Logout',
+      component: Logout,
     },
     {
       path: '/Items',
@@ -71,7 +83,29 @@ export default new Router({
     {
       path: '/signup',
       name: 'SignUp',
-      component: SignUp,
+
+      component: SignUp
+    },
+    {
+      path: '/OwnerBH',
+      name: 'OwnerBH',
+      component: OwnerBH
+    },
+    {
+      path: '/OwnerItemCreate',
+      name: 'OwnerItemCreate',
+      component: OwnerItemCreate
+    },
+    {
+      path: '/OwnerHoliday',
+      name: 'OwnerHoliday',
+      component: OwnerHoliday
+    },
+    {
+      path: '/OwnerEmployee',
+      name: 'OwnerEmployee',
+      component: OwnerEmployee
+
     },
     {
       path: '/UpdateCustomer',

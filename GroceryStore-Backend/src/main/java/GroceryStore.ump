@@ -1,7 +1,7 @@
 use GroceryStoreStates.ump;
 namespace ca.mcgill.ecse321.GroceryStore.model;
 
-//add a basket option, potentially a state for each order
+//add a basket option, potentially a state for each commission
 
 
 class Store{
@@ -34,7 +34,7 @@ class Employee{
   unique email;
   address;
   0..1 -> * WorkShift workShift;
-  0..1 -> * Order order;
+  0..1 -> * Order commission;
 }
 
 class Customer{
@@ -42,7 +42,7 @@ class Customer{
   password;
   unique email;
   address;
-  0..1 -> * Order order;
+  0..1 -> * Order commission;
 
 }
 

@@ -20,8 +20,8 @@ public class ItemRestController {
 
     @PostMapping(value = { "/item", "/item/" })
     public ItemDTO createItem(@RequestParam String itemName ,@RequestParam boolean purchasable,
-                                      @RequestParam int price, @RequestParam String description,
-                                      @RequestParam int stock) throws IllegalArgumentException {
+                              @RequestParam int price, @RequestParam String description,
+                              @RequestParam int stock) throws IllegalArgumentException {
         return convertToDto(service.createItem(itemName,purchasable,price,description,stock));
     }
 
@@ -32,10 +32,10 @@ public class ItemRestController {
     }
 
     @PutMapping(value = {"/editItem/{itemName}"})
-    public ItemDTO updateItemPurchasable(@PathVariable("itemName") String itemName,
+    public ItemDTO updateItemAll(@PathVariable("itemName") String itemName, @RequestParam String newImage,
                                          @RequestParam int newPrice, @RequestParam int newStock,
                                          @RequestParam String newDescription, @RequestParam boolean newPurchasable) throws IllegalArgumentException {
-        return convertToDto(service.updateItem(itemName,newPrice,newStock,newDescription,newPurchasable));
+        return convertToDto(service.updateItem(itemName, newImage, newPrice,newStock,newDescription,newPurchasable));
     }
 
     @PutMapping(value = {"/editItemPurchasable/{itemName}"})
@@ -64,13 +64,13 @@ public class ItemRestController {
 
     @PutMapping(value = {"/addItemStock/{itemName}"})
     public ItemDTO addItemStock(@PathVariable("itemName") String itemName,
-                                   @RequestParam int addedStock) throws IllegalArgumentException {
+                                @RequestParam int addedStock) throws IllegalArgumentException {
         return convertToDto(service.addItemStock(itemName,addedStock));
     }
 
     @PutMapping(value = {"/editItemPrice/{itemName}"})
     public ItemDTO updateItemPrice(@PathVariable("itemName") String itemName,
-                                @RequestParam int newPrice) throws IllegalArgumentException {
+                                   @RequestParam int newPrice) throws IllegalArgumentException {
         return convertToDto(service.updateItemPrice(itemName,newPrice));
     }
 

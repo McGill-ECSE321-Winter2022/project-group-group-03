@@ -3,8 +3,9 @@ package ca.mcgill.ecse321.GroceryStore.controller;
 import ca.mcgill.ecse321.GroceryStore.dto.EmployeeDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.OrderDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.WorkShiftDTO;
+import ca.mcgill.ecse321.GroceryStore.model.Commission;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import ca.mcgill.ecse321.GroceryStore.model.Employee;
-import ca.mcgill.ecse321.GroceryStore.model.Order;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
 
@@ -25,12 +26,14 @@ public class EmployeeRestController {
     private EmployeeService service;
 
     @GetMapping(value = { "/all_employees", "/all_employees/" })
-    public List<EmployeeDTO> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() throws IllegalArgumentException {
         return service.getAllEmployees().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @GetMapping(value = {"/employee_order/{username}", "employee_order/{username}/"})
-    private OrderDTO getEmployeeOrder(@PathVariable String username){
+
+    private OrderDTO getEmployeeOrder(@PathVariable String username) throws IllegalArgumentException {
+
         return convertToDto(service.getEmployeeOrder(username));
     }
 
@@ -59,12 +62,12 @@ public class EmployeeRestController {
     }
 
     @GetMapping(value = { "/workshift/employee", "/workshift/employee/" })
-    public List<WorkShiftDTO> getWorkShiftsOfEmployee(@RequestParam String username) {
+    public List<WorkShiftDTO> getWorkShiftsOfEmployee(@RequestParam String username) throws IllegalArgumentException {
         return createWorkShiftDtosForEmployee(convertToDomainObject(getEmployeeByUsername(username)));
     }
 
     @GetMapping(value = { "/delivery_order/employee", "/delivery_order/employee/" })
-    public List<OrderDTO> getOrdersOfEmployee(@RequestParam String username) {
+    public List<OrderDTO> getOrdersOfEmployee(@RequestParam String username) throws IllegalArgumentException{
         return createOrderDtosForEmployee(convertToDomainObject(getEmployeeByUsername(username)));
     }
 
@@ -74,22 +77,35 @@ public class EmployeeRestController {
     }
 
     @PutMapping(value = { "/update_employee_password", "/update_employee_password/"})
-    public EmployeeDTO updateEmployeePassword(@RequestParam String username, @RequestParam String password){
-        return convertToDto(service.updateEmployeePassword(username, password));
+    public ResponseEntity<?> updateEmployeePassword(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
+        try {
+            return ResponseEntity.ok(convertToDto(service.updateEmployeePassword(username, password)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @PutMapping(value = { "/update_employee_address", "/update_employee_address/"})
-    public EmployeeDTO updateEmployeeAddress(@RequestParam String username,  @RequestParam String address){
-        return convertToDto(service.updateEmployeeAddress(username, address));
+    public ResponseEntity<?> updateEmployeeAddress(@RequestParam String username,  @RequestParam String address) throws IllegalArgumentException{
+        try {
+            return ResponseEntity.ok(convertToDto(service.updateEmployeeAddress(username, address)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @PutMapping(value = {"/fire_employee", "/fire_employee/"})
-    public EmployeeDTO fireEmployee(@RequestParam String username){
+    public EmployeeDTO fireEmployee(@RequestParam String username) throws IllegalArgumentException {
         return convertToDto(service.fireEmployee(username));
     }
 
+    @PutMapping(value = {"/hire_employee", "/hire_employee/"})
+    public EmployeeDTO hireEmployee(@RequestParam String username) throws IllegalArgumentException {
+        return convertToDto(service.hireEmployee(username));
+    }
+
     @DeleteMapping(value = {"/employee", "/employee/"})
-    public void deleteEmployee(@RequestParam String username){
+    public void deleteEmployee(@RequestParam String username) throws IllegalArgumentException {
         service.deleteEmployee(username);
     }
 
@@ -101,7 +117,7 @@ public class EmployeeRestController {
         if (e.getOrder() == null) employeeDTO.setOrders(null);
         else {
             List<OrderDTO> orderDTOS = new ArrayList<>();
-            for (Order o : e.getOrder()) orderDTOS.add(convertToDto(o));
+            for (Commission o : e.getOrder()) orderDTOS.add(convertToDto(o));
             employeeDTO.setOrders(orderDTOS);
         }
         if (e.getWorkShift()==null)employeeDTO.setWorkShifts(null);
@@ -113,11 +129,15 @@ public class EmployeeRestController {
         return employeeDTO;
     }
 
-    private OrderDTO convertToDto(Order o) {
+    private OrderDTO convertToDto(Commission o) {
         if (o == null) {
             throw new IllegalArgumentException("There is no such Order!");
         }
-        return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem());
+        String orderType = "";
+        if (o instanceof DeliveryCommission)  orderType = "Delivery";
+        else orderType = "Pickup";
+        if(o.getCustomer().getUsername()== null)  return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem(), orderType,o.getEmployee().getUsername());
+        else return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem(), orderType,o.getCustomer().getUsername());
     }
 
     private WorkShiftDTO convertToDto(WorkShift w) {
@@ -149,11 +169,11 @@ public class EmployeeRestController {
 
     private List<OrderDTO> createOrderDtosForEmployee(Employee e) {
         if (e == null) throw new IllegalArgumentException("There is no such Employee.");
-        List<Order> ordersForEmployee = service.getEmployeeOrders(e.getUsername());
-        List<OrderDTO> orders = new ArrayList<>();
-        for (Order order : ordersForEmployee) {
-            orders.add(convertToDto(order));
+        List<Commission> ordersForEmployee = service.getEmployeeOrders(e.getUsername());
+        List<OrderDTO> commissions = new ArrayList<>();
+        for (Commission commission : ordersForEmployee) {
+            commissions.add(convertToDto(commission));
         }
-        return orders;
+        return commissions;
     }
 }

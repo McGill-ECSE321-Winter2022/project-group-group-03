@@ -2,10 +2,9 @@ package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
-import ca.mcgill.ecse321.GroceryStore.model.DeliveryOrder;
-import ca.mcgill.ecse321.GroceryStore.model.Order;
-import ca.mcgill.ecse321.GroceryStore.model.PickupOrder;
-import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
+import ca.mcgill.ecse321.GroceryStore.model.*;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
+import ca.mcgill.ecse321.GroceryStore.model.Commission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +25,11 @@ public class OrderService {
     PickupOrderService pickupOrderService;
 
     @Transactional
-    public List<Order> getAllOrders() {
-        List<Order> orders = new ArrayList<>();
-        for (PickupOrder pickupOrder : pickupOrderRepository.findAll()) orders.add(pickupOrder);
-        for(DeliveryOrder deliveryOrder: deliveryOrderRepository.findAll()) orders.add(deliveryOrder);
-        return orders;
+    public List<Commission> getAllOrders() {
+        List<Commission> commissions = new ArrayList<>();
+        for (PickupCommission pickupOrder : pickupOrderRepository.findAll()) commissions.add(pickupOrder);
+        for(DeliveryCommission deliveryOrder: deliveryOrderRepository.findAll()) commissions.add(deliveryOrder);
+        return commissions;
     }
 
     @Transactional
@@ -55,12 +54,12 @@ public class OrderService {
     public String getOrderStatus(int confirmationNumber){
         String s = "";
         try{
-            DeliveryOrder d = deliveryOrderService.getDeliveryOrder(confirmationNumber);
+            DeliveryCommission d = deliveryOrderService.getDeliveryOrder(confirmationNumber);
             s = d.getShippingStatusFullName();
         }catch(Exception e){
         }
         try{
-            PickupOrder p = pickupOrderService.getPickupOrder(confirmationNumber);
+            PickupCommission p = pickupOrderService.getPickupOrder(confirmationNumber);
             s = p.getPickupStatusFullName();
         }catch (Exception e){
         }

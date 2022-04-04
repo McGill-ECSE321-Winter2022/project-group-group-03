@@ -31,60 +31,28 @@
               <h1 style="color:#e03444;font-size:28px;"> <b> Edit Cart</b> </h1>
             </div>
 
-            <div id="meat" class="container">
+            <div class="container" v-for="Item in translatedPurchasedItems">
+
               <div class="row">
-                <div id="x3" class="col-sm">
-                  meat
+                <div id="x1" class="col-sm">
+                  {{Item.aItem.name}}
                 </div>
-                <div id="itemFormat" class="col-sm">
-                  <button style=background-color:#e03444 type="button">
-                    -
-                  </button>
+                <div id="itemFormat2" class="col-sm">
+                  <button @click="down(Item.aPurchasedItemID, Item.aItemQuantity)" style=background-color:#e03444 type="button">-</button>
                   &nbsp
-                  2
+                  {{Item.aItemQuantity}}
                   &nbsp
-                  <button style=background-color:#e03444  type="button">+</button>
+                  <button @click="up(Item.aPurchasedItemID, Item.aItemQuantity)" style=background-color:#e03444  type="button">+</button>
                   &nbsp
-                  <button style=background-color:#e03444 type="button">x</button>
+                  <button @click="deleteItem(Item.aPurchasedItemID)" style=background-color:#e03444  type="button">x</button>
                 </div>
-                <div id="vegetables" class="container">
-                  <div class="row">
-                    <div id="x2" class="col-sm">
-                      vegetables
-                    </div>
-                    <div id="itemFormat1" class="col-sm">
-                      <button style=background-color:#e03444 type="button">-</button>
-                      &nbsp
-                      3
-                      &nbsp
-                      <button style=background-color:#e03444 type="button">+</button>
-                      &nbsp
-                      <button style=background-color:#e03444 type="button">x</button>
-                    </div>
-                    <div class="container" v-for="Item in purchasedItemList" :key=purchasedItem.aPurchasedItemID>
-                      <div class="row">
-                        <div id="x1" class="col-sm">
-                          {{Item.aItem.name}}
-                        </div>
-                        <div id="itemFormat2" class="col-sm">
-                          <button @click="down()" style=background-color:#e03444 type="button">-</button>
-                          &nbsp
-                          {{Item.aItemQuantity}}
-                          &nbsp
-                          <button @click="up(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">+</button>
-                          &nbsp
-                          <button @click="deleteItem(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">x</button>
-                        </div>
-                  </div>
-                 </div>
-                  </div>
-                  </div>
-                  </div>
-                  </div>
+              </div>
+            </div>
           </template>
         </div>
       </b-sidebar>
     </div>
+    <button @click="TranslatePurchasedItems()">filter JSON</button>
   </header>
 </template>
 
@@ -114,25 +82,4 @@
 </style>
 
 <script src="./cart_script.js">
-export default {
-  methods: {
-    onSubmit(event) {
-      event.preventDefault()
-      alert(JSON.stringify(this.form))
-    },
-    onReset(event) {
-      event.preventDefault()
-      // Reset our form values
-      this.form.email = ''
-      this.form.name = ''
-      this.form.food = null
-      this.form.checked = []
-      // Trick to reset/clear native browser form validation state
-      this.show = false
-      this.$nextTick(() => {
-        this.show = true
-      })
-    }
-  }
-}
 </script>
