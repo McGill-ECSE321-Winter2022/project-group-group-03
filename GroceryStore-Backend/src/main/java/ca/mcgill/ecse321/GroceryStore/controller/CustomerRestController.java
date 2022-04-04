@@ -64,16 +64,24 @@ public class CustomerRestController {
     }
 
     @PutMapping(value = {"/editPassword/{username}"})
-    public CustomerDTO updateCustomerPassword(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException{
-        return convertToDto(service.setPassword(username, password));
+    public ResponseEntity<?> updateCustomerPassword(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException{
+        try {
+            return ResponseEntity.ok(convertToDto(service.setPassword(username, password)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
     @PutMapping(value = {"/editEmail/{username}"})
     public CustomerDTO updateCustomerEmail(@PathVariable("username") String username, @RequestParam String email) throws IllegalArgumentException{
         return convertToDto(service.setEmail(username, email));
     }
     @PutMapping(value = {"/editAddress/{username}"})
-    public CustomerDTO updateCustomerAddress(@PathVariable("username") String username, @RequestParam String address) throws  IllegalArgumentException{
-        return convertToDto(service.setAddress(username, address));
+    public ResponseEntity<?> updateCustomerAddress(@PathVariable("username") String username, @RequestParam String address) throws  IllegalArgumentException{
+        try {
+            return ResponseEntity.ok(convertToDto(service.setAddress(username, address)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     private CustomerDTO convertToDto(Customer c) {
