@@ -60,8 +60,12 @@ public class OwnerRestController {
     }
 
     @PutMapping(value = {"/update_owner", "/update_owner/"})
-    public OwnerDTO updateOwner(@RequestParam String username, @RequestParam String password){
-        return convertToDto(service.updateOwner(username, password));
+    public ResponseEntity<?> updateOwner(@RequestParam String username, @RequestParam String password){
+        try {
+            return ResponseEntity.ok(convertToDto(service.updateOwner(username, password)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @DeleteMapping(value = {"/owner", "/owner/"})

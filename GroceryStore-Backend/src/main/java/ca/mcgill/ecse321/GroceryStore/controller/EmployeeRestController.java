@@ -77,13 +77,21 @@ public class EmployeeRestController {
     }
 
     @PutMapping(value = { "/update_employee_password", "/update_employee_password/"})
-    public EmployeeDTO updateEmployeePassword(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
-        return convertToDto(service.updateEmployeePassword(username, password));
+    public ResponseEntity<?> updateEmployeePassword(@RequestParam String username, @RequestParam String password) throws IllegalArgumentException{
+        try {
+            return ResponseEntity.ok(convertToDto(service.updateEmployeePassword(username, password)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @PutMapping(value = { "/update_employee_address", "/update_employee_address/"})
-    public EmployeeDTO updateEmployeeAddress(@RequestParam String username,  @RequestParam String address) throws IllegalArgumentException{
-        return convertToDto(service.updateEmployeeAddress(username, address));
+    public ResponseEntity<?> updateEmployeeAddress(@RequestParam String username,  @RequestParam String address) throws IllegalArgumentException{
+        try {
+            return ResponseEntity.ok(convertToDto(service.updateEmployeeAddress(username, address)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @PutMapping(value = {"/fire_employee", "/fire_employee/"})

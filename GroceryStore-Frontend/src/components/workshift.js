@@ -44,14 +44,14 @@ export default {
   },
   created: function () {
     // Initializing shift from backend
-    //this.getWorkshift()
+    this.getWorkshift()
 
     // //Test data
-    const p1 = new WorkShiftDTO('09:00', '11:00', '2', 'Monday')
-    const p2 = new WorkShiftDTO('09:00', '11:00', '22', 'Tuesday')
-    const p3 = new WorkShiftDTO('09:00', '11:00', '3', 'Wednesday')
-    // Sample initial content
-    this.shifts = [p1, p2, p3]
+    // const p1 = new WorkShiftDTO('09:00', '11:00', '2', 'Monday')
+    // const p2 = new WorkShiftDTO('09:00', '11:00', '22', 'Tuesday')
+    // const p3 = new WorkShiftDTO('09:00', '11:00', '3', 'Wednesday')
+    // // Sample initial content
+    // this.shifts = [p1, p2, p3]
   },
   methods:{
     createWorkshift(){
@@ -74,14 +74,14 @@ export default {
 
     },
     getWorkshift(){
+      let username = sessionStorage.username
+      this.username = username
       AXIOS.get('/workshift/employee?username='.concat(this.username))
         .then(response => {
           //JSON responses are automatically parsed
           this.shifts = response.data
         })
-        .catch(e => {
-          this.errorShift = e
-        })
+
     }
   }
 }
