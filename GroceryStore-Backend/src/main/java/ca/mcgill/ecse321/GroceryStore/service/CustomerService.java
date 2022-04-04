@@ -102,7 +102,7 @@ public class CustomerService {
             }
             if (s.equals("InCart")) return commission;
         }
-        throw new IllegalArgumentException("This Employee has no Orders in cart");
+        throw new IllegalArgumentException("This Customer has no Orders in cart");
     }
 
     @Transactional

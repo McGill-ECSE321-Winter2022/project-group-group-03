@@ -18,10 +18,7 @@ import java.util.stream.Collectors;
 public class PickupOrderRestController {
     @Autowired
     private PickupOrderService service;
-    @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private EmployeeService employeeService;
+
 
     @PostMapping(value = { "/pickupOrder", "/pickupOrder/" })
     public PickupOrderDTO createPickupOrder(@RequestParam String username, @RequestParam String paymentMethod,
