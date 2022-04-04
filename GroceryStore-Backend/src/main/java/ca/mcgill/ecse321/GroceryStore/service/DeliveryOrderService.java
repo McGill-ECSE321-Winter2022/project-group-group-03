@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
 import javax.transaction.Transactional;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,8 @@ public class DeliveryOrderService {
 
     @Autowired
     PickupOrderService pickupOrderService;
+
+
 
     @Transactional
     public DeliveryCommission createDeliveryOrder(String username, String shippingAddress, Integer confirmationNumber, boolean isOutOfTown){
@@ -144,6 +147,7 @@ public class DeliveryOrderService {
 
         PickupCommission pickupCommission = pickupOrderService.createPickupOrder(username1,paymentMethod,accountType);
 
+        System.out.println(commission.getPurchasedItem());
         for (PurchasedItem purchasedItem : commission.getPurchasedItem()) {
             String pItem=purchasedItem.getItem().getName();
             itemService.addItemStock(pItem,purchasedItem.getItemQuantity());
@@ -153,6 +157,20 @@ public class DeliveryOrderService {
         deliveryOrderRepository.deleteById(commission.getConfirmationNumber());
 
         return pickupCommission;
+    }
+
+    @Transactional
+    public DeliveryCommission pay(Integer confirmationNumber){
+        DeliveryCommission d = getDeliveryOrder(confirmationNumber);
+        d.pay();
+        return d;
+    }
+
+    @Transactional
+    public DeliveryCommission deliver(Integer confirmationNumber){
+        DeliveryCommission d = getDeliveryOrder(confirmationNumber);
+        d.deliver();
+        return d;
     }
 
     @Transactional
@@ -170,7 +188,6 @@ public class DeliveryOrderService {
         switch(shippingStatus){
             case "InCart" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.InCart);
             case "Ordered" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.Ordered);
-            case "Prepared" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.Prepared);
             case "Delivered" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.Delivered);
             default -> throw new IllegalArgumentException("Invalid shipping status");
         }

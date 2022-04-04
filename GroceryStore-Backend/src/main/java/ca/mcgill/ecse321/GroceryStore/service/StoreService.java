@@ -157,7 +157,8 @@ public class StoreService {
     @Transactional
     public Store incrementActivePickup(){
         Store store = getStore();
-        if (store.getCurrentActivePickup()+1 < Store.MAXPICKUPS) throw new IllegalArgumentException("Active pickups can't be exceed max: "+Store.MAXPICKUPS);
+        int i = store.getCurrentActivePickup();
+        if (store.getCurrentActivePickup()+1 > Store.MAXPICKUPS) throw new IllegalArgumentException("Active pickups can't exceed max: "+Store.MAXPICKUPS+ ",right now it is: "+i);
         store.setCurrentActivePickup(store.getCurrentActivePickup() +1);
         return store;
     }
@@ -173,7 +174,8 @@ public class StoreService {
     @Transactional
     public Store incrementActiveDelivery(){
         Store store = getStore();
-        if (store.getCurrentActiveDelivery()+1 < Store.MAXSHIPPING) throw new IllegalArgumentException("Active deliveries can't be exceed max: "+Store.MAXSHIPPING);
+        int i = store.getCurrentActiveDelivery();
+        if (store.getCurrentActiveDelivery()+1 > Store.MAXSHIPPING) throw new IllegalArgumentException("Active deliveries can't exceed max: "+Store.MAXSHIPPING+ ",right now it is: "+i);
         store.setCurrentActiveDelivery(store.getCurrentActiveDelivery() +1);
         return store;
     }

@@ -45,6 +45,16 @@ public class DeliveryOrderRestController {
         return convertToDto(service.setShippingAddress(confirmationNumber, newAddress));
     }
 
+    @PutMapping(value = {"/payDelivery", "/payDelivery/"})
+    public DeliveryOrderDTO payPickup(@RequestParam int confirmationNumber) throws IllegalArgumentException{
+        return convertToDto(service.pay(confirmationNumber));
+    }
+
+    @PutMapping(value = {"/deliverDelivery", "/deliverDelivery/"})
+    public DeliveryOrderDTO orderPickup(@RequestParam int confirmationNumber) throws IllegalArgumentException{
+        return convertToDto(service.deliver(confirmationNumber));
+    }
+
     @PutMapping(value = {"/editDeliveryOrderShippingStatus/{confirmationNumber}/"})
     public DeliveryOrderDTO setShippingStatus(@PathVariable("confirmationNumber") int confirmationNumber, @RequestParam String newShippingStatus) throws IllegalArgumentException{
         return convertToDto(service.setShippingStatus(confirmationNumber, newShippingStatus));
