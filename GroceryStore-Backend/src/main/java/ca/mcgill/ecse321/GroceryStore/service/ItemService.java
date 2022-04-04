@@ -40,7 +40,7 @@ public class ItemService {
                 errorMessages.add("An identical Item already exists.");
             }
         }
-        
+
         if (errorMessages.size() > 0) throw new IllegalArgumentException(String.join(" ", errorMessages));
 
         Item item = new Item();
@@ -106,72 +106,78 @@ public class ItemService {
         return item;
     }
 
-   @Transactional
+    @Transactional
     public Item updateItemStock(String name, int newStock) {
-       if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
-       Item item = itemRepository.findByName(name);
-       if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
-       if (newStock < 0) throw new IllegalArgumentException("Stock can't be negative.");
-       item.setStock(newStock);
-       return item;
-   }
+        if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
+        Item item = itemRepository.findByName(name);
+        if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
+        if (newStock < 0) throw new IllegalArgumentException("Stock can't be negative.");
+        item.setStock(newStock);
+        return item;
+    }
 
-   @Transactional
-   public Item addItemStock(String name, int addedStock) {
-       if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
-       Item item = itemRepository.findByName(name);
-       if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
-       if (addedStock == 0) throw new IllegalArgumentException("Added Stock can't be 0.");
-       if (addedStock < 0) throw new IllegalArgumentException("Added Stock can't be negative.");
-       item.setStock(item.getStock()+addedStock);
-       return item;
-   }
+    @Transactional
+    public Item addItemStock(String name, int addedStock) {
+        if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
+        Item item = itemRepository.findByName(name);
+        if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
+        if (addedStock == 0) throw new IllegalArgumentException("Added Stock can't be 0.");
+        if (addedStock < 0) throw new IllegalArgumentException("Added Stock can't be negative.");
+        item.setStock(item.getStock()+addedStock);
+        return item;
+    }
 
-   @Transactional
-   public Item updateItemPrice(String name, int newPrice) {
-       if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
-       Item item = itemRepository.findByName(name);
-       if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
-       if (newPrice == 0) throw new IllegalArgumentException("Price can't be 0.");
-       if (newPrice < 0) throw new IllegalArgumentException("Price can't be negative.");
-       item.setPrice(newPrice);
-       return item;
-   }
+    @Transactional
+    public Item updateItemPrice(String name, int newPrice) {
+        if (name == null || name.trim().length() == 0) throw new IllegalArgumentException("A name parameter is needed.");
+        Item item = itemRepository.findByName(name);
+        if (item == null) throw new IllegalArgumentException("The Item with name: " + name + " was not found in the database.");
+        if (newPrice == 0) throw new IllegalArgumentException("Price can't be 0.");
+        if (newPrice < 0) throw new IllegalArgumentException("Price can't be negative.");
+        item.setPrice(newPrice);
+        return item;
+    }
 
-   @Transactional
-   public Item updateItemImage(String name, String image){
+
+    @Transactional
+    public Item updateItemImage(String name, String image){
+
         Item item = getItem(name);
         if (image == null || image.trim().length() == 0) throw new IllegalArgumentException("An image parameter is needed.");
         item.setImage(image);
         return item;
-   }
+
+    }
+
 
    @Transactional
-   public Item updateItem(String name, int newPrice, int newStock, String newDescription, boolean newPurchasable) {
+   public Item updateItem(String name, String image, int newPrice, int newStock, String newDescription, boolean newPurchasable) {
+
         Item item = itemRepository.findByName(name);
         ArrayList<String> errorMessages = new ArrayList<>();
 
-       if (name == null || name.trim().length() == 0) errorMessages.add("Name can't be empty.");
+        if (name == null || name.trim().length() == 0) errorMessages.add("Name can't be empty.");
 
-       if (newDescription == null || newDescription.trim().length() == 0) errorMessages.add("Description can't be empty.");
+        if (newDescription == null || newDescription.trim().length() == 0) errorMessages.add("Description can't be empty.");
 
-       if (newPrice == 0) errorMessages.add("Item's price can't be 0.");
+        if (newPrice == 0) errorMessages.add("Item's price can't be 0.");
 
-       if (newStock == 0) errorMessages.add("Item's stock can't be 0.");
+        if (newStock == 0) errorMessages.add("Item's stock can't be 0.");
 
-       if (newPrice < 0) errorMessages.add("Item's price can't be negative.");
+        if (newPrice < 0) errorMessages.add("Item's price can't be negative.");
 
-       if (newStock < 0) errorMessages.add("Item's stock can't be negative.");
+        if (newStock < 0) errorMessages.add("Item's stock can't be negative.");
 
-       if (errorMessages.size() > 0) throw new IllegalArgumentException(String.join(" ", errorMessages));
+        if (errorMessages.size() > 0) throw new IllegalArgumentException(String.join(" ", errorMessages));
 
 
-       item.setPurchasable(newPurchasable);
-       item.setPrice(newPrice);
-       item.setDescription(newDescription);
-       item.setStock(newStock);
-       return item;
-   }
+        item.setPurchasable(newPurchasable);
+        item.setPrice(newPrice);
+        item.setDescription(newDescription);
+        item.setStock(newStock);
+        updateItemImage(name, image);
+        return item;
+    }
 
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();

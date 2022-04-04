@@ -24,13 +24,16 @@
       </b-collapse>
     </b-navbar>
     <div>
-      <b-sidebar id="sidebar-1" title="Sidebar" shadow>
+      <b-sidebar id="sidebar-1" title="Owner Menu" shadow>
         <div class="px-3 py-2">
-          <p>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-            in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-          </p>
-          <b-img src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>
+          <nav class="mb-3">
+            <b-nav vertical>
+              <b-nav-item class="BHs" href="#link-1" @click="hide">Business Hours</b-nav-item>
+              <b-nav-item class="Emp" href="#link-2" @click="hide">Employee</b-nav-item>
+              <b-nav-item class="holiday" href="#link-3" @click="hide">Holiday</b-nav-item>
+              <b-nav-item class="Item" href="#link-4" @click="hide">Item</b-nav-item>
+            </b-nav>
+          </nav>
         </div>
       </b-sidebar>
     </div>
@@ -74,4 +77,15 @@ export default {
 </script>
 
 <style>
+  .BHs{
+    margin-bottom: 60px;
+    margin-top: 60px;
+  }
+  .Emp{
+    margin-bottom: 60px;
+  }
+  .holiday{
+    margin-bottom: 60px;
+  }
+
 </style>

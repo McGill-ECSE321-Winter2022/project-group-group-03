@@ -35,4 +35,6 @@ public class ItemDTO {
     public int getTotalPurchased() {return totalPurchased;}
 
     public String getImage() {return image;}
+
 }
+

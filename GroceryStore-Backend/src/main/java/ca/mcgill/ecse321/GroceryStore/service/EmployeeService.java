@@ -69,6 +69,7 @@ public class EmployeeService {
     }
 
     @Transactional
+
     public Commission getEmployeeOrder(String username){
         List<Commission> o = getEmployeeOrders(username);
         for (Commission commission : o){
@@ -80,6 +81,7 @@ public class EmployeeService {
                 s= ((DeliveryCommission) commission).getShippingStatusFullName();
             }
             if (s.equals("InCart")) return commission;
+
         }
         throw new IllegalArgumentException("This Employee has no Orders in cart");
     }
@@ -115,6 +117,14 @@ public class EmployeeService {
         Employee e = getEmployee(username);
         if (e.getWorkingStatusFullName().equals("Fired")) throw new IllegalArgumentException("Employee has already been fired");
         e.fireEmployee();
+        return e;
+    }
+
+    @Transactional
+    public Employee hireEmployee(String username){
+        Employee e = getEmployee(username);
+        if (e.getWorkingStatusFullName().equals("Hired")) throw new IllegalArgumentException("Employee has already been hired");
+        e.setWorkingStatus(Employee.WorkingStatus.Hired);
         return e;
     }
 
@@ -163,12 +173,12 @@ public class EmployeeService {
     @Transactional
     public void deleteEmployee(String aUsername){
         if (aUsername == null || aUsername.equals("")) throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
-            for(Employee employee : employeeRepository.findAll()){
-                if (employee.getUsername().equals(aUsername)) {
-                    employeeRepository.deleteById(aUsername);
-                    return;
-                }
+        for(Employee employee : employeeRepository.findAll()){
+            if (employee.getUsername().equals(aUsername)) {
+                employeeRepository.deleteById(aUsername);
+                return;
             }
+        }
         throw new IllegalArgumentException("Invalid username: Either no Employee has this username or the string given was null");
     }
 

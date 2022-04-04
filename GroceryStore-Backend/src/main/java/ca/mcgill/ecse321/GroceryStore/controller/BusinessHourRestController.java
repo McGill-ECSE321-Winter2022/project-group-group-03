@@ -23,7 +23,7 @@ public class BusinessHourRestController {
     private BusinessHourService service;
 
     @PostMapping(value = { "/businessHour", "/businessHour/" })
-    public BusinessHourDTO createBusinessHour(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime startTime, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime endTime,
+    public BusinessHourDTO createBusinessHour(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime,
                                               @RequestParam String day) throws IllegalArgumentException {
         return convertToDto(service.createBusinessHour(Time.valueOf(startTime),Time.valueOf(endTime),day));
     }
@@ -46,20 +46,20 @@ public class BusinessHourRestController {
 
     @PutMapping(value = {"/editBusinessHourStartTime/{hoursID}"})
     public BusinessHourDTO updateBusinessHourStartTime(@PathVariable("hoursID") int hoursID,
-                                                       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime startTime) throws IllegalArgumentException {
+                                                       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime) throws IllegalArgumentException {
         return convertToDto(service.updateBusinessHourStartTime(hoursID,Time.valueOf(startTime)));
     }
 
     @PutMapping(value = {"/editBusinessHourEndTime/{hoursID}"})
     public BusinessHourDTO updateBusinessHourEndTime(@PathVariable("hoursID") int hoursID,
-                                                       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime endTime) throws IllegalArgumentException {
+                                                       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime) throws IllegalArgumentException {
         return convertToDto(service.updateBusinessHourEndTime(hoursID,Time.valueOf(endTime)));
     }
 
     @PutMapping(value = {"/editBusinessHour/{hoursID}"})
     public BusinessHourDTO updateBusinessHour(@PathVariable("hoursID") int hoursID,
-                                                     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime startTime,
-                                                     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime endTime) throws IllegalArgumentException {
+                                                     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
+                                                     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime) throws IllegalArgumentException {
         return convertToDto(service.updateBusinessHour(hoursID,Time.valueOf(startTime),Time.valueOf(endTime)));
     }
 

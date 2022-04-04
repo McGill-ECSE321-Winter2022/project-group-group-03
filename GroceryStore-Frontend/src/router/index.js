@@ -16,6 +16,12 @@ import UpdateCustomer from "../components/UpdateCustomer";
 import UpdateOwner from "../components/UpdateOwner";
 import Items from "@/components/Items";
 import SignUp from "@/components/SignUp";
+import OwnerBH from "@/components/OwnerBH";
+import OwnerHoliday from "../components/OwnerHoliday";
+import OwnerEmployee from "../components/OwnerEmployee.vue";
+import OwnerItemCreate from "../components/OwnerItemCreate.vue";
+import OwnerItemUpdate from "../components/OwnerItemUpdate.vue";
+
 
 
 Vue.use(Router)
@@ -71,7 +77,34 @@ export default new Router({
     {
       path: '/signup',
       name: 'SignUp',
-      component: SignUp,
+
+      component: SignUp
+    },
+    {
+      path: '/OwnerBH',
+      name: 'OwnerBH',
+      component: OwnerBH
+    },
+    {
+      path: '/OwnerItemCreate',
+      name: 'OwnerItemCreate',
+      component: OwnerItemCreate
+    },
+    {
+      path:'/OwnerItemUpdate',
+      name: 'OwnerItemUpdate',
+      component: OwnerItemUpdate
+    },
+    {
+      path: '/OwnerHoliday',
+      name: 'OwnerHoliday',
+      component: OwnerHoliday
+    },
+    {
+      path: '/OwnerEmployee',
+      name: 'OwnerEmployee',
+      component: OwnerEmployee
+
     },
     {
       path: '/UpdateCustomer',

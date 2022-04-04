@@ -62,20 +62,14 @@ public class BusinessHour {
     return wasSet;
   }
 
-  public boolean setStartTime(Time aStartTime)
+  public void setStartTime(Time aStartTime)
   {
-    boolean wasSet = false;
     startTime = aStartTime;
-    wasSet = true;
-    return wasSet;
   }
 
-  public boolean setEndTime(Time aEndTime)
+  public void setEndTime(Time aEndTime)
   {
-    boolean wasSet = false;
     endTime = aEndTime;
-    wasSet = true;
-    return wasSet;
   }
 
   public DayOfWeek getDay() {

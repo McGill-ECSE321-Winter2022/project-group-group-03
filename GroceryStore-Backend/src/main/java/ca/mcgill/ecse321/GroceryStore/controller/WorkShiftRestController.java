@@ -65,6 +65,13 @@ public class WorkShiftRestController {
         WorkShift workShift = workShiftService.updateWorkShiftDay(id, day);
         return convertToDto(workShift);
     }
+    @PutMapping(value = { "/edit_workShift_hours/{id}","/edit_holiday_endDate/{id}/"})
+    public WorkShiftDTO updateWorkShiftHours(@PathVariable("id") int id, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
+                                             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime)
+            throws IllegalArgumentException {
+        WorkShift workShift = workShiftService.updateWorkshiftHours(id, Time.valueOf(startTime), Time.valueOf(endTime));
+        return convertToDto(workShift);
+    }
 
     @DeleteMapping(value = {"/workShift/{id}", "/workShift/{id}/"})
     public void deleteWorkShift(@PathVariable("id") int id) throws IllegalArgumentException {

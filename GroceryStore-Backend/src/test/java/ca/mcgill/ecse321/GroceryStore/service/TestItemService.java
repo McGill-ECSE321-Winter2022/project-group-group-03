@@ -626,7 +626,7 @@ public class TestItemService {
 
     @Test
     public void testUpdateItem() {
-        Item item = itemService.updateItem(ITEM_KEY,23,21,"You'll love it",ITEM_PURCHASABLE);
+        Item item = itemService.updateItem(ITEM_KEY, "https://pbs.twimg.com/profile_images/577610307700326400/oz5_yYBl_400x400.jpeg",23,21,"You'll love it",ITEM_PURCHASABLE);
 
         assertEquals(item.getPrice(),23);
         assertEquals(item.getStock(),21);
