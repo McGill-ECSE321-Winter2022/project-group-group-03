@@ -10,6 +10,7 @@ import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
 
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,19 +57,30 @@ public class EmployeeRestController {
     }
 
     @GetMapping(value = { "/employee", "/employee/" })
-    public EmployeeDTO getEmployeeByUsername(@RequestParam String username) throws IllegalArgumentException {
-        Employee e = service.getEmployee(username);
-        return convertToDto(e);
+    public ResponseEntity<?> getEmployeeByUsername(@RequestParam String username) throws IllegalArgumentException {
+        try{
+           return ResponseEntity.ok(convertToDto(service.getEmployee(username)));
+        } catch(IllegalArgumentException error){
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @GetMapping(value = { "/workshift/employee", "/workshift/employee/" })
-    public List<WorkShiftDTO> getWorkShiftsOfEmployee(@RequestParam String username) throws IllegalArgumentException {
-        return createWorkShiftDtosForEmployee(convertToDomainObject(getEmployeeByUsername(username)));
+    public ResponseEntity<?> getWorkShiftsOfEmployee(@RequestParam String username) throws IllegalArgumentException {
+        try{
+            return ResponseEntity.ok(createWorkShiftDtosForEmployee(service.getEmployee(username)));
+        }catch(IllegalArgumentException error){
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @GetMapping(value = { "/delivery_order/employee", "/delivery_order/employee/" })
-    public List<OrderDTO> getOrdersOfEmployee(@RequestParam String username) throws IllegalArgumentException{
-        return createOrderDtosForEmployee(convertToDomainObject(getEmployeeByUsername(username)));
+    public ResponseEntity<?> getOrdersOfEmployee(@RequestParam String username) throws IllegalArgumentException{
+        try{
+            return ResponseEntity.ok(createOrderDtosForEmployee(service.getEmployee(username)));
+        }  catch(IllegalArgumentException error){
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @PutMapping(value = { "/update_employee", "/update_employee/"})
@@ -87,13 +99,21 @@ public class EmployeeRestController {
     }
 
     @PutMapping(value = {"/fire_employee", "/fire_employee/"})
-    public EmployeeDTO fireEmployee(@RequestParam String username) throws IllegalArgumentException {
-        return convertToDto(service.fireEmployee(username));
+    public ResponseEntity<?> fireEmployee(@RequestParam String username) throws IllegalArgumentException {
+        try{
+            return ResponseEntity.ok(convertToDto(service.fireEmployee(username)));
+        } catch(IllegalArgumentException error){
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @PutMapping(value = {"/hire_employee", "/hire_employee/"})
-    public EmployeeDTO hireEmployee(@RequestParam String username) throws IllegalArgumentException {
-        return convertToDto(service.hireEmployee(username));
+    public ResponseEntity<?> hireEmployee(@RequestParam String username) throws IllegalArgumentException {
+        try{
+            return ResponseEntity.ok(convertToDto(service.hireEmployee(username)));
+        }catch(IllegalArgumentException error){
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @DeleteMapping(value = {"/employee", "/employee/"})

@@ -63,9 +63,9 @@
             </b-dropdown>
           </div>
           <div slot="modal-footer" class="modal-footer">
-            <button  id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-15'), createWorkshift1(username)">Create</button>
+            <button  id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="mondaydisable" @click="$bvModal.hide('modal-15'), createWorkshift1(username)">Create</button>
             <button  id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-15'), EMPchangeButtonHour1(EMPdropDownMessage1, EMPdropDownMessage2)">Update</button>
-            <button style="background-color: #e03444 ; color: white" id="deleteEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-15'), deleteWorkshift1()" >Delete</button>
+            <button style="background-color: #e03444 ; color: white" id="deleteEnd" type="button" class="btn btn-default" data-dismiss="modal" :disable="mondaydisable1" @click="$bvModal.hide('modal-15'), deleteWorkshift1()" >Delete</button>
           </div>
         </b-modal>
         <td>{{EMPbuttonMessage1}}</td>
@@ -107,9 +107,9 @@
             </b-dropdown>
           </div>
           <div slot="modal-footer" class="modal-footer">
-            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-16'), createWorkshift2(username)">Create</button>
+            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="tuesdaydisable" @click="$bvModal.hide('modal-16'), createWorkshift2(username)">Create</button>
             <button id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-16'), EMPchangeButtonHour2(EMPdropDownMessage1, EMPdropDownMessage2)">Update</button>
-            <button style="background-color: #e03444 ; color: white" id="deleteEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-16'), deleteWorkshift2()" >Delete</button>
+            <button style="background-color: #e03444 ; color: white" id="deleteEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="tuesdaydisable1" @click="$bvModal.hide('modal-16'), deleteWorkshift2()" >Delete</button>
           </div>
         </b-modal>
         <td>{{EMPbuttonMessage3}}</td>
@@ -151,9 +151,9 @@
             </b-dropdown>
           </div>
           <div slot="modal-footer" class="modal-footer">
-            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-17'), createWorkshift3(username)">Create</button>
+            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="wednesdaydisable" @click="$bvModal.hide('modal-17'), createWorkshift3(username)">Create</button>
             <button id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-17'), EMPchangeButtonHour3(EMPdropDownMessage1, EMPdropDownMessage2)">Update</button>
-            <button style="background-color: #e03444 ; color: white" id="deleteEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-17'), deleteWorkshift3()" >Delete</button>
+            <button style="background-color: #e03444 ; color: white" id="deleteEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="wednesdaydisable1" @click="$bvModal.hide('modal-17'), deleteWorkshift3()" >Delete</button>
           </div>
         </b-modal>
         <td>{{EMPbuttonMessage5}}</td>
@@ -195,9 +195,9 @@
             </b-dropdown>
           </div>
           <div slot="modal-footer" class="modal-footer">
-            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-18'), createWorkshift4(username)">Create</button>
+            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="thursdaydisable" @click="$bvModal.hide('modal-18'), createWorkshift4(username)">Create</button>
             <button id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-18'), EMPchangeButtonHour4(EMPdropDownMessage1, EMPdropDownMessage2)">Update</button>
-            <button style="background-color: #e03444 ; color: white" id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-18'), deleteWorkshift4()" >Delete</button>
+            <button style="background-color: #e03444 ; color: white" id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="thursdaydisable1" @click="$bvModal.hide('modal-18'), deleteWorkshift4()" >Delete</button>
           </div>
         </b-modal>
         <td>{{EMPbuttonMessage7}}</td>
@@ -239,9 +239,9 @@
             </b-dropdown>
           </div>
           <div slot="modal-footer" class="modal-footer">
-            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-19'), createWorkshift5(username)">Create</button>
+            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="fridaydisable" @click="$bvModal.hide('modal-19'), createWorkshift5(username)">Create</button>
             <button id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-19'), EMPchangeButtonHour5(EMPdropDownMessage1, EMPdropDownMessage2)">Update</button>
-            <button style="background-color: #e03444 ; color: white" id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-19'), deleteWorkshift5()" >Delete</button>
+            <button style="background-color: #e03444 ; color: white" id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="fridaydisable1" @click="$bvModal.hide('modal-19'), deleteWorkshift5()" >Delete</button>
           </div>
         </b-modal>
         <td>{{EMPbuttonMessage9}}</td>
@@ -283,9 +283,9 @@
             </b-dropdown>
           </div>
           <div slot="modal-footer" class="modal-footer">
-            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-20'), createWorkshift6(username)">Create</button>
+            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="saturdaydisable" @click="$bvModal.hide('modal-20'), createWorkshift6(username)">Create</button>
             <button id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-20'), EMPchangeButtonHour6(EMPdropDownMessage1, EMPdropDownMessage2)">Update</button>
-            <button style="background-color: #e03444 ; color: white" id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-20'), deleteWorkshift6()" >Delete</button>
+            <button style="background-color: #e03444 ; color: white" id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="saturdaydisable1" @click="$bvModal.hide('modal-20'), deleteWorkshift6()" >Delete</button>
           </div>
         </b-modal>
         <td>{{EMPbuttonMessage11}}</td>
@@ -327,15 +327,23 @@
             </b-dropdown>
           </div>
           <div slot="modal-footer" class="modal-footer">
-            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-21'), createWorkshift7(username)">Create</button>
+            <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="sundaydisable" @click="$bvModal.hide('modal-21'), createWorkshift7(username)">Create</button>
             <button id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-21'), EMPchangeButtonHour7(EMPdropDownMessage1, EMPdropDownMessage2)">Update</button>
-            <button style="background-color: #e03444 ; color: white" id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-21'), deleteWorkshift7()" >Delete</button>
+            <button style="background-color: #e03444 ; color: white" id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" :disabled="sundaydisable1" @click="$bvModal.hide('modal-21'), deleteWorkshift7()" >Delete</button>
           </div>
         </b-modal>
         <td>{{EMPbuttonMessage13}}</td>
         <td>{{EMPbuttonMessage14}}</td>
       </tr>
     </table>
+    <br>
+    <br>
+    <div align="center">
+      <b-alert style="max-width: 50%" :show="setAlert()" dismissible variant="danger" @dismissed="setErrorEmpty()">
+        {{create_error}}
+      </b-alert>
+    </div>
+
 
   </div>
 </template>
@@ -345,7 +353,7 @@
 
 <style>
 #title {
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 #tablestyle {
