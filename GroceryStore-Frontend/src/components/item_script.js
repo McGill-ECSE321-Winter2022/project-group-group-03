@@ -2,6 +2,7 @@ import Header from "./EmployeeNav.vue"
 import Cart from "./Cart.vue"
 import axios from 'axios'
 import Cart_script from "./cart_script"
+import Footer from "./Footer"
 import {type} from "mocha/lib/utils";
 var config = require('../../config')
 
@@ -43,7 +44,8 @@ export default {
   components: {
     Header,
     Cart_script,
-    Cart
+    Cart,
+    Footer
   },
   created() {
     if(sessionStorage.accountType==="Employee"){

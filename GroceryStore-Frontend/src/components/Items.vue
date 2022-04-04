@@ -25,6 +25,7 @@
     </div>
 
     <span v-if="errorItem" style="color:red">Error: {{errorItem}} </span>
+    <Footer/>
   </div>
 </template>
 

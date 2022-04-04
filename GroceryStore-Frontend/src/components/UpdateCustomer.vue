@@ -58,12 +58,15 @@
         </b-form-group>
       </form>
     </b-modal>
+    <Footer/>
   </div>
 </template>
 
 <script>
-import Header from "./EmployeeNav"
+import Header from "./Cart"
+import Footer from "./Footer"
 import axios from 'axios'
+
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -98,6 +101,7 @@ export default {
     }
   },
   components: {
+    Footer,
     Header
   },
   created: function () {

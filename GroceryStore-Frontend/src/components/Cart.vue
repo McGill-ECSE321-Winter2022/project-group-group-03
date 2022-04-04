@@ -5,9 +5,10 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="text-center">
-          <b-nav-item >Home</b-nav-item>
-          <b-nav-item>Profile</b-nav-item>
-          <b-nav-item>Checkout</b-nav-item>
+          <b-nav-item :to="{ name: 'Items' }">Home</b-nav-item>
+          <b-nav-item :to="{ name: 'UpdateCustomer' }">Profile</b-nav-item>
+          <b-nav-item :to="{ name: 'Checkout' }">Checkout</b-nav-item>
+          <b-nav-item :to="{ name: 'Logout' }">Logout</b-nav-item>
         </b-navbar-nav>
 
       </b-collapse>
