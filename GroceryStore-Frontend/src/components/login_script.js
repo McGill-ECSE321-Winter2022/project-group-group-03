@@ -47,6 +47,7 @@ export default {
       console.log(this.login_accountType_entered)
       console.log(this.login_username_entered)
       console.log(this.login_password_entered)
+      if (this.login_accountType_entered==='') this.login_error = "Please Choose Account Type"
       if (this.login_accountType_entered==="Customer"){
         AXIOS.get('/customer_login?username='.concat(this.login_username_entered,"&password=", this.login_password_entered))
             .then((response) => {
@@ -59,7 +60,9 @@ export default {
               this.$router.push({ name: "Items" })
             })
           .catch(e => {
+            console.log(e)
             this.login_error = e.response.data;
+            console.log(this.login_error)
           })
       }
       //employee login

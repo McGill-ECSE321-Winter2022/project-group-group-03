@@ -2,7 +2,7 @@
   <div>
     <div class="login">
       <h1>{{ msg }}</h1>
-      <h4>New Here? <a href="http://127.0.0.1:8087/#/signup" target="_blank" id="bold">Create Account</a></h4>
+      <h4>New Here? <router-link id="bold" :to="{ name: 'SignUp' }">Create Account</router-link></h4>
       <div>
         <b-dropdown id="dropDown" variant="danger" :text="login_msg">
           <b-dropdown-item @click="changeMessage('Customer'); setAccountType('Customer'); setError('')">Customer</b-dropdown-item>
@@ -22,7 +22,7 @@
       <br>
       <br>
       <br>
-      <b-alert  :show="setAlert()" dismissible variant="danger" @dismissed="changeMessage(login_msg)">
+      <b-alert  :show="setAlert()" dismissible variant="danger" @dismissed="changeMessage(login_msg); setAccountType(''); setError('')">
         {{login_error}}
       </b-alert>
     </div>
@@ -85,11 +85,10 @@ h3 {
 
 #bold {
   font-weight: 900;
+  color: #e03444;
 
 }
-a {
-  color: #e03444;
-}
+
 .login {
   position:absolute;
   width:840px;
