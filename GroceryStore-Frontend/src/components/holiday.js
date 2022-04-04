@@ -18,7 +18,7 @@ function HolidayDTO(name, startDate, endDate){
 }
 
 export default{
-  name: 'Name',
+  pageName: 'HolidayOwner',
   data (){
     return{
       name: '',
@@ -47,7 +47,7 @@ export default{
       dayMessage2: "",
 
       endDateMessage: "End Date",
-      errorHoliday: '',
+      errorHoliday: "",
       response: []
     }
   },
@@ -76,8 +76,8 @@ export default{
         }
           console.log(this.holidays)
       })
-        .catch(e => {
-          this.errorHoliday = e.response.data;
+        .catch(error => {
+          this.errorHoliday = error.response.data;
         })
     },
 
@@ -90,32 +90,39 @@ export default{
           this.startDateMessage = this.response.startDate
           this.endDateMessage = this.response.endDate
         })
-        .catch(e => {
-          this.errorHoliday = e.response.data;
+        .catch(error => {
+          this.errorHoliday = error.response.data;
         })
     },
 
     updateHoliday: function(holidayName, newStartDate, newEndDate){
       //Check what changed
-        AXIOS.put('/edit_holiday_startDate/'.concat(holidayName,'/?startDate=',newStartDate))
+      if(holidayName.trim().length != 0) {
+        AXIOS.put('/edit_holiday_startDate/'.concat(holidayName, '/?startDate=', newStartDate))
           .then((response) => {
             console.log(response)
+          })
+          .catch(error => {
+            this.errorHoliday = error.response.data;
           })
         this.sleep(500)
-        AXIOS.put('/edit_holiday_endDate/'.concat(holidayName,'/?endDate=',newEndDate))
-          .then((response) => {
-            console.log(response)
+        AXIOS.put('/edit_holiday_endDate/'.concat(holidayName, '/?endDate=', newEndDate))
+          .catch(error => {
+            this.errorHoliday = error.response.data;
           })
-          .catch(e => {
-            this.errorHoliday = e.response.data;
-          })
-      this.sleep(500)
-      this.startDateMessage = newStartDate
-      this.endDateMessage = newEndDate
-      this.sleep(1000)
-      this.getHolidays()
-      this.sleep(500)
-
+        this.sleep(500)
+        this.getHolidays()
+        //Reset fields for new holiday
+        this.name = ''
+        this.startDateMessage = 'Start Date'
+        this.endDateMessage = 'End Date'
+      }
+      else{
+        if(holidayName.trim().length == 0) this.errorHoliday = 'Fill out name field'
+        this.name = ''
+        this.startDateMessage = 'Start Date'
+        this.endDateMessage = 'End Date'
+      }
     },
 
     viewAll: function(){
@@ -132,6 +139,10 @@ export default{
       AXIOS.delete('/holiday/'.concat(holidayName))
         .then((response) => {
           console.log(response)
+          this.startDateMessage = 'Start Date'
+          this.endDateMessage = 'End Date'
+          this.name = 'Name'
+
         })
     },
 
@@ -149,28 +160,39 @@ export default{
         .then(response => {
           console.log(response.data)
         })
-        .catch(e => {
-          this.errorHoliday = e.response.data;
+        .catch(error => {
+          this.errorHoliday = error.response.data;
         })
       this.sleep(1000)
     },
 
     createHoliday: function (holidayName, startDate, endDate){
       console.log("creating holidays")
-      console.log('/holiday?'.concat('name=',holidayName, "&startDate=",startDate, "&endDate=",endDate))
-      AXIOS.post('/holiday?'.concat('name=',holidayName, "&startDate=",startDate, "&endDate=",endDate))
-        .catch(function (error){
-          this.errorHoliday = error.data
-        })
-        .catch(e => {
-          this.errorHoliday = e.response.data;
-        })
-      this.sleep(500)
-      this.getHolidays()
-      //Reset fields for new holiday
-      this.name = ''
-      this.startDateMessage = ''
-      this.endDateMessage = ''
+      console.log(holidayName.trim().length)
+      console.log(startDate)
+      console.log(endDate)
+      if(holidayName.trim().length != 0 && startDate !== 'Start Date' && endDate !== 'End Date'){
+        console.log("HI")
+        console.log('/holiday?'.concat('name=',holidayName, "&startDate=",startDate, "&endDate=",endDate))
+        AXIOS.post('/holiday?'.concat('name=',holidayName, "&startDate=",startDate, "&endDate=",endDate))
+          .catch(error => {
+            this.errorHoliday = error.response.data;
+          })
+        this.sleep(500)
+        this.getHolidays()
+        //Reset fields for new holiday
+        this.name = ''
+        this.startDateMessage = 'Start Date'
+        this.endDateMessage = 'End Date'
+      }
+      else{
+        if(holidayName.trim().length == 0) this.errorHoliday = 'Fill out name field'
+        else if(startDate === 'Start Date') this.errorHoliday = 'Start date cannot be empty'
+        else if(endDate === 'End Date') this.errorHoliday = 'End date cannot be empty'
+        this.name = ''
+        this.startDateMessage = 'Start Date'
+        this.endDateMessage = 'End Date'
+      }
     },
 
     changeStartDate: function(year, month, day){

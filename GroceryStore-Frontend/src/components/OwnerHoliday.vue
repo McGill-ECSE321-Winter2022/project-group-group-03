@@ -179,9 +179,12 @@
         </div>
       </div>
     </div>
-      <b-alert  :show="setAlert()" dismissible variant="danger" @dismissed="changeMessage(searchName)">
-        {{errorHoliday}}
-      </b-alert>
+      <div align="center">
+        <b-alert  style="max-width: 50%" :show="setAlert()" dismissible variant="danger" @dismissed="setErrorEmpty()">
+          {{errorHoliday}}
+        </b-alert>
+      </div>
+
   </div>
   <div>
     <table id="holidayTable" class="tablestyle" align="center" v-show="visibleViewAll">
@@ -198,9 +201,6 @@
     </table>
     <button type="button" id=hideAll class="btn btn-danger" aligncenter="holidayTable"  v-show="visibleViewAll" @click="hideAll">Hide</button>
       </div>
-    <b-alert style="max-width: 100%" :show="setAlert()" dismissible variant="danger" @dismissed="setErrorEmpty()">
-      {{errorHoliday}}
-    </b-alert>
   </div>
 </template>
 

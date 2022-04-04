@@ -25,9 +25,10 @@ public class HolidayService {
         String error = null;
         if (name == null || name.trim().length() == 0) {
             error = "Name can't be empty.";
-        } else if (startDate == null) {
+        }
+        else if (startDate == null || startDate.equals("")) {
             error = "Start Date can't be empty.";
-        } else if (endDate == null) {
+        } else if (endDate == null || endDate.equals("")) {
             error = "End Date can't be empty.";
         } else if (startDate.compareTo(endDate) > 0) {
             error = "Start Date can't be after End Date.";
@@ -49,8 +50,9 @@ public class HolidayService {
             holiday.setName(name);
             holiday.setStartDate(startDate);
             holiday.setEndDate(endDate);
-            storeService.addHoliday(holiday);//add holiday does error checking for store existence
             holidayRepository.save(holiday);
+            storeService.addHoliday(holiday);//add holiday does error checking for store existence
+
 
             return holiday;
         }

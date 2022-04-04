@@ -21,7 +21,7 @@ function ItemDTO(name, purchasable, price, description, stock, totalPurchased, i
 }
 
 export default{
-  itemNameO: 'Name',
+  pageName: 'ownerItem',
   data () {
     return {
       itemNameO: '',
@@ -92,40 +92,74 @@ export default{
     },
 
     createItemOwner: function(name, price, description, purchasable, stock){
-      console.log('/item?itemName='.concat(name, '&purchasable=', purchasable ,'&price=', price, '&description=', description,'&stock=', stock))
-      AXIOS.post('/item?itemName='.concat(name, '&purchasable=', purchasable ,'&price=', price, '&description=', description,'&stock=', stock))
-        .catch(e => {
-          this.errorItemOwner = e.response.data;
-        })
-      this.sleep(500);
-      this.items.length = 0;
-      this.getItems();
 
-      // Reset the name field for new people
-      this.itemNameO = ''
-      this.description = ''
-      this.price = ''
-      this.purchasable = false
-      this.stock = ''
-      this.imageUrl = ''
-      this.image2Load = ''
+      if(name.trim().length != 0 && price.trim().length != 0 && description.trim().length != 0 && stock.trim().length != 0){
+        console.log("HERE")
+        console.log('/item?itemName='.concat(name, '&purchasable=', purchasable ,'&price=', price, '&description=', description,'&stock=', stock))
+        AXIOS.post('/item?itemName='.concat(name, '&purchasable=', purchasable ,'&price=', price, '&description=', description,'&stock=', stock))
+          .catch(e => {
+            this.errorItemOwner = e.response.data;
+          })
+        this.sleep(500);
+        this.items.length = 0;
+        this.getItems();
+
+        // Reset the name field for new people
+        this.itemNameO = ''
+        this.description = ''
+        this.price = ''
+        this.purchasable = false
+        this.stock = ''
+        this.imageUrl = ''
+        this.image2Load = ''
+      }
+      else{
+        if(name.trim().length == 0) this.errorItemOwner = "Name can't be empty."
+        else if(description.trim().length == 0) this.errorItemOwner = "Description can't be empty."
+        else if(price.trim().length == 0) this.errorItemOwner = "Price field empty"
+        else if(stock.trim().length == 0) this.errorItemOwner = "Stock field empty"
+        this.itemNameO = ''
+        this.description = ''
+        this.price = ''
+        this.purchasable = false
+        this.stock = ''
+        this.imageUrl = ''
+        this.image2Load = ''
+      }
+
     },
 
     updateItem: function(name, price, description, purchasable, stock, URL){
-      AXIOS.put('/editItem/'.concat(name,'?newImage=',URL,'&newPrice=',price,'&newStock=',stock,'&newDescription=',description,'&newPurchasable=',purchasable))
-        .catch(function (error) {
-          this.errorItemOwner = error.data();
-        })
-        .catch(e => {
-          this.errorItemOwner = e.response.data;
-        })
-      this.itemNameO = ''
-      this.description = ''
-      this.price = ''
-      this.purchasable = false
-      this.stock = ''
-      this.imageUrl = ''
-      this.image2Load = ''
+      console.log(name.trim().length)
+      console.log(description.trim().length)
+      console.log(price)
+      console.log(stock)
+      if(name.trim().length != 0 && price.toString() == "" && description.trim().length != 0 && stock.toString() == "") {
+        AXIOS.put('/editItem/'.concat(name, '?newImage=', URL, '&newPrice=', price, '&newStock=', stock, '&newDescription=', description, '&newPurchasable=', purchasable))
+          .catch(e => {
+            this.errorItemOwner = e.response.data;
+          })
+        this.itemNameO = ''
+        this.description = ''
+        this.price = ''
+        this.purchasable = false
+        this.stock = ''
+        this.imageUrl = ''
+        this.image2Load = ''
+      }
+      else{
+        if(name.trim().length == 0) this.errorItemOwner = "Name can't be empty."
+        else if(description.trim().length == 0) this.errorItemOwner = "Description can't be empty."
+        else if(price.toString() == "") this.errorItemOwner = "Price field empty"
+        else if(stock.toString() == "") this.errorItemOwner = "Stock field empty"
+        this.itemNameO = ''
+        this.description = ''
+        this.price = ''
+        this.purchasable = false
+        this.stock = ''
+        this.imageUrl = ''
+        this.image2Load = ''
+      }
     },
 
     // deleteItem: function(name){
