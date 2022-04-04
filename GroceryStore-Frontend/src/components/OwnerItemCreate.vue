@@ -11,6 +11,7 @@
             <button type="button" id=search class="btn btn-danger" @click="searchForItem(searchItemName)">Search</button>
             <button type="button" id=search class="btn btn-danger" @click="updateItem(itemNameO, price, description, purchasable, stock, imageUrl)">Update</button>
             <button type="button" id=create class="btn btn-danger" @click="createItemOwner(itemNameO, price, description, purchasable, stock)">Create</button>
+            <button type="button" id=view class="btn btn-danger" @click="viewAll">View All</button>
           </div>
         </div>
       </div>
@@ -32,10 +33,27 @@
             <input type="text" id="imageURLField" class="form-control" placeholder="URL" v-model="imageUrl" aria-label="URL">
             <button type="button" id=addItem class="btn btn-danger" @click="putImage(itemNameO, imageUrl)">Add Image</button>
           </div>
-          <img :src=imageUrl :alt=itemNameO id="itemPic" class="img-thumbnail">
+          <img :src=image2Load :alt=itemNameO id="itemPic" class="img-thumbnail">
         </div>
       </div>
     </div>
+
+    <div class="card-deck" style="padding: 5%" v-show="visibleViewAll">
+      <div class="card" id="card" v-for="item in items" :key=item.name>
+
+        <h5 class="w3-container w3-center" style="color:white">
+          <h2>{{item.name.toUpperCase()}}</h2>
+          <img :src=item.image :alt=item.name style="width:80%; height: 15vw; object-fit: cover;border-radius: 4%">
+          <h5 >{{item.description}}</h5>
+          <h5>{{item.price}} $</h5>
+
+          <h5 class="w3-container w3-center">
+          </h5>
+        </h5>
+      </div>
+    </div>
+    <span v-if="errorItem" style="color:red">Error: {{errorItem}} </span>
+    <button type="button" id=hideAll class="btn btn-danger" aligncenter="holidayTable"  v-show="visibleViewAll" @click="hideAll">Hide</button>
   </div>
 </template>
 
@@ -49,6 +67,13 @@ export default {
 </script>
 
 <style>
+#card{
+  background: #e03444;
+  min-width: 30%;
+  max-width: 30%;
+  border-radius: 10%;
+  margin-bottom: 2%;
+}
 #imageURLField{
   width: 72%;
   margin-bottom: 2%
@@ -96,4 +121,5 @@ export default {
     #itemInfo{
       margin-top: 100px;
     }
+
 </style>
