@@ -34,7 +34,7 @@ public class DeliveryOrderRestController {
     }
 
     @PutMapping(value = { "/transformPickup", "/transformPickUp/" })
-    public PickupOrderDTO convertToDeliveryOrder(@RequestParam String username, @RequestParam String paymentMethod,
+    public PickupOrderDTO convertToPickup(@RequestParam String username, @RequestParam String paymentMethod,
                                                  @RequestParam String accountType) {
 
         return convertToDto(service.convertDeliveryToPickup(username,paymentMethod,accountType));
