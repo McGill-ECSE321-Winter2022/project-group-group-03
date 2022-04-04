@@ -1,4 +1,4 @@
-import Header from "./Header";
+import Header from "./OwnerNav";
 import axios from 'axios'
 var config = require('../../config')
 

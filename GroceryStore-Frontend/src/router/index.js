@@ -20,7 +20,7 @@ import OwnerBH from "@/components/OwnerBH";
 import OwnerHoliday from "../components/OwnerHoliday";
 import OwnerEmployee from "../components/OwnerEmployee.vue";
 import OwnerItemCreate from "../components/OwnerItemCreate.vue";
-import OwnerItemUpdate from "../components/OwnerItemUpdate.vue";
+
 
 
 
@@ -89,11 +89,6 @@ export default new Router({
       path: '/OwnerItemCreate',
       name: 'OwnerItemCreate',
       component: OwnerItemCreate
-    },
-    {
-      path:'/OwnerItemUpdate',
-      name: 'OwnerItemUpdate',
-      component: OwnerItemUpdate
     },
     {
       path: '/OwnerHoliday',
