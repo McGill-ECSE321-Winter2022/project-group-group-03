@@ -1,180 +1,62 @@
 <template>
-  <b-container class="bv-example-row">
-    <b-row>
-      <b-col>
+  <div style="display: flex; min-height: fit-content">
 
-        <b-card
-          title="Meat"
-          img-src="https://picsum.photos/600/300/?image=25"
-          img-alt="Image"
-          img-top
-          tag="article"
-          style="max-width: 20rem;"
-          class="mb-2"
-        >
-          <b-card-text>
-            meaty
-          </b-card-text>
+    <b-list-group style="padding: 5%; max-width: 70%; min-height: 90%; flex: 1;">
+      <b-list-group-item
+        style="min-width: 35%;border-radius: 10%; margin-bottom: 2%; display: flex; background: whitesmoke"
+        v-for="Item in translatedPurchasedItems" :key="Item.aItem.name">
+        <b-img :src="Item.aItem.image" rounded alt="Rounded image" style=" max-width: 30%; flex:1"></b-img>
+        <b-col style="padding-left: 5%">
+          <b-row><h3>{{Item.aItem.name}}</h3></b-row>
+          <b-row><h6>{{Item.aItem.description}}</h6></b-row>
+          <b-row><b-button @click="down(Item.aPurchasedItemID, Item.aItemQuantity)" style="max-height: 5%">-</b-button><h6 style="padding-left: 5%; padding-right: 5%; padding-top: 2%">{{Item.aItemQuantity}}</h6><b-button @click="up(Item.aPurchasedItemID, Item.aItemQuantity)">+</b-button></b-row>
+          <b-row><h6 @click="deleteItem(Item.aPurchasedItemID)" style="color: red; padding-top:3%">remove</h6></b-row>
+        </b-col>
+        <h2><b>{{Item.aItem.price}} $</b></h2>
+      </b-list-group-item>
+    </b-list-group>
 
-        </b-card>
+    <div style = "max-width: 20%; flex: 1; padding:5%">
+      <div class="item-text">
+        <b-dropdown id = dropdown-1 style="background-color: #e03444; border-color: #e03444;"  variant="danger" text="Order Options" class="m-md-2">
+          <b-dropdown-text>Do you want it delivered?</b-dropdown-text>
+          <b-dropdown-divider></b-dropdown-divider>
+          <b-dropdown-item-button style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden;" v-b-modal.modal-1>
+            In Town Delivery
+            <b-modal id="modal-1" title="Have your order delivered in-town">
+              <div id = text1>
+                Warning! This action is irreversible, but shipping is FREE!
+              </div>
+              <b-form-textarea
+                id="textarea-rows"
+                placeholder="Please enter your shipping address"
+                rows="1"
+              ></b-form-textarea>
+            </b-modal>
+          </b-dropdown-item-button>
 
-      </b-col>
-<!--      <b-col>-->
-<!--        <b-card-->
-<!--          title="Fruit"-->
-<!--          img-src="https://picsum.photos/600/300/?image=25"-->
-<!--          img-alt="Image"-->
-<!--          img-top-->
-<!--          tag="article"-->
-<!--          style="max-width: 20rem;"-->
-<!--          class="mb-2"-->
-<!--        >-->
-<!--          <b-card-text>-->
-<!--            fruity-->
-<!--          </b-card-text>-->
-
-<!--        </b-card>-->
-<!--      </b-col>-->
-      <b-col>
-        <div class="item-text">
-          <b-dropdown id = dropdown-1 style="background-color: #e03444; border-color: #e03444;"  variant="danger" text="Delivery Options" class="m-md-2"> <b-dropdown-item>
-            <button id = newbutton1 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>In Town Delivery    </button>
-              <b-modal id="modal-1" title="BootstrapVue">
-                <p class="my-4">
-                  <div id = text>
+          <b-dropdown-item-button style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden;" v-b-modal.modal-2>
+          Out of town delivery
+            <b-modal id="modal-2" title="Have your order delivered out of town">
+              <div id = text1>
                 Warning! This action is irreversible!
               </div>
-                  <b-form-textarea
-                    id="textarea-rows"
-                    placeholder="Please enter your shipping address"
-                    rows="1"
-                  ></b-form-textarea>
-              </b-modal>
-              </b-dropdown-item>
-            <b-dropdown-item>
-              <div>
-                <button id = newbutton2 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>In Town Delivery    </button>
-                <b-modal id="modal-2" title="BootstrapVue">
-                  <div id = text1>
-                    Warning! This action is irreversible!
-                  </div>
-                  <b-form-textarea
-                    id="textarea-rows"
-                    placeholder="Please enter your shipping address"
-                    rows="1"
-                  ></b-form-textarea>
-
-                </b-modal>
-              </div>
-            </b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item>
-                <button id = newbutton3 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>In Town Delivery    </button>
-                <b-modal id="modal-3" title="BootstrapVue">
-                  <p class="my-6">Hello from modal!</p>
-                </b-modal>
-
-
-              </b-dropdown-item>
-          </b-dropdown>
-        </div>
-
-      </b-col>
-    </b-row>
-
-    <b-row>
-      <b-col>
-
-        <b-card
-          title="Meat"
-          img-src="https://picsum.photos/600/300/?image=25"
-          img-alt="Image"
-          img-top
-          tag="article"
-          style="max-width: 20rem;"
-          class="mb-2"
-        >
-          <b-card-text>
-            meaty
-          </b-card-text>
-
-        </b-card>
-
-      </b-col>
-<!--      <b-col>-->
-<!--        <b-card-->
-<!--          title="Fruit"-->
-<!--          img-src="https://picsum.photos/600/300/?image=25"-->
-<!--          img-alt="Image"-->
-<!--          img-top-->
-<!--          tag="article"-->
-<!--          style="max-width: 20rem;"-->
-<!--          class="mb-2"-->
-<!--        >-->
-<!--          <b-card-text>-->
-<!--            fruity-->
-<!--          </b-card-text>-->
-
-<!--        </b-card>-->
-<!--      </b-col>-->
-      <b-col>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-
-        <b-card
-          title="Meat"
-          img-src="https://picsum.photos/600/300/?image=25"
-          img-alt="Image"
-          img-top
-          tag="article"
-          style="max-width: 20rem;"
-          class="mb-2"
-        >
-          <b-card-text>
-            meaty
-          </b-card-text>
-
-        </b-card>
-
-      </b-col>
-<!--      <b-col>-->
-<!--        <b-card-->
-<!--          title="Fruit"-->
-<!--          img-src="https://picsum.photos/600/300/?image=25"-->
-<!--          img-alt="Image"-->
-<!--          img-top-->
-<!--          tag="article"-->
-<!--          style="max-width: 20rem;"-->
-<!--          class="mb-2"-->
-<!--        >-->
-<!--          <b-card-text>-->
-<!--            fruity-->
-<!--          </b-card-text>-->
-
-<!--        </b-card>-->
-<!--      </b-col>-->
-      <b-col>
-        <div id="total" >
-          Sub Total: $40
-        </div>
-
-        <b-button id="newbutton" style="color: white; background-color: #e03444; border-color: #e03444;">Buy Now</b-button>
-
-      </b-col>
-    </b-row>
-
-  </b-container>
-
+              <b-form-textarea
+                id="textarea-rows"
+                placeholder="Please enter your shipping address"
+                rows="1"
+              ></b-form-textarea>
+            </b-modal>
+          </b-dropdown-item-button>
+        </b-dropdown>
+      </div>
+    </div>
+  </div>
 </template>
 
 
 
-<script>
-export default {
-  name: "Checkout"
-}
+<script src="./checkout_script.js">
 </script>
 
 <style scoped>
@@ -184,37 +66,7 @@ export default {
   margin-top: 200px;
   background-color:#e03444;
 }
-#card{
-  background: #e03444;
-  min-width: 30%;
-  max-width: 30%;
-  border-radius: 10%;
-  margin-bottom: 2%;
-}
-
-</style>
-
-<style scoped>
-#total {
-  margin-bottom: 10px;
-  font-size: 30px;
-}
-#text {
-  margin-bottom: 30px;
-}
 #text1 {
   margin-bottom: 30px;
-}
-#newbutton {
-  color: black;
-}
-#newbutton1 {
-  color: #e03444;
-}
-#newbutton2 {
-  color: #e03444;
-}
-#newbutton3 {
-  color: #e03444;
 }
 </style>

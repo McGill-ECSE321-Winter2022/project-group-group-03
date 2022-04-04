@@ -82,6 +82,7 @@ var AXIOS = axios.create({
           await AXIOS.get('/'.concat(sessionStorage.accountType.toLowerCase(), "_order/", sessionStorage.username), {responseType: "json"})
             .then((response) => {
               this.response = response.data;
+              console.log(this.response)
               let purchasedItems = this.response.purchasedItem
               let list = []
               for (const purchasedItem in purchasedItems) {
