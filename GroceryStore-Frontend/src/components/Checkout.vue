@@ -1,38 +1,178 @@
 <template>
- <div class="row">
-   <div class="col-12" id = "col">
-     <tr>
-       <td><b>Cart</b></td>
-     </tr>
-   </div>
+  <b-container class="bv-example-row">
+    <b-row>
+      <b-col>
 
-   <div class="col-12" id = "col1">
-     <tr>
-       <td>Meat</td>
-       <td>&nbsp 1 &nbsp</td>
-     </tr>
-     <tr>
-       <td>Fruit</td>
-       <td>&nbsp 3 &nbsp</td>
-     </tr>
-     <tr>
-       <td>Fruit</td>
-       <td>&nbsp 2 &nbsp</td>
-     </tr>
-     <tr>
-     </tr>
-   </div>
+        <b-card
+          title="Meat"
+          img-src="https://picsum.photos/600/300/?image=25"
+          img-alt="Image"
+          img-top
+          tag="article"
+          style="max-width: 20rem;"
+          class="mb-2"
+        >
+          <b-card-text>
+            meaty
+          </b-card-text>
 
-   <div class="col-12" id = "col2">
-     <tr>
-       <button id="newbutton" style=background-color:#e03444 type="button">
-         Buy Now
-       </button>
-     </tr>
-   </div>
+        </b-card>
 
-   </div>
+      </b-col>
+      <b-col>
+        <b-card
+          title="Fruit"
+          img-src="https://picsum.photos/600/300/?image=25"
+          img-alt="Image"
+          img-top
+          tag="article"
+          style="max-width: 20rem;"
+          class="mb-2"
+        >
+          <b-card-text>
+            fruity
+          </b-card-text>
+
+        </b-card>
+      </b-col>
+      <b-col>
+
+        <div class="item-text">
+          <b-dropdown id = dropdown-1 variant="#e03444" text="Delivery Options" class="m-md-2"> <b-dropdown-item>
+            <button id = newbutton1 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>In Town Delivery    </button>
+              <b-modal id="modal-1" title="BootstrapVue">
+                <p class="my-4">
+                  <div id = text>
+                Warning! This action is irreversible!
+              </div>
+                  <b-form-textarea
+                    id="textarea-rows"
+                    placeholder="Please enter your shipping address"
+                    rows="1"
+                  ></b-form-textarea>
+              </b-modal>
+              </b-dropdown-item>
+            <b-dropdown-item>
+              <div>
+                <button id = newbutton2 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>In Town Delivery    </button>
+                <b-modal id="modal-2" title="BootstrapVue">
+                  <div id = text1>
+                    Warning! This action is irreversible!
+                  </div>
+                  <b-form-textarea
+                    id="textarea-rows"
+                    placeholder="Please enter your shipping address"
+                    rows="1"
+                  ></b-form-textarea>
+
+                </b-modal>
+              </div>
+            </b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item>
+                <button id = newbutton3 style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden; " v-b-modal.modal-1>In Town Delivery    </button>
+                <b-modal id="modal-3" title="BootstrapVue">
+                  <p class="my-6">Hello from modal!</p>
+                </b-modal>
+
+
+              </b-dropdown-item>
+          </b-dropdown>
+        </div>
+
+      </b-col>
+    </b-row>
+
+    <b-row>
+      <b-col>
+
+        <b-card
+          title="Meat"
+          img-src="https://picsum.photos/600/300/?image=25"
+          img-alt="Image"
+          img-top
+          tag="article"
+          style="max-width: 20rem;"
+          class="mb-2"
+        >
+          <b-card-text>
+            meaty
+          </b-card-text>
+
+        </b-card>
+
+      </b-col>
+      <b-col>
+        <b-card
+          title="Fruit"
+          img-src="https://picsum.photos/600/300/?image=25"
+          img-alt="Image"
+          img-top
+          tag="article"
+          style="max-width: 20rem;"
+          class="mb-2"
+        >
+          <b-card-text>
+            fruity
+          </b-card-text>
+
+        </b-card>
+      </b-col>
+      <b-col>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+
+        <b-card
+          title="Meat"
+          img-src="https://picsum.photos/600/300/?image=25"
+          img-alt="Image"
+          img-top
+          tag="article"
+          style="max-width: 20rem;"
+          class="mb-2"
+        >
+          <b-card-text>
+            meaty
+          </b-card-text>
+
+        </b-card>
+
+      </b-col>
+      <b-col>
+        <b-card
+          title="Fruit"
+          img-src="https://picsum.photos/600/300/?image=25"
+          img-alt="Image"
+          img-top
+          tag="article"
+          style="max-width: 20rem;"
+          class="mb-2"
+        >
+          <b-card-text>
+            fruity
+          </b-card-text>
+
+        </b-card>
+      </b-col>
+      <b-col>
+        <div id="total" >
+          Sub Total: $40
+        </div>
+
+        <button id="newbutton" style=background-color:#e03444 type="button">
+                   Buy Now
+                 </button>
+
+      </b-col>
+    </b-row>
+
+  </b-container>
+
 </template>
+
+
 
 <script>
 export default {
@@ -41,28 +181,43 @@ export default {
 </script>
 
 <style scoped>
-#col1 {
-  margin-top: 30px;
-  margin-left: 680px;
-  color: red;
-  //font-family: courier;
-  font-size: 160%;
-}
-#col2 {
-  margin-bottom: 300px;
-  margin-top: 20px;
-  margin-left: 665px;
-  font-size: 160%;
-}
-#newbutton {
+
+#dropdown-1 {
   color: white;
+  margin-top: 200px;
+  background-color:#e03444;
+}
+#card{
+  background: #e03444;
+  min-width: 30%;
+  max-width: 30%;
+  border-radius: 10%;
+  margin-bottom: 2%;
 }
 
-#col {
-  margin-top: 20px;
-    margin-left: 700px;
-    color: red;
-  //font-family: courier;
-    font-size: 160%;
-  }
+</style>
+
+<style scoped>
+#total {
+  margin-bottom: 10px;
+  font-size: 30px;
+}
+#text {
+  margin-bottom: 30px;
+}
+#text1 {
+  margin-bottom: 30px;
+}
+#newbutton {
+  color: black;
+}
+#newbutton1 {
+  color: #e03444;
+}
+#newbutton2 {
+  color: #e03444;
+}
+#newbutton3 {
+  color: #e03444;
+}
 </style>
