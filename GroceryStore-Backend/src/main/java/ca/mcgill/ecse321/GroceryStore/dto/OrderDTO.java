@@ -42,4 +42,8 @@ public class OrderDTO {
     }
 
     public String getOrderType() {return orderType;}
+
+    public String getUsername() {
+        return username;
+    }
 }

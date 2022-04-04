@@ -107,5 +107,15 @@ public abstract class Commission
     return totalCost;
   }
 
-
+  @Override
+  public String toString() {
+    return "Commission{" +
+            "confirmationNumber=" + confirmationNumber +
+            ", totalCost=" + totalCost +
+            ", store=" + store +
+            ", purchasedItem=" + purchasedItem +
+            ", customer=" + customer +
+            ", employee=" + employee +
+            '}';
+  }
 }
