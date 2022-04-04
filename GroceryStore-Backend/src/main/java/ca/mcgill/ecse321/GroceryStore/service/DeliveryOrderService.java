@@ -5,7 +5,8 @@ import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,15 @@ public class DeliveryOrderService {
 
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
+
+    @Autowired
+    ItemService itemService;
 
     @Transactional
     public DeliveryCommission createDeliveryOrder(String username, String shippingAddress, Integer confirmationNumber, boolean isOutOfTown){
@@ -101,8 +111,34 @@ public class DeliveryOrderService {
         DeliveryCommission d = getDeliveryOrder(confirmationNumber);
         List<PurchasedItem> p = d.getPurchasedItem();
         p.add(purchasedItem);
+        String itemName = purchasedItem.getItem().getName();
+        itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
         d.setPurchasedItem(p);
+        this.updateTotalCost(confirmationNumber);
     }
+
+    @Transactional
+    public void addPurchasedItemToDeliveryOrder(String username, PurchasedItem purchasedItem){
+        DeliveryCommission commission = null;
+
+        if (employeeRepository.existsById(username)) {
+            commission =  (DeliveryCommission) employeeService.getEmployeeOrder(username);
+        }
+
+        if (customerRepository.existsById(username)) {
+            commission =  (DeliveryCommission) customerService.getCustomerOrder(username);
+        }
+        List<PurchasedItem> p = commission.getPurchasedItem();
+        p.add(purchasedItem);
+        String itemName = purchasedItem.getItem().getName();
+        itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
+        commission.setPurchasedItem(p);
+        this.updateTotalCost(commission.getConfirmationNumber());
+
+    }
+
+
+
 
     @Transactional
     public DeliveryCommission setShippingStatus(Integer confirmationNumber, String shippingStatus) {
