@@ -147,11 +147,11 @@ export default {
       })
     },
     getCustomer:function(){
-      let username = sessionStorage.username
-      this.customer.username = username
-      AXIOS.get('/customer/?username='.concat(sessionStorage.username), {responseType: "json"})
+      console.log(sessionStorage.username)
+      AXIOS.get('/customer/'.concat(sessionStorage.username), {responseType: "json"})
         .then((response) =>{
-          this.response = response.data[0];
+          console.log(response)
+          this.response = response.data;
           this.customer=this.response
         });
     },
