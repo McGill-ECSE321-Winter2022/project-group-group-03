@@ -21,7 +21,7 @@ function ItemDTO(name, purchasable, price, description, stock, totalPurchased, i
 }
 
 export default{
-  itemNameO: 'Name',
+  pageName: 'ownerItem',
   data () {
     return {
       itemNameO: '',
@@ -33,7 +33,9 @@ export default{
       totalPurchased: '',
       searchItemName: '',
       imageUrl: '',
-      errorItemOwner: ''
+      errorItemOwner: '',
+      image2Load:'',
+      visibleViewAll: false
     }
   },
   components:{
@@ -41,6 +43,7 @@ export default{
   },
 
   created: function(){
+    //this.createStore()
     this.getItems()
   },
 
@@ -53,11 +56,22 @@ export default{
         .then((response) =>{
           this.response = response.data;
           for (const item in this.response) {
-            let i = new ItemDTO(this.response[item].name, this.response[item].purchasable, this.response[item].price, this.response[item].stock, this.response[item].description, this.response[item].image, 0);
+            let i = new ItemDTO(this.response[item].name, this.response[item].purchasable, this.response[item].price,  this.response[item].description, this.response[item].stock, 0, this.response[item].image);
             this.items.push(i);
             console.log(i);
           }
-        });
+        })
+        .catch(e => {
+          this.errorItemOwner = e.response.data;
+        })
+    },
+    viewAll: function(){
+      this.getItems()
+      this.visibleViewAll = true
+    },
+
+    hideAll: function(){
+      this.visibleViewAll = false
     },
     searchForItem: function(itemName){
       console.log('getting specific item')
@@ -70,94 +84,105 @@ export default{
           this.stock = this.response.stock
           this.purchasable = this.response.purchasable
           this.imageUrl = this.response.image
+          this.image2Load = this.response.image
+        })
+        .catch(e => {
+          this.errorItemOwner = e.response.data;
         })
     },
 
     createItemOwner: function(name, price, description, purchasable, stock){
-      console.log('/item?itemName='.concat(name, '&purchasable=', purchasable ,'&price=', price, '&description=', description,'&stock=', stock))
-      AXIOS.post('/item?itemName='.concat(name, '&purchasable=', purchasable ,'&price=', price, '&description=', description,'&stock=', stock))
-        .catch(function (error) {
-          this.errorItemOwner = error.data();
-        })
-      this.sleep(500);
-      this.items.length = 0;
-      this.getItems();
 
-      // Reset the name field for new people
-      this.itemNameO = ''
-      this.description = ''
-      this.price = ''
-      this.purchasable = false
-      this.stock = ''
-      this.imageUrl = ''
+      if(name.trim().length != 0 && price.trim().length != 0 && description.trim().length != 0 && stock.trim().length != 0){
+        console.log("HERE")
+        console.log('/item?itemName='.concat(name, '&purchasable=', purchasable ,'&price=', price, '&description=', description,'&stock=', stock))
+        AXIOS.post('/item?itemName='.concat(name, '&purchasable=', purchasable ,'&price=', price, '&description=', description,'&stock=', stock))
+          .catch(e => {
+            this.errorItemOwner = e.response.data;
+          })
+        this.sleep(500);
+        this.items.length = 0;
+        this.getItems();
+
+        // Reset the name field for new people
+        this.itemNameO = ''
+        this.description = ''
+        this.price = ''
+        this.purchasable = false
+        this.stock = ''
+        this.imageUrl = ''
+        this.image2Load = ''
+      }
+      else{
+        if(name.trim().length == 0) this.errorItemOwner = "Name can't be empty."
+        else if(description.trim().length == 0) this.errorItemOwner = "Description can't be empty."
+        else if(price.trim().length == 0) this.errorItemOwner = "Price field empty"
+        else if(stock.trim().length == 0) this.errorItemOwner = "Stock field empty"
+        this.itemNameO = ''
+        this.description = ''
+        this.price = ''
+        this.purchasable = false
+        this.stock = ''
+        this.imageUrl = ''
+        this.image2Load = ''
+      }
+
     },
 
     updateItem: function(name, price, description, purchasable, stock, URL){
-      //Description
-      if(this.description !== description) {
-        AXIOS.put('/editItemDescription/'.concat(name, '?newDescription=', description))
-          .then((response) => {
-            console.log(response)
-            this.response = response.data
+      console.log(name.trim().length)
+      console.log(description.trim().length)
+      console.log(price)
+      console.log(stock)
+      if(name.trim().length != 0 && price.toString() == "" && description.trim().length != 0 && stock.toString() == "") {
+        AXIOS.put('/editItem/'.concat(name, '?newImage=', URL, '&newPrice=', price, '&newStock=', stock, '&newDescription=', description, '&newPurchasable=', purchasable))
+          .catch(e => {
+            this.errorItemOwner = e.response.data;
           })
+        this.itemNameO = ''
+        this.description = ''
+        this.price = ''
+        this.purchasable = false
+        this.stock = ''
+        this.imageUrl = ''
+        this.image2Load = ''
       }
-      //Price
-      if(this.price != price){
-        AXIOS.put('/editItemPrice/'.concat(name,'?newPrice=', price))
-          .then((response) => {
-            console.log(response)
-            this.response = response.data
-          })
+      else{
+        if(name.trim().length == 0) this.errorItemOwner = "Name can't be empty."
+        else if(description.trim().length == 0) this.errorItemOwner = "Description can't be empty."
+        else if(price.toString() == "") this.errorItemOwner = "Price field empty"
+        else if(stock.toString() == "") this.errorItemOwner = "Stock field empty"
+        this.itemNameO = ''
+        this.description = ''
+        this.price = ''
+        this.purchasable = false
+        this.stock = ''
+        this.imageUrl = ''
+        this.image2Load = ''
       }
-      //Stock
-      if(this.stock != stock){
-        AXIOS.put('/editItemStock/'.concat(name, '?newStock=', stock))
-          .then((response) => {
-            console.log(response)
-            this.response = response.data
-          })
-      }
-      //Purchasable
-      if(this.purchasable != purchasable){
-        AXIOS.put('/editItemPurchasable/'.concat(name, '?newPurchasable=', purchasable))
-          .then((response) => {
-            console.log(response)
-            this.response = response.data
-          })
-      }
-      //URL
-      if(this.imageUrl !== URL){
-        AXIOS.put('/editItemImage/'.concat(name, '?image=', URL))
-          .then((response) => {
-            console.log(response)
-          })
-      }
-
-      this.getItems()
-      this.sleep(500)
-      // this.itemNameO = ''
-      // this.description = ''
-      // this.price = ''
-      // this.purchasable = false
-      // this.stock = ''
-      // this.imageUrl = ''
     },
 
+    // deleteItem: function(name){
+    //   AXIOS.delete
+    // }
     putImage: function(name, image){
       AXIOS.put('/editItemImage/'.concat(name, '?image=', image))
         .then((response) => {
           console.log(response)
-          this.imageUrl=''
-          this.itemNameO=''
-          this.description=''
-          this.stock=''
-          this.price=''
-          this.purchasable=''
+          this.imageUrl = ''
+          this.itemNameO = ''
+          this.description = ''
+          this.stock = ''
+          this.price = ''
+          this.purchasable = ''
+          this.image2Load = ''
+        })
+        .catch(e => {
+          this.errorItemOwner = e.response.data;
         })
       this.sleep(500)
       this.image = image
       this.getItems()
-      this.sleep(500)
     },
 
     sleep: function (milliseconds) {
@@ -174,6 +199,16 @@ export default{
         .then(response => {
           console.log(response.data)
         })
+        .catch(e => {
+          this.errorItemOwner = e.response.data;
+        })
     },
+    setAlert: function () {
+      return this.errorItemOwner !== ""
     },
+
+    setErrorEmpty(){
+      this.errorItemOwner = ""
+    }
+    }
 }

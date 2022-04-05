@@ -35,13 +35,15 @@ public class ItemService {
 
         if (stock < 0) errorMessages.add("Item's stock can't be negative.");
 
+        if (errorMessages.size() > 0) throw new IllegalArgumentException(String.join(" ", errorMessages));
+
         if (errorMessages.isEmpty()) {
             if (itemRepository.existsById(name)) {
                 errorMessages.add("An identical Item already exists.");
             }
         }
 
-        if (errorMessages.size() > 0) throw new IllegalArgumentException(String.join(" ", errorMessages));
+
 
         Item item = new Item();
         item.setName(name);

@@ -64,9 +64,7 @@ public class WorkShiftService {
         }
         if (aStartTime == null) throw new IllegalArgumentException("Start Time can't be empty.");
         WorkShift workShift = workShiftRepository.findByShiftID(shiftID);
-        if (workShift.getEndTime().before(aStartTime)) {
-            throw new IllegalArgumentException("End Time cannot be before Start Time.");
-        }
+
         workShift.setStartTime(aStartTime);
         return workShift;
     }
@@ -93,9 +91,7 @@ public class WorkShiftService {
         }
         if (aEndTime == null) throw new IllegalArgumentException("End Time can't be empty.");
         WorkShift workShift = workShiftRepository.findByShiftID(shiftID);
-        if (aEndTime.before(workShift.getStartTime())) {
-            throw new IllegalArgumentException("End Time cannot be before Start Time.");
-        }
+
         workShift.setEndTime(aEndTime);
         return workShift;
     }
@@ -108,13 +104,12 @@ public class WorkShiftService {
     @Transactional
     public WorkShift createWorkShift(Time aStartTime, Time aEndTime, String aDayOfWeek,String username) {
         WorkShift workShift = new WorkShift();
+
         if (aStartTime == null) throw new IllegalArgumentException("Start Time can't be empty.");
 
         if (aEndTime == null) throw new IllegalArgumentException("End Time can't be empty.");
 
-        if (aEndTime.before(aStartTime)) {
-            throw new IllegalArgumentException("End Time cannot be before Start Time.");
-        }
+
         if (aDayOfWeek ==null || aDayOfWeek.trim().length() == 0) throw new IllegalArgumentException("Day can't be empty.");
 
         for (WorkShift w : this.getAllWorkShift()) {

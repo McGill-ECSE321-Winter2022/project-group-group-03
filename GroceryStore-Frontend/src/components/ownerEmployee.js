@@ -28,6 +28,7 @@ export default {
   name: 'OwnerEmployee',
   data() {
     return {
+      create_error:'',
       startTime: '',
       endTime: '',
       day: '',
@@ -39,6 +40,20 @@ export default {
       employees:"",
       shiftID: "",
       response:"",
+      mondaydisable:false,
+      tuesdaydisable:false,
+      wednesdaydisable:false,
+      thursdaydisable:false,
+      fridaydisable:false,
+      saturdaydisable:false,
+      sundaydisable:false,
+      mondaydisable1:false,
+      tuesdaydisable1:false,
+      wednesdaydisable1:false,
+      thursdaydisable1:false,
+      fridaydisable1:false,
+      saturdaydisable1:false,
+      sundaydisable1:false,
       EMPdropDownMessage1: "change start shift",
       EMPdropDownMessage2: "change end shift",
       EMPbuttonMessage1: "Add",
@@ -96,6 +111,7 @@ export default {
           this.email = this.response.email
           this.getWorkShiftsOfEmployee()
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     sleep: function (milliseconds) {
       const date = Date.now();
@@ -111,6 +127,7 @@ export default {
           this.response = response.data
 
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     hireEmployee: function(){
       AXIOS.put('/hire_employee?username='.concat(this.username),{responseType: "json"})
@@ -118,6 +135,7 @@ export default {
           this.response = response.data
 
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     deleteWorkshift1: function(){
       AXIOS.delete('/workShift/'.concat(this.mondayWS),{responseType: "json"})
@@ -127,6 +145,8 @@ export default {
         })
         this.EMPbuttonMessage1 = "Add"
         this.EMPbuttonMessage2 = "Add"
+        this.mondaydisable1 = true
+        this.mondaydisable = false
     },
     deleteWorkshift2: function(){
       AXIOS.delete('/workShift/'.concat(this.tuesdayWS),{responseType: "json"})
@@ -136,6 +156,8 @@ export default {
         })
         this.EMPbuttonMessage3 = "Add"
         this.EMPbuttonMessage4 = "Add"
+        this.tuesdaydisable1 = true
+        this.tuesdaydisable = false
     },
     deleteWorkshift3: function(){
       AXIOS.delete('/workShift/'.concat(this.wednesdayWS),{responseType: "json"})
@@ -145,6 +167,9 @@ export default {
         })
       this.EMPbuttonMessage5 = "Add"
       this.EMPbuttonMessage6 = "Add"
+      this.wednesdaydisable1 = true
+      this.wednesdaydisable = false
+
     },
     deleteWorkshift4: function(){
       AXIOS.delete('/workShift/'.concat(this.thursdayWS),{responseType: "json"})
@@ -153,6 +178,8 @@ export default {
         })
       this.EMPbuttonMessage7 = "Add"
       this.EMPbuttonMessage8 = "Add"
+      this.thursdaydisable1 = true
+      this.thursdaydisable = false
     },
     deleteWorkshift5: function(){
       AXIOS.delete('/workShift/'.concat(this.fridayWS),{responseType: "json"})
@@ -162,6 +189,9 @@ export default {
         })
       this.EMPbuttonMessage9 = "Add"
       this.EMPbuttonMessage10 = "Add"
+      this.fridaydisable1 = true
+      this.fridaydisable = false
+
     },
     deleteWorkshift6: function(){
       AXIOS.delete('/workShift/'.concat(this.saturdayWS),{responseType: "json"})
@@ -171,6 +201,9 @@ export default {
         })
       this.EMPbuttonMessage11 = "Add"
       this.EMPbuttonMessage12 = "Add"
+      this.saturdaydisable1 = true
+      this.saturdaydisable = false
+
     },
     deleteWorkshift7: function(){
       AXIOS.delete('/workShift/'.concat(this.sundayWS),{responseType: "json"})
@@ -178,8 +211,12 @@ export default {
           this.response = response.data
 
         })
+
       this.EMPbuttonMessage13 = "Add"
       this.EMPbuttonMessage14 = "Add"
+      this.sundaydisable1 = true
+      this.sundaydisable = false
+
     },
     createWorkshift1: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage1, '&aEndTime=',this.EMPbuttonMessage2, '&aDay=Monday&username=',username))
@@ -187,6 +224,7 @@ export default {
           console.log(response.data)
           this.getWorkShiftsOfEmployee()
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     createWorkshift2: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage3, '&aEndTime=',this.EMPbuttonMessage4, '&aDay=Tuesday&username=',username))
@@ -194,6 +232,7 @@ export default {
           console.log(response.data)
           this.getWorkShiftsOfEmployee()
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     createWorkshift3: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage5, '&aEndTime=',this.EMPbuttonMessage6, '&aDay=Wednesday&username=',username))
@@ -201,6 +240,7 @@ export default {
           console.log(response.data)
           this.getWorkShiftsOfEmployee()
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     createWorkshift4: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage7, '&aEndTime=',this.EMPbuttonMessage8, '&aDay=Thursday&username=',username))
@@ -208,6 +248,7 @@ export default {
           console.log(response.data)
           this.getWorkShiftsOfEmployee()
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     createWorkshift5: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage9, '&aEndTime=',this.EMPbuttonMessage10, '&aDay=Friday&username=',username))
@@ -215,6 +256,7 @@ export default {
           console.log(response.data)
           this.getWorkShiftsOfEmployee()
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     createWorkshift6: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage11, '&aEndTime=',this.EMPbuttonMessage12, '&aDay=Saturday&username=',username))
@@ -222,6 +264,7 @@ export default {
           console.log(response.data)
           this.getWorkShiftsOfEmployee()
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     createWorkshift7: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage13, '&aEndTime=',this.EMPbuttonMessage14, '&aDay=Sunday&username=',username))
@@ -229,6 +272,7 @@ export default {
           console.log(response.data)
           this.getWorkShiftsOfEmployee()
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
 
     EMPchangeOpeningHour1: function (hour) {
@@ -318,6 +362,7 @@ export default {
           console.log(this.shifts)
           this.updateButtonShifts()
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
 
     setWorkShiftHours1: function() {
@@ -326,6 +371,7 @@ export default {
         .then((response) => {
           console.log(response)
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     setWorkShiftHours2: function() {
       //console.log(this.hours[0].hoursID)
@@ -333,6 +379,7 @@ export default {
         .then((response) => {
           console.log(response)
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     setWorkShiftHours3: function() {
 
@@ -340,6 +387,7 @@ export default {
         .then((response) => {
           console.log(response)
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     setWorkShiftHours4: function() {
       //console.log(this.hours[0].hoursID)
@@ -347,6 +395,7 @@ export default {
         .then((response) => {
           console.log(response)
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     setWorkShiftHours5: function() {
       //console.log(this.hours[0].hoursID)
@@ -355,6 +404,7 @@ export default {
         .then((response) => {
           console.log(response)
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     setWorkShiftHours6: function() {
       //console.log(this.hours[0].hoursID)
@@ -362,6 +412,7 @@ export default {
         .then((response) => {
           console.log(response)
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     setWorkShiftHours7: function() {
       //console.log(this.hours[0].hoursID)
@@ -369,6 +420,7 @@ export default {
         .then((response) => {
           console.log(response)
         })
+        .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
     parseHour: function(Time){
       let x = ""
@@ -381,31 +433,51 @@ export default {
       if(this.shifts[0] !== null){
         this.EMPbuttonMessage1 = this.parseHour(this.shifts[0].startTime)
         this.EMPbuttonMessage2 = this.parseHour(this.shifts[0].endTime)
+        this.mondaydisable = true
+        this.mondaydisable1 = false
       }
       if(this.shifts[1] !== null){
         this.EMPbuttonMessage3 = this.parseHour(this.shifts[1].startTime)
         this.EMPbuttonMessage4 = this.parseHour(this.shifts[1].endTime)
+        this.tuesdaydisable = true
+        this.tuesdaydisable1 = false
       }
       if(this.shifts[2] !== null){
         this.EMPbuttonMessage5 = this.parseHour(this.shifts[2].startTime)
         this.EMPbuttonMessage6 = this.parseHour(this.shifts[2].endTime)
+        this.wednesdaydisable = true
+        this.wednesdaydisable1 = false
       }
       if(this.shifts[3] !== null){
         this.EMPbuttonMessage7 = this.parseHour(this.shifts[3].startTime)
         this.EMPbuttonMessage8 = this.parseHour(this.shifts[3].endTime)
+        this.thursdaydisable = true
+        this.thursdaydisable1 = false
       }
       if(this.shifts[4] !== null){
         this.EMPbuttonMessage9 = this.parseHour(this.shifts[4].startTime)
         this.EMPbuttonMessage10 = this.parseHour(this.shifts[4].endTime)
+        this.fridaydisable = true
+        this.fridaydisable1 = false
       }
       if(this.shifts[5] !== null){
         this.EMPbuttonMessage11 = this.parseHour(this.shifts[5].startTime)
         this.EMPbuttonMessage12 = this.parseHour(this.shifts[5].endTime)
+        this.saturdaydisable = true
+        this.saturdaydisable1 = false
       }
       if(this.shifts[6] !== null){
         this.EMPbuttonMessage13 = this.parseHour(this.shifts[6].startTime)
         this.EMPbuttonMessage14 = this.parseHour(this.shifts[6].endTime)
+        this.sundaydisable = true
+        this.sundaydisable1 = false
       }
     },
+    setAlert: function () {
+      return this.create_error !== ""
+    },
+    setErrorEmpty: function() {
+      this.create_error = ""
+    }
   }
 }

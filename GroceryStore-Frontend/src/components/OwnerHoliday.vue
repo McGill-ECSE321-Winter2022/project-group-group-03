@@ -179,6 +179,12 @@
         </div>
       </div>
     </div>
+      <div align="center">
+        <b-alert  style="max-width: 50%" :show="setAlert()" dismissible variant="danger" @dismissed="setErrorEmpty()">
+          {{errorHoliday}}
+        </b-alert>
+      </div>
+
   </div>
   <div>
     <table id="holidayTable" class="tablestyle" align="center" v-show="visibleViewAll">

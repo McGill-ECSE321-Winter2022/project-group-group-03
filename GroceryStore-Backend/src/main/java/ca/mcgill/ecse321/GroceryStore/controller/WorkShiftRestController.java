@@ -6,8 +6,10 @@ package ca.mcgill.ecse321.GroceryStore.controller;
 import ca.mcgill.ecse321.GroceryStore.dto.WorkShiftDTO;
 import ca.mcgill.ecse321.GroceryStore.model.WorkShift;
 import ca.mcgill.ecse321.GroceryStore.service.WorkShiftService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -24,11 +26,15 @@ public class WorkShiftRestController {
     private WorkShiftService workShiftService;
 
     @PostMapping(value = {"/workShift", "/workShift/"})
-    public WorkShiftDTO createWorkShift(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime aStartTime,
-                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime aEndTime,
-                                      @RequestParam String aDay, @RequestParam String username) throws IllegalArgumentException {
-        WorkShift workShift = workShiftService.createWorkShift(Time.valueOf(aStartTime), Time.valueOf(aEndTime), aDay,username );
-        return convertToDto(workShift);
+    public ResponseEntity<?> createWorkShift(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime aStartTime,
+                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime aEndTime,
+                                    @RequestParam String aDay, @RequestParam String username) throws IllegalArgumentException {
+        try{
+            WorkShift workShift = workShiftService.createWorkShift(Time.valueOf(aStartTime), Time.valueOf(aEndTime), aDay,username );
+           return ResponseEntity.ok(convertToDto(workShift));
+        }catch(IllegalArgumentException error){
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
 
@@ -66,11 +72,14 @@ public class WorkShiftRestController {
         return convertToDto(workShift);
     }
     @PutMapping(value = { "/edit_workShift_hours/{id}","/edit_holiday_endDate/{id}/"})
-    public WorkShiftDTO updateWorkShiftHours(@PathVariable("id") int id, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
-                                             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime)
-            throws IllegalArgumentException {
-        WorkShift workShift = workShiftService.updateWorkshiftHours(id, Time.valueOf(startTime), Time.valueOf(endTime));
-        return convertToDto(workShift);
+    public ResponseEntity<?> updateWorkShiftHours(@PathVariable("id") int id, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
+                                             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime) throws IllegalArgumentException {
+        try{
+            WorkShift workShift = workShiftService.updateWorkshiftHours(id, Time.valueOf(startTime), Time.valueOf(endTime));
+            return ResponseEntity.ok(convertToDto(workShift));
+        }catch(IllegalArgumentException error){
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @DeleteMapping(value = {"/workShift/{id}", "/workShift/{id}/"})

@@ -5,12 +5,13 @@ import ca.mcgill.ecse321.GroceryStore.model.Holiday;
 import ca.mcgill.ecse321.GroceryStore.service.HolidayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @CrossOrigin(origins = "*")
@@ -21,38 +22,48 @@ public class HolidayRestController {
     private HolidayService holidayService;
 
     @PostMapping(value = {"/holiday", "/holiday/"})
-    public HolidayDTO createHoliday(@RequestParam String name,
-                                    @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate startDate,
-                                    @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate endDate) throws IllegalArgumentException {
-        Holiday holiday = holidayService.createHoliday(name, Date.valueOf(startDate), Date.valueOf(endDate));
-        return convertToDto(holiday);
+
+    public ResponseEntity<?> createHoliday(@RequestParam String name,
+                                        @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate startDate,
+                                        @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate endDate) throws IllegalArgumentException {
+        try{
+            return ResponseEntity.ok(convertToDto(holidayService.createHoliday(name, Date.valueOf(startDate), Date.valueOf(endDate))));
+        }
+        catch(IllegalArgumentException error){
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @GetMapping(value = {"/holiday", "/holiday/"})
     public List<HolidayDTO> getHolidays() throws IllegalArgumentException {
-        List<HolidayDTO> holidayDTOS = new ArrayList<>();
-        for (Holiday holiday : holidayService.getAllHolidays()) holidayDTOS.add(convertToDto(holiday));
-        return holidayDTOS;
+       return holidayService.getAllHolidays().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @GetMapping(value = {"/holiday/{name}", "/holiday/{name}/"})
-    public HolidayDTO getHoliday(@PathVariable("name") String name) throws IllegalArgumentException {
-
-        Holiday holiday = holidayService.getHoliday(name);
-
-        return convertToDto(holiday);
+    public ResponseEntity<?> getHoliday(@PathVariable("name") String name) throws IllegalArgumentException {
+        try{
+            return ResponseEntity.ok(convertToDto(holidayService.getHoliday(name)));
+        }catch(IllegalArgumentException error){
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
     @PutMapping(value = { "/edit_holiday_startDate/{name}", "/edit_holiday_startDate/{name}/"})
-    public HolidayDTO updateHolidayStartDate(@PathVariable("name") String name, @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate startDate )
+    public ResponseEntity<?> updateHolidayStartDate(@PathVariable("name") String name, @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate startDate )
             throws IllegalArgumentException {
-        Holiday holiday = holidayService.updateHolidayDateStart(name, Date.valueOf(startDate));
-        return convertToDto(holiday);
+        try{
+            return ResponseEntity.ok(convertToDto(holidayService.updateHolidayDateStart(name, Date.valueOf(startDate))));
+        }catch(IllegalArgumentException error){
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
     @PutMapping(value = { "/edit_holiday_endDate/{name}","/edit_holiday_endDate/{name}/"})
-    public HolidayDTO updateHolidayEndDate(@PathVariable("name") String name, @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate endDate)
+    public ResponseEntity<?> updateHolidayEndDate(@PathVariable("name") String name, @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate endDate)
             throws IllegalArgumentException {
-        Holiday holiday = holidayService.updateHolidayDateEnd(name, Date.valueOf(endDate));
-        return convertToDto(holiday);
+        try{
+            return ResponseEntity.ok(convertToDto(holidayService.updateHolidayDateEnd(name, Date.valueOf(endDate))));
+        } catch(IllegalArgumentException error){
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @DeleteMapping(value = {"/holiday/{name}", "/holiday/{name}/"})
