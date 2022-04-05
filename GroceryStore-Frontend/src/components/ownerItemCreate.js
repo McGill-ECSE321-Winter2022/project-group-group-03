@@ -134,7 +134,7 @@ export default{
       console.log(description.trim().length)
       console.log(price)
       console.log(stock)
-      if(name.trim().length != 0 && price.toString() == "" && description.trim().length != 0 && stock.toString() == "") {
+      if(name.trim().length != 0 && price.toString() !== "" && description.trim().length != 0 && stock.toString() !== "") {
         AXIOS.put('/editItem/'.concat(name, '?newImage=', URL, '&newPrice=', price, '&newStock=', stock, '&newDescription=', description, '&newPurchasable=', purchasable))
           .catch(e => {
             this.errorItemOwner = e.response.data;
