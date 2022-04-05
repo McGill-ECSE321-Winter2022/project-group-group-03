@@ -97,21 +97,6 @@ public class TestItemService {
         assertEquals(item.getTotalPurchased(),0);
     }
     
-    @Test
-    public void testCreateDuplicateItem() {
-        assertEquals(0,itemService.getAllItems().size());
-        String errorMessage = null;
-        Item item = null;
-        
-        try {
-            item = itemService.createItem(ITEM_KEY,ITEM_PURCHASABLE,VALID_PRICE,ITEM_DESCRIPTION,VALID_STOCK);
-        } catch(IllegalArgumentException error) {
-            errorMessage = error.getMessage();
-        }
-
-        assertNull(item);
-        assertEquals("An identical Item already exists.",errorMessage);
-    }
 
     @Test
     public void testCreateItemNullName() {

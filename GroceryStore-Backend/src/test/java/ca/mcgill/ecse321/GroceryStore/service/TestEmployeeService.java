@@ -87,6 +87,14 @@ public class TestEmployeeService {
                 return null;
             }
         });
+        lenient().when(employeeRepository.existsById(any(String.class))).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(EMPLOYEE_USERNAME)){
+                return true;
+            }
+            else{
+                return null;
+            }
+        });
     }
 
     @Test
@@ -287,29 +295,6 @@ public class TestEmployeeService {
         }
         assertNotNull(employeeArrayList);
         assertEquals(employeeArrayList, Arrays.asList(employee1,employee2,employee3));
-    }
-
-
-    @Test
-    public void getEmployeeOrders(){
-        Employee employee = null;
-        DeliveryCommission deliveryOrder = null;
-        PickupCommission pickupOrder = null;
-        List<Commission> commissionList = null;
-        String error = null;
-
-        try{
-            employee = employeeService.createEmployee(EMPLOYEE_USERNAME,EMPLOYEE_EMAIL,EMPLOYEE_PASSWORD,EMPLOYEE_ADDRESS);
-            deliveryOrder = deliveryOrderService.createDeliveryOrder("my house",  "sherbooke", "Customer",  true);
-            pickupOrder = pickupOrderService.createPickupOrder("Cash","cash", "Customer");
-            employee.setOrder(Arrays.asList(deliveryOrder, pickupOrder));
-            when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
-            commissionList = employeeService.getEmployeeOrders(EMPLOYEE_USERNAME);
-        }catch (Exception e){
-            fail();
-        }
-        assertNotNull(commissionList);
-        assertEquals(commissionList, Arrays.asList(deliveryOrder, pickupOrder));
     }
 
     @Test

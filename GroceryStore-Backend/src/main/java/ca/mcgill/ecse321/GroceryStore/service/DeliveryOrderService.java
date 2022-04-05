@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
 import javax.transaction.Transactional;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 

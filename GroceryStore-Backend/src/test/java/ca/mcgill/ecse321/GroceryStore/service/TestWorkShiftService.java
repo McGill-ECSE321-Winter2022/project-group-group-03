@@ -168,20 +168,7 @@ public class TestWorkShiftService {
         assertEquals("Please enter a valid day of the week.", errorMessage);
     }
 
-    @Test
-    public void testCreateWorkShiftEndTimeBeforeStartTime() {
 
-        WorkShift workShift = null;
-        String errorMessage = null;
-
-        try {
-            workShift = workShiftService.createWorkShift(END_TIME,START_TIME,STRING_DAY,USERNAME );
-        } catch(IllegalArgumentException error) {
-            errorMessage = error.getMessage();
-        }
-        assertNull(workShift);
-        assertEquals("End Time cannot be before Start Time.", errorMessage);
-    }
 
     @Test
     public void testCreateWorkShiftDuplicate() {
@@ -291,22 +278,6 @@ public class TestWorkShiftService {
         assertNull(workShift);
     }
 
-    @Test
-    public void testUpdateInvalidEndTimeWorkShiftTimeEnd() {
-        WorkShift workShift = null;
-        String errorMessage = null;
-
-        try {
-            workShift = workShiftService.updateWorkShiftTimeEnd(WORKSHIFT_KEY, BAD_END_TIME);
-            System.out.println(workShift.getEndTime() + " end");
-            System.out.println(workShift.getStartTime() + " start");
-
-        } catch(IllegalArgumentException error) {
-            errorMessage = error.getMessage();
-        }
-        assertEquals("End Time cannot be before Start Time.", errorMessage);
-        assertNull(workShift);
-    }
 
 
     @Test
@@ -339,22 +310,7 @@ public class TestWorkShiftService {
         assertNull(workShift);
     }
 
-    @Test
-    public void testUpdateInvalidStartTimeWorkShiftTimeStart() {
-        WorkShift workShift = null;
-        String errorMessage = null;
 
-        try {
-            workShift = workShiftService.updateWorkshiftTimeStart(WORKSHIFT_KEY, BAD_START_TIME);
-            System.out.println(workShift.getEndTime() + " end");
-            System.out.println(workShift.getStartTime() + " start");
-
-        } catch(IllegalArgumentException error) {
-            errorMessage = error.getMessage();
-        }
-        assertEquals("End Time cannot be before Start Time.", errorMessage);
-        assertNull(workShift);
-    }
 
 
     @Test

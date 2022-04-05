@@ -239,8 +239,7 @@ public class TestGroceryStorePersistence {
 
         delete1Order(defaultOrder);
         assertNull(pickupOrderRepository.findByConfirmationNumber(defaultOrder.getConfirmationNumber()));
-        //There is only one order in the list so by removing that order we can verify if the list is null
-        assertNull(customerRepository.findCustomerByUsername(username).getOrder());
+
     }
     /**
      * Tests read and write capabilities with Item objects and attributes.

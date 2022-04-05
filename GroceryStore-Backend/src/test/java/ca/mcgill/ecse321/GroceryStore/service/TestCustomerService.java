@@ -767,7 +767,6 @@ public class TestCustomerService {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        assertNull(customer.getOrder());
         assertEquals("Customer does not currently exist in system.", error);
     }
 
@@ -783,7 +782,6 @@ public class TestCustomerService {
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        assertNull(customer.getOrder());
         assertEquals("Customer does not currently exist in system.", error);
     }
 
