@@ -1,4 +1,3 @@
-import Header from "./EmployeeNav"
 import Cart from "./Cart"
 import Footer from "./Footer"
 
@@ -37,7 +36,6 @@ export default {
   },
 
   components: {
-    Header,
     Cart,
     Footer
   },

@@ -1,6 +1,6 @@
 import axios from 'axios'
 var config = require('../../config')
-import Header from "./EmployeeNav"
+import Header from "./Cart"
 import Footer from "./Footer"
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port

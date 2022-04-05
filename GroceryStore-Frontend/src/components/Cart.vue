@@ -95,6 +95,7 @@
           <b-nav-item class="item" :to="{ name: 'OwnerItemCreate' }">Manage Items</b-nav-item>
           <b-nav-item class="item" :to="{ name: 'OwnerHoliday' }">Manage Holidays</b-nav-item>
           <b-nav-item class="item" :to="{ name: 'OwnerBH' }">Manage Business Hours</b-nav-item>
+          <b-nav-item class="item" :to="{ name: 'SignUp' }">Create Accounts</b-nav-item>
           <b-nav-item :to="{ name: 'Logout' }">Logout</b-nav-item>
         </b-navbar-nav>
       </b-collapse>

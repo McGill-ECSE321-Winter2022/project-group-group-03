@@ -1,7 +1,6 @@
 <template>
   <div>
-    <Header v-if="this.loggedIn_employee"/>
-    <Cart v-if="this.loggedIn_customer"/>
+    <Cart/>
     <b-alert variant="danger" dismissible :show="error" @dismissed="setError">
       The store is currently too busy to process your order. Please try again later!
     </b-alert>

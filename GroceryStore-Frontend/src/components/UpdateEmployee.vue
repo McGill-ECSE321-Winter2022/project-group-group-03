@@ -1,6 +1,6 @@
 <template>
   <div>
-<!--    <Header/>-->
+    <Header/>
     <h1 id="title">My Employee Profile</h1>
     <div class="form">
       <b-container fluid>
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import Header from "./EmployeeNav"
+import Header from "./Cart"
 import Footer from "./Footer"
 
 import axios from 'axios'

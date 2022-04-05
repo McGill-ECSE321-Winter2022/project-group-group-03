@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Header from "./OwnerNav"
+import Header from "./Cart"
 
 import axios from 'axios'
 var config = require('../../config')
