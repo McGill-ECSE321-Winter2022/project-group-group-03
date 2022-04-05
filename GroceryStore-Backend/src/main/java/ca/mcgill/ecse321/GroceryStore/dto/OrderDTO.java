@@ -13,13 +13,13 @@ public class OrderDTO {
     private String username;
 
     //Order Associations
-    private Store store;
+    private int storeID;
     private List<PurchasedItem> purchasedItem;
 
     public OrderDTO(int confirmationNumber, int totalCost, Store store, List<PurchasedItem> purchasedItem, String orderType, String username) {
         this.confirmationNumber = confirmationNumber;
         this.totalCost = totalCost;
-        this.store = store;
+        this.storeID = store.getStoreID();
         this.purchasedItem = purchasedItem;
         this.orderType = orderType;
         this.username = username;
@@ -33,8 +33,8 @@ public class OrderDTO {
         return totalCost;
     }
 
-    public Store getStore() {
-        return store;
+    public int getStore() {
+        return storeID;
     }
 
     public List<PurchasedItem> getPurchasedItem() {

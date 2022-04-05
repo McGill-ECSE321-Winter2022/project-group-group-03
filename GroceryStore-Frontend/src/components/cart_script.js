@@ -23,7 +23,8 @@ var AXIOS = axios.create({
 
       data() {
         return{
-          translatedPurchasedItems: []
+          translatedPurchasedItems: [],
+          accountType: ""
       }
       },
 
@@ -47,6 +48,7 @@ var AXIOS = axios.create({
           return 0
         })
         console.log(list2)
+        this.accountType = sessionStorage.accountType
         this.translatedPurchasedItems = list2
       },
 
@@ -56,6 +58,11 @@ var AXIOS = axios.create({
           console.log("Deleting purchased item")
           await AXIOS.delete("./purchased_item/".concat(purchasedItemID))
           await this.getOrder()
+          this.TranslatePurchasedItems()
+        },
+
+        async update() {
+          await this.getOrder
           this.TranslatePurchasedItems()
         },
 

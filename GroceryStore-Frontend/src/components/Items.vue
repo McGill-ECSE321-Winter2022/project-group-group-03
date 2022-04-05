@@ -1,9 +1,10 @@
 <template xmlns:text-transform="http://www.w3.org/1999/xhtml" >
   <div style="overflow-x:hidden">
-    <Header v-if="this.loggedIn_employee"/>
-    <Cart v-if="this.loggedIn_customer"/>
+    <Cart/>
+    <br>
+    <br>
     <div class="search-wrapper panel-heading col-sm-12">
-      <input type="text" v-model="search" placeholder="Search" /> <br> <br>
+      <input style="width: 40%"type="text" v-model="search" placeholder="Search" /> <br> <br>
     </div>
     <div class="card-deck" style="padding: 5%">
       <div class="card" id="card" v-for="item in filteredItems" :key=item.name>

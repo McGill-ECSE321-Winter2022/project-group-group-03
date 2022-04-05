@@ -35,8 +35,14 @@ export default {
       create_accountType_entered: '',
       create_address_entered: '',
       create_email_entered: '',
-      create_error: ''
+      create_error: '',
+      this_accountType: '',
     }
+  },
+  created(){
+    this.this_accountType = ''
+    if (typeof sessionStorage.accountType !== 'undefined') this.this_accountType = sessionStorage.accountType
+    console.log(this.this_accountType)
   },
   methods: {
     create: function (){
@@ -46,7 +52,7 @@ export default {
       console.log(this.create_username_entered)
       console.log(this.create_password_entered)
       if (this.create_accountType_entered==='') this.create_error = "Please Choose Account Type"
-      if (this.create_accountType_entered==="Customer"){
+      else if (this.create_accountType_entered==="Customer"){
         AXIOS.post('/customer?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"&address=",this.create_address_entered))
           .then((response) => {
             this.$router.push({ name: "Login" })
@@ -54,16 +60,8 @@ export default {
           .catch((error) => {this.create_error = error.response.data/* <-- this */ });
       }
       //employee create
-      if (this.create_accountType_entered==="Employee"){
+      else if (this.create_accountType_entered==="Employee"){
         AXIOS.post('/employee?username='.concat(this.create_username_entered,"&email=", this.create_email_entered,"&password=",this.create_password_entered,"&address=",this.create_address_entered))
-          .then((response) => {
-            this.$router.push({ name: "Login" })
-          })
-          .catch((error) => {this.create_error = error.response.data/* <-- this */ });
-      }
-      //owner create
-      if (this.create_accountType_entered==="Owner"){
-        AXIOS.post('/owner?username='.concat(this.create_username_entered,"&email=", this.create_email_entered,"&password=",this.create_password_entered))
           .then((response) => {
             this.$router.push({ name: "Login" })
           })

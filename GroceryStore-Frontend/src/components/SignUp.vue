@@ -4,8 +4,7 @@
       <div>
         <b-dropdown id="dropDown" variant="danger" :text="account_msg">
           <b-dropdown-item @click="changeMessage('Customer'); setAccountType('Customer'); setErrorEmpty()">Customer</b-dropdown-item>
-          <b-dropdown-item @click="changeMessage('Employee'); setAccountType('Employee'); setErrorEmpty()">Employee</b-dropdown-item>
-          <b-dropdown-item @click="changeMessage('Owner'); setAccountType('Owner'); setErrorEmpty();">Owner</b-dropdown-item>
+          <b-dropdown-item v-if="this_accountType==='Owner'" @click="changeMessage('Employee'); setAccountType('Employee'); setErrorEmpty()">Employee</b-dropdown-item>
         </b-dropdown>
       </div>
       <h3>Username</h3>
