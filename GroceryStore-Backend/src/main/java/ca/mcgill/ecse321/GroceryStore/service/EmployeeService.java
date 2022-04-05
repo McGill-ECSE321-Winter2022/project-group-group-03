@@ -26,7 +26,10 @@ public class EmployeeService {
 
     @Autowired
     StoreService storeService;
-
+    @Autowired
+    PickupOrderService pickupOrderService;
+    @Autowired
+    DeliveryOrderService deliveryOrderService;
 
 
     @Transactional
@@ -76,9 +79,11 @@ public class EmployeeService {
             String s = "";
             if (commission instanceof PickupCommission){
                 s =  ((PickupCommission) commission).getPickupStatusFullName();
+                pickupOrderService.updateTotalCost(commission.getConfirmationNumber());
             }
             else if (commission instanceof DeliveryCommission){
                 s= ((DeliveryCommission) commission).getShippingStatusFullName();
+                deliveryOrderService.updateTotalCost(commission.getConfirmationNumber());
             }
             if (s.equals("InCart")) return commission;
 

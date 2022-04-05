@@ -10,17 +10,19 @@ public class OrderDTO {
     private int confirmationNumber;
     private int totalCost;
     private String orderType;
+    private String username;
 
     //Order Associations
     private Store store;
     private List<PurchasedItem> purchasedItem;
 
-    public OrderDTO(int confirmationNumber, int totalCost, Store store, List<PurchasedItem> purchasedItem, String orderType) {
+    public OrderDTO(int confirmationNumber, int totalCost, Store store, List<PurchasedItem> purchasedItem, String orderType, String username) {
         this.confirmationNumber = confirmationNumber;
         this.totalCost = totalCost;
         this.store = store;
         this.purchasedItem = purchasedItem;
         this.orderType = orderType;
+        this.username = username;
     }
 
     public int getConfirmationNumber() {
@@ -40,4 +42,8 @@ public class OrderDTO {
     }
 
     public String getOrderType() {return orderType;}
+
+    public String getUsername() {
+        return username;
+    }
 }

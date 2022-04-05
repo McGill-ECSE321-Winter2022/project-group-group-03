@@ -1,7 +1,8 @@
 package ca.mcgill.ecse321.GroceryStore.controller;
 
+import ca.mcgill.ecse321.GroceryStore.dto.DeliveryOrderDTO;
 import ca.mcgill.ecse321.GroceryStore.dto.PickupOrderDTO;
-import ca.mcgill.ecse321.GroceryStore.model.Employee;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PickupCommission;
 import ca.mcgill.ecse321.GroceryStore.service.CustomerService;
 import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
@@ -17,10 +18,7 @@ import java.util.stream.Collectors;
 public class PickupOrderRestController {
     @Autowired
     private PickupOrderService service;
-    @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private EmployeeService employeeService;
+
 
     @PostMapping(value = { "/pickupOrder", "/pickupOrder/" })
     public PickupOrderDTO createPickupOrder(@RequestParam String username, @RequestParam String paymentMethod,
@@ -36,6 +34,24 @@ public class PickupOrderRestController {
     public PickupOrderDTO getPickupOrder(@PathVariable("confirmationNumber") int confirmationNumber) throws IllegalArgumentException {
         return convertToDto(service.getPickupOrder(confirmationNumber));
     }
+
+    @PutMapping(value = { "/convertToDelivery", "/convertToDelivery/" })
+    public DeliveryOrderDTO convertToDeliveryOrder(@RequestParam String username, @RequestParam String shippingAddress,
+                                                   @RequestParam String accountType, @RequestParam boolean isOutOfTown) {
+
+        return convertToDto(service.convertPickupToDelivery(username,shippingAddress,accountType,isOutOfTown));
+    }
+
+    @PutMapping(value = {"/payPickup", "/payPickup/"})
+    public PickupOrderDTO payPickup(@RequestParam int confirmationNumber) throws IllegalArgumentException{
+        return convertToDto(service.pay(confirmationNumber));
+    }
+
+    @PutMapping(value = {"/orderPickup", "/orderPickup/"})
+    public PickupOrderDTO orderPickup(@RequestParam int confirmationNumber) throws IllegalArgumentException{
+        return convertToDto(service.order(confirmationNumber));
+    }
+
     @PutMapping(value = {"/editPickupOrderStatus/{confirmationNumber}/"})
     public PickupOrderDTO updatePickupStatus(@PathVariable("confirmationNumber") int confirmationNumber, @RequestParam String newPickupStatus) throws IllegalArgumentException {
         return convertToDto(service.updatePickupStatus(confirmationNumber, newPickupStatus));
@@ -58,6 +74,11 @@ public class PickupOrderRestController {
     private PickupOrderDTO convertToDto(PickupCommission aPickupOrder) {
         if (aPickupOrder == null) throw new IllegalArgumentException("There is no such Pickup Order!");
         return new PickupOrderDTO(aPickupOrder.getPaymentMethod().name(), aPickupOrder.getPickupStatus().name(), aPickupOrder.getConfirmationNumber(),aPickupOrder.getTotalCost());
+    }
+
+    private DeliveryOrderDTO convertToDto(DeliveryCommission aDeliveryOrder) {
+        if (aDeliveryOrder == null) throw new IllegalArgumentException("There is no such Delivery Order!");
+        return new DeliveryOrderDTO(aDeliveryOrder.getShippingAddress(),aDeliveryOrder.getShippingStatus().name(),aDeliveryOrder.getConfirmationNumber(), aDeliveryOrder.getTotalCost(), aDeliveryOrder.isOutOfTown());
     }
 
 

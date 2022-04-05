@@ -1,16 +1,30 @@
 <template>
-  <div>
+  <div >
     <Header/>
     <h1 id="title">My Customer Profile</h1>
-    <p id="username" class="form">Username: {{this.customer.username}}</p>
-    <p id="email" class="form">Email: {{this.customer.email}}</p>
-    <p id="address" class="form">Address: {{this.customer.address}} </p>
-    <p id="password" class="form">Password: {{this.customer.password}}</p>
+    <div class="form">
+    <b-container fluid>
+      <b-row >
+        <b-col offset-md="5" md="auto">Username:</b-col>
+        <b-col md="auto" style="margin-left: 0;">{{this.customer.username}}</b-col>
+      </b-row>
+      <b-row >
+        <b-col offset-md="5" md="auto"> Email:</b-col>
+        <b-col md="auto" style="margin-left: 0;">{{this.customer.email}}</b-col>
+      </b-row>
+      <b-row >
+        <b-col offset-md="5" md="auto"> Address: </b-col>
+        <b-col  md="auto" style="margin-left: 0;">{{this.customer.address}}</b-col>
+      </b-row>
+    </b-container>
+  </div>
     <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
     <b-button v-b-modal.modal-prevent-closing2 class="btn">Update Address</b-button>
     <br>
     <br>
-    <b-alert :show="setAlert()" dismissible variant="danger">{{error}}</b-alert>
+    <div style="max-width: 50%; margin-left:25vw">
+    <b-alert :show="setAlert()" @dismissed="setErrorEmpty()" dismissible variant="danger">{{error}}</b-alert>
+    </div>
     <b-modal
       id="modal-prevent-closing"
       ref="modal"
@@ -23,7 +37,7 @@
           label-for="password-input"
           invalid-feedback="Password is required"
         >
-          <input id="password_input" type="password" v-model="newPassword" placeholder="New Password">
+          <input id="password_input" type="password" v-model="newPassword" :placeholder="this.customer.password">
         </b-form-group>
       </form>
     </b-modal>
@@ -44,12 +58,15 @@
         </b-form-group>
       </form>
     </b-modal>
+    <Footer/>
   </div>
 </template>
 
 <script>
-import Header from "./EmployeeNav"
+import Header from "./Cart"
+import Footer from "./Footer"
 import axios from 'axios'
+
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -72,24 +89,22 @@ export default {
   data() {
     return {
       customer:{
-        username: 'Seb',
+        username: '',
         password: '',
         email: '',
         address: '',
       },
       newPassword: '',
       newAddress: '',
+      response:'',
       error:''
     }
   },
   components: {
+    Footer,
     Header
   },
-  mounted: function () {
-    // this.username = 'Mark'
-    // this.password = 'password'
-    // this.email = 'email'
-    // this.address = '998 rue Address'
+  created: function () {
     this.getCustomer()
 
   },
@@ -116,6 +131,7 @@ export default {
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing')
+        this.newPassword =''
       })
     },
     handleSubmitAddress(){
@@ -124,28 +140,27 @@ export default {
           this.customer = response.data
         })
         .catch(e => {
-          this.error = "Cant be empty Address" /* <-- this */
+          this.error = e.response.data /* <-- this */
         });
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing2')
       })
     },
     getCustomer:function(){
-      AXIOS.get('/customer/'.concat(this.customer.username))
+      let username = sessionStorage.username
+      this.customer.username = username
+      AXIOS.get('/customer/?username='.concat(sessionStorage.username), {responseType: "json"})
         .then((response) =>{
-          this.customer= response.data
+          this.response = response.data[0];
+          this.customer=this.response
         });
     },
     setAlert: function () {
       return this.error !== ""
+    },
+    setErrorEmpty: function() {
+      this.error = ""
     }
-    // ,
-    // createCustomer: function (){
-    //   AXIOS.post("/customer?username=Seb&password=jeetisnice&email=Lmao@mmks.ca&address=Bobsville",{},{})
-    //     .then(response => {
-    //       console.log(response.data)
-    //     })
-    // }
   }
 }
 </script>
@@ -153,30 +168,35 @@ export default {
 <style scoped>
 #title{
   margin-top: 4%;
+  margin-bottom: 3%;
   color: #e03444;
   font-weight: bold;
 
 }
 #username{
-  margin-right: 9%;
+  /*margin-right: 20%;*/
 }
 #email{
-  margin-right: 17%;
+  /*margin-right: 17%;*/
 }
 #address{
-  margin-right: 15%;
+  /*margin-right: 15%;*/
 }
 #password{
-  margin-right: 14%;
+  /*margin-right: 14%;*/
 }
 #inline{display:inline;}
 
 .form{
   font-size: xx-large;
+
 }
 .btn{
   margin-top: 4%;
+  margin-right: 2%;
 }
+p { display: inline;
+  font-size: xx-large;}
 
 </style>
 

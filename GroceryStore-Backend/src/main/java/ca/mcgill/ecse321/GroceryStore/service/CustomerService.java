@@ -6,7 +6,6 @@ import ca.mcgill.ecse321.GroceryStore.dao.OwnerRepository;
 import ca.mcgill.ecse321.GroceryStore.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.util.ArrayUtils;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -23,6 +22,10 @@ public class CustomerService {
     OwnerRepository ownerRepository;
     @Autowired
     EmployeeRepository employeeRepository;
+    @Autowired
+    PickupOrderService pickupOrderService;
+    @Autowired
+    DeliveryOrderService deliveryOrderService;
 
 
 
@@ -96,13 +99,15 @@ public class CustomerService {
             String s = "";
             if (commission instanceof PickupCommission){
                 s =  ((PickupCommission) commission).getPickupStatusFullName();
+                pickupOrderService.updateTotalCost(commission.getConfirmationNumber());
             }
             else if (commission instanceof DeliveryCommission){
                 s= ((DeliveryCommission) commission).getShippingStatusFullName();
+                deliveryOrderService.updateTotalCost(commission.getConfirmationNumber());
             }
             if (s.equals("InCart")) return commission;
         }
-        throw new IllegalArgumentException("This Employee has no Orders in cart");
+        throw new IllegalArgumentException("This Customer has no Orders in cart");
     }
 
     @Transactional

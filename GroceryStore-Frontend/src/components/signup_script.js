@@ -45,25 +45,29 @@ export default {
       console.log(this.create_accountType_entered)
       console.log(this.create_username_entered)
       console.log(this.create_password_entered)
+      if (this.create_accountType_entered==='') this.create_error = "Please Choose Account Type"
       if (this.create_accountType_entered==="Customer"){
         AXIOS.post('/customer?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"&address=",this.create_address_entered))
           .then((response) => {
+            this.$router.push({ name: "Login" })
           })
           .catch((error) => {this.create_error = error.response.data/* <-- this */ });
       }
       //employee create
       if (this.create_accountType_entered==="Employee"){
-        AXIOS.post('/employee?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"&address=",this.create_address_entered))
+        AXIOS.post('/employee?username='.concat(this.create_username_entered,"&email=", this.create_email_entered,"&password=",this.create_password_entered,"&address=",this.create_address_entered))
           .then((response) => {
+            this.$router.push({ name: "Login" })
           })
-          .catch(e => {this.create_error = error.response.data /* <-- this */ });
+          .catch((error) => {this.create_error = error.response.data/* <-- this */ });
       }
       //owner create
       if (this.create_accountType_entered==="Owner"){
-        AXIOS.post('/owner?username='.concat(this.create_username_entered,"&password=", this.create_password_entered,"&email=",this.create_email_entered,"&address=",this.create_address_entered))
+        AXIOS.post('/owner?username='.concat(this.create_username_entered,"&email=", this.create_email_entered,"&password=",this.create_password_entered))
           .then((response) => {
+            this.$router.push({ name: "Login" })
           })
-          .catch(e => {this.create_error = error.response.data /* <-- this */ });
+          .catch((error) => {this.create_error = error.response.data/* <-- this */ });
       }
       console.log(this.login_error)
     },

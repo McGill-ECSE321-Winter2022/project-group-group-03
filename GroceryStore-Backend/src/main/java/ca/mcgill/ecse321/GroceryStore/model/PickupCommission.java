@@ -37,7 +37,7 @@ public class PickupCommission extends Commission
   private PaymentMethod paymentMethod;
 
   //PickupOrder State Machines
-  public enum PickupStatus { InCart, Ordered, Prepared, PickedUp }
+  public enum PickupStatus { InCart, Ordered, PickedUp }
   @Enumerated
   @Column(nullable = false)
   private PickupStatus pickupStatus;
@@ -96,23 +96,6 @@ public class PickupCommission extends Commission
     return wasEventProcessed;
   }
 
-  public boolean prepare()
-  {
-    boolean wasEventProcessed = false;
-
-    PickupStatus aPickupStatus = pickupStatus;
-    switch (aPickupStatus)
-    {
-      case Ordered:
-        setPickupStatus(PickupStatus.Prepared);
-        wasEventProcessed = true;
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
 
   public boolean pay()
   {
@@ -121,7 +104,7 @@ public class PickupCommission extends Commission
     PickupStatus aPickupStatus = pickupStatus;
     switch (aPickupStatus)
     {
-      case Prepared:
+      case Ordered:
         setPickupStatus(PickupStatus.PickedUp);
         wasEventProcessed = true;
         break;

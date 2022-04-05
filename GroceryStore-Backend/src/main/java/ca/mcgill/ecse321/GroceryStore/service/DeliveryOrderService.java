@@ -2,11 +2,14 @@ package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.DeliveryOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
+import ca.mcgill.ecse321.GroceryStore.model.PickupCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
 import javax.transaction.Transactional;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,20 @@ public class DeliveryOrderService {
 
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
+
+    @Autowired
+    ItemService itemService;
+
+    @Autowired
+    PickupOrderService pickupOrderService;
+
+
 
     @Transactional
     public DeliveryCommission createDeliveryOrder(String username, String shippingAddress, Integer confirmationNumber, boolean isOutOfTown){
@@ -99,9 +116,60 @@ public class DeliveryOrderService {
     @Transactional
     public void addPurchasedItemToDeliveryOrder(Integer confirmationNumber, PurchasedItem purchasedItem){
         DeliveryCommission d = getDeliveryOrder(confirmationNumber);
-        List<PurchasedItem> p = d.getPurchasedItem();
+        List<PurchasedItem> p;
+        if(d.getPurchasedItem()==null){
+            p=new ArrayList<>();
+        }else{
+            p=d.getPurchasedItem();
+        }
         p.add(purchasedItem);
+        String itemName = purchasedItem.getItem().getName();
+        itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
         d.setPurchasedItem(p);
+        this.updateTotalCost(confirmationNumber);
+    }
+
+    @Transactional
+    public PickupCommission convertDeliveryToPickup(String username, String paymentMethod, String accountType){
+        DeliveryCommission commission = null;
+        String username1 = null;
+
+        if (employeeRepository.existsById(username)) {
+            commission =  (DeliveryCommission) employeeService.getEmployeeOrder(username);
+            username1 = username;
+        }
+
+        if (customerRepository.existsById(username)) {
+            commission =  (DeliveryCommission) customerService.getCustomerOrder(username);
+            username1 = username;
+        }
+
+        PickupCommission pickupCommission = pickupOrderService.createPickupOrder(username1,paymentMethod,accountType);
+
+        System.out.println(commission.getPurchasedItem());
+        for (PurchasedItem purchasedItem : commission.getPurchasedItem()) {
+            String pItem=purchasedItem.getItem().getName();
+            itemService.addItemStock(pItem,purchasedItem.getItemQuantity());
+            pickupOrderService.addPurchasedItemToPickupOrder(pickupCommission.getConfirmationNumber(),purchasedItem);
+        }
+
+        deliveryOrderRepository.deleteById(commission.getConfirmationNumber());
+
+        return pickupCommission;
+    }
+
+    @Transactional
+    public DeliveryCommission pay(Integer confirmationNumber){
+        DeliveryCommission d = getDeliveryOrder(confirmationNumber);
+        d.pay();
+        return d;
+    }
+
+    @Transactional
+    public DeliveryCommission deliver(Integer confirmationNumber){
+        DeliveryCommission d = getDeliveryOrder(confirmationNumber);
+        d.deliver();
+        return d;
     }
 
     @Transactional
@@ -119,7 +187,6 @@ public class DeliveryOrderService {
         switch(shippingStatus){
             case "InCart" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.InCart);
             case "Ordered" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.Ordered);
-            case "Prepared" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.Prepared);
             case "Delivered" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.Delivered);
             default -> throw new IllegalArgumentException("Invalid shipping status");
         }
@@ -183,6 +250,7 @@ public class DeliveryOrderService {
         newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.InCart);
 
         newDeliveryOrder.setStore(storeService.getStore());
+        deliveryOrderRepository.save(newDeliveryOrder);
         if (accountType.equals("Customer")){
             customerService.addOrder(username, newDeliveryOrder);
             newDeliveryOrder.setCustomer(customerService.getCustomer(username));

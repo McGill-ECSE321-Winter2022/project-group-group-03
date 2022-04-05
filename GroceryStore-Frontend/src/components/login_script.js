@@ -47,6 +47,7 @@ export default {
       console.log(this.login_accountType_entered)
       console.log(this.login_username_entered)
       console.log(this.login_password_entered)
+      if (this.login_accountType_entered==='') this.login_error = "Please Choose Account Type"
       if (this.login_accountType_entered==="Customer"){
         AXIOS.get('/customer_login?username='.concat(this.login_username_entered,"&password=", this.login_password_entered))
             .then((response) => {
@@ -56,10 +57,13 @@ export default {
               sessionStorage.logged_in = true
               sessionStorage.username = response.data.username
               sessionStorage.accountType="Customer"
+              console.log(sessionStorage.accountType)
               this.$router.push({ name: "Items" })
             })
           .catch(e => {
+            console.log(e)
             this.login_error = e.response.data;
+            console.log(this.login_error)
           })
       }
       //employee login
@@ -72,6 +76,7 @@ export default {
               sessionStorage.logged_in = true
               sessionStorage.username = response.data.username
               sessionStorage.accountType="Employee"
+              console.log(sessionStorage.accountType)
               this.$router.push({ name: "Items" })
             })
 
@@ -91,7 +96,8 @@ export default {
               sessionStorage.logged_in = true
               sessionStorage.username = response.data.username
               sessionStorage.accountType="Owner"
-              this.$router.push({ name: "Items" })//TODO: change the owner page
+              console.log(sessionStorage.accountType)
+              this.$router.push({ name: "UpdateOwner" })//TODO: change the owner page
             })
           .catch(e => {
             console.log(e)

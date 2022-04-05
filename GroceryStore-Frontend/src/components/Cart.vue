@@ -5,14 +5,10 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="text-center">
-          <b-nav-item class = "itemNav">Home</b-nav-item>
-
-          <b-nav-item class = "itemNav">Profile</b-nav-item>
-
-          <b-nav-item class = "itemNav">Workshift</b-nav-item>
-
-          <b-nav-item class = "itemNav">Checkout</b-nav-item>
-
+          <b-nav-item :to="{ name: 'Items' }">Home</b-nav-item>
+          <b-nav-item :to="{ name: 'UpdateCustomer' }">Profile</b-nav-item>
+          <b-nav-item :to="{ name: 'Checkout' }">Checkout</b-nav-item>
+          <b-nav-item :to="{ name: 'Logout' }">Logout</b-nav-item>
         </b-navbar-nav>
 
       </b-collapse>
@@ -31,57 +27,23 @@
               <h1 style="color:#e03444;font-size:28px;"> <b> Edit Cart</b> </h1>
             </div>
 
-            <div id="meat" class="container">
+            <div class="container" v-for="Item in translatedPurchasedItems">
+
               <div class="row">
-                <div id="x3" class="col-sm">
-                  meat
+                <div id="x1" class="col-sm">
+                  {{Item.aItem.name}}
                 </div>
-                <div id="itemFormat" class="col-sm">
-                  <button style=background-color:#e03444 type="button">
-                    -
-                  </button>
+                <div id="itemFormat2" class="col-sm">
+                  <button @click="down(Item.aPurchasedItemID, Item.aItemQuantity)" style=background-color:#e03444 type="button">-</button>
                   &nbsp
-                  2
+                  {{Item.aItemQuantity}}
                   &nbsp
-                  <button style=background-color:#e03444  type="button">+</button>
+                  <button @click="up(Item.aPurchasedItemID, Item.aItemQuantity)" style=background-color:#e03444  type="button">+</button>
                   &nbsp
-                  <button style=background-color:#e03444 type="button">x</button>
+                  <button @click="deleteItem(Item.aPurchasedItemID)" style=background-color:#e03444  type="button">x</button>
                 </div>
-                <div id="vegetables" class="container">
-                  <div class="row">
-                    <div id="x2" class="col-sm">
-                      vegetables
-                    </div>
-                    <div id="itemFormat1" class="col-sm">
-                      <button style=background-color:#e03444 type="button">-</button>
-                      &nbsp
-                      3
-                      &nbsp
-                      <button style=background-color:#e03444 type="button">+</button>
-                      &nbsp
-                      <button style=background-color:#e03444 type="button">x</button>
-                    </div>
-                    <div class="container" v-for="Item in sessionStorage.purchasedItemList" :key=Item.aPurchasedItemID>
-                      <h5>hi</h5>
-                      <!--                      <div class="row">-->
-<!--                        <div id="x1" class="col-sm">-->
-<!--                          {{Item.aItem.name}}-->
-<!--                        </div>-->
-<!--                        <div id="itemFormat2" class="col-sm">-->
-<!--                          <button @click="down()" style=background-color:#e03444 type="button">-</button>-->
-<!--                          &nbsp-->
-<!--                          {{Item.aItemQuantity}}-->
-<!--                          &nbsp-->
-<!--                          <button @click="up(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">+</button>-->
-<!--                          &nbsp-->
-<!--                          <button @click="deleteItem(Item.item.aPurchasedItemID)" style=background-color:#e03444  type="button">x</button>-->
-<!--                        </div>-->
-<!--                  </div>-->
-                  </div>
-                  </div>
-                  </div>
-                  </div>
-                  </div>
+              </div>
+            </div>
           </template>
         </div>
       </b-sidebar>

@@ -2,17 +2,34 @@
   <div>
     <Header/>
     <h1 id="title">My Employee Profile</h1>
-    <p id="username" class="form">Username: {{this.employee.username}}</p>
-    <p id="email" class="form">Email: {{this.employee.email}}</p>
-    <p id="address" class="form">Address: {{this.employee.address}} </p>
-    <p id="password" class="form">Password: {{this.employee.password}}</p>
-    <p id="work" class="form">Working Status:{{this.employee.workingStatus}}</p>
-    <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
-    <b-button v-b-modal.modal-prevent-closing2 class="btn">Update Address</b-button>
-    <br>
-    <br>
-    <b-alert :show="setAlert()" dismissible variant="danger">{{error}}</b-alert>
-    <b-modal
+    <div class="form">
+      <b-container fluid>
+        <b-row >
+          <b-col offset-md="5" md="auto">Username:</b-col>
+          <b-col md="auto" style="margin-left: 0;">{{this.employee.username}}</b-col>
+        </b-row>
+        <b-row >
+          <b-col offset-md="5" md="auto"> Email:</b-col>
+          <b-col md="auto" style="margin-left: 0;">{{this.employee.email}}</b-col>
+        </b-row>
+        <b-row >
+          <b-col offset-md="5" md="auto"> Address: </b-col>
+          <b-col  md="auto" style="margin-left: 0;">{{this.employee.address}}</b-col>
+        </b-row>
+        <b-row >
+          <b-col offset-md="5" md="auto">Working Status: </b-col>
+          <b-col md="auto" style="margin-left: -1%;">{{this.employee.workingStatus}}</b-col>
+        </b-row>
+      </b-container>
+      </div>
+      <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
+      <b-button v-b-modal.modal-prevent-closing2 class="btn">Update Address</b-button>
+      <br>
+      <br>
+      <div style="max-width: 50%; margin-left:25vw">
+        <b-alert :show="setAlert()" @dismissed="setErrorEmpty()" dismissible variant="danger">{{error}}</b-alert>
+      </div>
+      <b-modal
       id="modal-prevent-closing"
       ref="modal"
       title="Update your password"
@@ -24,7 +41,7 @@
           label-for="password-input"
           invalid-feedback="Password is required"
         >
-          <input id="password_input" type="password" v-model="newPassword" placeholder="New Password">
+          <input id="password_input" type="password" v-model="newPassword" :placeholder="this.employee.password">
         </b-form-group>
       </form>
     </b-modal>
@@ -45,13 +62,14 @@
         </b-form-group>
       </form>
     </b-modal>
-
+    <Footer/>
   </div>
 
 </template>
 
 <script>
 import Header from "./EmployeeNav"
+import Footer from "./Footer"
 
 import axios from 'axios'
 var config = require('../../config')
@@ -77,7 +95,7 @@ export default {
   data() {
     return {
       employee: {
-        username: 'Jeet',
+        username: '',
         password: '',
         email: '',
         address: '',
@@ -85,19 +103,16 @@ export default {
       },
       newPassword: '',
       newAddress: '',
+      response:'',
       error:''
     }
   },
   components: {
-    Header
+    Header,
+    Footer
   },
   mounted: function () {
     this.getEmployee()
-    // this.username = 'Mark'
-    // this.password = 'password'
-    // this.email = 'email'
-    // this.address = '998 rue Address'
-    // this.workingStatus = 'Hired'
   },
   methods: {
     handleOk(bvModalEvt) {
@@ -118,10 +133,12 @@ export default {
         .then((response) =>{
           this.employee = response.data
         }).catch(e => {
-        this.error = "Cant be empty Password" /* <-- this */
+        this.error =  e.response.data /* <-- this */
+
       });
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing')
+        this.newPassword =''
       })
     },
     handleSubmitAddress(){
@@ -130,7 +147,7 @@ export default {
           this.employee = response.data
         })
         .catch(e => {
-        this.error = "Cant be empty Address" /* <-- this */
+        this.error =  e.response.data /* <-- this */
       });
       // Hide the modal manually
       this.$nextTick(() => {
@@ -138,21 +155,20 @@ export default {
       })
     },
     getEmployee: function(){
-      AXIOS.get('/employee?username='.concat(this.employee.username))
+      let username = sessionStorage.username
+      this.employee.username = username
+      AXIOS.get('/employee?username='.concat(this.employee.username), {responseType: "json"})
         .then((response) =>{
-          this.employee= response.data
+          this.response = response.data;
+          this.employee=this.response
         });
     },
     setAlert: function () {
       return this.error !== ""
+    },
+    setErrorEmpty: function() {
+      this.error = ""
     }
-    // ,
-    // createEmployee: function (){
-    //   AXIOS.post("/employee?username=Jeet&email=jeetjeet@mail.com&password=1aq2w3&address=69420 jeet street",{},{})
-    //     .then(response => {
-    //       console.log(response.data)
-    //     })
-    // }
   }
 }
 </script>

@@ -1,6 +1,10 @@
 package ca.mcgill.ecse321.GroceryStore.service;
 
 import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
+import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
+import ca.mcgill.ecse321.GroceryStore.model.Commission;
+import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PickupCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +20,23 @@ public class PickupOrderService {
     PickupOrderRepository pickupOrderRepository;
 
     @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
+
+    @Autowired
+    DeliveryOrderService deliveryOrderService;
+
+
+    @Autowired
     CustomerService customerService;
 
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    ItemService itemService;
 
 
     @Autowired
@@ -52,11 +69,41 @@ public class PickupOrderService {
             case "CreditCard" -> newPickupOrder.setPaymentMethod(PickupCommission.PaymentMethod.CreditCard);
         }
         newPickupOrder.setPickupStatus(PickupCommission.PickupStatus.InCart);
+        newPickupOrder.setPurchasedItem(new ArrayList<>());
         newPickupOrder.setStore(storeService.getStore());
 
         pickupOrderRepository.save(newPickupOrder);
         return newPickupOrder;
     }
+
+    @Transactional
+    public DeliveryCommission convertPickupToDelivery(String username, String shippingAddress, String accountType, boolean isOutOfTown) {
+        PickupCommission commission = null;
+        String username1 = null;
+
+        if (employeeRepository.existsById(username)) {
+            commission =  (PickupCommission) employeeService.getEmployeeOrder(username);
+            username1 = username;
+        }
+
+        if (customerRepository.existsById(username)) {
+            commission =  (PickupCommission) customerService.getCustomerOrder(username);
+            username1 = username;
+        }
+
+        DeliveryCommission deliveryCommission = deliveryOrderService.createDeliveryOrder(username1,shippingAddress,accountType,isOutOfTown);
+
+        for (PurchasedItem purchasedItem : commission.getPurchasedItem()) {
+           String pItem=purchasedItem.getItem().getName();
+           itemService.addItemStock(pItem,purchasedItem.getItemQuantity());
+            deliveryOrderService.addPurchasedItemToDeliveryOrder(deliveryCommission.getConfirmationNumber(),purchasedItem);
+        }
+
+        pickupOrderRepository.deleteById(commission.getConfirmationNumber());
+
+        return deliveryCommission;
+    }
+
     @Transactional
     public PickupCommission getPickupOrder(Integer confirmationNumber){
         if (confirmationNumber == null) {
@@ -86,7 +133,6 @@ public class PickupOrderService {
         switch(pickupStatus){
             case "InCart" -> newPickupOrder.setPickupStatus(PickupCommission.PickupStatus.InCart);
             case "Ordered" -> newPickupOrder.setPickupStatus(PickupCommission.PickupStatus.Ordered);
-            case "Prepared" -> newPickupOrder.setPickupStatus(PickupCommission.PickupStatus.Prepared);
             case "PickedUp" -> newPickupOrder.setPickupStatus(PickupCommission.PickupStatus.PickedUp);
             default -> throw new IllegalArgumentException("Not a valid pickup status");
         }
@@ -98,7 +144,31 @@ public class PickupOrderService {
     @Transactional
     public void addPurchasedItemToPickupOrder(Integer confirmationNumber, PurchasedItem purchasedItem){
         PickupCommission p = getPickupOrder(confirmationNumber);
-        p.getPurchasedItem().add(purchasedItem);
+        List<PurchasedItem> p1 = p.getPurchasedItem();
+        if (p1==null) p1=new ArrayList<>();
+        p1.add(purchasedItem);
+        String itemName = purchasedItem.getItem().getName();
+        itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
+        this.updateTotalCost(confirmationNumber);
+    }
+
+    @Transactional
+    public void addPurchasedItemToPickupOrder(String username, PurchasedItem purchasedItem){
+        PickupCommission commission = null;
+
+        if (employeeRepository.existsById(username)) {
+            commission =  (PickupCommission) employeeService.getEmployeeOrder(username);
+        }
+
+        if (customerRepository.existsById(username)) {
+            commission =  (PickupCommission) customerService.getCustomerOrder(username);
+        }
+        List<PurchasedItem> p = commission.getPurchasedItem();
+        p.add(purchasedItem);
+        commission.setPurchasedItem(p);
+        String itemName = purchasedItem.getItem().getName();
+        itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
+        this.updateTotalCost(commission.getConfirmationNumber());
     }
 
     @Transactional
@@ -119,6 +189,20 @@ public class PickupOrderService {
             default -> throw new IllegalArgumentException("Invalid payment method");
         }
         return pickupOrderRepository.findByConfirmationNumber(confirmationNumber);
+    }
+
+    @Transactional
+    public PickupCommission order(int confirmationNumber){
+        PickupCommission p = getPickupOrder(confirmationNumber);
+        p.order();
+        return p;
+    }
+
+    @Transactional
+    public PickupCommission pay(int confirmationNumber){
+        PickupCommission p = getPickupOrder(confirmationNumber);
+        p.pay();
+        return p;
     }
 
 
@@ -152,7 +236,8 @@ public class PickupOrderService {
             throw new IllegalArgumentException("Pickup order doesn't exist.");
         }
         int totalCost = 0;
-        for(PurchasedItem purchasedItem : pickupOrderRepository.findByConfirmationNumber(OrderId).getPurchasedItem()){
+        PickupCommission p = getPickupOrder(OrderId);
+        for(PurchasedItem purchasedItem : p.getPurchasedItem()){
             totalCost += purchasedItem.getItemQuantity()*purchasedItem.getItem().getPrice();
         }
         PickupCommission pickupOrder = pickupOrderRepository.findByConfirmationNumber(OrderId);
@@ -185,6 +270,7 @@ public class PickupOrderService {
             case "CreditCard" -> newPickupOrder.setPaymentMethod(PickupCommission.PaymentMethod.CreditCard);
         }
         newPickupOrder.setPickupStatus(PickupCommission.PickupStatus.InCart);
+        newPickupOrder.setPurchasedItem(new ArrayList<>());
         newPickupOrder.setStore(storeService.getStore());
         pickupOrderRepository.save(newPickupOrder);
         if (accountType.equals("Customer")) {

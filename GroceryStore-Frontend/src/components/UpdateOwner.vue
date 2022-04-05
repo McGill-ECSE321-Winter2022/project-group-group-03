@@ -2,13 +2,25 @@
   <div>
   <Header/>
   <h1 id="title">My Owner Profile</h1>
-  <p id="username" class="form">Username: {{this.owner.username}}</p>
-  <p id="email" class="form">Email: {{this.owner.email}}</p>
-  <p id="password" class="form">Password: {{this.owner.password}}</p>
-  <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
+    <div class="form">
+      <b-container fluid>
+        <b-row >
+          <b-col offset-md="5" md="auto">Username:</b-col>
+          <b-col md="auto" style="margin-left: 0;">{{this.owner.username}}</b-col>
+        </b-row>
+        <b-row >
+          <b-col offset-md="5" md="auto"> Email:</b-col>
+          <b-col md="auto" style="margin-left: 0;">{{this.owner.email}}</b-col>
+        </b-row>
+
+      </b-container>
+    </div>
+    <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
     <br>
     <br>
-    <b-alert :show="setAlert()" dismissible variant="danger">{{error}}</b-alert>
+    <div style="max-width: 50%; margin-left:25vw">
+      <b-alert :show="setAlert()" @dismissed="setErrorEmpty()" dismissible variant="danger">{{error}}</b-alert>
+    </div>
   <b-modal
     id="modal-prevent-closing"
     ref="modal"
@@ -21,7 +33,7 @@
         label-for="password-input"
         invalid-feedback="Password is required"
       >
-        <input id="password_input" type="password" v-model="newPassword" placeholder="New Password">
+        <input id="password_input" type="password" v-model="newPassword" :placeholder="this.owner.password">
       </b-form-group>
     </form>
   </b-modal>
@@ -52,11 +64,13 @@ export default {
   data() {
     return {
       owner:{
-        username: 'Roosh',
+        username: '',
         password: '',
-        email: ''
+        email: '',
+
       },
       newPassword: '',
+      response: '',
       error:''
     }
   },
@@ -81,29 +95,29 @@ export default {
         .then((response) =>{
           this.owner = response.data
         }).catch(e => {
-        this.error = "Cant be empty Password" /* <-- this */
+        this.error = e.response.data /* <-- this */
       });
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing')
+        this.newPassword =''
       })
     },
     getOwner: function(){
+      let username = sessionStorage.username
+      this.owner.username = username
       AXIOS.get('/owner?username='.concat(this.owner.username))
         .then((response) =>{
-          this.owner= response.data
+          this.response = response.data;
+          this.owner=this.response
         });
     },
     setAlert: function () {
       return this.error !== ""
+    },
+    setErrorEmpty: function() {
+      this.error = ""
     }
-    // ,
-    // createOwner: function (){
-    //   AXIOS.post("/owner?username=Roosh&email=roosh@mail.com&password=1aq2w3",{},{})
-    //     .then(response => {
-    //       console.log(response.data)
-    //     })
-    // }
   }
 }
 </script>
@@ -122,6 +136,8 @@ export default {
 }
 .btn{
   margin-top: 60px;
+  background-color: #e03444;
+  border-color: #e03444;;
 }
 #username{
   margin-right: 7%;

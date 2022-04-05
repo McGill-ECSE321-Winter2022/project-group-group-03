@@ -42,16 +42,6 @@ public class PurchasedItemService {
         }
     }
 
-/*    @Transactional
-    public PurchasedItem getPurchasedItem(int purchasedItemID) {
-        PurchasedItem pItem = purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
-        if (pItem == null) {
-            throw new IllegalArgumentException("The purchased item with ID: " + purchasedItemID + " does not exist.");
-        } else {
-            return purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
-        }
-    }*/
-
     @Transactional
     public PurchasedItem getPurchasedItem(int purchasedItemID) {
         String error = null;
@@ -185,19 +175,5 @@ public class PurchasedItemService {
         purchasedItemRepository.save(purchasedItem);
         return purchasedItem;
     }
-
-
-    @Transactional
-    public Item getPurchasedItemItem (Integer id){
-        if (id != null && purchasedItemRepository.findByPurchasedItemID(id) != null)
-            return purchasedItemRepository.findByPurchasedItemID(id).getItem();
-        else throw new IllegalArgumentException("Invalid id: Either no PurchasedItem has this id or the id given was null");
-    }
-
-
-
-
-
-
 
 }

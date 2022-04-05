@@ -36,7 +36,9 @@ public class ItemRestController {
     }
 
     @PutMapping(value = {"/editItem/{itemName}"})
+
     public ResponseEntity<?> updateItemAll(@PathVariable("itemName") String itemName, @RequestParam String newImage,
+
                                          @RequestParam int newPrice, @RequestParam int newStock,
                                          @RequestParam String newDescription, @RequestParam boolean newPurchasable) throws IllegalArgumentException {
         try{

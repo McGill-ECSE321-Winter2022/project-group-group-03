@@ -64,16 +64,24 @@ public class CustomerRestController {
     }
 
     @PutMapping(value = {"/editPassword/{username}"})
-    public CustomerDTO updateCustomerPassword(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException{
-        return convertToDto(service.setPassword(username, password));
+    public ResponseEntity<?> updateCustomerPassword(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException{
+        try {
+            return ResponseEntity.ok(convertToDto(service.setPassword(username, password)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
     @PutMapping(value = {"/editEmail/{username}"})
     public CustomerDTO updateCustomerEmail(@PathVariable("username") String username, @RequestParam String email) throws IllegalArgumentException{
         return convertToDto(service.setEmail(username, email));
     }
     @PutMapping(value = {"/editAddress/{username}"})
-    public CustomerDTO updateCustomerAddress(@PathVariable("username") String username, @RequestParam String address) throws  IllegalArgumentException{
-        return convertToDto(service.setAddress(username, address));
+    public ResponseEntity<?> updateCustomerAddress(@PathVariable("username") String username, @RequestParam String address) throws  IllegalArgumentException{
+        try {
+            return ResponseEntity.ok(convertToDto(service.setAddress(username, address)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     private CustomerDTO convertToDto(Customer c) {
@@ -89,7 +97,8 @@ public class CustomerRestController {
         String orderType;
         if (o instanceof DeliveryCommission)  orderType = "Delivery";
         else orderType = "Pickup";
-        return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem(), orderType);
+        if(o.getCustomer().getUsername()== null)  return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem(), orderType,o.getEmployee().getUsername());
+        else return new OrderDTO(o.getConfirmationNumber(),o.getTotalCost(),o.getStore(),o.getPurchasedItem(), orderType,o.getCustomer().getUsername());
     }
 
 }
