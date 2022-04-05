@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header/>
+<!--    <Header/>-->
     <h1 id="title">My Employee Profile</h1>
     <div class="form">
       <b-container fluid>
@@ -157,9 +157,10 @@ export default {
     getEmployee: function(){
       let username = sessionStorage.username
       this.employee.username = username
-      AXIOS.get('/employee?username='.concat(this.employee.username), {responseType: "json"})
+      AXIOS.get('/employee?username='.concat(sessionStorage.username), {responseType: "json"})
         .then((response) =>{
           this.response = response.data;
+          console.log(this.response)
           this.employee=this.response
         });
     },
