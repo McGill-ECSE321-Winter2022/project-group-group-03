@@ -86,3 +86,17 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 |Sébastien Cantin|<ul><li>Helped create architecture model<li>Created Figma UI mockup of customer page, item list, and homepage<li>Created frontend page for customer<li>Created frontend page for item list<li>Created frontend home page with vue.js<li>Created axios rest API calls for the item list and homepage; dynamic integration with backend<li>Helped update multiplicities in the backend between employee and order to 1…*<li>Reviewed pull requests<li>Refactored order to commission due to reserved keyword error<li>Ran integration tests on Postman<li>Assured backlog is maintained<li>Helped debug errors during testing of frontend</ul>| 98|
 
 ### The deliverable 3 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-3-Report)
+
+## Deliverable 4 
+
+## Tasks and Time Spent
+| Name| Tasks|Time Spent (hrs)|
+| :--- |--- |:---: |
+|Abhijeet Praveen |<ul><li>Started README.MD for Deliverable 4</li></ul>|| 
+|Ari Arabian |<ul></ul>||
+|Edward Habelrih| <ul></ul>||
+|Neel Faucher |<ul></ul>||
+|Rooshnie Velautham|<ul></ul>| |
+|Sébastien Cantin|<ul></ul>||
+
+### The deliverable 4 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-4-Report)
