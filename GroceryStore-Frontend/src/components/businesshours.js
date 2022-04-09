@@ -59,6 +59,9 @@ export default {
     this.getBusinessHours()
   },
   methods:{
+    /**
+     * Get the BusinessHours from the backend and store them in the empty array hours in order (monday through sunday)
+     */
     getBusinessHours: function(){
       console.log("getting business hours")
       this.hours.length = 0
@@ -138,6 +141,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the opening hours on the frontend for Monday
+     */
     setBusinessHours1: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourStartTime/'.concat(this.monday,'?startTime=', this.buttonMessage1))
@@ -145,6 +151,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the closing hours on the frontend for Monday
+     */
     setBusinessHours2: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourEndTime/'.concat(this.monday,'?endTime=', this.buttonMessage2))
@@ -152,6 +161,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the opening hours on the frontend for Tuesday
+     */
     setBusinessHours3: function() {
 
       AXIOS.put('/editBusinessHourStartTime/'.concat(this.tuesday,'?startTime=', this.buttonMessage3))
@@ -159,6 +171,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the closing hours on the frontend for Tuesday
+     */
     setBusinessHours4: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourEndTime/'.concat(this.tuesday,'?endTime=', this.buttonMessage4))
@@ -166,6 +181,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the opening hours on the frontend for Wednesday
+     */
     setBusinessHours5: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourStartTime/'.concat(this.wednesday,'?startTime=', this.buttonMessage5))
@@ -173,6 +191,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the closing hours on the frontend for Wednesday
+     */
     setBusinessHours6: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourEndTime/'.concat(this.wednesday,'?endTime=', this.buttonMessage6))
@@ -180,6 +201,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the opening hours on the frontend for Thursday
+     */
     setBusinessHours7: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourStartTime/'.concat(this.thursday,'?startTime=', this.buttonMessage7))
@@ -187,6 +211,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the closing hours on the frontend for Thursday
+     */
     setBusinessHours8: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourEndTime/'.concat(this.thursday,'?endTime=', this.buttonMessage8))
@@ -194,6 +221,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the opening hours on the frontend for Friday
+     */
     setBusinessHours9: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourStartTime/'.concat(this.friday,'?startTime=', this.buttonMessage9))
@@ -201,6 +231,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the closing hours on the frontend for Friday
+     */
     setBusinessHours10: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourEndTime/'.concat(this.friday,'?endTime=', this.buttonMessage10))
@@ -208,6 +241,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the opening hours on the frontend for Saturday
+     */
     setBusinessHours11: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourStartTime/'.concat(this.saturday,'?startTime=', this.buttonMessage11))
@@ -215,6 +251,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the closing hours on the frontend for Saturday
+     */
     setBusinessHours12: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourEndTime/'.concat(this.saturday,'?endTime=', this.buttonMessage12))
@@ -222,6 +261,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the opening hours on the frontend for Sunday
+     */
     setBusinessHours13: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourStartTime/'.concat(this.sunday,'?startTime=', this.buttonMessage13))
@@ -229,6 +271,9 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Updates the backend when updating the closing hours on the frontend for Sunday
+     */
     setBusinessHours14: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/editBusinessHourEndTime/'.concat(this.sunday,'?endTime=', this.buttonMessage14))
@@ -236,6 +281,10 @@ export default {
           console.log(response)
         })
     },
+    /**
+     * Pauses the program for a given amount of milliseconds
+     * @param {int} milliseconds - milliseconds for which the program will be paused
+     */
     sleep: function (milliseconds) {
       const date = Date.now();
       let currentDate = null;
@@ -244,6 +293,9 @@ export default {
       }
       while (currentDate - date < milliseconds);
     },
+    /**
+     * Upon clicking the on the update button on the frontend, update the opening and closing times by fetching the contents of the hours array
+     */
     updateButtonHours: function(){
       console.log(this.hours)
       this.buttonMessage1 = this.parseHour(this.hours[0].startTime)
@@ -261,6 +313,10 @@ export default {
       this.buttonMessage13 = this.parseHour(this.hours[6].startTime)
       this.buttonMessage14 = this.parseHour(this.hours[6].endTime)
     },
+    /**
+     * Removes the seconds from format coming from the backend and leaves only the hours and the minutes
+     * @param {String} Time - takes the time that is not yet formatted
+     */
     parseHour: function(Time){
       let x = ""
       for(let i = 0; i < 5; i++){
@@ -268,61 +324,121 @@ export default {
       }
       return x
     },
+    /**
+     * Updates the dropdown menu to the selected opening hour
+     * @param {String} hour - takes in the opening hour that has been selected in the dropdown by the user
+     */
     changeOpeningHour: function(hour){
       this.dropDownMessage = hour
     },
+    /**
+     * Updates the opening time for monday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour1: function(hour){
       this.buttonMessage1 = hour
       this.setBusinessHours1()
     },
+    /**
+     * Updates the closing time for monday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour2: function(hour){
       this.buttonMessage2 = hour
       this.setBusinessHours2()
     },
+    /**
+     * Updates the opening time for tuesday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour3: function(hour){
       this.buttonMessage3 = hour
       this.setBusinessHours3()
     },
+    /**
+     * Updates the closing time for tuesday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour4: function(hour){
       this.buttonMessage4 = hour
       this.setBusinessHours4()
     },
+    /**
+     * Updates the opening time for wednesday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour5: function(hour){
       this.buttonMessage5 = hour
       this.setBusinessHours5()
     },
+    /**
+     * Updates the closing time for wednesday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour6: function(hour){
       this.buttonMessage6 = hour
       this.setBusinessHours6()
     },
+    /**
+     * Updates the opening time for thursday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour7: function(hour){
       this.buttonMessage7 = hour
       this.setBusinessHours7()
     },
+    /**
+     * Updates the closing time for thursday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour8: function(hour){
       this.buttonMessage8 = hour
       this.setBusinessHours8()
     },
+    /**
+     * Updates the opening time for friday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour9: function(hour){
       this.buttonMessage9 = hour
       this.setBusinessHours9()
     },
+    /**
+     * Updates the closing time for friday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour10: function(hour){
       this.buttonMessage10 = hour
       this.setBusinessHours10()
     },
+    /**
+     * Updates the opening time for saturday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour11: function(hour){
       this.buttonMessage11 = hour
       this.setBusinessHours11()
     },
+    /**
+     * Updates the closing time for saturday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour12: function(hour){
       this.buttonMessage12 = hour
       this.setBusinessHours12()
     },
+    /**
+     * Updates the opening time for sunday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour13: function(hour){
       this.buttonMessage13 = hour
       this.setBusinessHours13()
     },
+    /**
+     * Updates the closing time for sunday upon selecting the new hours from the dropdowns
+     * @param {String} hour - takes in the starting hour that has been selected in the dropdown by the user
+     */
     changeButtonHour14: function(hour){
       this.buttonMessage14 = hour
       this.setBusinessHours14()

@@ -3,10 +3,12 @@
     <Header />
     <div class="row">
       <div id="col5" class="col-6">
+
         <table id="table">
           <tr>
               <td>Mon.</td>
               <td><b-button id="hourbutton" v-b-modal.modal-1>{{this.buttonMessage1}}</b-button></td>
+            <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store via a dropdown  -->
               <b-modal id="modal-1" title="Update Hours">
                 <div align="center">
                   <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-1">
@@ -29,6 +31,7 @@
               <div id="topm">
                 <td>To</td>
                 <td><b-button id="hourbutton2" v-b-modal.modal-2>{{this.buttonMessage2}}</b-button></td>
+                <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
                 <b-modal id="modal-2" title="Update Hours">
                   <div align="center">
                     <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-2">
@@ -53,6 +56,7 @@
           <tr>
               <td>Tues.</td>
               <td><b-button id="hourbutton" v-b-modal.modal-3> {{this.buttonMessage3}}</b-button></td>
+            <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
             <b-modal id="modal-3" title="Update Hours">
               <div align="center">
                 <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-3">
@@ -75,6 +79,7 @@
               <div id="topm">
                 <td>To</td>
                 <td><b-button id="hourbutton2" v-b-modal.modal-4>{{this.buttonMessage4}} </b-button></td>
+                <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
                 <b-modal id="modal-4" title="Update Hours">
                   <div align="center">
                     <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-4">
@@ -99,6 +104,7 @@
           <tr>
             <td>Wed.</td>
             <td><b-button id="hourbutton" v-b-modal.modal-5>{{this.buttonMessage5}}</b-button></td>
+            <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
             <b-modal id="modal-5" title="Update Hours">
               <div align="center">
                 <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-5">
@@ -121,6 +127,7 @@
             <div id="topm">
               <td>To</td>
               <td><b-button id="hourbutton2" v-b-modal.modal-6>{{this.buttonMessage6}}</b-button></td>
+              <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
               <b-modal id="modal-6" title="Update Hours">
                 <div align="center">
                   <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-6">
@@ -145,6 +152,7 @@
           <tr>
             <td>Thurs.</td>
             <td><b-button id="hourbutton" v-b-modal.modal-7>{{this.buttonMessage7}}</b-button></td>
+            <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
             <b-modal id="modal-7" title="Update Hours">
               <div align="center">
                 <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-7">
@@ -167,6 +175,7 @@
             <div id="topm">
               <td>To</td>
               <td><b-button id="hourbutton2" v-b-modal.modal-8>{{this.buttonMessage8}}</b-button></td>
+              <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
               <b-modal id="modal-8" title="Update Hours">
                 <div align="center">
                   <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-8">
@@ -191,6 +200,7 @@
           <tr>
             <td>Fri.</td>
             <td><b-button id="hourbutton" v-b-modal.modal-9>{{this.buttonMessage9}} </b-button></td>
+            <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
             <b-modal id="modal-9" title="Update Hours">
               <div align="center">
                 <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-9">
@@ -213,6 +223,7 @@
             <div id="topm">
               <td>To</td>
               <td><b-button id="hourbutton2" v-b-modal.modal-10>{{this.buttonMessage10}}</b-button></td>
+              <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
               <b-modal id="modal-10" title="Update Hours">
                 <div align="center">
                   <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-10">
@@ -237,6 +248,7 @@
           <tr>
             <td>Sat.</td>
             <td><b-button id="hourbutton" v-b-modal.modal-11>{{this.buttonMessage11}}</b-button></td>
+            <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
             <b-modal id="modal-11" title="Update Hours">
               <div align="center">
                 <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-11">
@@ -259,6 +271,7 @@
             <div id="topm">
               <td>To</td>
               <td><b-button id="hourbutton2" v-b-modal.modal-12>{{this.buttonMessage12}}</b-button></td>
+              <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
               <b-modal id="modal-12" title="Update Hours">
                 <div align="center">
                   <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-12">
@@ -283,6 +296,7 @@
           <tr>
             <td>Sun.</td>
             <td><b-button id="hourbutton" v-b-modal.modal-13>{{this.buttonMessage13}}</b-button></td>
+            <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
             <b-modal id="modal-13" title="Update Hours">
               <div align="center">
                 <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-13">
@@ -305,6 +319,7 @@
             <div id="topm">
               <td>To</td>
               <td><b-button id="hourbutton2" v-b-modal.modal-14>{{this.buttonMessage14}}</b-button></td>
+              <!--   upon clicking on the time, opens a modal which can be used to change the opening and closing hours of the store  -->
               <b-modal id="modal-14" title="Update Hours">
                 <div align="center">
                   <b-dropdown id="dropdown-left" :text="dropDownMessage" variant="primary" class="m-14">

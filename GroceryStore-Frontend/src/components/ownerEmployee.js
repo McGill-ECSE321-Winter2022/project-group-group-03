@@ -101,6 +101,11 @@ export default {
     //this.getWorkShiftsOfEmployee()
   },
   methods: {
+    /**
+     * Retrieves the username of the employee.
+     * @param {String} username - username of the employee we are trying to search
+     * @throws {NotFoundError} When the employee is not found.
+     */
     searchUsername: function (username) {
       AXIOS.get('/employee?username='.concat(username), {responseType: "json"})
         .then((response) => {
@@ -113,6 +118,10 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Pauses the program for a given amount of milliseconds
+     * @param {int} milliseconds - milliseconds for which the program will be paused
+     */
     sleep: function (milliseconds) {
       const date = Date.now();
       let currentDate = null;
@@ -121,6 +130,10 @@ export default {
       }
       while (currentDate - date < milliseconds);
     },
+    /**
+     * Fires the employee for which we searched for
+     * @throws {EmployeeAlreadyFiredError} When the employee is already fired.
+     */
     fireEmployee: function(){
       AXIOS.put('/fire_employee?username='.concat(this.username),{responseType: "json"})
         .then((response) => {
@@ -129,6 +142,10 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Hires the employee for which we searched for
+     * @throws {EmployeeAlreadyHiredError} When the employee is already hired.
+     */
     hireEmployee: function(){
       AXIOS.put('/hire_employee?username='.concat(this.username),{responseType: "json"})
         .then((response) => {
@@ -137,6 +154,9 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Deletes the start time and end time shift for Monday of the hired employee
+     */
     deleteWorkshift1: function(){
       AXIOS.delete('/workShift/'.concat(this.mondayWS),{responseType: "json"})
         .then((response) => {
@@ -148,6 +168,9 @@ export default {
         this.mondaydisable1 = true
         this.mondaydisable = false
     },
+    /**
+     * Deletes the start time and end time shift for Tuesday of the hired employee
+     */
     deleteWorkshift2: function(){
       AXIOS.delete('/workShift/'.concat(this.tuesdayWS),{responseType: "json"})
         .then((response) => {
@@ -159,6 +182,9 @@ export default {
         this.tuesdaydisable1 = true
         this.tuesdaydisable = false
     },
+    /**
+     * Deletes the start time and end time shift for Wednesday of the hired employee
+     */
     deleteWorkshift3: function(){
       AXIOS.delete('/workShift/'.concat(this.wednesdayWS),{responseType: "json"})
         .then((response) => {
@@ -171,6 +197,9 @@ export default {
       this.wednesdaydisable = false
 
     },
+    /**
+     * Deletes the start time and end time shift for Thursday of the hired employee
+     */
     deleteWorkshift4: function(){
       AXIOS.delete('/workShift/'.concat(this.thursdayWS),{responseType: "json"})
         .then((response) => {
@@ -181,6 +210,9 @@ export default {
       this.thursdaydisable1 = true
       this.thursdaydisable = false
     },
+    /**
+     * Deletes the start time and end time shift for Friday of the hired employee
+     */
     deleteWorkshift5: function(){
       AXIOS.delete('/workShift/'.concat(this.fridayWS),{responseType: "json"})
         .then((response) => {
@@ -193,6 +225,9 @@ export default {
       this.fridaydisable = false
 
     },
+    /**
+     * Deletes the start time and end time shift for Saturday of the hired employee
+     */
     deleteWorkshift6: function(){
       AXIOS.delete('/workShift/'.concat(this.saturdayWS),{responseType: "json"})
         .then((response) => {
@@ -205,6 +240,9 @@ export default {
       this.saturdaydisable = false
 
     },
+    /**
+     * Deletes the start time and end time shift for Sunday of the hired employee
+     */
     deleteWorkshift7: function(){
       AXIOS.delete('/workShift/'.concat(this.sundayWS),{responseType: "json"})
         .then((response) => {
@@ -218,6 +256,11 @@ export default {
       this.sundaydisable = false
 
     },
+    /**
+     * Creates a work shift with a start time for Monday
+     * @param {String} username - username of the employee for which we want to create a work shift
+     * @throws {WorkshiftAlreadyCreatedError} When the work shift is already created for that given day
+     */
     createWorkshift1: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage1, '&aEndTime=',this.EMPbuttonMessage2, '&aDay=Monday&username=',username))
         .then(response => {
@@ -226,6 +269,11 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Creates a work shift for Tuesday
+     * @param {String} username - username of the employee for which we want to create a work shift
+     * @throws {WorkshiftAlreadyCreatedError} When the work shift is already created for that given day
+     */
     createWorkshift2: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage3, '&aEndTime=',this.EMPbuttonMessage4, '&aDay=Tuesday&username=',username))
         .then(response => {
@@ -234,6 +282,11 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Creates a work shift for Wednesday
+     * @param {String} username - username of the employee for which we want to create a work shift
+     * @throws {WorkshiftAlreadyCreatedError} When the work shift is already created for that given day
+     */
     createWorkshift3: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage5, '&aEndTime=',this.EMPbuttonMessage6, '&aDay=Wednesday&username=',username))
         .then(response => {
@@ -242,6 +295,11 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Creates a work shift for Thursday
+     * @param {String} username - username of the employee for which we want to create a work shift
+     * @throws {WorkshiftAlreadyCreatedError} When the work shift is already created for that given day
+     */
     createWorkshift4: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage7, '&aEndTime=',this.EMPbuttonMessage8, '&aDay=Thursday&username=',username))
         .then(response => {
@@ -250,6 +308,11 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Creates a work shift for Friday
+     * @param {String} username - username of the employee for which we want to create a work shift
+     * @throws {WorkshiftAlreadyCreatedError} When the work shift is already created for that given day
+     */
     createWorkshift5: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage9, '&aEndTime=',this.EMPbuttonMessage10, '&aDay=Friday&username=',username))
         .then(response => {
@@ -258,6 +321,11 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Creates a work shift for Saturday
+     * @param {String} username - username of the employee for which we want to create a work shift
+     * @throws {WorkshiftAlreadyCreatedError} When the work shift is already created for that given day
+     */
     createWorkshift6: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage11, '&aEndTime=',this.EMPbuttonMessage12, '&aDay=Saturday&username=',username))
         .then(response => {
@@ -266,6 +334,11 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Creates a work shift for Sunday
+     * @param {String} username - username of the employee for which we want to create a work shift
+     * @throws {WorkshiftAlreadyCreatedError} When the work shift is already created for that given day
+     */
     createWorkshift7: function (username){
       AXIOS.post('workShift?aStartTime='.concat(this.EMPbuttonMessage13, '&aEndTime=',this.EMPbuttonMessage14, '&aDay=Sunday&username=',username))
         .then(response => {
@@ -274,55 +347,100 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
-
+    /**
+     * Updates the dropdown menu to the selected hour
+     * @param {String} hour - takes in the start hour that has been selected in the dropdown by the user
+     */
     EMPchangeOpeningHour1: function (hour) {
       this.EMPdropDownMessage1 = hour
     },
+    /**
+     * Updates the dropdown menu to the selected hour
+     * @param {String} hour - takes in the end time hour that has been selected in the dropdown by the user
+     */
     EMPchangeOpeningHour2: function (hour) {
       this.EMPdropDownMessage2 = hour
     },
+    /**
+     * Updates the start and end time for monday upon selecting the new hours from the dropdowns
+     * @param {String} hour1 - takes in the starting hour that has been selected in the dropdown by the user
+     * @param {String} hour2 - takes in the ending hour that has been selected in the dropdown by the user
+     */
     EMPchangeButtonHour1: function (hour1, hour2) {
 
       this.EMPbuttonMessage1 = hour1
       this.EMPbuttonMessage2 = hour2
       this.setWorkShiftHours1()
     },
+    /**
+     * Updates the start and end time for tuesday upon selecting the new hours from the dropdowns
+     * @param {String} hour1 - takes in the starting hour that has been selected in the dropdown by the user
+     * @param {String} hour2 - takes in the ending hour that has been selected in the dropdown by the user
+     */
     EMPchangeButtonHour2: function (hour1, hour2) {
 
       this.EMPbuttonMessage3 = hour1
       this.EMPbuttonMessage4 = hour2
       this.setWorkShiftHours2()
     },
+    /**
+     * Updates the start and end time for wednesday upon selecting the new hours from the dropdowns
+     * @param {String} hour1 - takes in the starting hour that has been selected in the dropdown by the user
+     * @param {String} hour2 - takes in the ending hour that has been selected in the dropdown by the user
+     */
     EMPchangeButtonHour3: function (hour1, hour2) {
 
       this.EMPbuttonMessage5 = hour1
       this.EMPbuttonMessage6 = hour2
       this.setWorkShiftHours3()
     },
+    /**
+     * Updates the start and end time for thursday upon selecting the new hours from the dropdowns
+     * @param {String} hour1 - takes in the starting hour that has been selected in the dropdown by the user
+     * @param {String} hour2 - takes in the ending hour that has been selected in the dropdown by the user
+     */
     EMPchangeButtonHour4: function (hour1, hour2) {
 
       this.EMPbuttonMessage7 = hour1
       this.EMPbuttonMessage8 = hour2
       this.setWorkShiftHours4()
     },
+    /**
+     * Updates the start and end time for friday upon selecting the new hours from the dropdowns
+     * @param {String} hour1 - takes in the starting hour that has been selected in the dropdown by the user
+     * @param {String} hour2 - takes in the ending hour that has been selected in the dropdown by the user
+     */
     EMPchangeButtonHour5: function (hour1, hour2) {
 
       this.EMPbuttonMessage9 = hour1
       this.EMPbuttonMessage10 = hour2
       this.setWorkShiftHours5()
     },
+    /**
+     * Updates the start and end time for saturday upon selecting the new hours from the dropdowns
+     * @param {String} hour1 - takes in the starting hour that has been selected in the dropdown by the user
+     * @param {String} hour2 - takes in the ending hour that has been selected in the dropdown by the user
+     */
     EMPchangeButtonHour6: function (hour1, hour2) {
 
       this.EMPbuttonMessage11 = hour1
       this.EMPbuttonMessage12 = hour2
       this.setWorkShiftHours6()
     },
+    /**
+     * Updates the start and end time for sunday upon selecting the new hours from the dropdowns
+     * @param {String} hour1 - takes in the starting hour that has been selected in the dropdown by the user
+     * @param {String} hour2 - takes in the ending hour that has been selected in the dropdown by the user
+     */
     EMPchangeButtonHour7: function (hour1, hour2) {
 
       this.EMPbuttonMessage13 = hour1
       this.EMPbuttonMessage14 = hour2
       this.setWorkShiftHours7()
     },
+    /**
+     * Get the workshifts from the backend and store them in the empty array shifts in order (monday through sunday)
+     */
     getWorkShiftsOfEmployee: function(){
       AXIOS.get('/workshift/employee?username='.concat(this.username), {responseType: "json"})
         .then((response) => {
@@ -364,7 +482,9 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
-
+    /**
+     * Updates the backend when updating the hours on the frontend for Monday
+     */
     setWorkShiftHours1: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/edit_workShift_hours/'.concat(this.mondayWS, '?startTime=',  this.EMPbuttonMessage1, '&endTime=', this.EMPbuttonMessage2))
@@ -373,6 +493,9 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Updates the backend when updating the hours on the frontend for Tuesday
+     */
     setWorkShiftHours2: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/edit_workShift_hours/'.concat(this.tuesdayWS, '?startTime=',  this.EMPbuttonMessage3, '&endTime=', this.EMPbuttonMessage4))
@@ -381,6 +504,9 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Updates the backend when updating the hours on the frontend for Wednesday
+     */
     setWorkShiftHours3: function() {
 
       AXIOS.put('/edit_workShift_hours/'.concat(this.wednesdayWS, '?startTime=',  this.EMPbuttonMessage5, '&endTime=', this.EMPbuttonMessage6))
@@ -389,6 +515,9 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Updates the backend when updating the hours on the frontend for Thursday
+     */
     setWorkShiftHours4: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/edit_workShift_hours/'.concat(this.thursdayWS, '?startTime=',  this.EMPbuttonMessage7, '&endTime=', this.EMPbuttonMessage8))
@@ -397,6 +526,9 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Updates the backend when updating the hours on the frontend for Friday
+     */
     setWorkShiftHours5: function() {
       //console.log(this.hours[0].hoursID)
       console.log(this.EMPbuttonMessage5)
@@ -406,6 +538,9 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Updates the backend when updating the hours on the frontend for Saturday
+     */
     setWorkShiftHours6: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/edit_workShift_hours/'.concat(this.saturdayWS, '?startTime=',  this.EMPbuttonMessage11, '&endTime=', this.EMPbuttonMessage12))
@@ -414,6 +549,9 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Updates the backend when updating the hours on the frontend for Sunday
+     */
     setWorkShiftHours7: function() {
       //console.log(this.hours[0].hoursID)
       AXIOS.put('/edit_workShift_hours/'.concat(this.sundayWS, '?startTime=',  this.EMPbuttonMessage13, '&endTime=', this.EMPbuttonMessage14))
@@ -422,6 +560,10 @@ export default {
         })
         .catch((error) => {this.create_error = error.response.data/* <-- this */ });
     },
+    /**
+     * Removes the seconds from format coming from the backend and leaves only the hours and the minutes
+     * @param {String} Time - takes the time that is not yet formatted
+     */
     parseHour: function(Time){
       let x = ""
       for(let i = 0; i < 5; i++){
@@ -429,6 +571,9 @@ export default {
       }
       return x
     },
+    /**
+     * Upon clicking the on the update button on the frontend, update the start and end times by fetching the contents of the shifts array
+     */
     updateButtonShifts: function(){
       if(this.shifts[0] !== null){
         this.EMPbuttonMessage1 = this.parseHour(this.shifts[0].startTime)

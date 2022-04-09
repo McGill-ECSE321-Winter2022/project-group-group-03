@@ -2,9 +2,11 @@
   <div>
     <Header/>
     <h1 id="title">Employee Information</h1>
+    <!--    Table which includes selectable day of the week     -->
     <table id="tablestyle" align="center">
       <tr>
         <div id="buttonseach">
+          <!--    search bar     -->
           <td><b-form-input align="center" style="width:218%" id="searchemp" placeholder="search" v-model="Searchusername"> </b-form-input></td>
           <td><b-button id="searchbutton" @click="searchUsername(Searchusername)">search</b-button></td>
           <td><b-button id="searchbutton1" @click="fireEmployee()">fire</b-button></td>
@@ -29,6 +31,7 @@
       </tr>
       <tr id="trstyle">
         <td><button id="EMPhourbutton" v-b-modal.modal-15>Monday</button></td>
+        <!--   upon clicking on the day, opens a modal which can be used to create, update, delete the start and end time of the shifts via 2 dropdowns  -->
         <b-modal id="modal-15" title="Update Hours">
           <div align="center">
             <b-dropdown v-model="EMPbuttonMessage1" id="dropdown-left" :text="EMPdropDownMessage1" variant="primary" class="m-15">
@@ -73,6 +76,7 @@
       </tr>
       <tr id="trstyle">
         <td><button id="EMPhourbutton" v-b-modal.modal-16>Tuesday</button></td>
+        <!--   upon clicking on the day, opens a modal which can be used to create, update, delete the start and end time of the shifts  -->
         <b-modal id="modal-16" title="Update Hours">
           <div align="center">
             <b-dropdown v-model="EMPbuttonMessage3" id="dropdown-left" :text="EMPdropDownMessage1" variant="primary" class="m-16">
@@ -117,6 +121,7 @@
       </tr>
       <tr id="trstyle">
         <td><button id="EMPhourbutton" v-b-modal.modal-17>Wednesday</button></td>
+        <!--   upon clicking on the day, opens a modal which can be used to create, update, delete the start and end time of the shifts  -->
         <b-modal id="modal-17" title="Update Hours">
           <div align="center">
             <b-dropdown v-model="EMPbuttonMessage5" id="dropdown-left" :text="EMPdropDownMessage1" variant="primary" class="m-17">
@@ -161,6 +166,7 @@
       </tr>
       <tr id="trstyle">
         <td><button id="EMPhourbutton" v-b-modal.modal-18>Thursday</button></td>
+        <!--   upon clicking on the day, opens a modal which can be used to create, update, delete the start and end time of the shifts  -->
         <b-modal id="modal-18" title="Update Hours">
           <div align="center">
             <b-dropdown v-model="EMPbuttonMessage7" id="dropdown-left" :text="EMPdropDownMessage1" variant="primary" class="m-18">
@@ -205,6 +211,7 @@
       </tr>
       <tr id="trstyle">
         <td><button id="EMPhourbutton" v-b-modal.modal-19>Friday</button></td>
+        <!--   upon clicking on the day, opens a modal which can be used to create, update, delete the start and end time of the shifts  -->
         <b-modal id="modal-19" title="Update Hours">
           <div align="center">
             <b-dropdown v-model="EMPbuttonMessage9" id="dropdown-left" :text="EMPdropDownMessage1" variant="primary" class="m-19">
@@ -249,6 +256,7 @@
       </tr>
       <tr id="trstyle">
         <td><button id="EMPhourbutton" v-b-modal.modal-20>Saturday</button></td>
+        <!--   upon clicking on the day, opens a modal which can be used to create, update, delete the start and end time of the shifts  -->
         <b-modal id="modal-20" title="Update Hours">
           <div align="center">
             <b-dropdown v-model="EMPbuttonMessage11" id="dropdown-left" :text="EMPdropDownMessage1" variant="primary" class="m-20">
@@ -293,6 +301,7 @@
       </tr>
       <tr id="trstyle">
         <td><button id="EMPhourbutton" v-b-modal.modal-21>Sunday</button></td>
+        <!--   upon clicking on the day, opens a modal which can be used to create, update, delete the start and end time of the shifts  -->
         <b-modal id="modal-21" title="Update Hours">
           <div align="center">
             <b-dropdown v-model="EMPbuttonMessage13" id="dropdown-left" :text="EMPdropDownMessage1" variant="primary" class="m-21">
