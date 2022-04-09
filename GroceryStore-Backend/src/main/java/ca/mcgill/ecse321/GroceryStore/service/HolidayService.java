@@ -19,10 +19,11 @@ public class HolidayService {
     StoreService storeService;
 
     /**
-     * @param name
-     * @param startDate
-     * @param endDate
-     * @return
+     * Creates a Holiday with all the credentials of said Holiday
+     * @param name the name of the holiday
+     * @param startDate the start date of said holiday
+     * @param endDate the end date of said holiday
+     * @return the holiday object that was just created
      */
     @Transactional
     public Holiday createHoliday(String name, Date startDate, Date endDate) {
@@ -65,7 +66,8 @@ public class HolidayService {
     }
 
     /**
-     * @return
+     * Gets all the holiday from the repository
+     * @return a list of all the holidays available in the repo
      */
     @Transactional
     public List<Holiday> getAllHolidays() {
@@ -75,8 +77,9 @@ public class HolidayService {
     }
 
     /**
-     * @param name
-     * @return
+     * Get the holiday with the name that we are looking for
+     * @param name the holiday name that we are looking for
+     * @return the object holiday that corresponds to the given name
      */
     @Transactional
     public Holiday getHoliday(String name) {
@@ -91,9 +94,10 @@ public class HolidayService {
     }
 
     /**
-     * @param name
-     * @param aStartDate
-     * @return
+     * Update the start time of the specific holiday with the right name
+     * @param name the holiday name that we want to change
+     * @param aStartDate the new start date of that holiday
+     * @return the newly updated holiday
      */
     @Transactional
     public Holiday updateHolidayDateStart(String name, Date aStartDate) {
@@ -113,9 +117,10 @@ public class HolidayService {
     }
 
     /**
-     * @param name
-     * @param aEndDate
-     * @return
+     * Update the end time of the specific holiday with the right name
+     * @param name the holiday name that we want to change
+     * @param aEndDate the new end date of that holiday
+     * @return the newly updated holiday
      */
     @Transactional
     public Holiday updateHolidayDateEnd(String name, Date aEndDate) {
@@ -135,7 +140,8 @@ public class HolidayService {
     }
 
     /**
-     * @param name
+     * Deletes the Holiday that is associated to the name
+     * @param name the name of the holiday we wish to delete
      */
     @Transactional
     public void deleteHoliday(String name) {

@@ -24,6 +24,10 @@ public class OrderService {
     @Autowired
     PickupOrderService pickupOrderService;
 
+    /**
+     * Gets all the orders from both pick up or deliver order
+     * @return a list of all the orders that is in the repos
+     */
     @Transactional
     public List<Commission> getAllOrders() {
         List<Commission> commissions = new ArrayList<>();
@@ -32,6 +36,11 @@ public class OrderService {
         return commissions;
     }
 
+    /**
+     * Adds the item that has been purchased to the corresponding order type
+     * @param confirmationNumber the confirmation number of the order that we are looking for
+     * @param purchasedItem the purchased item that we are adding to the corresponding order
+     */
     @Transactional
     public void addPurchasedItemToOrder(int confirmationNumber, PurchasedItem purchasedItem){
         int count = 0;
@@ -50,6 +59,11 @@ public class OrderService {
         }
     }
 
+    /**
+     * Gets the status of the order that is associated to that confirmation number
+     * @param confirmationNumber the confirmation number of the order that we are trying to get
+     * @return the status of the order
+     */
     @Transactional
     public String getOrderStatus(int confirmationNumber){
         String s = "";
