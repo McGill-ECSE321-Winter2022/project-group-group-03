@@ -22,6 +22,10 @@ public class WorkShiftService {
 
     private static int curID = 50000;
 
+    /**
+     * Deletes the work shift that is associated to the shift ID
+     * @param shiftID the ID of the work shift we wish to delete
+     */
     @Transactional
     public void deleteWorkShift(int shiftID) {
         if (!workShiftRepository.existsById(shiftID)) {
@@ -30,6 +34,11 @@ public class WorkShiftService {
         workShiftRepository.deleteById(shiftID);
     }
 
+    /**
+     * Get the work shift with the shift ID that we are looking for
+     * @param shiftID the shift ID of the work shift that we are looking for
+     * @return the work shift that corresponds to the given shift ID
+     */
     @Transactional
     public WorkShift getWorkShift(int shiftID) {
         if(!workShiftRepository.existsById(shiftID)){
@@ -38,6 +47,12 @@ public class WorkShiftService {
         return workShiftRepository.findByShiftID(shiftID);
     }
 
+    /**
+     * Update the day of the specific work shift with the right shift ID
+     * @param shiftID the ID of the work shift that we want to change
+     * @param newDay the new day for that work shift
+     * @return the newly updated work shift
+     */
     @Transactional
     public WorkShift updateWorkShiftDay(int shiftID, String newDay) {
         if(!workShiftRepository.existsById(shiftID)){
@@ -57,6 +72,12 @@ public class WorkShiftService {
         return workShift;
     }
 
+    /**
+     * Update the start time of the specific work shift with the right shift ID
+     * @param shiftID the ID of the work shift that we want to change
+     * @param aStartTime the new start time for that work shift
+     * @return the newly updated work shift
+     */
     @Transactional
     public WorkShift updateWorkshiftTimeStart(int shiftID,  Time aStartTime) {
         if(!workShiftRepository.existsById(shiftID)){
@@ -69,6 +90,13 @@ public class WorkShiftService {
         return workShift;
     }
 
+    /**
+     * Update the start time and end time of the specific work shift with the right shift ID
+     * @param shiftID the ID of the work shift that we want to change
+     * @param aStartTime the new start time for that work shift
+     * @param aEndTime the new end time for that work shift
+     * @return the newly updated work shift
+     */
     @Transactional
     public WorkShift updateWorkshiftHours(int shiftID, Time aStartTime, Time aEndTime){
         if(!workShiftRepository.existsById(shiftID)){
@@ -82,10 +110,14 @@ public class WorkShiftService {
         return workShift;
     }
 
+    /**
+     * Update the end time of the specific work shift with the right shift ID
+     * @param shiftID the ID of the work shift that we want to change
+     * @param aEndTime the new end time for that work shift
+     * @return the newly updated work shift
+     */
     @Transactional
     public WorkShift updateWorkShiftTimeEnd(int shiftID,  Time aEndTime) {
-
-
         if(!workShiftRepository.existsById(shiftID)){
             throw new IllegalArgumentException("Work shift doesn't exist.");
         }
@@ -96,11 +128,24 @@ public class WorkShiftService {
         return workShift;
     }
 
+    /**
+     * Gets all the work shifts from the repository
+     * @return a list of all the work shifts available in the repo
+     */
     @Transactional
     public List<WorkShift> getAllWorkShift() {
         return toList(workShiftRepository.findAll());
     }
 
+
+    /**
+     * Creates a work shift with all the credentials of said work shift
+     * @param aStartTime the start time of the work shift
+     * @param aEndTime the end time of the work shift
+     * @param aDayOfWeek the day of week of the work shift
+     * @param username associated with the work shift
+     * @return the work shift object that was just created
+     */
     @Transactional
     public WorkShift createWorkShift(Time aStartTime, Time aEndTime, String aDayOfWeek,String username) {
         WorkShift workShift = new WorkShift();
@@ -108,7 +153,6 @@ public class WorkShiftService {
         if (aStartTime == null) throw new IllegalArgumentException("Start Time can't be empty.");
 
         if (aEndTime == null) throw new IllegalArgumentException("End Time can't be empty.");
-
 
         if (aDayOfWeek ==null || aDayOfWeek.trim().length() == 0) throw new IllegalArgumentException("Day can't be empty.");
 

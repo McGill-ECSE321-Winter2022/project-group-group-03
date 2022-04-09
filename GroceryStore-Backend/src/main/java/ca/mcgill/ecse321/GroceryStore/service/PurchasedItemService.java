@@ -32,6 +32,12 @@ public class PurchasedItemService {
     @Autowired
     PickupOrderService pickupOrderService;
 
+    /**
+     * Deletes the purchased item that is associated to the ID
+     * @param purchasedItemID the ID of the holiday
+     */
+
+
     @Transactional
     public void deletePurchasedItem(int purchasedItemID) {
         PurchasedItem pItem = purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
@@ -41,6 +47,12 @@ public class PurchasedItemService {
             purchasedItemRepository.deleteById(purchasedItemID);
         }
     }
+
+    /**
+     * Get the purchased item with the id that we are looking for
+     * @param purchasedItemID the id of the purchased item that we are looking for
+     * @return the purchased item that corresponds to the given id
+     */
 
     @Transactional
     public PurchasedItem getPurchasedItem(int purchasedItemID) {
@@ -56,6 +68,12 @@ public class PurchasedItemService {
         return purchasedItemRepository.findByPurchasedItemID(purchasedItemID);
     }
 
+    /**
+     * Get the item with the name that we are looking for
+     * @param name the name of the item that we are looking for
+     * @return the item that corresponds to the given name
+     */
+
     @Transactional
     public Item getItem(String name) {
         Item item = itemRepository.findByName(name);
@@ -65,12 +83,26 @@ public class PurchasedItemService {
         return item;
     }
 
+    /**
+     * Gets all the purchased items from the repository
+     * @return a list of all the purchased items available in the repository
+     */
+
     @Transactional
     public List<PurchasedItem> getAllPurchasedItem() {
         List<PurchasedItem> purchasedItems = new ArrayList<>();
         for(PurchasedItem purchasedItem : purchasedItemRepository.findAll()) purchasedItems.add(purchasedItem);
         return purchasedItems;
     }
+
+    /**
+     * Creates a purchased item with all the credentials of said purchased item
+     * @param itemName the name of the purchased item
+     * @param itemQuantity the quantity of said purchased item
+     * @param confirmationNumber the confirmation number of said holiday
+     * @param orderType the order type of said purchased item
+     * @return the purchased item object that was just created
+     */
 
     @Transactional
     public PurchasedItem createPurchasedItem(String itemName, int itemQuantity, int confirmationNumber, String orderType) {
@@ -146,6 +178,13 @@ public class PurchasedItemService {
         purchasedItemRepository.save(purchasedItem);
         return purchasedItem;
     }
+
+    /**
+     * Update the urchased item quantity of the specific purchased item with the right ID
+     * @param purchasedItemID the ID of the purchased item that we want to change
+     * @param itemQuantity the new item quantity of that purchased item
+     * @return the newly updated purchased item
+     */
 
     @Transactional
     public PurchasedItem updatePurchasedItemQuantity(int itemQuantity, int purchasedItemID) {
