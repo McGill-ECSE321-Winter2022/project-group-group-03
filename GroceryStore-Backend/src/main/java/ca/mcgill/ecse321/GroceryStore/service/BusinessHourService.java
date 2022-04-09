@@ -23,6 +23,14 @@ public class BusinessHourService {
 
     private static int curID = 10000;
 
+    /**
+     * This method would create an object business hour in our database with the right checks
+     * @param startTime is the time of start of the business hour that is being created
+     * @param endTime is the time of end of the business hour that is being created
+     * @param aDayOfWeek is the day of the week of the business day that is being crated
+     * @return the BusinessHour object that was created
+     */
+
     @Transactional
     public BusinessHour createBusinessHour(Time startTime, Time endTime,  String aDayOfWeek) {
         ArrayList<String> errorMessages = new ArrayList<>();
@@ -76,6 +84,12 @@ public class BusinessHourService {
         return newBusinessHour;
     }
 
+    /**
+     * This method grabs the BusinessHour object that corresponds to the id
+     * @param hoursID it takes in the specific hour of the business hour
+     * @return the object BusinessHour with that ID
+     */
+
     @Transactional
     public BusinessHour getBusinessHour(int hoursID) {
         BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
@@ -83,11 +97,21 @@ public class BusinessHourService {
         return businessHour;
     }
 
+    /**
+     * Gets all the businessHour that is in the system
+     * @return a list of businessHour
+     */
+
     @Transactional
     public List<BusinessHour> getAllBusinessHours() {
         System.out.println(toList(businessHourRepository.findAll()));
         return toList(businessHourRepository.findAll());
     }
+
+    /**
+     * Deletes the item that is associated to that specific id
+     * @param hoursID the id that is associated to a specific business hour
+     */
 
     @Transactional
     public void deleteBusinessHour(int hoursID) {
@@ -96,6 +120,12 @@ public class BusinessHourService {
         else businessHourRepository.deleteById(hoursID);
     }
 
+    /**
+     * Updates the time of start of a business hour that is associated to the business hour
+     * @param hoursID  the id that is associated to a specific business hour
+     * @param time the new start time that the business hour wants to update to
+     * @return the object business hour with the new start time
+     */
     @Transactional
     public BusinessHour updateBusinessHourStartTime(int hoursID, Time time) {
         BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
@@ -107,6 +137,13 @@ public class BusinessHourService {
         return  businessHour;
     }
 
+    /**
+     * Updates the time of start and end time of a business hour that is associated to the business hour
+     * @param hoursID  the id that is associated to a specific business hour
+     * @param newStartTime the new start time that the business hour wants to update to
+     * @param newEndTime the new end time that the business hour wants to update to
+     * @return the object business hour with the new start and end time
+     */
     @Transactional
     public BusinessHour updateBusinessHour(int hoursID, Time newStartTime, Time newEndTime) {
         BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);
@@ -125,6 +162,12 @@ public class BusinessHourService {
         return businessHour;
     }
 
+    /**
+     * Updates the time of end of a business hour that is associated to the business hour
+     * @param hoursID  the id that is associated to a specific business hour
+     * @param time the new end time that the business hour wants to update to
+     * @return the object business hour with the new end time
+     */
     @Transactional
     public BusinessHour updateBusinessHourEndTime(int hoursID, Time time) {
         BusinessHour businessHour = businessHourRepository.findByHoursID(hoursID);

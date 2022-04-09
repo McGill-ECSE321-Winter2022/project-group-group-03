@@ -18,6 +18,12 @@ public class HolidayService {
     @Autowired
     StoreService storeService;
 
+    /**
+     * @param name
+     * @param startDate
+     * @param endDate
+     * @return
+     */
     @Transactional
     public Holiday createHoliday(String name, Date startDate, Date endDate) {
         Holiday holiday = new Holiday();
@@ -58,6 +64,9 @@ public class HolidayService {
         }
     }
 
+    /**
+     * @return
+     */
     @Transactional
     public List<Holiday> getAllHolidays() {
         List<Holiday> holidays = new ArrayList<>();
@@ -65,6 +74,10 @@ public class HolidayService {
         return holidays;
     }
 
+    /**
+     * @param name
+     * @return
+     */
     @Transactional
     public Holiday getHoliday(String name) {
         if (name == null || name.trim().length() == 0) {
@@ -76,6 +89,12 @@ public class HolidayService {
 
         return holidayRepository.findByName(name);
     }
+
+    /**
+     * @param name
+     * @param aStartDate
+     * @return
+     */
     @Transactional
     public Holiday updateHolidayDateStart(String name, Date aStartDate) {
         if (name == null || name.trim().length() == 0) {
@@ -92,6 +111,12 @@ public class HolidayService {
         holiday.setStartDate(aStartDate);
         return holiday;
     }
+
+    /**
+     * @param name
+     * @param aEndDate
+     * @return
+     */
     @Transactional
     public Holiday updateHolidayDateEnd(String name, Date aEndDate) {
         if (name == null || name.trim().length() == 0) {
@@ -109,6 +134,9 @@ public class HolidayService {
         return holiday;
     }
 
+    /**
+     * @param name
+     */
     @Transactional
     public void deleteHoliday(String name) {
         String error = null;

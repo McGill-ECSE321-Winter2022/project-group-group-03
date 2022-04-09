@@ -28,7 +28,14 @@ public class CustomerService {
     DeliveryOrderService deliveryOrderService;
 
 
-
+    /**
+     * Creates an object customer with all the credentials that has been provided
+     * @param aUsername  the username of that customer
+     * @param aPassword the password of that customer
+     * @param aEmail the email of that customer
+     * @param aAddress the housing address of that person
+     * @return the object of that customer that was created with all the credentials
+     */
     @Transactional
     public Customer createCustomer(String aUsername, String aPassword, String aEmail, String aAddress) {
         if(aUsername == null || aUsername.equals("")) {
@@ -64,6 +71,12 @@ public class CustomerService {
         customerRepository.save(newCustomer);
         return newCustomer;
     }
+
+    /**
+     * Get the specific username that is associated with the customer
+     * @param aUsername the username of the customer we would like to retrieve information from
+     * @return the customer that is associated with the username
+     */
     @Transactional
     public Customer getCustomer(String aUsername){
         if(aUsername == null || aUsername.equals("") || aUsername.equals(" ")){
@@ -74,6 +87,13 @@ public class CustomerService {
         }
        return customerRepository.findCustomerByUsername(aUsername);
     }
+
+    /**
+     * The method authenticates by checking if the username and the password that was provided is valid or not
+     * @param aUsername the username of the customer that is trying to log in
+     * @param aPassword the password of the customer that is trying to log in
+     * @return the customer object that has successfully logged in
+     */
     @Transactional
     public Customer loginCustomer(String aUsername, String aPassword){
         Customer customer = getCustomer(aUsername);
@@ -81,6 +101,10 @@ public class CustomerService {
         throw new IllegalArgumentException("Wrong password was given for username: " + aUsername);
     }
 
+    /**
+     * Gets all list of customers that you can find in the repository
+     * @return a list of customer object
+     */
     @Transactional
     public List<Customer> getAllCustomers(){
 
@@ -92,6 +116,11 @@ public class CustomerService {
         return customers;
     }
 
+    /**
+     * Gets all the order that is associated to the customer
+     * @param username the username of the customer of whom we wished to get the orders of
+     * @return a list of all the orders that is associated to that customer
+     */
     @Transactional
     public Commission getCustomerOrder(String username){
         List<Commission> o = getCustomerOrders(username);
@@ -110,6 +139,12 @@ public class CustomerService {
         throw new IllegalArgumentException("This Customer has no Orders in cart");
     }
 
+    /**
+     * Change the password of the customer that is associated to that username
+     * @param current the username of the customer that wishes to change their password
+     * @param password the new password that they want to change to
+     * @return the customer object that has changed their password
+     */
     @Transactional
     public Customer setPassword(String current, String password){
         if(password == null || password.equals("") || password.equals(" "))
@@ -121,6 +156,11 @@ public class CustomerService {
         return customer;
     }
 
+    /**
+     * Adds an order to the customer that is associated to that username
+     * @param username the username of the customer who wishes to add an order
+     * @param commission the order that he wishes to add
+     */
     @Transactional
     public void addOrder(String username, Commission commission){
         Customer c = getCustomer(username);
@@ -130,6 +170,12 @@ public class CustomerService {
         customerRepository.save(c);
     }
 
+    /**
+     * Changes the email of the customer associated to that username
+     * @param current the username that wishes to change their email address
+     * @param email the new email that they wish to switch to
+     * @return the customer object that has updated their email
+     */
     @Transactional
     public Customer setEmail(String current, String email){
         if(email == null || email.equals("") || email.equals(" "))
@@ -144,6 +190,13 @@ public class CustomerService {
         customer.setEmail(email);
         return customer;
     }
+
+    /**
+     * Changes the address of the customer associated to that username
+     * @param current the username that wishes to change their address
+     * @param address the new address that they wish to switch to
+     * @return the customer object that has updated their address
+     */
     @Transactional
     public Customer setAddress(String current, String address){
         if(address == null || address.equals("") || address.equals(" "))
@@ -154,12 +207,25 @@ public class CustomerService {
         customer.setAddress(address);
         return customer;
     }
+
+    /**
+     * Gets all the orders of a specific customer that is associated to that username
+     * @param aUsername the username of a customer
+     * @return a list of orders of the customer
+     */
     @Transactional
     public List<Commission> getCustomerOrders(String aUsername){
         if(!customerRepository.existsById(aUsername))
             throw new IllegalArgumentException("Customer does not currently exist in system.");
         return customerRepository.findCustomerByUsername(aUsername).getOrder();
     }
+
+    /**
+     * Sets a list of customer orders to the customer that is associated to it
+     * @param aUsername the username of the customer
+     * @param commissions the new orders that are associated to the customer
+     * @return the new customer that has changed its list of orders
+     */
     @Transactional
     public Customer setCustomerOrders(String aUsername, List<Commission> commissions){
         if(!customerRepository.existsById(aUsername))
