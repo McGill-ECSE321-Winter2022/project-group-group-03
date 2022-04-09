@@ -1,0 +1,78 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'jacoco'
+	id 'com.github.michaelruocco.gradle-postman-runner' version '0.1.3'
+	id "com.moowork.node" version "1.3.1"
+
+
+}
+
+group = 'ca.mcgill.ecse321'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17.0'
+
+repositories {
+	mavenCentral()
+}
+
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	runtimeOnly 'org.postgresql:postgresql'
+	//testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//test time
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine' // MAKE SURE TO IGNORE
+	}
+	testImplementation 'org.mockito:mockito-core:2.+'
+	testImplementation 'org.mockito:mockito-junit-jupiter:2.18.3'
+	testImplementation 'org.junit.platform:junit-platform-launcher:1.4.1'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2' // IMPORTANT VERSION
+}
+
+
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		exceptionFormat "full"
+	}
+	finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+
+
+jacocoTestReport {
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude:  [
+					'ca/mcgill/ecse321/onlinelibrary/controller/*',
+					'ca/mcgill/ecse321/onlinelibrary/dto/*'
+			])
+		}))
+	}
+	dependsOn test // tests are required to run before generating the report
+}
+
+jacocoTestCoverageVerification {
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude:  [
+					'ca/mcgill/ecse321/GroceryStore/controller/*',
+					'ca/mcgill/ecse321/GroceryStore/dto/*'
+			])
+		}))
+	}
+
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.7
+			}
+		}
+	}
+}

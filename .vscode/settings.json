@@ -1,0 +1,11 @@
+{
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar"
+        ],
+        "exclude": [
+            "c:\\project-group-group-03\\GroceryStore-Backend\\build\\libs\\GroceryStore-Backend-0.0.1-SNAPSHOT-plain.jar",
+            "c:\\project-group-group-03\\GroceryStore-Backend\\build\\libs\\GroceryStore-Backend-0.0.1-SNAPSHOT.jar"
+        ]
+    }
+}
