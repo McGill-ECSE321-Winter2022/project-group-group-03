@@ -41,6 +41,7 @@ export default {
   },
 
   async created() {
+    //method to get all the purchased items in the current user's order
     if(sessionStorage.accountType==="Employee"){
       this.loggedIn_employee=true
       console.log(this.loggedIn_employee)
@@ -70,7 +71,7 @@ export default {
   methods: {
 
     async cash() {
-      console.log("/convertToPickup?username=".concat(sessionStorage.username, "&paymentMethod=Cash&accountType=", sessionStorage.accountType))
+      //if the user wishes to pick up the order and pay by cash, the appropriate rest controller method is called
       await AXIOS.put("/convertToPickup?username=".concat(sessionStorage.username, "&paymentMethod=Cash&accountType=", sessionStorage.accountType))
 
       await this.getOrder()
@@ -78,6 +79,7 @@ export default {
       sessionStorage.deliveryAddress = this.deliveryAddress
     },
     async credit() {
+      //if the user wishes to pick up the order and pay by credit card, the appropriate rest controller method is called
       console.log("/convertToPickup?username=".concat(sessionStorage.username, "&paymentMethod=CreditCard&accountType=", sessionStorage.accountType))
       await AXIOS.put("/convertToPickup?username=".concat(sessionStorage.username, "&paymentMethod=CreditCard&accountType=", sessionStorage.accountType))
 
@@ -117,6 +119,7 @@ export default {
         this.$bvModal.hide('modal-prevent-closing')
       })
     },
+    //resets the error to empty after alert is dismissed
     setError(){
       this.error = false
     },
@@ -131,7 +134,6 @@ export default {
       if (!this.checkFormValidity()) {
         return
       }
-      console.log("/convertToDelivery?username=".concat(sessionStorage.username,"&shippingAddress=",this.deliveryAddress, "&accountType=",sessionStorage.accountType, "&isOutOfTown=true"))
       await AXIOS.put("/convertToDelivery?username=".concat(sessionStorage.username,"&shippingAddress=",this.deliveryAddress, "&accountType=",sessionStorage.accountType, "&isOutOfTown=true"))
       // Push the name to submitted names
       sessionStorage.deliveryAddress = this.deliveryAddress

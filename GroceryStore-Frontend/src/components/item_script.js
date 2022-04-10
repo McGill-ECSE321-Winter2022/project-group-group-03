@@ -126,14 +126,6 @@ export default {
       }
       while (currentDate - date < milliseconds);
     },
-
-    createStore: function (){
-      AXIOS.post("./store?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",{},{})
-        .then(response => {
-          console.log(response.data)
-        })
-
-    },
     deleteItem: function (){
       this.items.pop()
     },
