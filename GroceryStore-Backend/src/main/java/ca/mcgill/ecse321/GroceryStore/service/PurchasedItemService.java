@@ -142,6 +142,10 @@ public class PurchasedItemService {
         return purchasedItem;
     }
 
+    /*
+     * Creates a purchased item with all the credentials of said purchased item
+     * Similar to the createPurchasedItem above but no orderType is specified.
+     */
     @Transactional
     public PurchasedItem createPurchasedItem(String itemName, int itemQuantity, int confirmationNumber) {
         PurchasedItem purchasedItem = new PurchasedItem();

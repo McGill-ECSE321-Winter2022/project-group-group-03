@@ -44,9 +44,13 @@ public class CustomerService {
         if(aPassword == null || aPassword.equals("")){
             throw new IllegalArgumentException("Password can't be empty");
         }
-        if(aEmail == null || aEmail.equals("")){
-            throw new IllegalArgumentException("Email can't be empty");
-        }
+
+        if(aEmail == null || aEmail.equals("") || aEmail.equals(" ")) throw new IllegalArgumentException("Email can't be empty.");
+        if (aEmail.indexOf("@") <= 0 || aEmail.indexOf("@") != aEmail.lastIndexOf("@") ||
+                aEmail.indexOf("@") >= aEmail.lastIndexOf(".") - 1 ||
+                aEmail.lastIndexOf(".") >= aEmail.length() - 1)
+            throw new IllegalArgumentException("Invalid email format");
+
         if(aAddress == null || aAddress.equals("")){
             throw new IllegalArgumentException("Address can't be empty");
         }
