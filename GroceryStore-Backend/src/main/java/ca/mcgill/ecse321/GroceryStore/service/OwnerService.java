@@ -27,6 +27,16 @@ public class OwnerService {
     @Autowired
     EmployeeRepository employeeRepository;
 
+
+    /**
+     * This method would create an owner object in our database with the right checks
+     * @param aUsername is the username of the owner that is being created
+     * @param aEmail is the email of the owner that is being created
+     * @param aPassword is the password of the owner that is being created
+     * @return the owner object that was created
+     */
+
+
     @Transactional
     public Owner createOwner(String aUsername, String aEmail, String aPassword){
         if (aUsername==null || aUsername.equals("")) throw new IllegalArgumentException("Username can't be empty.");
@@ -64,7 +74,11 @@ public class OwnerService {
         
         return newOwner;
     }
-
+    /**
+     * gets the owner of the store
+     * @param aUsername the username of the owner we are trying to search
+     *@return the owner of the store with said username
+     */
     @Transactional
     public Owner getOwner(String aUsername) {
         if (aUsername == null || aUsername.equals(""))throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
@@ -75,6 +89,10 @@ public class OwnerService {
         throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }
 
+    /**
+     * Gets all the owners that are in the system
+     * @return a list of owners
+     */
     @Transactional
     public List<Owner> getOwners(){
         List<Owner> owners = new ArrayList<>();
@@ -82,6 +100,12 @@ public class OwnerService {
         return owners;
     }
 
+    /**
+     * login to the store system as owner
+     * @param username the username of the owner we are trying to log in as
+     * @param password the password of the owner we are trying to log in as
+     *@return the owner of the store with said username and password
+     */
     @Transactional
     public Owner loginOwner(String username, String password){
         Owner owner = getOwner(username);
@@ -89,6 +113,12 @@ public class OwnerService {
         throw new IllegalArgumentException("Wrong password was given for username: " + username);
     }
 
+    /**
+     * update the login credentials of the store owner
+     * @param username the username of the owner we are trying to log in as
+     * @param password the password of the owner we are trying to log in as
+     *@return the owner of the store with said username and password
+     */
     @Transactional
     public Owner updateOwner(String username, String password){
         if (password == null || password.equals("")) throw new IllegalArgumentException("Password cannot be empty");
@@ -97,6 +127,10 @@ public class OwnerService {
         return o;
     }
 
+    /**
+     * Deletes the owner that is associated to that specific username
+     * @param aUsername the username that is associated to the owner
+     */
     @Transactional
     public void deleteOwner(String aUsername){
         if (aUsername == null || aUsername.equals("")) throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
@@ -111,7 +145,11 @@ public class OwnerService {
         throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }
 
-
+    /**
+     * return the store of the owener with the given username
+     * @param aUsername the username of the owner
+     *@return the store of the owner with said username
+     */
     @Transactional
     public Store getOwnerStore(String aUsername) {
         if (aUsername == null  || aUsername.equals("")) throw new IllegalArgumentException("Invalid username: the string given was null");
@@ -122,5 +160,4 @@ public class OwnerService {
         }
         throw new IllegalArgumentException("Invalid username: Either no Owner has this username or the string given was null");
     }
-
 }
