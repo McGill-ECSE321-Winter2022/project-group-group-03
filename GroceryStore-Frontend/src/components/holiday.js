@@ -63,7 +63,9 @@ export default{
   },
 
   methods:{
-
+    /**
+     * Retrieves all holidays and puts them into a list.
+     */
     getHolidays: function(){
       console.log("getting holidays")
       this.holidays.length = 0
@@ -81,6 +83,11 @@ export default{
         })
     },
 
+    /**
+     * Retrieves specific holiday with a given name.
+     * @param {String} holidayName - name of the holiday we are trying to search
+     * @throws {NotFoundError} When the holiday is not found.
+     */
     searchHoliday: function(holidayName) {
       this.getHolidays()
       AXIOS.get('/holiday/'.concat(holidayName), {responseType: "json"})
@@ -94,7 +101,14 @@ export default{
           this.errorHoliday = error.response.data;
         })
     },
-
+    /**
+     * Updates startDate and endDate of a specific holiday.
+     * @param {String} holidayName
+     * @param {Date} newStartDate
+     * @param {Date} newEndDate
+     * @throws {NotFoundError} When the holiday is not found.
+     * @throws {IllegalArgumentException} When the startDate is after the endDate
+     */
     updateHoliday: function(holidayName, newStartDate, newEndDate){
       //Check what changed
       if(holidayName.trim().length != 0) {
@@ -124,16 +138,24 @@ export default{
         this.endDateMessage = 'End Date'
       }
     },
-
+    /**
+     * Enables list of holidays to be displayed
+     */
     viewAll: function(){
       this.visibleViewAll = true
       this.getHolidays()
     },
-
+    /**
+     * Hides list of all holidays
+     */
     hideAll: function(){
       this.visibleViewAll = false
     },
-
+    /**
+     * Deletes specific holiday with a given name.
+     * @param {String} holidayName - name of the holiday we are trying to search
+     * @throws {NotFoundError} When the holiday is not found.
+     */
     deleteHoliday: function(holidayName){
       this.getHolidays()
       AXIOS.delete('/holiday/'.concat(holidayName))
@@ -145,7 +167,10 @@ export default{
 
         })
     },
-
+    /**
+     * Pauses the program for a given amount of milliseconds
+     * @param {int} milliseconds - milliseconds for which the program will be paused
+     */
     sleep: function (milliseconds) {
       const date = Date.now();
       let currentDate = null;
@@ -155,17 +180,23 @@ export default{
       while (currentDate - date < milliseconds);
     },
 
-    createStore: function(){
-      AXIOS.post("./store?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",{},{})
-        .then(response => {
-          console.log(response.data)
-        })
-        .catch(error => {
-          this.errorHoliday = error.response.data;
-        })
-      this.sleep(1000)
-    },
-
+    // createStore: function(){
+    //   AXIOS.post("./store?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",{},{})
+    //     .then(response => {
+    //       console.log(response.data)
+    //     })
+    //     .catch(error => {
+    //       this.errorHoliday = error.response.data;
+    //     })
+    //   this.sleep(1000)
+    // },
+    /**
+     * Creates a holiday with specific attributes.
+     * @param {String} username
+     * @param {Date} startDate
+     * @param {Date} endDate
+     * @throws {IllegalArgumentException} When parameters passed no not respect given constraints.
+     */
     createHoliday: function (holidayName, startDate, endDate){
       console.log("creating holidays")
       console.log(holidayName.trim().length)
@@ -194,7 +225,9 @@ export default{
         this.endDateMessage = 'End Date'
       }
     },
-
+    /**
+     * Formatting and display of startDate.
+     */
     changeStartDate: function(year, month, day){
       let message2Display = year
       message2Display+= '-'
@@ -203,7 +236,9 @@ export default{
       message2Display+= day
       this.startDateMessage = message2Display
     },
-
+    /**
+     * Formatting and display of endDate.
+     */
     changeEndDate: function(year, month, day){
       let message2Display = year
       message2Display+= '-'
@@ -212,9 +247,15 @@ export default{
       message2Display+= day
       this.endDateMessage = message2Display
     },
+    /**
+     * Formatting and display of startDate modal button - year dropdown.
+     */
     changeDropdownYear1: function(year){
       this.dropDownMessageYear1 = year
     },
+    /**
+     * Formatting and display of startDate modal button - month dropdown.
+     */
     changeDropdownMonth1: function(month){
       switch(month){
         case 'January':
@@ -255,12 +296,21 @@ export default{
       }
       this.dropDownMessageMonth1 = month
     },
+    /**
+     * Formatting and display of startDate modal button - day dropdown.
+     */
     changeDropdownDay1: function(day){
       this.dropDownMessageDay1 = day
     },
+    /**
+     * Formatting and display of endDate modal button - year dropdown.
+     */
     changeDropdownYear2: function(year){
       this.dropDownMessageYear2 = year
     },
+    /**
+     * Formatting and display of endDate modal button - month dropdown.
+     */
     changeDropdownMonth2: function(month){
       switch(month){
         case 'January':
@@ -301,14 +351,21 @@ export default{
       }
       this.dropDownMessageMonth2 = month
     },
-
+    /**
+     * Formatting and display of endDate modal button - day dropdown.
+     */
     changeDropdownDay2: function(day){
       this.dropdownMessageDay2 = day
     },
+    /**
+     * Returns status of error message
+     */
     setAlert: function () {
       return this.errorHoliday !== ""
     },
-
+    /**
+     * Resets error status by setting the error message to an empty string
+     */
     setErrorEmpty(){
       this.errorHoliday = ""
     }

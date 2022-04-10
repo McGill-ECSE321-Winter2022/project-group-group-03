@@ -41,14 +41,18 @@ export default{
   components:{
     Header
   },
-
+  /**
+   * Refreshes items list and places them into a list upon refreshing
+   */
   created: function(){
     //this.createStore()
     this.getItems()
   },
 
   methods:{
-
+    /**
+     * Retrieves all items and places them into a list
+     */
     getItems: function(){
       console.log("getting items");
       this.items.length = 0;
@@ -65,14 +69,24 @@ export default{
           this.errorItemOwner = e.response.data;
         })
     },
+    /**
+     * Option to view all items
+     */
     viewAll: function(){
       this.getItems()
       this.visibleViewAll = true
     },
-
+    /**
+     * Option to hide all items
+     */
     hideAll: function(){
       this.visibleViewAll = false
     },
+    /**
+     * Retrieves specific item with a given name.
+     * @param {String} itemName - name of the item we are trying to search
+     * @throws {NotFoundError} When the item is not found.
+     */
     searchForItem: function(itemName){
       console.log('getting specific item')
       AXIOS.get('/item/'.concat(itemName),{responseType: "json"})
@@ -90,7 +104,15 @@ export default{
           this.errorItemOwner = e.response.data;
         })
     },
-
+    /**
+     * Creates specific item with given attributes.
+     * @param {String} itemName
+     * @param {int} price
+     * @param {String} description
+     * @param {Boolean} purchasable
+     * @param {int} stock
+     * @throws {IllegalArgumentException} When the item attributes aren't valid.
+     */
     createItemOwner: function(name, price, description, purchasable, stock){
 
       if(name.trim().length != 0 && price.trim().length != 0 && description.trim().length != 0 && stock.trim().length != 0){
@@ -128,7 +150,16 @@ export default{
       }
 
     },
-
+    /**
+     * Updates specific item with given attributes.
+     * @param {String} name
+     * @param {int} price
+     * @param {String} description
+     * @param {Boolean} purchasable
+     * @param {int} stock
+     * @param {String} URL
+     * @throws {IllegalArgumentException} When the item attributes aren't valid.
+     */
     updateItem: function(name, price, description, purchasable, stock, URL){
       console.log(name.trim().length)
       console.log(description.trim().length)
@@ -162,9 +193,11 @@ export default{
       }
     },
 
-    // deleteItem: function(name){
-    //   AXIOS.delete
-    // }
+    /**
+     * Adds specific URL to an item.
+     * @param {String} URL
+     * @throws {IllegalArgumentException} When the item attribute isn't valid.
+     */
     putImage: function(name, image){
       AXIOS.put('/editItemImage/'.concat(name, '?image=', image))
         .then((response) => {
@@ -184,7 +217,10 @@ export default{
       this.image = image
       this.getItems()
     },
-
+    /**
+     * Pauses the program for a given amount of milliseconds
+     * @param {int} milliseconds - milliseconds for which the program will be paused
+     */
     sleep: function (milliseconds) {
       const date = Date.now();
       let currentDate = null;
@@ -194,19 +230,24 @@ export default{
       while (currentDate - date < milliseconds);
     },
 
-    createStore: function (){
-      AXIOS.post("./store?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",{},{})
-        .then(response => {
-          console.log(response.data)
-        })
-        .catch(e => {
-          this.errorItemOwner = e.response.data;
-        })
-    },
+    // createStore: function (){
+    //   AXIOS.post("./store?aAddress=Sherbrooke&aCurrentActiveDelivery=2&aCurrentActivePickup=3",{},{})
+    //     .then(response => {
+    //       console.log(response.data)
+    //     })
+    //     .catch(e => {
+    //       this.errorItemOwner = e.response.data;
+    //     })
+    // },
+    /**
+     * Returns status of error message
+     */
     setAlert: function () {
       return this.errorItemOwner !== ""
     },
-
+    /**
+     * Resets error status by setting the error message to an empty string
+     */
     setErrorEmpty(){
       this.errorItemOwner = ""
     }

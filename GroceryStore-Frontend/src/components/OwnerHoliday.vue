@@ -1,22 +1,30 @@
 <template>
   <div>
     <Header />
+    <!-- Holiday Search text field + Buttons !-->
     <div id ="HolidaySearchTextButton" class="col-7">
       <div id="searchRow" class="row-12">
         <div class="row g-3">
           <div class="col">
+            <!-- Holiday Search text field !-->
             <input type="text" class="form-control" placeholder="Search Holiday" v-model="searchName" aria-label="Search Holiday">
           </div>
           <div class="col">
+            <!-- Search button !-->
             <button type="button" id=search class="btn btn-danger" @click="searchHoliday(searchName)">Search</button>
+            <!-- Create button !-->
             <button type="button" id=create class="btn btn-danger" @click="createHoliday(name,startDateMessage,endDateMessage)">Create</button>
+            <!-- Update button !-->
             <button type="button" id=update class="btn btn-danger" @click="updateHoliday(name, startDateMessage, endDateMessage)">Update</button>
+            <!-- Delete button !-->
             <button type="button" id=delete class="btn btn-danger" @click="deleteHoliday(searchName)">Delete</button>
+            <!-- View All button !-->
             <button type="button" id=viewAll class="btn btn-danger"@click="viewAll">View All</button>
           </div>
         </div>
       </div>
     </div>
+    <!-- Holiday Information !-->
     <div id="holidayBlock">
     <div id="holidayInfo"  class="container">
       <div class="row">
@@ -25,12 +33,15 @@
           <div id="StartDateOptions" class="container">
             <div class="row">
               <div class="col-sm">
+                <!-- StartDate Information !-->
                 <b-form-input id="startDateText" placeholder="Start Date" v-model="startDateMessage" readonly="readonly"></b-form-input>
               </div>
               <div>
                 <div>
+                  <!-- StartDate Edit Button (MODAL) !-->
                   <b-button id="startDateButton" v-b-modal.modal-1>Select</b-button>
                   <b-modal id="modal-1" title="Update Date">
+                    <!-- StartDate Modal YEAR dropdown !-->
                     <b-dropdown id="dropdown-Year" :text="dropDownMessageYear1" class="m-md-2">
                       <b-dropdown-item @click="changeDropdownYear1('2022')">2022</b-dropdown-item>
                       <b-dropdown-item @click="changeDropdownYear1('2023')">2023</b-dropdown-item>
@@ -42,7 +53,7 @@
                       <b-dropdown-item @click="changeDropdownYear1('2029')">2029</b-dropdown-item>
                       <b-dropdown-item @click="changeDropdownYear1('2030')">2030</b-dropdown-item>
                     </b-dropdown>
-
+                    <!-- StartDate Modal MONTH dropdown !-->
                     <b-dropdown id="dropdown-Month" :text="dropDownMessageMonth1" class="m-md-2">
                       <b-dropdown-item @click="changeDropdownMonth1('January')">January</b-dropdown-item>
                       <b-dropdown-item @click="changeDropdownMonth1('February')">February</b-dropdown-item>
@@ -57,7 +68,7 @@
                       <b-dropdown-item @click="changeDropdownMonth1('November')">November</b-dropdown-item>
                       <b-dropdown-item @click="changeDropdownMonth1('December')">December</b-dropdown-item>
                     </b-dropdown>
-
+                    <!-- StartDate Modal DAY dropdown !-->
                     <b-dropdown id="dropdown-Day" :text="dropDownMessageDay1" class="m-md-3">
                       <b-dropdown-item @click="changeDropdownDay1('01')">1</b-dropdown-item>
                       <b-dropdown-item @click="changeDropdownDay1('02')">2</b-dropdown-item>
@@ -91,6 +102,7 @@
                       <b-dropdown-item @click="changeDropdownDay1('30')">30</b-dropdown-item>
                       <b-dropdown-item @click="changeDropdownDay1('31')">31</b-dropdown-item>
                     </b-dropdown>
+                    <!-- StartDate Modal cancel and save buttons !-->
                     <div slot="modal-footer" class="modal-footer">
                       <button id="cancelStart" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-1')">Cancel</button>
                       <button id="saveStart" type="button" class="btn btn-default" data-dismiss="modal" @click="changeStartDate(dropDownMessageYear1, monthMessage1, dropDownMessageDay1),$bvModal.hide('modal-1')">Save</button>
@@ -100,14 +112,18 @@
                 </div>
             </div>
           </div>
+          <!-- EndDate options !-->
           <div id="EndDateOptions" class="container">
             <div class="row">
               <div class="col-sm">
+                <!-- EndDate text field !-->
                 <b-form-input id="endDateText" placeholder="End Date" v-model="endDateMessage" readonly="readonly"></b-form-input>
               </div>
               <div>
+                <!-- EndDate Edit Button (MODAL) !-->
                 <b-button id="endDateButton" v-b-modal.modal-2>Select</b-button>
                 <b-modal id="modal-2" title="Update Date">
+                  <!-- EndDate modal YEAR dropdown !-->
                   <b-dropdown id="dropdown-Year" :text="dropDownMessageYear2" class="m-md-2">
                     <b-dropdown-item @click="changeDropdownYear2('2022')">2022</b-dropdown-item>
                     <b-dropdown-item @click="changeDropdownYear2('2023')">2023</b-dropdown-item>
@@ -119,7 +135,7 @@
                     <b-dropdown-item @click="changeDropdownYear2('2029')">2029</b-dropdown-item>
                     <b-dropdown-item @click="changeDropdownYear2('2030')">2030</b-dropdown-item>
                   </b-dropdown>
-
+                  <!-- EndDate modal MONTH dropdown !-->
                   <b-dropdown id="dropdown-Month" :text="dropDownMessageMonth2" class="m-md-2">
                     <b-dropdown-item @click="changeDropdownMonth2('January')">January</b-dropdown-item>
                     <b-dropdown-item @click="changeDropdownMonth2('February')">February</b-dropdown-item>
@@ -134,7 +150,7 @@
                     <b-dropdown-item @click="changeDropdownMonth2('November')">November</b-dropdown-item>
                     <b-dropdown-item @click="changeDropdownMonth2('December')">December</b-dropdown-item>
                   </b-dropdown>
-
+                  <!-- EndDate modal DAY dropdown !-->
                   <b-dropdown id="dropdown-Day" :text="dropdownMessageDay2" class="m-md-3">
                     <b-dropdown-item @click="changeDropdownDay2('01')">1</b-dropdown-item>
                     <b-dropdown-item @click="changeDropdownDay2('02')">2</b-dropdown-item>
@@ -168,6 +184,7 @@
                     <b-dropdown-item @click="changeDropdownDay2('30')">30</b-dropdown-item>
                     <b-dropdown-item @click="changeDropdownDay2('31')">31</b-dropdown-item>
                   </b-dropdown>
+                  <!-- EndDate modal Cancel and Save buttons !-->
                   <div slot="modal-footer" class="modal-footer">
                     <button id="cancelEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="$bvModal.hide('modal-2')">Cancel</button>
                     <button id="saveEnd" type="button" class="btn btn-default" data-dismiss="modal" @click="changeEndDate(dropDownMessageYear2, monthMessage2, dropdownMessageDay2),$bvModal.hide('modal-2')">Save</button>
@@ -179,6 +196,7 @@
         </div>
       </div>
     </div>
+      <!-- Error handling alert  !-->
       <div align="center">
         <b-alert  style="max-width: 50%" :show="setAlert()" dismissible variant="danger" @dismissed="setErrorEmpty()">
           {{errorHoliday}}
@@ -186,6 +204,7 @@
       </div>
 
   </div>
+    <!-- Table containing all of the holidays !-->
   <div>
     <table id="holidayTable" class="tablestyle" align="center" v-show="visibleViewAll">
       <tr class="trstyle">
