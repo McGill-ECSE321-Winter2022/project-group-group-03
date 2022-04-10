@@ -1,10 +1,12 @@
 <template>
   <div>
     <Cart/>
+    <!-- Shows the alert at the top of the page if there is one considering if the store is too busy with orders -->
     <b-alert variant="danger" dismissible :show="error" @dismissed="setError">
       The store is currently too busy to process your order. Please try again later!
     </b-alert>
     <div style="display: flex; min-height: fit-content">
+      <!-- A list on the left side which has all the purchased items in the logged in user's order -->
       <b-list-group style="padding: 5%; max-width: 70%; min-height: 90%; flex: 1;">
         <b-list-group-item
           style="min-width: 35%;border-radius: 10%; margin-bottom: 2%; display: flex; background: whitesmoke"
@@ -27,14 +29,17 @@
         </h4>
 
         <b-dropdown id = dropdown-1 style="float: left; background-color: #e03444; border-color: #e03444;"  variant="danger" text="Order Options" class="m-md-2">
+          <!-- If the order is currently a delivery order, this dropdown presents an option to pick up instead-->
           <b-dropdown-text v-if="orderType=== 'Delivery'">Do you want to pick up?</b-dropdown-text>
+          <!-- If the order is currently a pickup order, this dropdown presents an option to deliver it instead-->
           <b-dropdown-text v-else>Do you want it delivered?</b-dropdown-text>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item-button @click="cash()" v-if="orderType=== 'Delivery'" style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden;">
-            <!--          TODO: add cash event-->
+            <!-- Payment option of cash for a pickup order-->
             Cash
           </b-dropdown-item-button>
           <b-dropdown-item-button v-else style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden;" v-b-modal.modal-prevent-closing>
+            <!-- In town delivery option for a delivery order -->
             In Town Delivery
           </b-dropdown-item-button>
           <b-modal
@@ -63,9 +68,11 @@
           </b-modal>
 
           <b-dropdown-item-button @click="credit" v-if="orderType=== 'Delivery'" style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden;">
+            <!-- Payment option of credit card for a pickup order-->
             Credit
           </b-dropdown-item-button>
           <b-dropdown-item-button v-else style="background-color:Transparent; background-repeat:no-repeat;  border: none; cursor:pointer; overflow: hidden;" v-b-modal.modal-prevent-closing2>
+            <!-- Out of town delivery option for a delivery order -->
             Out of Town Delivery
           </b-dropdown-item-button>
 
@@ -95,6 +102,7 @@
           </b-modal>
         </b-dropdown>
         <div>
+          <!--Checkout button that places the order when pressed -->
           <b-button @click="checkout" style="float: left; background-color: #e03444; border-color: #e03444;"  variant="danger"  class="m-md-2">
             Checkout
           </b-button>

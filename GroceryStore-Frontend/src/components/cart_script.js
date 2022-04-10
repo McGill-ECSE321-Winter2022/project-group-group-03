@@ -1,6 +1,5 @@
-
 import Header from "./EmployeeNav"
-import Nav from "./OwnerNav"
+
 
 import axios from 'axios'
 var config = require('../../config')
@@ -136,7 +135,7 @@ var AXIOS = axios.create({
         },
 
         /**
-         * Updates the backend when decremening the quantity of an item from the cart in the frontend
+         * Updates the backend when decrementing the quantity of an item from the cart in the frontend
          */
         down: async function (purchasedItemID, counter) {
           console.log("Decreasing the count of a purchased item")
