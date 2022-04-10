@@ -9,6 +9,7 @@
     <footer id="footer">
       <b-container class="bv-example-row">
         <b-row>
+          <!--   Displaying the business hour start and end times for Monday - Sunday on seperate columns  -->
           <b-col class="bh">Monday
             <br> {{hours[0].startTime}}AM - {{hours[0].endTime}}PM
           </b-col>

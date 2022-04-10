@@ -22,6 +22,7 @@
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
+      <!--   All of the different pages accessible to the owner: update owner, owner employee, create item, holiday, and business hours  -->
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item id="item" :to="{ name: 'UpdateOwner' }">Home</b-nav-item>

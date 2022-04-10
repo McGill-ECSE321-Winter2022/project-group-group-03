@@ -17,7 +17,13 @@ public class StoreService {
     @Autowired
     StoreRepository storeRepository;
 
-
+    /**
+     * Creates a store obejct in our backend with the credentials of said purchased item
+     * @param aAddress the address of the store
+     * @param aCurrentActiveDelivery the number of active deliveries
+     * @param aCurrentActivePickup the number of active pickups
+     * @return the store that was created
+     */
     @Transactional
     public Store createStore(String aAddress, Integer aCurrentActiveDelivery, Integer aCurrentActivePickup){
         Store newStore = new Store();
@@ -60,6 +66,12 @@ public class StoreService {
         storeRepository.save(newStore);
         return newStore;
     }
+
+
+    /**
+     * This method gets the store object
+     * @return the store
+     */
     @Transactional
     public Store getStore(){
         int count = 0;
@@ -68,25 +80,46 @@ public class StoreService {
         return storeRepository.findAll().iterator().next();
     }
 
+    /**
+     * Gets all the store holidays in the system
+     * @return a list of holidays
+     */
     @Transactional
     public List<Holiday> getStoreHolidays(){
         return getStore().getHoliday();
     }
+    /**
+     * Gets all the items in the system
+     * @return a list of items
+     */
     @Transactional
     public List<Item> getItems(){
         return getStore().getItem();
     }
 
+    /**
+     * Gets all the employees in the system
+     * @return a list of employees
+     */
     @Transactional
     public List<Employee> getEmployees(){
         return getStore().getEmployee();
     }
 
+    /**
+     * Gets all the business hours in the system
+     * @return a list of business hours
+     */
     @Transactional
     public List<BusinessHour> getBusinessHours(){
         return getStore().getBusinessHour();
     }
 
+    /**
+     * This method sets the number of active deliveries
+     * @param activeDelivery it takes in the quantity of active deliveries
+     * @return the store with updated active delivery
+     */
     @Transactional
     public Store setActiveDelivery(Integer activeDelivery){
         if(activeDelivery == null)
@@ -105,6 +138,10 @@ public class StoreService {
      * association
      */
 
+    /**
+     * This method adds a holiday that will be associated with the store to the system
+     * @param holiday it takes in the holiday that will be added
+     */
     @Transactional
     public void addHoliday(Holiday holiday) {
         if (holiday==null) throw new IllegalArgumentException("A Holiday parameter is needed");
@@ -113,6 +150,10 @@ public class StoreService {
         storeRepository.save(getStore());
     }
 
+    /**
+     * This method adds a employee that will be associated with the store to the system
+     * @param employee it takes in the employee that will be added
+     */
     @Transactional
     public void addEmployee(Employee employee) {
         if (employee==null) throw new IllegalArgumentException("An Employee parameter is needed");
@@ -120,6 +161,10 @@ public class StoreService {
         employees.add(employee);
     }
 
+    /**
+     * This method adds a item that will be associated with the store to the system
+     * @param item it takes in the item that will be added
+     */
     @Transactional
     public void addItem(Item item) {
         if (item==null) throw new IllegalArgumentException("An Employee parameter is needed");
@@ -128,6 +173,10 @@ public class StoreService {
         storeRepository.save(getStore());
     }
 
+    /**
+     * This method adds a business hour that will be associated with the store to the system
+     * @param businessHour it takes in the business hour that will be added
+     */
     @Transactional
     public void addBusinessHour(BusinessHour businessHour) {
         if (businessHour==null) throw new IllegalArgumentException("An Employee parameter is needed");
@@ -135,6 +184,10 @@ public class StoreService {
         businessHours.add(businessHour);
     }
 
+    /**
+     * This method adds a quantity of active pickups that will be associated with the store to the system
+     * @param activePickup it takes in the quantity of active pickups that will be added
+     */
     @Transactional
     public Store setActivePickup(Integer activePickup){
         if(activePickup == null)
@@ -146,6 +199,9 @@ public class StoreService {
         return store;
     }
 
+    /**
+     * This method decrements the number of active pickups by 1
+     */
     @Transactional
     public Store decrementActivePickup(){
         Store store = getStore();
@@ -154,6 +210,9 @@ public class StoreService {
         return store;
     }
 
+    /**
+     * This method increments the number of active pickups by 1
+     */
     @Transactional
     public Store incrementActivePickup(){
         Store store = getStore();
@@ -163,6 +222,9 @@ public class StoreService {
         return store;
     }
 
+    /**
+     * This method decrements the number of active deliveries by 1
+     */
     @Transactional
     public Store decrementActiveDelivery(){
         Store store = getStore();
@@ -171,6 +233,9 @@ public class StoreService {
         return store;
     }
 
+    /**
+     * This method increments the number of active deliveries by 1
+     */
     @Transactional
     public Store incrementActiveDelivery(){
         Store store = getStore();
@@ -180,6 +245,9 @@ public class StoreService {
         return store;
     }
 
+    /**
+     * This method sets the address of the store
+     */
     @Transactional
     public Store setAddress(String address){
         if(address == null || address.equals("") || address.equals(" ")){
@@ -189,8 +257,5 @@ public class StoreService {
         store.setAddress(address);
         return store;
     }
-
-
-
 
 }
