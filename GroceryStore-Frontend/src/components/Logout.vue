@@ -11,6 +11,7 @@
       <br>
       <br>
       <h1>You have successfully logged out!</h1>
+      <!-- Added link; upon clicking on login the user will be redirected to the login page -->
       <h4>We are sad to see you go 😢 To login again, please click <router-link id="bold" :to="{ name: 'Login' }">here</router-link></h4>
     </div>
   </div>
@@ -35,7 +36,6 @@ h1 {
 #bold {
   font-weight: 900;
   color: #e03444;
-
 }
 
 .logout {
