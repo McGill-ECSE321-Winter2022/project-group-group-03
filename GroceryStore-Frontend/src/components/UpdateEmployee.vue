@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- imports the right header depending on who is accessing the site   -->
     <Header/>
     <h1 id="title">My Employee Profile</h1>
     <!-- displays all the elements from the employee: username, email, address-->
@@ -64,6 +65,7 @@
         </b-form-group>
       </form>
     </b-modal>
+    <!--  adds the footer with all the business hours  -->
     <Footer/>
   </div>
 

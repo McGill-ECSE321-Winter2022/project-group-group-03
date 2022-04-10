@@ -1,5 +1,6 @@
 <template>
   <div >
+    <!-- imports the right header depending on who is accessing the site   -->
     <Header/>
     <h1 id="title">My Customer Profile</h1>
     <div class="form">
@@ -60,6 +61,7 @@
         </b-form-group>
       </form>
     </b-modal>
+<!--  adds the footer with all the business hours  -->
     <Footer/>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <template>
   <div>
+<!-- imports the right header depending on who is accessing the site   -->
   <Header/>
   <h1 id="title">My Owner Profile</h1>
     <div class="form">
