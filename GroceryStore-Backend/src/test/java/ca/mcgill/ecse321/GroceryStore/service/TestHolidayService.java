@@ -45,6 +45,9 @@ public class TestHolidayService {
     @InjectMocks
     private HolidayService holidayService;
 
+    /**
+     * Sets a fake repository in order to test the service methods
+     */
     @BeforeEach
     public void setMockOutput() {
 
@@ -78,6 +81,9 @@ public class TestHolidayService {
     }
 
 
+    /**
+     * Creates a holiday that has all the correct inputs
+     */
     @Test
     public void testCreateHoliday() {
         assertEquals(0, holidayService.getAllHolidays().size());
@@ -96,6 +102,9 @@ public class TestHolidayService {
         assertEquals(holiday.getName(), name);
     }
 
+    /**
+     * Creates a holiday with a name that is null which should give us an error
+     */
     @Test
     public void testCreateHolidayNullName() {
         assertEquals(0, holidayService.getAllHolidays().size());
@@ -113,6 +122,9 @@ public class TestHolidayService {
         assertEquals("Name can't be empty.", error);
     }
 
+    /**
+     * Creates a holiday with a start time that is null which should give us an error
+     */
     @Test
     public void testCreateHolidayNullStartDate() {
         assertEquals(0, holidayService.getAllHolidays().size());
@@ -130,6 +142,9 @@ public class TestHolidayService {
         assertEquals("Start Date can't be empty.", error);
     }
 
+    /**
+     * Creates a holiday with an end time that is null which should give us an error
+     */
     @Test
     public void testCreateHolidayNullEndDate() {
         assertEquals(0, holidayService.getAllHolidays().size());
@@ -147,6 +162,9 @@ public class TestHolidayService {
         assertEquals("End Date can't be empty.", error);
     }
 
+    /**
+     * Creates a holiday with the end date starting before the start date which should give us an error
+     */
     @Test
     public void testCreateHolidayStartBeforeEnd() {
         assertEquals(0, holidayService.getAllHolidays().size());
@@ -165,6 +183,9 @@ public class TestHolidayService {
         assertEquals("Start Date can't be after End Date.", error);
     }
 
+    /**
+     * Creates a holiday with a name that already exists in the repo
+     */
     @Test
     public void testCreateHolidayDuplicateId() {
         assertEquals(0, holidayService.getAllHolidays().size());
@@ -188,6 +209,9 @@ public class TestHolidayService {
         assertEquals("An identical holiday with the same name already exists.", error);
     }
 
+    /**
+     * Creates a holiday with the same start and end dates of a holiday that already exists in the repo
+     */
     @Test
     public void testCreateHolidayDuplicateDates() {
         assertEquals(0, holidayService.getAllHolidays().size());
@@ -212,6 +236,9 @@ public class TestHolidayService {
         assertEquals("An identical holiday with the same start and end date already exists.", error);
     }
 
+    /**
+     * Gets the holiday that already exists by its name
+     */
     @Test
     public void testGetHolidayByID() { //not working for some reason
         Holiday holiday = null;
@@ -228,6 +255,9 @@ public class TestHolidayService {
     }
 
 
+    /**
+     * tries invalid id to get a holiday
+     */
     @Test
     public void testGetHolidayInvalidID() {
         Holiday holiday = null;
@@ -243,6 +273,9 @@ public class TestHolidayService {
 
     }
 
+    /**
+     * tries empty id to get a holiday
+     */
     @Test
     public void testGetHolidayEmptyID() {
         Holiday holiday = null;
@@ -258,6 +291,9 @@ public class TestHolidayService {
 
     }
 
+    /**
+     * tries null id to get a holiday
+     */
     @Test
     public void testGetHolidayNullID() {
         Holiday holiday = null;
@@ -273,6 +309,9 @@ public class TestHolidayService {
 
     }
 
+    /**
+     * Gets all the holiday from the mock op repository
+     */
     @Test
     public void testGetAllHolidays() {
         String error = null;
@@ -292,6 +331,9 @@ public class TestHolidayService {
         assertNull(error);
     }
 
+    /**
+     * Deletes teh holiday from the repository
+     */
     @Test
     public void testDeleteHoliday() {
         String error = null;
@@ -304,6 +346,9 @@ public class TestHolidayService {
         assertNull(error);
     }
 
+    /**
+     * tries to delete the holiday with the wrong id
+     */
     @Test
     public void testDeleteHolidayInvalidID() {
         String error = null;
@@ -316,6 +361,9 @@ public class TestHolidayService {
         assertEquals("The holiday does not exist.",error);
     }
 
+    /**
+     * tries to delete with the empty id
+     */
     @Test
     public void testDeleteHolidayEmptyID() {
         String error = null;
@@ -327,6 +375,10 @@ public class TestHolidayService {
         assertNotNull(error);
         assertEquals("Name can't be empty.",error);
     }
+
+    /**
+     * updates the holiday's start date
+     */
     @Test
     public void testUpdateHolidayStartDate(){
         String error = null;
@@ -340,6 +392,10 @@ public class TestHolidayService {
         assertNull(error);
         assertNotEquals(START_DATE,START_ADATE);
     }
+
+    /**
+     * updates the holiday's start date with an empty name
+     */
     @Test
     public void testUpdateHolidayStartDateEmptyName(){
         String error = null;
@@ -353,6 +409,10 @@ public class TestHolidayService {
         assertNotNull(error);
         assertEquals("Name can't be empty.",error);
     }
+
+    /**
+     * updates the holiday's start date with a null name
+     */
     @Test
     public void testUpdateHolidayStartDateNullName(){
         String error = null;
@@ -366,6 +426,10 @@ public class TestHolidayService {
         assertNotNull(error);
         assertEquals("Name can't be empty.",error);
     }
+
+    /**
+     * updates the holiday's start date with an invalid id
+     */
     @Test
     public void testUpdateHolidayStartDateInvalidId(){
         String error = null;
@@ -379,6 +443,10 @@ public class TestHolidayService {
         assertNotNull(error);
         assertEquals("Holiday doesn't exist.",error);
     }
+
+    /**
+     * updates the holiday's start date with a null date
+     */
     @Test
     public void testUpdateHolidayStartDateNullDate(){
         String error = null;
@@ -391,6 +459,10 @@ public class TestHolidayService {
         assertNotNull(error);
         assertEquals("Start Date can't be empty.",error);
     }
+
+    /**
+     *  updates the holiday's start date with an invert date
+     */
     @Test
     public void testUpdateHolidayStartDateInvertDate(){
         String error = null;
@@ -403,6 +475,10 @@ public class TestHolidayService {
         assertNotNull(error);
         assertEquals("End Date cannot be before Start Date.",error);
     }
+
+    /**
+     * updates the holiday's end date
+     */
     @Test
     public void testUpdateHolidayEndDate(){
         String error = null;
@@ -416,6 +492,10 @@ public class TestHolidayService {
         assertNull(error);
         assertNotEquals(END_DATE,date);
     }
+
+    /**
+     * updates the holiday's end date with an empty name
+     */
     @Test
     public void testUpdateHolidayEndDateEmptyName(){
         String error = null;
@@ -429,6 +509,10 @@ public class TestHolidayService {
         assertNotNull(error);
         assertEquals("Name can't be empty.",error);
     }
+
+    /**
+     * updates the holiday's end date with a null name
+     */
     @Test
     public void testUpdateHolidayEndDateNullName(){
         String error = null;
@@ -442,6 +526,10 @@ public class TestHolidayService {
         assertNotNull(error);
         assertEquals("Name can't be empty.",error);
     }
+
+    /**
+     * updates the holiday's end date with an invalid id
+     */
     @Test
     public void testUpdateHolidayEndDateInvalidId(){
         String error = null;
@@ -455,6 +543,10 @@ public class TestHolidayService {
         assertNotNull(error);
         assertEquals("Holiday doesn't exist.",error);
     }
+
+    /**
+     * updates the holiday's end date with a null date
+     */
     @Test
     public void testUpdateHolidayEndDateNullDate(){
         String error = null;
@@ -467,6 +559,10 @@ public class TestHolidayService {
         assertNotNull(error);
         assertEquals("Start Date can't be empty.",error);
     }
+
+    /**
+     * updates the holiday's end date with an invert date
+     */
     @Test
     public void testUpdateHolidayEndDateInvertDate(){
         String error = null;

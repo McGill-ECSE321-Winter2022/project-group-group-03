@@ -5,22 +5,24 @@
     <div class="form">
       <b-container fluid>
         <b-row >
-          <b-col offset-md="5" md="auto">Username:</b-col>
+          <!-- displays all the elements from the owner: username, email-->
+          <b-col offset-md="5" md="auto">Username:</b-col>  <!--displays the username -->
           <b-col md="auto" style="margin-left: 0;">{{this.owner.username}}</b-col>
         </b-row>
         <b-row >
-          <b-col offset-md="5" md="auto"> Email:</b-col>
+          <b-col offset-md="5" md="auto"> Email:</b-col> <!--displays the email -->
           <b-col md="auto" style="margin-left: 0;">{{this.owner.email}}</b-col>
         </b-row>
 
       </b-container>
     </div>
-    <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button>
+    <b-button v-b-modal.modal-prevent-closing class="btn">Update Password</b-button> <!-- if button is pressed update password -->
     <br>
     <br>
     <div style="max-width: 50%; margin-left:25vw">
-      <b-alert :show="setAlert()" @dismissed="setErrorEmpty()" dismissible variant="danger">{{error}}</b-alert>
+      <b-alert :show="setAlert()" @dismissed="setErrorEmpty()" dismissible variant="danger">{{error}}</b-alert>  <!-- shows the error message -->
     </div>
+    <!-- pop up message for the input form to update the password  -->
   <b-modal
     id="modal-prevent-closing"
     ref="modal"
@@ -62,6 +64,7 @@ function OwnerDTO(username,password,email,address){
 export default {
   name: "UpdateOwner",
   data() {
+    // the data that we are trying to retrieve and show to
     return {
       owner:{
         username: '',
@@ -74,22 +77,25 @@ export default {
       error:''
     }
   },
+  // the components that we are importing
   components: {
     Header
   },
+  // shows all the customers' information once the page has rendered
   mounted: function () {
     // this.username = 'Mark'
     // this.password = 'password'
     // this.email = 'email'
     this.getOwner()
   },
+  // method that handles the modal which asks the customer to update their password
   methods: {
     handleOk(bvModalEvt) {
       // Prevent modal from closing
       bvModalEvt.preventDefault()
       // Trigger submit handler
       this.handleSubmit()
-    },
+    },//once the button gets pressed it changes the password in the backend also
     handleSubmit() {
       AXIOS.put('/update_owner?username='.concat(this.owner.username,"&password=", this.newPassword))
         .then((response) =>{
@@ -102,7 +108,7 @@ export default {
         this.$bvModal.hide('modal-prevent-closing')
         this.newPassword =''
       })
-    },
+    },// calls the backend to get all the information of the owner
     getOwner: function(){
       let username = sessionStorage.username
       this.owner.username = username
@@ -111,10 +117,10 @@ export default {
           this.response = response.data;
           this.owner=this.response
         });
-    },
+    },// the error gets displayed
     setAlert: function () {
       return this.error !== ""
-    },
+    },// refreshes the error message so a new one gets displayed
     setErrorEmpty: function() {
       this.error = ""
     }

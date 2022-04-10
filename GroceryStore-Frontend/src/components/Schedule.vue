@@ -2,6 +2,7 @@
   <div>
     <Header/>
     <h1 id="title"> My Work Shift Schedule</h1>
+<!--    displays the table of workshift -->
     <table class="tablestyle" align="center">
       <tr class="trstyle">
         <td> Shift ID </td>

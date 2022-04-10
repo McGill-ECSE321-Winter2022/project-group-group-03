@@ -29,6 +29,7 @@ function EmployeeDTO(username, password, email, address, workingStatus) {
 export default {
   name: 'Schedule',
   data() {
+    // the data that we are trying to retrieve and show to
     return {
       startTime: '',
       endTime: '',
@@ -38,11 +39,11 @@ export default {
       username: '',
       error: ''
     }
-  },
+  },// the components that we are importing
   components: {
     Header,
     Footer
-  },
+  },// shows all the employee' work shifts on the display
   created: function () {
     // Initializing shift from backend
     this.getWorkshift()
@@ -73,7 +74,7 @@ export default {
       //     console.log(response.data)
       //   })
 
-    },
+    },// gets all the workshift that is associated to that specific employee
     getWorkshift(){
       let username = sessionStorage.username
       this.username = username
