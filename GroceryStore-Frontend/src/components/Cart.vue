@@ -110,18 +110,22 @@
                 <b>Cart</b>
               </b-button>
             </div>
+            <!--   this container is used to display the items in the user's cart  -->
             <div class="container" v-for="Item in translatedPurchasedItems">
               <div class="row">
                 <div id="x1" class="col-sm">
                   {{Item.aItem.name}}
                 </div>
                 <div id="itemFormat2" class="col-sm">
+                  <!--   upon clicking on this button, the item quantity of the item is decremented  -->
                   <button @click="down(Item.aPurchasedItemID, Item.aItemQuantity)" style=background-color:#e03444 type="button">-</button>
                   &nbsp
                   {{Item.aItemQuantity}}
                   &nbsp
+                  <!--   upon clicking on this button, the item quantity of the item is incremented  -->
                   <button @click="up(Item.aPurchasedItemID, Item.aItemQuantity)" style=background-color:#e03444  type="button">+</button>
                   &nbsp
+                  <!--   upon clicking on this button, the associated item is deleted  -->
                   <button @click="deleteItem(Item.aPurchasedItemID)" style=background-color:#e03444  type="button">x</button>
                 </div>
               </div>
@@ -134,25 +138,10 @@
 </template>
 
 <style scoped>
-#itemFormat{
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-#itemFormat1{
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
 #itemFormat2{
   margin-top: 30px;
   margin-bottom: 30px;
 }#x1{
-   margin-top: 30px;
-   margin-bottom: 30px;
- }
-#x2{
-  margin-top: 30px;
-  margin-bottom: 30px;
-}#x3{
    margin-top: 30px;
    margin-bottom: 30px;
  }

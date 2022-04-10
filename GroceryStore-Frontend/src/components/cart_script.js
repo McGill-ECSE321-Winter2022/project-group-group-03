@@ -53,7 +53,9 @@ var AXIOS = axios.create({
       },
 
       methods: {
-
+        /**
+         * Updates the backend when deleting an item from the cart in the frontend
+         */
         deleteItem: async function (purchasedItemID) {
           console.log("Deleting purchased item")
           await AXIOS.delete("./purchased_item/".concat(purchasedItemID))
@@ -121,7 +123,9 @@ var AXIOS = axios.create({
               })
           }
         },
-
+        /**
+         * Updates the backend when incrementing the quantity of an item from the cart in the frontend
+         */
         up: async function (purchasedItemID, counter) {
           console.log("increasing the count of a purchased item")
           let newCount = counter + 1
@@ -131,6 +135,9 @@ var AXIOS = axios.create({
           this.TranslatePurchasedItems()
         },
 
+        /**
+         * Updates the backend when decremening the quantity of an item from the cart in the frontend
+         */
         down: async function (purchasedItemID, counter) {
           console.log("Decreasing the count of a purchased item")
           let newCount = counter - 1
