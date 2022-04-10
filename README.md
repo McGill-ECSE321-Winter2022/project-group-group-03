@@ -92,11 +92,11 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 ## Tasks and Time Spent
 | Name| Tasks|Time Spent (hrs)|
 | :--- |--- |:---: |
-|Abhijeet Praveen |<ul><li>Started README.MD for Deliverable 4</li><li>Completed half of the User Documentation for the webpage</li></ul>|| 
+|Abhijeet Praveen |<ul><li>Started README.MD for Deliverable 4</li><li>Completed half of the User Documentation for the webpage</li></ul>|3| 
 |Ari Arabian |<ul></ul>||
 |Edward Habelrih| <ul></ul>||
 |Neel Faucher |<ul></ul>||
-|Rooshnie Velautham|<ul><li>Completed half of the User Documentation for the webpage</li></ul>| |
-|Sébastien Cantin|<ul></ul>||
+|Rooshnie Velautham|<ul><li>Completed half of the User Documentation for the webpage</li></ul>| 3|
+|Sébastien Cantin|<ul><li>Started implementation of Android Frontend</li></ul>|5|
 
 ### The deliverable 4 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-4-Report)
