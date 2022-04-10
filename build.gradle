@@ -1,6 +1,0 @@
-task stage () {
-    dependsOn ':GroceryStore-Backend:assemble'
-}
-task integrationTest (type: Exec) {
-    commandLine './gradlew','postman'
-}
