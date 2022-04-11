@@ -84,7 +84,7 @@ public class FirstFragment extends Fragment {
                             tv2.setText("");
 
                             NavHostFragment.findNavController(FirstFragment.this)
-                                    .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                                    .navigate(R.id.action_FirstFragment_to_thirdFragment);
                         }
                         @Override
                         public void onFailure(int statusCode, Header[] headers,String errorResponse, Throwable throwable) {
@@ -109,7 +109,7 @@ public class FirstFragment extends Fragment {
                             tv2.setText("");
 
                             NavHostFragment.findNavController(FirstFragment.this)
-                                    .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                                    .navigate(R.id.action_FirstFragment_to_thirdFragment);
                         }
                         @Override
                         public void onFailure(int statusCode, Header[] headers,String errorResponse, Throwable throwable) {
