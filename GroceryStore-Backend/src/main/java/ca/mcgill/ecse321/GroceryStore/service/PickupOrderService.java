@@ -178,7 +178,7 @@ public class PickupOrderService {
         if (p1==null) p1=new ArrayList<>();
         p1.add(purchasedItem);
         String itemName = purchasedItem.getItem().getName();
-        itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
+        itemService.updateItemTotalPurchased(itemName, itemService.getItem(itemName).getTotalPurchased() + purchasedItem.getItemQuantity());
         this.updateTotalCost(confirmationNumber);
     }
 

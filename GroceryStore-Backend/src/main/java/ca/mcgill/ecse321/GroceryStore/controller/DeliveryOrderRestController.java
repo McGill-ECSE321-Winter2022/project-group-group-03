@@ -78,7 +78,10 @@ public class DeliveryOrderRestController {
 
     private PickupOrderDTO convertToDto(PickupCommission aPickupOrder) {
         if (aPickupOrder == null) throw new IllegalArgumentException("There is no such Pickup Order!");
-        if (aPickupOrder.getCustomer() == null) return new PickupOrderDTO(aPickupOrder.getPaymentMethod().name(), aPickupOrder.getPickupStatus().name(), aPickupOrder.getConfirmationNumber(),aPickupOrder.getTotalCost(),aPickupOrder.getEmployee().getUsername());
-        return new PickupOrderDTO(aPickupOrder.getPaymentMethod().name(), aPickupOrder.getPickupStatus().name(), aPickupOrder.getConfirmationNumber(),aPickupOrder.getTotalCost(),aPickupOrder.getCustomer().getUsername());
+        System.out.println("customer " + aPickupOrder.getCustomer());
+        System.out.println("employee " + aPickupOrder.getEmployee());
+        if (aPickupOrder.getCustomer() != null) return new PickupOrderDTO(aPickupOrder.getPaymentMethod().name(), aPickupOrder.getPickupStatus().name(), aPickupOrder.getConfirmationNumber(),aPickupOrder.getTotalCost(),aPickupOrder.getCustomer().getUsername());
+        else if (aPickupOrder.getEmployee() != null) return new PickupOrderDTO(aPickupOrder.getPaymentMethod().name(), aPickupOrder.getPickupStatus().name(), aPickupOrder.getConfirmationNumber(),aPickupOrder.getTotalCost(),aPickupOrder.getEmployee().getUsername());
+        else throw new IllegalArgumentException("There is no such Pickup Order!");
     }
 }
