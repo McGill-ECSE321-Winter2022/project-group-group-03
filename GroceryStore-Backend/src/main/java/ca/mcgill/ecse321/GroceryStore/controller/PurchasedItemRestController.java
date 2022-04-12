@@ -6,6 +6,7 @@ import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
 import ca.mcgill.ecse321.GroceryStore.service.PurchasedItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,13 +23,16 @@ public class PurchasedItemRestController {
 
 
     @PostMapping(value = {"/purchased_item", "/purchased_item"}) //we added the extra path variable to test something out
-    public PurchasedItemDTO createPurchasedItem(@RequestParam String item,
-                                                @RequestParam("aItemQuantity") int aItemQuantity,
-                                                @RequestParam int confirmationNumber,
-                                                @RequestParam String orderType) throws IllegalArgumentException {
-
-        PurchasedItem purchasedItem = purchasedItemService.createPurchasedItem(item, aItemQuantity, confirmationNumber, orderType);
-        return convertToDto(purchasedItem);
+    public ResponseEntity<?> createPurchasedItem(@RequestParam String item,
+                                              @RequestParam("aItemQuantity") int aItemQuantity,
+                                              @RequestParam int confirmationNumber,
+                                              @RequestParam String orderType) throws IllegalArgumentException {
+        try {
+            return ResponseEntity.ok(convertToDto(purchasedItemService.createPurchasedItem(item, aItemQuantity, confirmationNumber, orderType)));
+        }
+        catch (IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @PutMapping(value = { "/edit_purchasedItem/{id}","/edit_purchasedItem/{id}/"})
