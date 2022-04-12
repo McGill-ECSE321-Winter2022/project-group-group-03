@@ -33,9 +33,12 @@ public class EmployeeRestController {
 
     @GetMapping(value = {"/employee_order/{username}", "employee_order/{username}/"})
 
-    private OrderDTO getEmployeeOrder(@PathVariable String username) throws IllegalArgumentException {
-
-        return convertToDto(service.getEmployeeOrder(username));
+    private ResponseEntity<?> getEmployeeOrder(@PathVariable String username) throws IllegalArgumentException {
+        try {
+            return ResponseEntity.ok(convertToDto(service.getEmployeeOrder(username)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @PostMapping(value = { "/employee", "/employee/" })

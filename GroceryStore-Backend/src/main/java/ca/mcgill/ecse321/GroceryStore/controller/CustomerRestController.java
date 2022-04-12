@@ -22,9 +22,13 @@ public class CustomerRestController {
     private CustomerService service;
 
 
-    @GetMapping(value = {"/customer_order/{username}", "employee_order/{username}/"})
-    private OrderDTO getCustomerOrder(@PathVariable String username){
-        return convertToDto(service.getCustomerOrder(username));
+    @GetMapping(value = {"/customer_order/{username}", "customer_order/{username}/"})
+    private ResponseEntity<?> getCustomerOrder(@PathVariable String username){
+        try {
+            return ResponseEntity.ok(convertToDto(service.getCustomerOrder(username)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
 
