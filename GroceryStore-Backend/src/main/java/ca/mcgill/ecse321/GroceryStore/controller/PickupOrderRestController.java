@@ -8,6 +8,7 @@ import ca.mcgill.ecse321.GroceryStore.service.CustomerService;
 import ca.mcgill.ecse321.GroceryStore.service.EmployeeService;
 import ca.mcgill.ecse321.GroceryStore.service.PickupOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,10 +37,13 @@ public class PickupOrderRestController {
     }
 
     @PutMapping(value = { "/convertToDelivery", "/convertToDelivery/" })
-    public DeliveryOrderDTO convertToDeliveryOrder(@RequestParam String username, @RequestParam String shippingAddress,
+    public ResponseEntity<?> convertToDeliveryOrder(@RequestParam String username, @RequestParam String shippingAddress,
                                                    @RequestParam String accountType, @RequestParam boolean isOutOfTown) {
-
-        return convertToDto(service.convertPickupToDelivery(username,shippingAddress,accountType,isOutOfTown));
+        try {
+            return ResponseEntity.ok(convertToDto(service.convertPickupToDelivery(username,shippingAddress,accountType,isOutOfTown)));
+        } catch(IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
     }
 
     @PutMapping(value = {"/payPickup", "/payPickup/"})
