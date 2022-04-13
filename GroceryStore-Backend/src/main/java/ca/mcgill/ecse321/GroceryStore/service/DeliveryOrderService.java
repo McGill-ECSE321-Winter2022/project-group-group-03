@@ -144,6 +144,9 @@ public class DeliveryOrderService {
             p=d.getPurchasedItem();
         }
         p.add(purchasedItem);
+        String itemName = purchasedItem.getItem().getName();
+        itemService.updateItemTotalPurchased(itemName, itemService.getItem(itemName).getTotalPurchased() + purchasedItem.getItemQuantity());
+        d.setPurchasedItem(p);
         this.updateTotalCost(confirmationNumber);
     }
     /**
@@ -227,13 +230,7 @@ public class DeliveryOrderService {
             case "Delivered" -> newDeliveryOrder.setShippingStatus(DeliveryCommission.ShippingStatus.Delivered);
             default -> throw new IllegalArgumentException("Invalid shipping status");
         }
-        if (newDeliveryOrder.getShippingStatus().name().equals("Ordered")) {
-            for (PurchasedItem purchasedItem : newDeliveryOrder.getPurchasedItem()) {
-                String itemName = purchasedItem.getItem().getName();
-                itemService.updateItemTotalPurchased(itemName,purchasedItem.getItemQuantity());
-            }
-            storeService.incrementActiveDelivery();
-        }
+        if (newDeliveryOrder.getShippingStatus().name().equals("Ordered")) storeService.incrementActiveDelivery();
         if (newDeliveryOrder.getShippingStatus().name().equals("Delivered")) storeService.decrementActiveDelivery();
         return newDeliveryOrder;
     }

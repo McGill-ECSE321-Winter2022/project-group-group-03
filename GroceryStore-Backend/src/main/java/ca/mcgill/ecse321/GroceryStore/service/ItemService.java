@@ -144,7 +144,7 @@ public class ItemService {
         if (newTotalPurchased < 0) throw new IllegalArgumentException("Total Purchased can't be negative.");
         if (item.getStock() == 0) throw new IllegalArgumentException("There are no " + name + "s available currently.");
         if (item.getStock() < newTotalPurchased) throw new IllegalArgumentException("There are only " + item.getStock() + " " + name + "s available currently.");
-        item.setTotalPurchased(item.getTotalPurchased()+newTotalPurchased);
+        item.setTotalPurchased(newTotalPurchased);
         item.setStock(item.getStock()-newTotalPurchased);
         return item;
     }
