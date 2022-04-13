@@ -122,8 +122,8 @@ public class CustomerService {
 
     /**
      * Gets all the order that is associated to the customer
-     * @param username the username of the customer of whom we wished to get the orders of
-     * @return a list of all the orders that is associated to that customer
+     * @param username the username of the customer of whom we wished to get the order of
+     * @return the order that is currently in cart for the customer
      */
     @Transactional
     public Commission getCustomerOrder(String username){
