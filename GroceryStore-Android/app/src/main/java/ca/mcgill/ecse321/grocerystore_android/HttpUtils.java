@@ -31,6 +31,14 @@ public class HttpUtils {
         client.post(getAbsoluteUrl(url), params, responseHandler);
     }
 
+    public static void put(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.put(getAbsoluteUrl(url), params, responseHandler);
+    }
+
+    public static void delete(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.delete(getAbsoluteUrl(url), params, responseHandler);
+    }
+
     public static void getByUrl(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.get(url, params, responseHandler);
     }
@@ -40,7 +48,9 @@ public class HttpUtils {
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
-        return baseUrl + relativeUrl;
+        String fixedUrl = relativeUrl.replaceAll(" ","%20");
+        System.out.println("this is the final url:  "+fixedUrl);
+        return baseUrl + fixedUrl;
     }
 
 }

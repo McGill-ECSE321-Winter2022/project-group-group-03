@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import ca.mcgill.ecse321.grocerystore_android.databinding.FragmentFirstBinding;
@@ -80,14 +81,22 @@ public class FirstFragment extends Fragment {
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 //                        refreshErrorMessage();
                             System.out.println("customer login success");
+                            MainActivity.username=tv1.getText().toString();
+                            MainActivity.accountType="Customer";
+                            try {
+                                MainActivity.address=response.getString("address");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                             tv1.setText("");
                             tv2.setText("");
+
 
                             NavHostFragment.findNavController(FirstFragment.this)
                                     .navigate(R.id.action_FirstFragment_to_thirdFragment);
                         }
                         @Override
-                        public void onFailure(int statusCode, Header[] headers,String errorResponse, Throwable throwable) {
+                        public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
                             System.out.println("customer login failure");
                             try {
                                 error += errorResponse;
@@ -97,14 +106,31 @@ public class FirstFragment extends Fragment {
                             System.out.println("ERROR");
                             refreshErrorMessage();
                         }
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            System.out.println("customer login failure");
+                            try {
+                                error += errorResponse;
+                            } catch (Exception e) {
+                                error += e.getMessage();
+                            }
+                            refreshErrorMessage();
+                        }
                     });
                 }
                 else{
-                    HttpUtils.get("employee_login?username=" + tv1.getText().toString()+"&password="+ tv2.getText().toString()+"&email=", new RequestParams(), new JsonHttpResponseHandler() {
+                    HttpUtils.get("employee_login?username=" + tv1.getText().toString()+"&password="+ tv2.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 //                        refreshErrorMessage();
                             System.out.println("Employee login success");
+                            MainActivity.username=tv1.getText().toString();
+                            MainActivity.accountType="Employee";
+                            try {
+                                MainActivity.address=response.getString("address");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                             tv1.setText("");
                             tv2.setText("");
 

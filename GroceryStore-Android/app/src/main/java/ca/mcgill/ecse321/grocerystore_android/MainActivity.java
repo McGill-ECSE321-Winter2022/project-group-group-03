@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     public static String accountType="Customer";
     public static String username="";
+    public static String address="";
     public static int confirmationNumber;
+    public static String orderType="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,51 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginVertical="15dp"
+    android:layout_marginHorizontal="15dp"
+    android:addStatesFromChildren="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ThirdFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/error1"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginVertical="15dp"
-        android:layout_marginHorizontal="15dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_marginHorizontal="20dp"
+        android:text=""
+        android:textColor="#FF0000"/>
 
-        <TextView
-            android:id="@+id/error1"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:visibility="gone"
-            android:layout_marginHorizontal="20dp"
-            android:text=""
-            android:textColor="#FF0000"/>
-
-        <TextView
-            android:id="@+id/textItems"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textSize="13pt"
-            android:text="Items" />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="ITEMS"
+        android:textSize="25pt" />
 
     <LinearLayout
-        android:id="@+id/ItemsLayout"
+        android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginVertical="15dp"
-        android:layout_marginHorizontal="15dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
+
 
     </LinearLayout>
 
-    </LinearLayout>
 
-</FrameLayout>
+
+    <Button
+        android:id="@+id/go_to_checkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13pt"
+        android:text="Go to Checkout"
+        android:backgroundTint="@color/red" />
+
+
+</LinearLayout>
