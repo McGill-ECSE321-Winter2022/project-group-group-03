@@ -25,6 +25,12 @@ grocerystore-backend-ise2022w
 - `spring.datasource.username`:glxeofrnzvwwyi
 - `spring.datasource.password`: 0e03c6d3baef79a1dc4fbbb5cee69313ce7d611681861983700930416cb53920
 
+### Frontend
+The frontend is deployed to Heroku at grocerystore-frontend-ise2022g . The base URL is 
+
+[https://grocerystore-frontend-ise2022g.herokuapp.com/](https://grocerystore-frontend-ise2022g.herokuapp.com/). 
+
+The backend must be running when using the website. In our deployment, we have created a store, all the business hours and the owner in order for it to be secure. Of course, all this information can be modified in our application, except the Store credentials. 
 
 ##### How to run this project
 To run the project, clone this repository and run the java file `GroceryStoreBackendApplication.java`  \
@@ -92,11 +98,11 @@ Heroku hosts the backend [here](https://grocerystore-backend-ise2022w.herokuapp.
 ## Tasks and Time Spent
 | Name| Tasks|Time Spent (hrs)|
 | :--- |--- |:---: |
-|Abhijeet Praveen |<ul><li>Started README.MD for Deliverable 4</li><li>Completed half of the User Documentation for the webpage</li></ul>|4| 
-|Ari Arabian |<ul></ul>||
-|Edward Habelrih| <ul></ul>||
-|Neel Faucher |<ul></ul>||
-|Rooshnie Velautham|<ul><li>Completed half of the User Documentation for the webpage</li></ul>| 3|
-|Sébastien Cantin|<ul><li>Started implementation of Android Frontend</li></ul>|6|
+|Abhijeet Praveen |<ul><li>Started README.MD for Deliverable 4</li><li>Completed half of the User Documentation for the webpage</li><li>Added Javadoc to a few Service, Vue and JS files</li><li>Continously added functionality to the backend</li></ul>|12| 
+|Ari Arabian |<ul><li>Added Javadoc to a few Service, Vue and JS files </li></ul>|3|
+|Edward Habelrih| <ul><li>Added Javadoc to a few Service, Vue and JS files </li></ul>|3|
+|Neel Faucher |<ul><li>Added Javadoc to a few Service, Vue and JS files </li></ul>|3|
+|Rooshnie Velautham|<ul><li>Completed half of the User Documentation for the webpage</li><li>Completed the User Documentation for the Android</li><li>Added Javadoc to a few Service, Test Service, Vue and JS files </li></ul>|7|
+|Sébastien Cantin|<ul><li>Finished implementation of Android Frontend</li><li>Added Javadoc to Android Frontend</li></ul>|18|
 
 ### The deliverable 4 report can be found [here](https://github.com/McGill-ECSE321-Winter2022/project-group-group-03/wiki/Deliverable-4-Report)
