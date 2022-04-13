@@ -166,7 +166,7 @@ public class FourthFragment extends Fragment {
                         }
                     });
                 }
-                else if (MainActivity.orderType.equals("Pickup")){
+                else if (MainActivity.orderType.equals("Delivery")){
                     HttpUtils.put("/editDeliveryOrderShippingStatus/"+MainActivity.confirmationNumber+ "/?newShippingStatus=Ordered",new RequestParams(), new JsonHttpResponseHandler(){
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -224,12 +224,14 @@ public class FourthFragment extends Fragment {
                 JSONArray purchasedItems = new JSONArray();
 
                 try {
+                    TextView priceText = getActivity().findViewById(R.id.priceView);
+                    priceText.setText(response.getString("totalCost")+" $");
                     MainActivity.confirmationNumber = response.getInt("confirmationNumber");
                     purchasedItems = response.getJSONArray("purchasedItem");
+                    System.out.println(response);
                     for (int i = 0; i < purchasedItems.length(); i++) {
 
                         JSONObject purchasedItem = purchasedItems.getJSONObject(i);
-                        System.out.println(purchasedItem);
                         JSONObject item = purchasedItem.getJSONObject("item");
                         String name = item.getString("name");
                         String description = item.getString("description");
