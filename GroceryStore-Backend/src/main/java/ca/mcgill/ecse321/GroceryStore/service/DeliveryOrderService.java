@@ -145,7 +145,7 @@ public class DeliveryOrderService {
         }
         p.add(purchasedItem);
         String itemName = purchasedItem.getItem().getName();
-        itemService.updateItemTotalPurchased(itemName, itemService.getItem(itemName).getTotalPurchased() + purchasedItem.getItemQuantity());
+        itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
         d.setPurchasedItem(p);
         this.updateTotalCost(confirmationNumber);
     }
