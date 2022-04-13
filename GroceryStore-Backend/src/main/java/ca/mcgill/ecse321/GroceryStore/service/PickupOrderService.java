@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.GroceryStore.service;
 import ca.mcgill.ecse321.GroceryStore.dao.PickupOrderRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.EmployeeRepository;
 import ca.mcgill.ecse321.GroceryStore.dao.CustomerRepository;
-import ca.mcgill.ecse321.GroceryStore.model.Commission;
 import ca.mcgill.ecse321.GroceryStore.model.DeliveryCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PickupCommission;
 import ca.mcgill.ecse321.GroceryStore.model.PurchasedItem;
@@ -161,7 +160,13 @@ public class PickupOrderService {
             case "PickedUp" -> newPickupOrder.setPickupStatus(PickupCommission.PickupStatus.PickedUp);
             default -> throw new IllegalArgumentException("Not a valid pickup status");
         }
-        if(newPickupOrder.getPickupStatus().name().equals("Ordered")) storeService.incrementActivePickup();
+        if(newPickupOrder.getPickupStatus().name().equals("Ordered")) {
+            for (PurchasedItem purchasedItem : newPickupOrder.getPurchasedItem()) {
+                String itemName = purchasedItem.getItem().getName();
+                itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
+            }
+            storeService.incrementActivePickup();
+        }
         if(newPickupOrder.getPickupStatus().name().equals("PickedUp")) storeService.decrementActivePickup();
         return pickupOrderRepository.findByConfirmationNumber(confirmationNumber);
     }
@@ -177,9 +182,8 @@ public class PickupOrderService {
         List<PurchasedItem> p1 = p.getPurchasedItem();
         if (p1==null) p1=new ArrayList<>();
         p1.add(purchasedItem);
-        String itemName = purchasedItem.getItem().getName();
-        itemService.updateItemTotalPurchased(itemName, itemService.getItem(itemName).getTotalPurchased() + purchasedItem.getItemQuantity());
         this.updateTotalCost(confirmationNumber);
+        p.setPurchasedItem(p1);
     }
 
     @Transactional
@@ -196,8 +200,6 @@ public class PickupOrderService {
         List<PurchasedItem> p = commission.getPurchasedItem();
         p.add(purchasedItem);
         commission.setPurchasedItem(p);
-        String itemName = purchasedItem.getItem().getName();
-        itemService.updateItemTotalPurchased(itemName, purchasedItem.getItemQuantity());
         this.updateTotalCost(commission.getConfirmationNumber());
     }
 
