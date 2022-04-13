@@ -25,7 +25,6 @@ public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
     private String error = null;
-    private String accountType = "Customer";
 
 
     @Override
@@ -53,6 +52,7 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //if the user clicks on the create account button, it will send the user to that page
         binding.buttonCreateSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,11 +61,13 @@ public class FirstFragment extends Fragment {
             }
         });
 
+        //adds an action listener to login page
+        //if login is successful, forwards the user to the items page
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ToggleButton toggle = (ToggleButton) getActivity().findViewById(R.id.customer_button);
-                final Boolean isChecked = toggle.isChecked();
+                final boolean isChecked = toggle.isChecked();
 
                 if (isChecked) MainActivity.accountType= "Customer";
                 else MainActivity.accountType="Employee";

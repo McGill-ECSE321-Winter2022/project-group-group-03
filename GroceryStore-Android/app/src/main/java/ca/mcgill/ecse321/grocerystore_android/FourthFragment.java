@@ -20,17 +20,15 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 import ca.mcgill.ecse321.grocerystore_android.databinding.FragmentFourthBinding;
-import ca.mcgill.ecse321.grocerystore_android.databinding.FragmentThirdBinding;
 import cz.msebera.android.httpclient.Header;
 
 /**
+ * @author Sebastien Cantin
  * A simple {@link Fragment} subclass.
  * Use the {@link FourthFragment} factory method to
  * create an instance of this fragment.
@@ -56,9 +54,9 @@ public class FourthFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         getPurchasedItems();
         ToggleButton button = getActivity().findViewById(R.id.order_button);
-        if (!MainActivity.orderType.equals("Pickup")) button.setChecked(false);
-        else button.setChecked(true);
+        button.setChecked(MainActivity.orderType.equals("Pickup"));
 
+        //adds action listener to order type button that allows to transform from pickup order to delivery and the other way
         button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -76,7 +74,7 @@ public class FourthFragment extends Fragment {
                         public void onFailure( int statusCode, Header[] headers, String errorResponse, Throwable throwable){
                             System.out.println("error convert to delivery1" );
                             try {
-                                error += errorResponse.toString();
+                                error += errorResponse;
                             } catch (Exception e) {
                                 error += e.getMessage();
                             }
@@ -109,7 +107,7 @@ public class FourthFragment extends Fragment {
                         public void onFailure( int statusCode, Header[] headers, String errorResponse, Throwable throwable){
                             System.out.println("error convert to pickup1" );
                             try {
-                                error += errorResponse.toString();
+                                error += errorResponse;
                             } catch (Exception e) {
                                 error += e.getMessage();
                             }
@@ -130,6 +128,8 @@ public class FourthFragment extends Fragment {
             }
         });
 
+        //adds action listener to checkout button.
+        //if the checkout is successful, send the user back to the login page
         Button checkout = getActivity().findViewById(R.id.checkout);
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +148,7 @@ public class FourthFragment extends Fragment {
                             System.out.println("pickup checkout error 1");
 
                             try {
-                                error += errorResponse.toString();
+                                error += errorResponse;
                             } catch (Exception e) {
                                 error += e.getMessage();
                             }
@@ -178,7 +178,7 @@ public class FourthFragment extends Fragment {
                         public void onFailure( int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
                             System.out.println("delivery checkout error 1");
                             try {
-                                error += errorResponse.toString();
+                                error += errorResponse;
                             } catch (Exception e) {
                                 error += e.getMessage();
                             }
@@ -212,6 +212,10 @@ public class FourthFragment extends Fragment {
         }
     }
 
+    /**
+     * gets all the purchased items in the current order and creates cards that are added to the view for each one
+     * along with action listeners for the three buttons on each card, +, - and remove
+     */
     private void getPurchasedItems(){
 
         LinearLayout cardLayout = getActivity().findViewById(R.id.cart_layout);
@@ -221,7 +225,7 @@ public class FourthFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 System.out.println("account had an order");
-                JSONArray purchasedItems = new JSONArray();
+                JSONArray purchasedItems;
 
                 try {
                     TextView priceText = getActivity().findViewById(R.id.priceView);
@@ -319,7 +323,7 @@ public class FourthFragment extends Fragment {
                                     @Override
                                     public void onFailure( int statusCode, Header[] headers, String errorResponse, Throwable throwable){
                                         try {
-                                            error += errorResponse.toString();
+                                            error += errorResponse;
                                         } catch (Exception e) {
                                             error += e.getMessage();
                                         }
@@ -341,7 +345,7 @@ public class FourthFragment extends Fragment {
                                     @Override
                                     public void onFailure( int statusCode, Header[] headers, String errorResponse, Throwable throwable){
                                         try {
-                                            error += errorResponse.toString();
+                                            error += errorResponse;
                                         } catch (Exception e) {
                                             error += e.getMessage();
                                         }
@@ -384,7 +388,7 @@ public class FourthFragment extends Fragment {
             @Override
             public void onFailure( int statusCode, Header[] headers, String errorResponse, Throwable throwable){
                 try {
-                    error += errorResponse.toString();
+                    error += errorResponse;
                 } catch (Exception e) {
                     error += e.getMessage();
                 }

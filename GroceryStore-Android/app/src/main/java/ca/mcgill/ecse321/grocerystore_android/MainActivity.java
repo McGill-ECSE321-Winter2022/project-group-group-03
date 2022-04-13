@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    //These static variables are accessible from all fragments. The equivalent of sessionStorage from js
     public static String accountType="Customer";
     public static String username="";
     public static String address="";
